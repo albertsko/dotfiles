@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-# Install xCode cli tools
+# Install Xcode CLI tools
 echo "Installing commandline tools..."
 xcode-select --install
 
@@ -25,8 +25,8 @@ brew install gh
 brew install ifstat
 brew install switchaudio-osx
 brew install skhd
-brew install borders
 brew install yabai
+brew install borders
 brew install rclone
 
 ### Terminal
@@ -71,7 +71,7 @@ defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1 # enable browsing 
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true # prevent creation of .ds_store files on network drives
 defaults write com.apple.spaces spans-displays -bool false # disable spaces spanning multiple displays
 defaults write com.apple.dock autohide -bool true # enable dock auto-hide
-defaults write com.apple.dock autohide-delay -float 0 # start showing dock immediatly
+defaults write com.apple.dock autohide-delay -float 0 # start showing dock immediately
 defaults write com.apple.dock autohide-time-modifier -float 0.5 # show whole dock in 0.5s
 defaults write com.apple.dock "mru-spaces" -bool "false" # disable automatically rearranging spaces based on recent use
 defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false # disable window opening animations
@@ -121,5 +121,5 @@ cfg config --local status.showUntrackedFiles no
 ## Start Services
 echo "Starting Services (grant permissions)..."
 brew services start skhd
-brew services start fyabai
+brew services start yabai
 brew services start borders
