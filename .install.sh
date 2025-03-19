@@ -8,6 +8,7 @@ xcode-select --install
 ## Install
 echo "Installing Brew..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 brew analytics off
 
 ## Taps
@@ -22,7 +23,6 @@ brew install jq
 brew install ripgrep
 brew install mas
 brew install gh
-brew install ifstat
 brew install switchaudio-osx
 brew install skhd
 brew install yabai
@@ -39,6 +39,7 @@ brew install zoxide
 ### Containers
 brew install docker
 brew install colima
+brew install kubernetes-cli
 brew install minikube
 brew install k9s
 brew install lazydocker
@@ -74,13 +75,17 @@ defaults write com.apple.dock autohide -bool true # enable dock auto-hide
 defaults write com.apple.dock autohide-delay -float 0 # start showing dock immediately
 defaults write com.apple.dock autohide-time-modifier -float 0.5 # show whole dock in 0.5s
 defaults write com.apple.dock "mru-spaces" -bool "false" # disable automatically rearranging spaces based on recent use
+defaults write com.apple.dock persistent-apps -array # detach tails from dock
+defaults write com.apple.dock persistent-others -array # detach others from dock
+defaults write com.apple.dock show-recents -bool false # do not show recents in dock
+defaults write com.apple.dock contents-immutable -bool true # make dock content immutable
 defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false # disable window opening animations
 defaults write com.apple.LaunchServices LSQuarantine -bool false # disable quarantine prompt for downloaded apps
 # defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false # disable natural scrolling
 defaults write NSGlobalDomain KeyRepeat -int 1 # set keyboard repeat rate to fast
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false # disable automatic spelling correction
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true # show all file extensions in finder
-defaults write NSGlobalDomain _HIHideMenuBar -bool false # do not hide the menu bar by default
+# defaults write NSGlobalDomain _HIHideMenuBar -bool true # hide the menu bar by default
 # defaults write NSGlobalDomain AppleHighlightColor -string "0.65098 0.85490 0.58431" # set highlight color to a custom green
 defaults write NSGlobalDomain AppleAccentColor -int 1 # set accent color to orange
 defaults write com.apple.screencapture location -string "$HOME/Desktop" # set screenshot save location to desktop
@@ -117,9 +122,3 @@ git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout main
 
 source $HOME/.zshrc
 cfg config --local status.showUntrackedFiles no
-
-## Start Services
-echo "Starting Services (grant permissions)..."
-brew services start skhd
-brew services start yabai
-brew services start borders
