@@ -117,8 +117,9 @@ sudo defaults write /Library/Preferences/com.apple.airport.bt.plist bluetoothCoe
 
 ## Copying and checking out configuration files
 echo "Planting Configuration Files..."
-[ ! -d "$HOME/dotfiles" ] && git clone --bare git@github.com:albsko/dotfiles.git $HOME/dotfiles
-git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout main
+rm -rf $HOME/dotfiles
+git clone --bare git@github.com:albsko/dotfiles.git $HOME/dotfiles
+git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout --force main
 
 source $HOME/.zshrc
 cfg config --local status.showUntrackedFiles no
