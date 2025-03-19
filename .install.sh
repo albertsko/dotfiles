@@ -122,3 +122,7 @@ git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout main
 
 source $HOME/.zshrc
 cfg config --local status.showUntrackedFiles no
+
+brew services start borders
+yabai --start-service
+skhd --start-service
