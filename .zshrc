@@ -39,15 +39,6 @@ function kill () {
   command kill -KILL $(pidof "$@")
 }
 
-function suyabai () {
-  SHA256=$(shasum -a 256 /opt/homebrew/bin/yabai | awk "{print \$1;}")
-  if [ -f "/private/etc/sudoers.d/yabai" ]; then
-    sudo sed -i '' -e 's/sha256:[[:alnum:]]*/sha256:'${SHA256}'/' /private/etc/sudoers.d/yabai
-  else
-    echo "sudoers file does not exist yet"
-  fi
-}
-
 # Color Scheme
 export BLACK=0xff181819
 export WHITE=0xffe2e2e3
