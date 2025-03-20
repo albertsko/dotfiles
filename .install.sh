@@ -79,6 +79,7 @@ defaults write com.apple.dock persistent-apps -array # detach tails from dock
 defaults write com.apple.dock persistent-others -array # detach others from dock
 defaults write com.apple.dock show-recents -bool false # do not show recents in dock
 defaults write com.apple.dock contents-immutable -bool true # make dock content immutable
+defaults write com.apple.dock minimize-to-application -bool true # minimize windows to app's icon
 defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false # disable window opening animations
 defaults write com.apple.LaunchServices LSQuarantine -bool false # disable quarantine prompt for downloaded apps
 # defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false # disable natural scrolling
