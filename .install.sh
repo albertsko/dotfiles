@@ -25,7 +25,6 @@ brew install mas
 brew install gh
 brew install switchaudio-osx
 brew install skhd
-brew install yabai
 brew install borders
 brew install rclone
 
@@ -125,6 +124,7 @@ git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout --force main
 source $HOME/.zshrc
 cfg config --local status.showUntrackedFiles no
 
-brew services start borders
-yabai --start-service
+sudo brew services start borders
 skhd --start-service
+
+brew services restart borders
