@@ -138,7 +138,4 @@ git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout --force main
 source $HOME/.zshrc
 cfg config --local status.showUntrackedFiles no
 
-sudo brew services start borders
 skhd --start-service
-
-brew services restart borders
