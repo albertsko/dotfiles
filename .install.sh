@@ -43,10 +43,19 @@ brew install minikube
 brew install k9s
 brew install lazydocker
 
+### Programming
+brew install go
+brew install python
+brew install node
+brew install pnpm
+pnpm add -g typescript eslint prettier
+brew install shellcheck
+
 ### Nice to have
 brew install htop
 brew install lazygit
 brew install nnn
+brew install tldr
 
 ## Casks
 echo "Installing Brew Casks..."
@@ -65,9 +74,26 @@ brew install --cask font-sf-mono
 brew install --cask font-sf-pro
 brew install --cask font-hack-nerd-font
 brew install --cask font-jetbrains-mono-nerd-font
+brew install --cask font-inter
 
 # macOS Settings
 echo "Changing macOS defaults..."
+### disable CTRL+SPACE default hotkey
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 '{
+    enabled = 0;
+    value = {
+        parameters = (32, 49, 262144);
+        type = "standard";
+    };
+}'
+### disable CTRL+SHIFT+SPACE default hotkey
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 61 '{
+    enabled = 0;
+    value = {
+        parameters = (32, 49, 786432);
+        type = "standard";
+    };
+}'
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1 # enable browsing of all network interfaces
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true # prevent creation of .ds_store files on network drives
 defaults write com.apple.spaces spans-displays -bool false # disable spaces spanning multiple displays
