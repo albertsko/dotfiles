@@ -121,11 +121,11 @@ alt-ctrl-shift-l = 'join-with right'
 alt-slash = 'layout tiles horizontal vertical'
 alt-comma = 'layout accordion horizontal vertical'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#focus
-alt-h = 'focus left'
-alt-j = 'focus down'
-alt-k = 'focus up'
-alt-l = 'focus right'
+# See: https://nikitabobko.github.io/oAeroSpace/commands#focus
+alt-cmd-h = 'focus left'
+alt-cmd-j = 'focus down'
+alt-cmd-k = 'focus up'
+alt-cmd-l = 'focus right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move
 alt-shift-h = 'move left'
@@ -142,6 +142,9 @@ alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'
 alt-3 = 'workspace 3'
 alt-4 = 'workspace 4'
+alt-shift-n = 'exec-and-forget aerospace list-workspaces --all | aerospace workspace next'
+alt-shift-p = 'exec-and-forget aerospace list-workspaces --all | aerospace workspace prev'
+alt-shift-m = 'exec-and-forget aerospace list-workspaces --monitor all --visible | aerospace workspace-back-and-forth'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
