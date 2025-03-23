@@ -78,22 +78,9 @@ brew install --cask font-inter
 
 # macOS Settings
 echo "Changing macOS defaults..."
-### disable CTRL+SPACE default hotkey
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 '{
-    enabled = 0;
-    value = {
-        parameters = (32, 49, 262144);
-        type = "standard";
-    };
-}'
-### disable CTRL+SHIFT+SPACE default hotkey
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 61 '{
-    enabled = 0;
-    value = {
-        parameters = (32, 49, 786432);
-        type = "standard";
-    };
-}'
+echo "Disable CTRL+SPACE shortcut (Settings -> Keyboard Shortcuts)"
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 '{ enabled = 0; value = { parameters = (32, 49, 262144); type = "standard"; }; }' # disable input source change shortcut
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 61 '{ enabled = 0; value = { parameters = (32, 49, 786432); type = "standard"; }; }' # disable input source change shortcut
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1 # enable browsing of all network interfaces
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true # prevent creation of .ds_store files on network drives
 defaults write com.apple.spaces spans-displays -bool false # disable spaces spanning multiple displays
@@ -137,7 +124,7 @@ sudo defaults write com.apple.Safari IncludeDevelopMenu -bool true
 sudo defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
 sudo defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
 sudo defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
-killall Finder Dock SystemUIServer # apply most of the macOS defaults changes
+killall Finder Dock SystemUIServer cfprefsd # apply most of the macOS defaults changes
 
 ## Fix for Bluetooth devices while using Wi-Fi
 sudo defaults write /Library/Preferences/com.apple.airport.bt.plist bluetoothCoexMgmt Hybrid
