@@ -1,0 +1,10 @@
+font-size = 17
+theme = catppuccin-mocha
+
+window-decoration = true
+window-height = 37
+window-width = 108
+window-save-state = never
+
+mouse-hide-while-typing = true
+macos-option-as-alt = true
