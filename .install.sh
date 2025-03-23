@@ -51,6 +51,7 @@ brew install nnn
 ## Casks
 echo "Installing Brew Casks..."
 brew install --cask ghostty
+brew install --cask karabiner-elements
 brew install --cask google-chrome
 brew install --cask zen-browser
 brew install --cask zoom
