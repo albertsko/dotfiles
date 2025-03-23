@@ -1,4 +1,1 @@
-# TODO: skip this for now, as I am used to cmd + space
-# alt - s : run-external "open" "-a" "/Applications/Safari.app/Contents/MacOS/Safari"
-# alt - o : run-external "open" "-a" "/Applications/Obsidian.app/Contents/MacOS/Obsidian"
-# alt - g : run-external "open" "-a" "/Applications/Ghostty.app"
+lalt - a : open -a "/Applications/AeroSpace.app"
