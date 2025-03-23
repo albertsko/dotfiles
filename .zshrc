@@ -63,3 +63,5 @@ export VISUAL="$(which zed)"
 export MANPAGER="$(which nvim) +Man!"
 
 export XDG_CONFIG_HOME="$HOME/.config"
+
+export PATH="$PATH:$HOME/go/bin"
