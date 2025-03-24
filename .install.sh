@@ -1,4 +1,5 @@
 #!/bin/zsh
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # Install Xcode CLI tools
 echo "Installing commandline tools..."
@@ -141,3 +142,5 @@ source $HOME/.zshrc
 cfg config --local status.showUntrackedFiles no
 
 skhd --start-service
+
+ln -sf ~/.config/colima/default/docker.sock ~/.docker/run/docker.sock
