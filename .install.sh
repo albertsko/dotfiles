@@ -43,6 +43,7 @@ brew install minikube
 brew install k9s
 brew install lazydocker
 brew install docker-compose
+brew install docker-credential-helper
 
 ### Programming
 brew install go
