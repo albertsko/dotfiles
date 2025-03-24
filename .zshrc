@@ -65,3 +65,6 @@ export MANPAGER="$(which nvim) +Man!"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 export PATH="$PATH:$HOME/go/bin"
+
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
