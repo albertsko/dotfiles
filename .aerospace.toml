@@ -126,10 +126,6 @@ alt-cmd-h = 'focus left'
 alt-cmd-j = 'focus down'
 alt-cmd-k = 'focus up'
 alt-cmd-l = 'focus right'
-alt-cmd-left = 'focus left'
-alt-cmd-down = 'focus down'
-alt-cmd-up = 'focus up'
-alt-cmd-right = 'focus right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move
 alt-shift-h = 'move left'
