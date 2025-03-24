@@ -1,4 +1,4 @@
-after-startup-command = ['exec-and-forget $XDG_CONFIG_HOME/borders/bordersrc']
+after-startup-command = ['exec-and-forget borders']
 
 exec-on-workspace-change = []
 
