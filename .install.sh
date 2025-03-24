@@ -42,6 +42,7 @@ brew install kubernetes-cli
 brew install minikube
 brew install k9s
 brew install lazydocker
+brew install docker-compose
 
 ### Programming
 brew install go
