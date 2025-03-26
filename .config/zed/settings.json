@@ -54,6 +54,15 @@
     }
   },
 
+  // Tabs
+  "tabs": {
+    "activate_on_close": "neighbour",
+    "close_position": "right",
+    "file_icons": true,
+    "git_status": true,
+    "show_close_button": "hidden"
+  },
+
   // Compact UI
   "buffer_line_height": "standard",
   "terminal": {
@@ -66,15 +75,9 @@
   },
 
   "tab_bar": {
-    "show": true,
-    "show_nav_history_buttons": false,
-    "show_tab_bar_buttons": false
-  },
-
-  "tabs": {
-    "show_close_button": "hidden",
-    "file_icons": false,
-    "git_status": false
+    "show": false,
+    "show_nav_history_buttons": true,
+    "show_tab_bar_buttons": true
   },
 
   "toolbar": {

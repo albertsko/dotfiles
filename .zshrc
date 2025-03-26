@@ -68,3 +68,5 @@ export PATH="$PATH:$HOME/go/bin"
 
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+export DOCKER_CONFIG="$HOME/.docker"
+export COLIMA_HOME="$XDG_CONFIG_HOME/.colima"
