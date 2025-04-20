@@ -19,6 +19,8 @@
   "autosave": "on_focus_change",
   "format_on_save": "on",
 
+  "show_edit_predictions": false,
+
   // Theme
   "theme": {
     "mode": "dark",
@@ -75,14 +77,14 @@
   },
 
   "tab_bar": {
-    "show": false,
+    "show": true,
     "show_nav_history_buttons": true,
     "show_tab_bar_buttons": true
   },
 
   "toolbar": {
     "breadcrumbs": false,
-    "quick_actions": false
+    "quick_actions": true
   },
 
   "project_panel": {

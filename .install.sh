@@ -70,6 +70,7 @@ brew install --cask zoom
 brew install --cask slack
 brew install --cask vlc
 brew install --cask spotify
+brew install --cask obsidian
 
 ### Fonts
 brew install --cask sf-symbols
