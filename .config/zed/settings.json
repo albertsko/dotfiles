@@ -17,16 +17,9 @@
   "buffer_font_family": "JetBrainsMono Nerd Font",
 
   "autosave": "on_focus_change",
-  "format_on_save": "on",
+  "format_on_save": "language_server",
 
   "show_edit_predictions": false,
-
-  // Theme
-  "theme": {
-    "mode": "dark",
-    "light": "One Light",
-    "dark": "Catppuccin Mocha (Blur)"
-  },
 
   // Languages
   "languages": {

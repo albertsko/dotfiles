@@ -14,7 +14,6 @@ brew analytics off
 
 ## Taps
 echo "Tapping Brew..."
-brew tap FelixKratz/formulae
 brew tap koekeishiya/formulae
 
 ## Formulae
@@ -24,13 +23,10 @@ brew install jq
 brew install ripgrep
 brew install mas
 brew install gh
-brew install switchaudio-osx
 brew install skhd
-brew install borders
 brew install rclone
 
 ### Terminal
-brew install neovim
 brew install starship
 brew install zsh-autosuggestions
 brew install zsh-fast-syntax-highlighting
@@ -38,13 +34,11 @@ brew install zoxide
 
 ### Containers
 brew install docker
-brew install colima
 brew install kubernetes-cli
 brew install minikube
 brew install k9s
 brew install lazydocker
 brew install docker-compose
-brew install docker-credential-helper
 
 ### Programming
 brew install go
@@ -57,7 +51,6 @@ brew install shellcheck
 ### Nice to have
 brew install htop
 brew install lazygit
-brew install nnn
 brew install tldr
 
 ## Casks
@@ -65,26 +58,21 @@ echo "Installing Brew Casks..."
 brew install --cask ghostty
 brew install --cask karabiner-elements
 brew install --cask google-chrome
-brew install --cask zen-browser
+brew install --cask vivaldi
 brew install --cask zoom
 brew install --cask slack
 brew install --cask vlc
-brew install --cask spotify
 brew install --cask obsidian
 
 ### Fonts
 brew install --cask sf-symbols
 brew install --cask font-sf-mono
 brew install --cask font-sf-pro
-brew install --cask font-hack-nerd-font
 brew install --cask font-jetbrains-mono-nerd-font
 brew install --cask font-inter
 
 # macOS Settings
 echo "Changing macOS defaults..."
-echo "Disable CTRL+SPACE shortcut (Settings -> Keyboard Shortcuts)"
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 '{ enabled = 0; value = { parameters = (32, 49, 262144); type = "standard"; }; }' # disable input source change shortcut
-defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 61 '{ enabled = 0; value = { parameters = (32, 49, 786432); type = "standard"; }; }' # disable input source change shortcut
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1 # enable browsing of all network interfaces
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true # prevent creation of .ds_store files on network drives
 defaults write com.apple.spaces spans-displays -bool false # disable spaces spanning multiple displays
@@ -144,4 +132,5 @@ cfg config --local status.showUntrackedFiles no
 
 skhd --start-service
 
-ln -sf ~/.config/colima/default/docker.sock ~/.docker/run/docker.sock
+echo "Let's finish our setup with some manual work:"
+echo "Disable CTRL+SPACE shortcut (Settings -> Keyboard Shortcuts)"
