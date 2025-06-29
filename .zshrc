@@ -21,6 +21,27 @@ alias log="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d
 alias cfg="git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
 alias g="lazygit"
 
+# iCloud Sync w/ rclone Functions
+icloudpull() {
+  if [[ "$1" == "-f" ]]; then
+    echo "⚠️ Running full sync from iCloud to local..."
+    rclone sync icloud: ~/icloud -P --update --delete-after
+  else
+    echo "🔄 Copying from iCloud to local..."
+    rclone copy icloud: ~/icloud -P --update --create-empty-src-dirs
+  fi
+}
+
+icloudpush() {
+  if [[ "$1" == "-f" ]]; then
+    echo "⚠️ Running full sync from local to iCloud..."
+    rclone sync ~/icloud icloud: -P --update --delete-after
+  else
+    echo "🔄 Copying from local to iCloud..."
+    rclone copy ~/icloud icloud: -P --update --create-empty-src-dirs
+  fi
+}
+
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
