@@ -1,3 +1,2 @@
 ### TODO
-- configure file auto sync with rclone (icloud)
-- change shell to fish
+- configure aerospace as simple as it gets
