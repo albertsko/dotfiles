@@ -52,6 +52,7 @@ brew install shellcheck
 brew install htop
 brew install lazygit
 brew install tldr
+brew install bat
 
 ## Casks
 echo "Installing Brew Casks..."
@@ -63,6 +64,7 @@ brew install --cask zoom
 brew install --cask slack
 brew install --cask vlc
 brew install --cask obsidian
+brew install --cask nikitabobko/tap/aerospace
 
 ### Fonts
 brew install --cask sf-symbols
