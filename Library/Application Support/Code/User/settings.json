@@ -36,6 +36,8 @@
   // Files
   "files.autoSave": "afterDelay",
   // Workbench
+  "workbench.colorTheme": "GitHub Dark",
+  "workbench.iconTheme": "catppuccin-mocha",
   "workbench.editor.showTabs": "single",
   "workbench.editor.closeOnFileDelete": true,
   "workbench.editor.labelFormat": "short",
@@ -69,7 +71,7 @@
   "explorer.confirmDelete": false,
   "explorer.decorations.badges": false,
   // Window
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 1.08,
   "window.commandCenter": false,
   "window.customTitleBarVisibility": "never",
   "window.titleBarStyle": "native",
@@ -84,5 +86,5 @@
   "scm.diffDecorations": "gutter",
   "emmet.triggerExpansionOnTab": true,
   "update.mode": "none",
-  "extensions.ignoreRecommendations": true
+  "extensions.ignoreRecommendations": true,
 }
