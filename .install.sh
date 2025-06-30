@@ -53,6 +53,7 @@ brew install htop
 brew install lazygit
 brew install tldr
 brew install bat
+brew install xh
 
 ## Casks
 echo "Installing Brew Casks..."

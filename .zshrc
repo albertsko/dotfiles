@@ -2,14 +2,12 @@
 source $(brew --prefix)/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# Aliases for common dirs
-alias home="cd ~"
-
-# System Aliases
-alias ..="cd .."
+# Aliases
 alias x="exit"
+alias ssh="TERM=xterm-256color ssh"
+alias http="xh"
 
-# Git Aliases
+## Git Aliases
 alias add="git add"
 alias commit="git commit"
 alias pull="git pull"
@@ -21,7 +19,7 @@ alias log="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d
 alias cfg="git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
 alias g="lazygit"
 
-# iCloud Sync w/ rclone Functions
+# Functions
 icloudpull() {
   if [[ "$1" == "-f" ]]; then
     echo "⚠️ Running full sync from iCloud to local..."
@@ -42,15 +40,15 @@ icloudpush() {
   fi
 }
 
-eval "$(starship init zsh)"
-eval "$(zoxide init --cmd cd zsh)"
-
-alias ssh="TERM=xterm-256color ssh"
-
 function kill () {
   command kill -KILL $(pidof "$@")
 }
 
+# Evaluations
+eval "$(starship init zsh)"
+eval "$(zoxide init --cmd cd zsh)"
+
+# Exports
 export XDG_CONFIG_HOME="$HOME/.config"
 
 export PATH="$PATH:$HOME/go/bin"
