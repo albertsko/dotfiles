@@ -8,6 +8,7 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   // Settings
+  "theme": "Rosé Pine Moon",
   "base_keymap": "VSCode",
   "ui_font_size": 16,
   "ui_font_family": "Inter",

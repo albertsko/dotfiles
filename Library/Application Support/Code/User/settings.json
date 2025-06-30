@@ -35,8 +35,6 @@
   "editor.snippetSuggestions": "top",
   // Files
   "files.autoSave": "afterDelay",
-  // Workbench
-  "workbench.colorTheme": "GitHub Dark",
   "workbench.iconTheme": "catppuccin-mocha",
   "workbench.editor.showTabs": "single",
   "workbench.editor.closeOnFileDelete": true,
@@ -87,4 +85,5 @@
   "emmet.triggerExpansionOnTab": true,
   "update.mode": "none",
   "extensions.ignoreRecommendations": true,
+  "workbench.colorTheme": "Rosé Pine Moon",
 }
