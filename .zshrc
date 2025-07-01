@@ -4,6 +4,7 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Aliases
 alias x="exit"
+alias f="open ."
 alias ssh="TERM=xterm-256color ssh"
 alias http="xh"
 
