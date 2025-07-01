@@ -30,10 +30,10 @@ outer.right = 4
 alt-slash = 'layout tiles horizontal vertical'
 alt-comma = 'layout accordion horizontal vertical'
 
-alt-h = 'focus left'
-alt-j = 'focus down'
-alt-k = 'focus up'
-alt-l = 'focus right'
+ctrl-alt-shift-cmd-h = 'focus left'
+ctrl-alt-shift-cmd-j = 'focus down'
+ctrl-alt-shift-cmd-k = 'focus up'
+ctrl-alt-shift-cmd-l = 'focus right'
 
 alt-shift-h = 'move left'
 alt-shift-j = 'move down'

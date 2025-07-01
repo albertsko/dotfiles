@@ -43,9 +43,7 @@ brew install docker-compose
 ### Programming
 brew install go
 brew install python
-brew install node
-brew install pnpm
-pnpm add -g typescript eslint prettier
+brew install deno
 brew install shellcheck
 
 ### Nice to have

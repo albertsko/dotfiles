@@ -47,8 +47,6 @@
   "scm.diffDecorations": "gutter",
   "update.mode": "none",
   "window.commandCenter": false,
-  "window.customTitleBarVisibility": "never",
-  "window.titleBarStyle": "native",
   "window.zoomLevel": 1.08,
   "workbench.activityBar.location": "bottom",
   "workbench.colorCustomizations": {
