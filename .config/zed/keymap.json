@@ -9,7 +9,7 @@
   {
     "context": "Workspace",
     "bindings": {
-      "shift-alt-f": "editor::FormatSelections",
+      "shift-alt-f": "editor::Format",
       "cmd-j": "workspace::ToggleRightDock",
       "alt-z": "editor::ToggleSoftWrap"
       // "shift shift": "file_finder::Toggle"

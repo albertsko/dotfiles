@@ -8,7 +8,7 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   // --- Global & Appearance ---
-  "theme": "Catppuccin Mocha (Blur)",
+  "theme": "Catppuccin Macchiato (Blur)",
   "base_keymap": "VSCode",
   "ui_font_family": "Inter",
   "ui_font_size": 16,
@@ -33,13 +33,11 @@
     "enabled": false
   },
   "agent": {
-    "version": "2",
     "enabled": false
   },
   "show_edit_predictions": false,
   "edit_predictions": {
-    "disabled_globs": ["**/*"],
-    "edit_predictions_disabled_in": ["comment", "string"]
+    "disabled_globs": ["**/*"]
   },
 
   // --- Window Layout & Panels ---
@@ -102,11 +100,20 @@
     "left_padding": 0.0,
     "right_padding": 0.0
   },
+  "debugger": {
+    "dock": "right"
+  },
+  "gutter": {
+    "breakpoints": false,
+    "min_line_number_digits": 0
+  },
 
   // --- Tool Integrations ---
   "git": {
     "git_gutter": "tracked_files",
-    "inline_blame": null
+    "inline_blame": {
+      "enabled": false
+    }
   },
 
   // --- Language-Specific Overrides ---
@@ -124,12 +131,6 @@
       }
     },
     "TSX": {
-      "code_actions_on_format": {
-        "source.organizeImports": true,
-        "source.fixAll.eslint": true
-      }
-    },
-    "JSX": {
       "code_actions_on_format": {
         "source.organizeImports": true,
         "source.fixAll.eslint": true
