@@ -59,6 +59,12 @@ export PATH="$PATH:$HOME/go/bin"
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
+export PATH="/opt/homebrew/opt/mysql-client@8.0/bin:$PATH"
+
 export EDITOR="$(which vim)"
 export VISUAL="$(which vim)"
 export MANPAGER="less -X"
+
+# Other
+bindkey -e
+
