@@ -5,6 +5,24 @@
                 "parameters": { "basic.to_if_alone_timeout_milliseconds": 144 },
                 "rules": [
                     {
+                        "description": "Map Hyper+R to F2",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "r",
+                                    "modifiers": { "mandatory": ["left_shift", "left_control", "left_option", "left_command"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "f2",
+                                        "modifiers": ["fn"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Map Hyper+D to F12",
                         "manipulators": [
                             {

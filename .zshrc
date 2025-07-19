@@ -48,8 +48,6 @@ function kill () {
 # Evaluations
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd cd zsh)"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
 
 # Exports
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -67,4 +65,3 @@ export MANPAGER="less -X"
 
 # Other
 bindkey -e
-
