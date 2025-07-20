@@ -134,4 +134,7 @@ cfg config --local status.showUntrackedFiles no
 skhd --start-service
 
 echo "Let's finish our setup with some manual work:"
+echo
 echo "Disable CTRL+SPACE shortcut (Settings -> Keyboard Shortcuts)"
+echo
+echo "Install Xcode, and run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer"
