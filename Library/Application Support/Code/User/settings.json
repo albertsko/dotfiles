@@ -81,7 +81,7 @@
   //   "editorOverviewRuler.wordHighlightForeground": "#0000",
   //   "editorOverviewRuler.wordHighlightStrongForeground": "#0000"
   // },
-  "workbench.colorTheme": "Catppuccin Macchiato",
+  "workbench.colorTheme": "Catppuccin Frappé",
   "workbench.editor.closeOnFileDelete": true,
   "workbench.editor.focusRecentEditorAfterClose": false,
   "workbench.editor.labelFormat": "short",
@@ -90,7 +90,7 @@
   "workbench.editor.tabSizing": "fit",
   "workbench.editor.wrapTabs": true,
   "workbench.enableExperiments": false,
-  "workbench.iconTheme": "catppuccin-macchiato",
+  "workbench.iconTheme": "catppuccin-frappe",
   "workbench.secondarySideBar.defaultVisibility": "hidden",
   "workbench.settings.enableNaturalLanguageSearch": false,
   "workbench.startupEditor": "none",
