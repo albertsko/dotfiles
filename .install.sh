@@ -133,6 +133,9 @@ cfg config --local status.showUntrackedFiles no
 
 skhd --start-service
 
+mkdir -p "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
+ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" ~/iCloud
+
 echo "Let's finish our setup with some manual work:"
 echo
 echo "Disable CTRL+SPACE shortcut (Settings -> Keyboard Shortcuts)"
