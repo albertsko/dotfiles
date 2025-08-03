@@ -72,7 +72,7 @@ brew install --cask font-sf-pro
 brew install --cask font-jetbrains-mono-nerd-font
 brew install --cask font-inter
 
-# macOS Settings
+# Other
 echo "Changing macOS defaults..."
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1 # enable browsing of all network interfaces
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true # prevent creation of .ds_store files on network drives
@@ -133,9 +133,14 @@ cfg config --local status.showUntrackedFiles no
 
 skhd --start-service
 
+## Link iCloud Drive to ~/iCloud
 mkdir -p "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
 ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" ~/iCloud
 
+## Make brew dir secure for compinit
+sudo chmod -R go-w /opt/homebrew/share
+
+# Manual
 echo "Let's finish our setup with some manual work:"
 echo
 echo "Disable CTRL+SPACE shortcut (Settings -> Keyboard Shortcuts)"

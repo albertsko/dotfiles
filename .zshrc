@@ -1,6 +1,13 @@
 # Source zsh plugins
-source $(brew --prefix)/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+
+autoload -Uz compinit
+if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+    compinit
+else
+    compinit -C
+fi
 
 # Aliases
 alias x="exit"
@@ -46,5 +53,3 @@ export MANPAGER="less -X"
 
 # Other
 bindkey -e
-
-alias composer="$(brew --prefix php@8.3)/bin/php $(which composer)"
