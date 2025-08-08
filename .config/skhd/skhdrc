@@ -1,1 +1,2 @@
 lalt - a : open -a "/Applications/AeroSpace.app"
+shift + ctrl + lalt + cmd - space : focus-window

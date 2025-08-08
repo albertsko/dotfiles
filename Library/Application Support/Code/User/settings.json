@@ -8,6 +8,9 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "[swift]": {
+    "editor.defaultFormatter": "vknabel.vscode-swiftformat"
+  },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -47,6 +50,10 @@
   "editor.snippetSuggestions": "top",
   "editor.tabCompletion": "on",
   "emmet.triggerExpansionOnTab": true,
+  "everforest.darkWorkbench": "flat",
+  "everforest.italicComments": false,
+  "everforest.lightContrast": "hard",
+  "everforest.lightWorkbench": "flat",
   "explorer.compactFolders": true,
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
@@ -56,6 +63,7 @@
   "files.trimTrailingWhitespace": true,
   "git.autofetch": true,
   "git.blame.editorDecoration.enabled": false,
+  "git.confirmSync": false,
   "git.decorations.enabled": true,
   "git.ignoreRebaseWarning": true,
   "python.analysis.typeCheckingMode": "standard",
@@ -78,11 +86,14 @@
   "workbench.enableExperiments": false,
   "workbench.iconTheme": "catppuccin-macchiato",
   "workbench.layoutControl.enabled": false,
+  "workbench.sash.hoverDelay": 0,
+  "workbench.sash.size": 4,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
   "workbench.settings.enableNaturalLanguageSearch": false,
   "workbench.startupEditor": "none",
   "workbench.tips.enabled": false,
   "workbench.tree.enableStickyScroll": true,
   "workbench.tree.indent": 8,
-  "workbench.tree.renderIndentGuides": "onHover"
+  "workbench.tree.renderIndentGuides": "onHover",
+  "go.toolsManagement.autoUpdate": true
 }

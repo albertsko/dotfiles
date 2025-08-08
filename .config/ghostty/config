@@ -2,9 +2,10 @@ font-size = 16
 theme=catppuccin-macchiato
 
 window-decoration = true
-window-height = 37
-window-width = 108
 window-save-state = never
 
 mouse-hide-while-typing = true
 macos-option-as-alt = true
+
+background-opacity=0.88
+background-blur=true
