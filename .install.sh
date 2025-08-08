@@ -33,22 +33,20 @@ brew install zsh-fast-syntax-highlighting
 brew install zoxide
 
 ### Containers
-brew install docker
-brew install kubernetes-cli
-brew install minikube
-brew install k9s
-brew install lazydocker
-brew install docker-compose
+brew install docker docker-compose docker-buildx
+brew install kubernetes-cli minikube k9s
+brew install podman podman-compose
 
 ### Programming
 brew install go
 brew install python
 brew install deno
 brew install shellcheck
+brew install go-task sqlc goose
 
 ### Nice to have
+brew install lazygit lazydocker lazysql
 brew install htop
-brew install lazygit
 brew install tldr
 brew install bat
 brew install xh
@@ -63,6 +61,7 @@ brew install --cask obsidian
 brew install --cask nikitabobko/tap/aerospace
 brew install --cask zed
 brew install --cask visual-studio-code
+brew install --cask podman-desktop
 
 ### Fonts
 brew install --cask sf-symbols
@@ -138,6 +137,11 @@ ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" ~/iCloud
 
 ## Make brew dir secure for compinit
 sudo chmod -R go-w /opt/homebrew/share
+
+## Setup container runtime
+mkdir -p ~/.docker
+echo '{}' > ~/.docker/config.json
+jq '.cliPluginsExtraDirs = ["/opt/homebrew/lib/docker/cli-plugins"]' ~/.docker/config.json > ~/.docker/config.json.tmp && mv ~/.docker/config.json.tmp ~/.docker/config.json
 
 # Manual
 echo "Let's finish our setup with some manual work:"
