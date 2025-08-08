@@ -58,12 +58,11 @@ echo "Installing Brew Casks..."
 brew install --cask ghostty
 brew install --cask karabiner-elements
 brew install --cask google-chrome
-brew install --cask vivaldi
-brew install --cask zoom
-brew install --cask slack
 brew install --cask vlc
 brew install --cask obsidian
 brew install --cask nikitabobko/tap/aerospace
+brew install --cask zed
+brew install --cask visual-studio-code
 
 ### Fonts
 brew install --cask sf-symbols
