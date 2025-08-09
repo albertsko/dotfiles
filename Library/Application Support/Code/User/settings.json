@@ -8,6 +8,9 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
   "[swift]": {
     "editor.defaultFormatter": "vknabel.vscode-swiftformat"
   },
@@ -16,11 +19,11 @@
   },
   "breadcrumbs.enabled": false,
   "catppuccin-icons.hidesExplorerArrows": true,
+  "catppuccin-icons.specificFolders": false,
   "catppuccin.accentColor": "peach",
   "catppuccin.extraBordersEnabled": true,
   "catppuccin.italicComments": false,
   "catppuccin.italicKeywords": false,
-  "catppuccin.workbenchMode": "flat",
   "chat.agent.enabled": false,
   "chat.commandCenter.enabled": false,
   "chat.extensionTools.enabled": false,
@@ -66,6 +69,7 @@
   "git.confirmSync": false,
   "git.decorations.enabled": true,
   "git.ignoreRebaseWarning": true,
+  "go.toolsManagement.autoUpdate": true,
   "python.analysis.typeCheckingMode": "standard",
   "python.terminal.activateEnvironment": true,
   "python.venvPath": "~/.local/share/virtualenvs",
@@ -75,7 +79,7 @@
   "window.density.editorTabHeight": "default",
   "window.zoomLevel": -0.27,
   "workbench.activityBar.location": "top",
-  "workbench.colorTheme": "Catppuccin Macchiato",
+  "workbench.colorTheme": "Catppuccin Frappé",
   "workbench.editor.closeOnFileDelete": true,
   "workbench.editor.focusRecentEditorAfterClose": false,
   "workbench.editor.labelFormat": "default",
@@ -84,7 +88,7 @@
   "workbench.editor.tabSizing": "fit",
   "workbench.editor.wrapTabs": true,
   "workbench.enableExperiments": false,
-  "workbench.iconTheme": "catppuccin-macchiato",
+  "workbench.iconTheme": "catppuccin-frappe",
   "workbench.layoutControl.enabled": false,
   "workbench.sash.hoverDelay": 0,
   "workbench.sash.size": 4,
@@ -94,6 +98,5 @@
   "workbench.tips.enabled": false,
   "workbench.tree.enableStickyScroll": true,
   "workbench.tree.indent": 8,
-  "workbench.tree.renderIndentGuides": "onHover",
-  "go.toolsManagement.autoUpdate": true
+  "workbench.tree.renderIndentGuides": "onHover"
 }
