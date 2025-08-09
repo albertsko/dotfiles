@@ -1,11 +1,6 @@
 font-size = 16
-theme=catppuccin-macchiato
-
-window-decoration = true
-window-save-state = never
-
-mouse-hide-while-typing = true
-macos-option-as-alt = true
+theme=catppuccin-frappe
 
 background-opacity=0.88
 background-blur=true
+
