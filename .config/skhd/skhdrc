@@ -1,2 +1,3 @@
-lalt - a : open -a "/Applications/AeroSpace.app"
-shift + ctrl + lalt + cmd - space : focus-window
+shift + ctrl + lalt + cmd - space : open -a "/Applications/Obsidian.app"
+shift + ctrl + lalt + cmd - 0x32 : open -a "/Applications/Ghostty.app"
+shift + ctrl + lalt + cmd - b : open -a "/Applications/Google Chrome.app"
