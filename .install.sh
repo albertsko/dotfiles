@@ -115,10 +115,16 @@ sudo defaults write com.apple.Safari IncludeDevelopMenu -bool true
 sudo defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
 sudo defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
 sudo defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
-killall Finder Dock SystemUIServer cfprefsd # apply most of the macOS defaults changes
+sudo defaults write /Library/Preferences/com.apple.airport.bt.plist bluetoothCoexMgmt Hybrid # fix for Bluetooth devices while using Wi-Fi
 
-## Fix for Bluetooth devices while using Wi-Fi
-sudo defaults write /Library/Preferences/com.apple.airport.bt.plist bluetoothCoexMgmt Hybrid
+## Auto arrange items in finder
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy name" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy name" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:ListViewSettings:sortColumn name" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:ListViewSettings:columns:name:ascending true" ~/Library/Preferences/com.apple.finder.plist
+
+## Apply most of the macOS defaults changes
+killall Finder Dock SystemUIServer cfprefsd
 
 ## Copying and checking out configuration files
 echo "Planting Configuration Files..."
