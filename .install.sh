@@ -55,10 +55,10 @@ brew install xh
 echo "Installing Brew Casks..."
 brew install --cask ghostty
 brew install --cask karabiner-elements
+brew install --cask rectangle
 brew install --cask google-chrome
 brew install --cask vlc
 brew install --cask obsidian
-brew install --cask nikitabobko/tap/aerospace
 brew install --cask zed
 brew install --cask visual-studio-code
 brew install --cask podman-desktop
@@ -131,9 +131,10 @@ cfg config --local status.showUntrackedFiles no
 
 skhd --start-service
 
-## Link iCloud Drive to ~/iCloud
+## Links
 mkdir -p "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
-ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" ~/iCloud
+ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" "$HOME/iCloud"
+ln -s "$HOME/.config/rectangle/com.knollsoft.Rectangle.plist" "$HOME/Library/Preferences/com.knollsoft.Rectangle.plist"
 
 ## Make brew dir secure for compinit
 sudo chmod -R go-w /opt/homebrew/share
