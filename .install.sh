@@ -12,10 +12,6 @@ echo "Installing Brew..."
 eval "$(/opt/homebrew/bin/brew shellenv)"
 brew analytics off
 
-## Taps
-echo "Tapping Brew..."
-brew tap koekeishiya/formulae
-
 ## Formulae
 echo "Installing Brew Formulae..."
 brew install wget
@@ -23,7 +19,6 @@ brew install jq
 brew install ripgrep
 brew install mas
 brew install gh
-brew install skhd
 brew install rclone
 
 ### Terminal
@@ -39,6 +34,7 @@ brew install podman podman-compose
 
 ### Programming
 brew install go
+brew install lua
 brew install python
 brew install deno
 brew install shellcheck
@@ -54,7 +50,7 @@ brew install xh
 ## Casks
 echo "Installing Brew Casks..."
 brew install --cask ghostty
-brew install --cask karabiner-elements
+brew install --cask hammerspoon
 brew install --cask rectangle
 brew install --cask google-chrome
 brew install --cask vlc
@@ -140,7 +136,6 @@ skhd --start-service
 ## Links
 mkdir -p "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
 ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" "$HOME/iCloud"
-ln -s "$HOME/.config/rectangle/com.knollsoft.Rectangle.plist" "$HOME/Library/Preferences/com.knollsoft.Rectangle.plist"
 
 ## Make brew dir secure for compinit
 sudo chmod -R go-w /opt/homebrew/share
