@@ -125,7 +125,7 @@ killall Finder Dock SystemUIServer cfprefsd
 ## Copying and checking out configuration files
 echo "Planting Configuration Files..."
 rm -rf $HOME/dotfiles
-git clone --bare git@github.com:albsko/dotfiles.git $HOME/dotfiles
+git clone --bare git@github.com:albertsko/dotfiles.git $HOME/dotfiles
 git --git-dir=$HOME/dotfiles/ --work-tree=$HOME checkout --force main
 
 source $HOME/.zshrc
