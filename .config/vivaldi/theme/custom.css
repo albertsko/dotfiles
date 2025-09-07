@@ -1,0 +1,19 @@
+#browser {
+  --colorAccentFg: #f5a97f !important;
+  --colorAccentFgFaded: #f5a97f27 !important;
+  --colorAccentFgAlpha: #f5a97f27 !important;
+  --colorAccentFgAlphaHeavy: #f5a97f27 !important;
+  --colorFgIntense: #f5a97f !important;
+}
+
+* {
+  font-family: "Inter", sans-serif !important;
+}
+
+button[name="AccountButton"] {
+  opacity: 0.27;
+}
+
+div[class="tab active"] {
+  font-weight: 500;
+}
