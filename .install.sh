@@ -109,6 +109,9 @@ sudo defaults write /Library/Preferences/com.apple.airport.bt.plist bluetoothCoe
 ## Set Hammerspoon config path
 defaults write org.hammerspoon.Hammerspoon MJConfigFile "$HOME/.config/hammerspoon/init.lua"
 
+## Disable time machine, so macOS doesn't reindexes itself frequently
+sudo tmutil disable
+
 ## Apply most of the macOS defaults changes
 killall Finder Dock SystemUIServer cfprefsd
 
