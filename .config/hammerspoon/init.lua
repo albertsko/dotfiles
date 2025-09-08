@@ -40,13 +40,15 @@ hs.hotkey.bind({}, hyperKey,
 
 -- Binds
 hs.hotkey.bind(hyperMods, "space", function()
-  hs.application.launchOrFocus("Obsidian")
+    hs.application.launchOrFocus("Obsidian")
 end)
 
 hs.hotkey.bind(hyperMods, "`", function()
-  hs.application.launchOrFocus("Ghostty")
+    hs.application.launchOrFocus("Ghostty")
 end)
 
 hs.hotkey.bind(hyperMods, "b", function()
-  hs.application.launchOrFocus("Google Chrome")
+    local home = os.getenv("HOME")
+    local appPath = home .. "/Library/Custom Apps/Vivaldi Launcher.app"
+    hs.application.launchOrFocus(appPath)
 end)
