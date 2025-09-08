@@ -6,3 +6,5 @@ background-blur=true
 
 keybind=global:unconsumed:super+enter=ignore
 
+window-save-state=always
+
