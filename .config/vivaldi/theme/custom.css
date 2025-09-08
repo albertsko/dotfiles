@@ -1,9 +1,9 @@
 #browser {
   --colorAccentFg: #f5a97f !important;
+  --colorFgIntense: #f5a97f !important;
   --colorAccentFgFaded: #f5a97f27 !important;
   --colorAccentFgAlpha: #f5a97f27 !important;
   --colorAccentFgAlphaHeavy: #f5a97f27 !important;
-  --colorFgIntense: #f5a97f !important;
 }
 
 * {
@@ -16,4 +16,14 @@ button[name="AccountButton"] {
 
 div[class="tab active"] {
   font-weight: 500;
+}
+
+.tab .favicon {
+  filter: none !important;
+  opacity: 0.65 !important;
+}
+
+.tab.active .favicon {
+  filter: none !important;
+  opacity: 1 !important;
 }
