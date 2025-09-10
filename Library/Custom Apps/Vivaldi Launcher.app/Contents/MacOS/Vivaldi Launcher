@@ -1,6 +1,0 @@
-#!/bin/zsh
-
-USER_DATA_DIR="$HOME/Documents/.browsers/vivaldi"
-PROFILE_DIR="Default"
-
-open -a "Vivaldi" --args --user-data-dir="$USER_DATA_DIR" --profile-dir="$PROFILE_DIR"
