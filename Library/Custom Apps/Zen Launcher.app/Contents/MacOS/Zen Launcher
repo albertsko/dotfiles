@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+open -a "Zen" --args -profile "$HOME/Documents/.browsers/zen"

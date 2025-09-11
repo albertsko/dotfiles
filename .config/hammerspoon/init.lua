@@ -47,8 +47,8 @@ hs.hotkey.bind(hyperMods, "`", function()
     hs.application.launchOrFocus("Ghostty")
 end)
 
-hs.hotkey.bind(hyperMods, "b", function()
+hs.hotkey.bind(hyperMods, "z", function()
     local home = os.getenv("HOME")
-    local appPath = home .. "/Library/Custom Apps/Vivaldi Launcher.app"
+    local appPath = home .. "/Library/Custom Apps/Zen Launcher.app"
     hs.application.launchOrFocus(appPath)
 end)
