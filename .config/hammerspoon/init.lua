@@ -48,5 +48,5 @@ hs.hotkey.bind(hyperMods, "`", function()
 end)
 
 hs.hotkey.bind(hyperMods, "z", function()
-    hs.task.new("z"):start()
+    hs.task.new([[/bin/zsh -c 'open -a "Zen" --args -profile "$HOME/Documents/.browsers/zen"']], function() end):start()
 end)
