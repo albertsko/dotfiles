@@ -48,7 +48,5 @@ hs.hotkey.bind(hyperMods, "`", function()
 end)
 
 hs.hotkey.bind(hyperMods, "z", function()
-    local home = os.getenv("HOME")
-    local appPath = home .. "/Library/Custom Apps/Zen Launcher.app"
-    hs.application.launchOrFocus(appPath)
+    hs.task.new("z"):start()
 end)

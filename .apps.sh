@@ -26,7 +26,6 @@ brew install --cask ghostty
 brew install --cask hammerspoon
 brew install --cask rectangle
 brew install --cask zen-browser
-brew install --cask vivaldi
 brew install --cask vlc
 brew install --cask obsidian
 brew install --cask zed
