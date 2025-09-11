@@ -13,7 +13,6 @@ fi
 # Aliases
 alias x="exit"
 alias f="open ."
-alias z='open -a "Zen" --args -profile "$HOME/Documents/.browsers/zen"'
 alias ssh="TERM=xterm-256color ssh"
 alias http="xh"
 
