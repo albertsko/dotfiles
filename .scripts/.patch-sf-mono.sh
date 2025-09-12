@@ -2,7 +2,7 @@
 
 set -e
 
-INPUT_DIR="/tmp/SFMonoUnpatched"
+INPUT_DIR="$HOME/Desktop/SFMonoUnpatched"
 OUTPUT_DIR="$HOME/Library/Fonts"
 FONT_PATH="/Library/Fonts/SF-Mono*.otf"
 
