@@ -6,8 +6,6 @@ cursor-style-blink=false
 cursor-invert-fg-bg=true
 shell-integration-features=no-cursor
 
-theme=catppuccin-macchiato
-
 background-opacity=0.88
 background-blur=true
 
