@@ -9,7 +9,7 @@ brew install starship zoxide
 brew install zsh-autosuggestions zsh-fast-syntax-highlighting
 
 ### Containers
-brew install docker docker-compose docker-buildx podman podman-cli
+brew install docker docker-compose docker-buildx podman podman-tui
 brew install kubernetes-cli minikube k9s helm cri-tools
 
 ### Programming
