@@ -96,4 +96,5 @@ jq '.cliPluginsExtraDirs = ["/opt/homebrew/lib/docker/cli-plugins"]' ~/.docker/c
 # Manual
 echo "Let's finish our setup with some manual work:"
 echo
-echo "Install Xcode, and run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer"
+echo "Install Xcode with: mas install 497799835"
+echo "and run:            sudo xcode-select -s /Applications/Xcode.app/Contents/Developer"
