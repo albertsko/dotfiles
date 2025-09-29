@@ -1,6 +1,8 @@
 font-size=16
 font-family="SFMono Nerd Font"
 
+theme="Catppuccin Macchiato"
+
 cursor-style=block
 cursor-style-blink=false
 cursor-invert-fg-bg=true

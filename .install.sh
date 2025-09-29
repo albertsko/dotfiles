@@ -2,10 +2,6 @@
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# Install Xcode CLI tools
-echo "Installing commandline tools..."
-xcode-select --install
-
 # Homebrew
 ## Install
 echo "Installing Brew..."
@@ -85,8 +81,6 @@ git --git-dir="$HOME/dotfiles/" --work-tree="$HOME" checkout --force main
 source "$HOME/.zshrc"
 cfg config --local status.showUntrackedFiles no
 
-skhd --start-service
-
 ## Links
 mkdir -p "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
 ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" "$HOME/iCloud"
@@ -101,7 +95,5 @@ jq '.cliPluginsExtraDirs = ["/opt/homebrew/lib/docker/cli-plugins"]' ~/.docker/c
 
 # Manual
 echo "Let's finish our setup with some manual work:"
-echo
-echo "Disable CTRL+SPACE shortcut (Settings -> Keyboard Shortcuts)"
 echo
 echo "Install Xcode, and run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer"

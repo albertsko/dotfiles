@@ -46,7 +46,3 @@ end)
 hs.hotkey.bind(hyperMods, "`", function()
     hs.application.launchOrFocus("Ghostty")
 end)
-
-hs.hotkey.bind(hyperMods, "z", function()
-    hs.application.launchOrFocus("Zen")
-end)
