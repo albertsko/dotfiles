@@ -1,0 +1,60 @@
+{
+  "profiles" : [
+    {
+      "id" : "31A4C535-C430-4866-AE34-5A23DB14827E",
+      "name" : "Default",
+      "workspaces" : [
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "com.brave.Browser",
+              "iconPath" : "/Applications/Brave Browser.app/Contents/Resources/app.icns",
+              "name" : "Brave Browser"
+            }
+          ],
+          "display" : "Built-in Retina Display",
+          "id" : "C2E656CA-E0C5-44AF-A039-A223BC86D318",
+          "name" : "Browser",
+          "openAppsOnActivation" : true,
+          "shortcut" : "opt+1",
+          "symbolIconName" : "globe"
+        },
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "com.microsoft.VSCode",
+              "iconPath" : "/Applications/Visual Studio Code.app/Contents/Resources/Code.icns",
+              "name" : "Code"
+            },
+            {
+              "bundleIdentifier" : "com.apple.dt.Xcode",
+              "iconPath" : "/Applications/Xcode.app/Contents/Resources/Xcode.icns",
+              "name" : "Xcode"
+            }
+          ],
+          "display" : "Built-in Retina Display",
+          "id" : "2995B7C7-8FFB-4D3D-BFC8-F511CB1062B2",
+          "name" : "Coding",
+          "openAppsOnActivation" : false,
+          "shortcut" : "opt+2",
+          "symbolIconName" : "bolt"
+        },
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "org.keepassxc.keepassxc",
+              "iconPath" : "/Applications/KeePassXC.app/Contents/Resources/keepassxc.icns",
+              "name" : "KeePassXC"
+            }
+          ],
+          "display" : "Built-in Retina Display",
+          "id" : "35895F87-B79B-4ABD-A725-3A241C8E79B1",
+          "name" : "Other",
+          "openAppsOnActivation" : false,
+          "shortcut" : "opt+3",
+          "symbolIconName" : "wrench.and.screwdriver"
+        }
+      ]
+    }
+  ]
+}
