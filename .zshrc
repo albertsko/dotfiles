@@ -30,8 +30,8 @@ alias lcfg="lazygit --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
 alias g="lazygit"
 
 # Functions
-function kill () {
-  command kill -KILL $(pidof "$@")
+function kill() {
+    command kill -KILL $(pidof "$@")
 }
 
 # Evaluations
@@ -42,8 +42,8 @@ eval "$(zoxide init --cmd cd zsh)"
 export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$PATH:$HOME/go/bin"
 
-export EDITOR="$(which vim)"
-export VISUAL="$(which vim)"
+export EDITOR="zed --wait"
+export VISUAL="zed --wait"
 export MANPAGER="less -X"
 
 # Other
@@ -51,5 +51,5 @@ bindkey -e
 
 # Load zsh configuration for work at Fandom
 if [[ -d "$HOME/Documents/github.com/Wikia" ]]; then
-  source ~/.zshrc-fandom
+    source ~/.zshrc-fandom
 fi

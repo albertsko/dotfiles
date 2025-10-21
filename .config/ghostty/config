@@ -1,15 +1,12 @@
 font-size=16
-font-family="SFMono Nerd Font"
+font-family="JetBrainsMonoNL Nerd Font"
 
-theme="Catppuccin Macchiato"
+theme="Everforest Dark Hard"
 
 cursor-style=block
 cursor-style-blink=false
 cursor-invert-fg-bg=true
 shell-integration-features=no-cursor
-
-background-opacity=0.88
-background-blur=true
 
 window-position-x=0
 window-position-y=0

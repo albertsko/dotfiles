@@ -9,7 +9,7 @@ brew install starship zoxide
 brew install zsh-autosuggestions zsh-fast-syntax-highlighting
 
 ### Containers
-brew install docker docker-compose docker-buildx podman podman-tui
+brew install docker docker-compose docker-buildx orbstack
 brew install kubernetes-cli minikube k9s helm cri-tools
 
 ### Programming
@@ -24,15 +24,15 @@ echo "Installing Brew Casks..."
 brew install --cask ghostty
 brew install --cask hammerspoon
 brew install --cask rectangle
-brew install --cask flashspace
+brew install --cask alt-tab
 brew install --cask brave-browser
 brew install --cask vlc
 brew install --cask obsidian
 brew install --cask zed
-brew install --cask visual-studio-code
 
 ### Fonts
 brew install --cask sf-symbols
 brew install --cask font-sf-mono
 brew install --cask font-sf-pro
 brew install --cask font-inter
+brew install --cask font-jetbrains-mono-nerd-font
