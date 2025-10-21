@@ -9,11 +9,11 @@ brew install starship zoxide
 brew install zsh-autosuggestions zsh-fast-syntax-highlighting
 
 ### Containers
-brew install docker docker-compose docker-buildx orbstack
+brew install docker docker-compose docker-buildx podman podman-tui
 brew install kubernetes-cli minikube k9s helm cri-tools
 
 ### Programming
-brew install go lua python node shellcheck
+brew install go lua python uv node shellcheck shfmt
 brew install go-task sqlc goose
 
 ### Nice to have
@@ -29,6 +29,7 @@ brew install --cask brave-browser
 brew install --cask vlc
 brew install --cask obsidian
 brew install --cask zed
+brew install --cask lunar
 
 ### Fonts
 brew install --cask sf-symbols
