@@ -1,0 +1,105 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  // --- Profiles ---
+  "profiles": {
+    "agentic": {
+      "disable_ai": false,
+      "toolbar": {
+        "agent_review": true,
+        "breadcrumbs": true,
+        "code_actions": true,
+        "quick_actions": true,
+        "selections_menu": true
+      }
+    }
+  },
+
+  // --- General ---
+  "theme": "Everforest Dark Hard",
+  "ui_font_family": "SF Pro",
+  "ui_font_size": 16,
+  "auto_update": true,
+  "disable_ai": true,
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+
+  // --- Text Editor ---
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_size": 15,
+  "buffer_line_height": "standard",
+  "autosave": "on_focus_change",
+  "format_on_save": "off",
+  "inline_code_actions": false,
+
+  // --- Window Layout & Panels ---
+  "inlay_hints": {
+    "enabled": false
+  },
+  "notification_panel": {
+    "button": false
+  },
+  "collaboration_panel": {
+    "button": false
+  },
+  "toolbar": {
+    "breadcrumbs": false,
+    "quick_actions": false,
+    "agent_review": false,
+    "code_actions": false,
+    "selections_menu": false
+  },
+  "tabs": {
+    "activate_on_close": "neighbour",
+    "close_position": "right",
+    "git_status": true,
+    "show_close_button": "hover",
+    "show_diagnostics": "errors"
+  },
+  "project_panel": {
+    "entry_spacing": "standard",
+    "default_width": 200,
+    "indent_size": 12,
+    "indent_guides": {
+      "show": "never"
+    }
+  },
+  "terminal": {
+    "dock": "right",
+    "line_height": "standard",
+    "toolbar": {
+      "breadcrumbs": false
+    }
+  },
+  "minimap": {
+    "show": "never"
+  },
+  "scrollbar": {
+    "show": "never"
+  },
+  "debugger": {
+    "dock": "right"
+  },
+  "gutter": {
+    "breakpoints": true,
+    "min_line_number_digits": 0,
+    "folds": false,
+    "runnables": true
+  },
+
+  // --- Tools ---
+  "git": {
+    "git_gutter": "tracked_files",
+    "inline_blame": {
+      "enabled": false
+    }
+  }
+}
