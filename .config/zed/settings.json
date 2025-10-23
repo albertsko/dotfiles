@@ -21,6 +21,19 @@
     }
   },
 
+  // --- Languages ---
+  "languages": {
+    "Shell Script": {
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "shfmt",
+          "arguments": ["--filename", "{buffer_path}"]
+        }
+      }
+    }
+  },
+
   // --- General ---
   "theme": "Everforest Dark Hard",
   "ui_font_family": "SF Pro",
