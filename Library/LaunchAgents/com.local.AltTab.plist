@@ -6,7 +6,9 @@
     <string>com.local.AltTab</string>
     <key>ProgramArguments</key>
     <array>
-        <string>alttab</string>
+        <string>/bin/zsh</string>
+        <string>-c</string>
+        <string>exec $HOME/.scripts/alttab</string>
     </array>
 
     <key>RunAtLoad</key>
