@@ -5,9 +5,9 @@ source "$BREW_PREFIX/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting
 
 autoload -Uz compinit
 if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
-    compinit
+	compinit
 else
-    compinit -C
+	compinit -C
 fi
 
 # Aliases
@@ -31,7 +31,7 @@ alias g="lazygit"
 
 # Functions
 function kill() {
-    command kill -KILL $(pidof "$@")
+	command kill -KILL $(pidof "$@")
 }
 
 # Evaluations
@@ -40,6 +40,7 @@ eval "$(zoxide init --cmd cd zsh)"
 
 # Exports
 export XDG_CONFIG_HOME="$HOME/.config"
+export PATH="$PATH:$HOME/.scripts"
 export PATH="$PATH:$HOME/go/bin"
 
 export EDITOR="zed --wait"
@@ -51,5 +52,5 @@ bindkey -e
 
 # Load zsh configuration for work at Fandom
 if [[ -d "$HOME/Documents/github.com/Wikia" ]]; then
-    source ~/.zshrc-fandom
+	source ~/.zshrc-fandom
 fi

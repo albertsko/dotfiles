@@ -1,0 +1,4 @@
+#!/bin/zsh -l
+
+# niclake.me/mac-displaylink
+screen -dmS alttab arch -arm64 /Applications/AltTab.app/Contents/MacOS/AltTab
