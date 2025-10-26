@@ -1,8 +1,6 @@
 #!/bin/zsh
 # niclake.me/mac-displaylink
 
-pkill -f "AltTab.app"
-
 screen -wipe >/dev/null 2>&1 || true
 
-screen -dmS alttab /usr/bin/arch -arm64 /Applications/AltTab.app/Contents/MacOS/AltTab
+exec script -q /dev/null /usr/bin/screen -dmS alttab /usr/bin/arch -arm64 /Applications/AltTab.app/Contents/MacOS/AltTab
