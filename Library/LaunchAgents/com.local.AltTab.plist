@@ -8,7 +8,7 @@
     <array>
         <string>/bin/zsh</string>
         <string>-c</string>
-        <string>exec "$HOME/.scripts/alttab"</string>
+        <string>exec "$HOME/.scripts/alttab --sleep=15"</string>
     </array>
     <key>RunAtLoad</key>
     <true />

@@ -1,6 +1,19 @@
 #!/bin/zsh
 # niclake.me/mac-displaylink
 
+sleep_duration=0
+if [[ "$1" == --sleep=* ]]; then
+	sleep_duration=${1#*=}
+fi
+
+if ! [[ "$sleep_duration" =~ '^[0-9]+$' ]]; then
+	echo "Usage: $0 [--sleep=<seconds>]" >&2
+	exit 1
+fi
+
+sleep "$sleep_duration"
+
+pkill -f "AltTab.app"
 screen -wipe >/dev/null 2>&1 || true
 
 exec script -q /dev/null /usr/bin/screen -dmS alttab /usr/bin/arch -arm64 /Applications/AltTab.app/Contents/MacOS/AltTab
