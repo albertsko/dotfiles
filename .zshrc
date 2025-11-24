@@ -34,6 +34,10 @@ function kill() {
 	command kill -KILL $(pidof "$@")
 }
 
+function diffy() {
+	diff -u "$1" "$2" | delta --side-by-side
+}
+
 # Evaluations
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd cd zsh)"
