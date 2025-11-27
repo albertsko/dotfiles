@@ -1,12 +1,17 @@
 #!/bin/zsh
+set -euo pipefail
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # Homebrew
-## Install
-echo "Installing Brew..."
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-eval "$(/opt/homebrew/bin/brew shellenv)"
+## Setup
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew is not installed. Install it from https://brew.sh/ and rerun this script."
+  exit 1
+fi
+
+BREW_BIN="$(command -v brew)"
+eval "$("$BREW_BIN" shellenv)"
 brew analytics off
 
 ./.apps.sh
