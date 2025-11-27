@@ -23,8 +23,6 @@ brew install lazygit lazydocker lazysql htop tldr bat xh
 echo "Installing Brew Casks..."
 brew install --cask ghostty
 brew install --cask hammerspoon
-brew install --cask rectangle
-brew install --cask alt-tab
 brew install --cask raycast
 brew install --cask brave-browser
 brew install --cask vlc
