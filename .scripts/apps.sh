@@ -27,6 +27,7 @@ brew install --cask brave-browser
 brew install --cask vlc
 brew install --cask obsidian
 brew install --cask zed
+brew install --cask screen-studio
 
 ### Fonts
 brew install --cask sf-symbols
