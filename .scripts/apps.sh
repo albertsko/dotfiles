@@ -9,11 +9,11 @@ brew install starship zoxide
 brew install zsh-autosuggestions zsh-fast-syntax-highlighting
 
 ### Containers
-brew install docker docker-compose docker-buildx podman podman-tui
+brew install docker docker-compose docker-buildx
 brew install kubernetes-cli minikube k9s helm cri-tools
 
 ### Programming
-brew install go lua python uv node shellcheck shfmt
+brew install go lua python uv deno shellcheck shfmt
 brew install go-task sqlc goose
 
 ### Nice to have
