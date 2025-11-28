@@ -3,133 +3,25 @@ set -euo pipefail
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# Homebrew
-## Setup
-if ! command -v brew >/dev/null 2>&1; then
-	echo "Homebrew is not installed. Install it from https://brew.sh/ and rerun this script."
-	exit 1
-fi
+./.scripts/brew.sh
+./.scripts/apps.sh
+./.scripts/macos.sh
+./.scripts/git.sh
 
-BREW_BIN="$(command -v brew)"
-eval "$("$BREW_BIN" shellenv)"
-brew analytics off
-
-./.apps.sh
-
-# Other
-echo "Changing macOS defaults..."
-defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1                # enable browsing of all network interfaces
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true # prevent creation of .ds_store files on network drives
-defaults write com.apple.spaces spans-displays -bool false                   # disable spaces spanning multiple displays
-defaults write com.apple.dock autohide -bool true                            # enable dock auto-hide
-defaults write com.apple.dock autohide-delay -float 0                        # start showing dock immediately
-defaults write com.apple.dock autohide-time-modifier -float 0.5              # show whole dock in 0.5s
-defaults write com.apple.dock "mru-spaces" -bool "false"                     # disable automatically rearranging spaces based on recent use
-defaults write com.apple.dock persistent-apps -array                         # detach tails from dock
-defaults write com.apple.dock persistent-others -array                       # detach others from dock
-defaults write com.apple.dock show-recents -bool false                       # do not show recents in dock
-defaults write com.apple.dock contents-immutable -bool true                  # make dock content immutable
-defaults write com.apple.dock minimize-to-application -bool true             # minimize windows to app's icon
-defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false # disable window opening animations
-defaults write com.apple.LaunchServices LSQuarantine -bool false             # disable quarantine prompt for downloaded apps
-# defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false # disable natural scrolling
-defaults write NSGlobalDomain KeyRepeat -int 1                                 # set keyboard repeat rate to fast
-defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false # disable automatic spelling correction
-defaults write NSGlobalDomain AppleShowAllExtensions -bool true                # show all file extensions in finder
-# defaults write NSGlobalDomain _HIHideMenuBar -bool true # hide the menu bar by default
-# defaults write NSGlobalDomain AppleHighlightColor -string "0.65098 0.85490 0.58431" # set highlight color to a custom green
-defaults write NSGlobalDomain AppleAccentColor -int 1                       # set accent color to orange
-defaults write com.apple.screencapture location -string "$HOME/Desktop"     # set screenshot save location to desktop
-defaults write com.apple.screencapture disable-shadow -bool true            # disable screenshot shadow
-defaults write com.apple.screencapture type -string "png"                   # set screenshot format to png
-defaults write com.apple.finder DisableAllAnimations -bool true             # disable finder animations
-defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool false # hide external hard drives from desktop
-defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false         # hide internal hard drives from desktop
-defaults write com.apple.finder ShowMountedServersOnDesktop -bool false     # hide mounted servers from desktop
-defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false     # hide removable media from desktop
-defaults write com.apple.Finder AppleShowAllFiles -bool true                # show hidden files in finder
-defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"         # set finder search scope to current folder
-defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false  # disable warning when changing file extensions
-defaults write com.apple.finder _FXShowPosixPathInTitle -bool true          # show full path in finder title
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"         # set finder view style to list view
-defaults write com.apple.finder ShowStatusBar -bool false                   # hide status bar in finder
-defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool YES  # prevent time machine from offering new disks for backup
-defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false  # disable copying email addresses with names in mail app
-# defaults write -g NSWindowShouldDragOnGesture YES # allow dragging windows with three-finger gesture
-sudo defaults write com.apple.Safari AutoOpenSafeDownloads -bool false # disable safari auto-opening safe downloads
-sudo defaults write com.apple.Safari IncludeDevelopMenu -bool true
-sudo defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-sudo defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
-sudo defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
-sudo defaults write /Library/Preferences/com.apple.airport.bt.plist bluetoothCoexMgmt Hybrid # fix for Bluetooth devices while using Wi-Fi
-
-## Auto arrange items in finder
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy name" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy name" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:ListViewSettings:sortColumn name" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:ListViewSettings:columns:name:ascending true" ~/Library/Preferences/com.apple.finder.plist
-
-## Set Hammerspoon config path
-defaults write org.hammerspoon.Hammerspoon MJConfigFile "$HOME/.config/hammerspoon/init.lua"
-
-## Disable time machine, so macOS doesn't reindexes itself frequently
-sudo tmutil disable
-
-## Apply most of the macOS defaults changes
-killall Finder Dock SystemUIServer cfprefsd
-
-## Copying and checking out configuration files
 echo "Planting Configuration Files..."
 rm -rf "$HOME/dotfiles"
 git clone --bare git@github.com:albertsko/dotfiles.git "$HOME/dotfiles"
 git --git-dir="$HOME/dotfiles/" --work-tree="$HOME" checkout --force main
-
 source "$HOME/.zshrc"
 cfg config --local status.showUntrackedFiles no
 
-## Links
 mkdir -p "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
 ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" "$HOME/iCloud"
 
-## Make brew dir secure for compinit
-sudo chmod -R go-w /opt/homebrew/share
-
-## Setup container runtime
 mkdir -p ~/.docker
 echo '{}' >~/.docker/config.json
 jq '.cliPluginsExtraDirs = ["/opt/homebrew/lib/docker/cli-plugins"]' ~/.docker/config.json >~/.docker/config.json.tmp && mv ~/.docker/config.json.tmp ~/.docker/config.json
 
-## Git
-read -rp "Git user.name: " GIT_NAME
-read -rp "Git user.email: " GIT_EMAIL
-
-git config --global user.name "$GIT_NAME"
-git config --global user.email "$GIT_EMAIL"
-
-git config --global init.defaultBranch main # new repos use 'main'
-git config --global color.ui auto
-git config --global push.default current      # 'git push' works without extra args
-git config --global push.autoSetupRemote true # first push sets upstream automatically
-git config --global fetch.prune true          # clean up deleted remote branches
-git config --global pull.ff only              # avoid accidental merge commits
-git config --global credential.helper osxkeychain
-
-SSH_PUBKEY="${HOME}/.ssh/id_ed25519.pub"
-if [[ -f "$SSH_PUBKEY" ]]; then
-	git config --global gpg.format ssh
-	git config --global user.signingkey "$SSH_PUBKEY"
-	git config --global commit.gpgsign true
-	echo "Enabled SSH commit signing with $SSH_PUBKEY"
-else
-	echo "SSH public key not found at $SSH_PUBKEY"
-fi
-
-git config --global core.pager delta
-git config --global interactive.diffFilter 'delta --color-only'
-git config --global delta.navigate true
-git config --global merge.conflictStyle zdiff3
-
-# Manual
 echo "Let's finish our setup with some manual work:"
 echo
 echo "Install Xcode with: mas install 497799835"
