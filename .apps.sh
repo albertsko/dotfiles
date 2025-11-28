@@ -17,7 +17,7 @@ brew install go lua python uv node shellcheck shfmt
 brew install go-task sqlc goose
 
 ### Nice to have
-brew install lazygit lazydocker lazysql htop tldr bat xh
+brew install lazygit lazydocker lazysql htop tldr bat xh git git-delta
 
 ## Casks
 echo "Installing Brew Casks..."

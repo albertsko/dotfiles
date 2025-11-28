@@ -6,8 +6,8 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # Homebrew
 ## Setup
 if ! command -v brew >/dev/null 2>&1; then
-  echo "Homebrew is not installed. Install it from https://brew.sh/ and rerun this script."
-  exit 1
+	echo "Homebrew is not installed. Install it from https://brew.sh/ and rerun this script."
+	exit 1
 fi
 
 BREW_BIN="$(command -v brew)"
@@ -98,6 +98,36 @@ sudo chmod -R go-w /opt/homebrew/share
 mkdir -p ~/.docker
 echo '{}' >~/.docker/config.json
 jq '.cliPluginsExtraDirs = ["/opt/homebrew/lib/docker/cli-plugins"]' ~/.docker/config.json >~/.docker/config.json.tmp && mv ~/.docker/config.json.tmp ~/.docker/config.json
+
+## Git
+read -rp "Git user.name: " GIT_NAME
+read -rp "Git user.email: " GIT_EMAIL
+
+git config --global user.name "$GIT_NAME"
+git config --global user.email "$GIT_EMAIL"
+
+git config --global init.defaultBranch main # new repos use 'main'
+git config --global color.ui auto
+git config --global push.default current      # 'git push' works without extra args
+git config --global push.autoSetupRemote true # first push sets upstream automatically
+git config --global fetch.prune true          # clean up deleted remote branches
+git config --global pull.ff only              # avoid accidental merge commits
+git config --global credential.helper osxkeychain
+
+SSH_PUBKEY="${HOME}/.ssh/id_ed25519.pub"
+if [[ -f "$SSH_PUBKEY" ]]; then
+	git config --global gpg.format ssh
+	git config --global user.signingkey "$SSH_PUBKEY"
+	git config --global commit.gpgsign true
+	echo "Enabled SSH commit signing with $SSH_PUBKEY"
+else
+	echo "SSH public key not found at $SSH_PUBKEY"
+fi
+
+git config --global core.pager delta
+git config --global interactive.diffFilter 'delta --color-only'
+git config --global delta.navigate true
+git config --global merge.conflictStyle zdiff3
 
 # Manual
 echo "Let's finish our setup with some manual work:"
