@@ -5,6 +5,8 @@
 
 export PATH="/opt/homebrew/opt/mysql-client@8.0/bin:$PATH"
 export PATH="/opt/homebrew/opt/php@8.3/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@8.3/sbin:$PATH"
 
 alias ucp="./bootstrap.sh && composer install && yarn install"
 alias ucpreset="git reset --hard && git clean -fd && git submodule foreach --recursive 'git reset --hard && git clean -fd'"
+alias composerucp="/opt/homebrew/opt/php@8.3/bin/php /opt/homebrew/bin/composer"
