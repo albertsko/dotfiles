@@ -23,6 +23,9 @@
 
   // --- Languages ---
   "languages": {
+    "Go": {
+      "format_on_save": "on"
+    },
     "Shell Script": {
       "format_on_save": "on",
       "formatter": {
@@ -37,7 +40,7 @@
   // --- General ---
   "theme": "Everforest Dark Hard",
   "ui_font_family": "SF Pro",
-  "ui_font_size": 16,
+  "ui_font_size": 17,
   "auto_update": true,
   "disable_ai": true,
   "telemetry": {
@@ -52,6 +55,10 @@
   "autosave": "on_focus_change",
   "format_on_save": "off",
   "inline_code_actions": false,
+  "completions": {
+    "words": "enabled",
+    "words_min_length": 3
+  },
 
   // --- Window Layout & Panels ---
   "inlay_hints": {
@@ -86,7 +93,6 @@
     }
   },
   "terminal": {
-    "dock": "right",
     "line_height": "standard",
     "toolbar": {
       "breadcrumbs": false
@@ -97,9 +103,6 @@
   },
   "scrollbar": {
     "show": "never"
-  },
-  "debugger": {
-    "dock": "right"
   },
   "gutter": {
     "breakpoints": true,
