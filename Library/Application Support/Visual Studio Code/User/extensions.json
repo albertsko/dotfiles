@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "catppuccin.catppuccin-vsc",
+        "catppuccin.catppuccin-vsc-icons",
+        "golang.go",
+        "redhat.vscode-yaml",
+        "subframe7536.custom-ui-style"
+    ]
+}
