@@ -16,36 +16,66 @@
         "breadcrumbs": true,
         "code_actions": true,
         "quick_actions": true,
-        "selections_menu": true
-      }
-    }
+        "selections_menu": true,
+      },
+    },
   },
 
   // --- Languages ---
   "languages": {
     "Go": {
-      "format_on_save": "on"
+      "format_on_save": "on",
+      "code_actions_on_format": {
+        "source.organizeImports": true,
+      },
+      "language_servers": ["gopls", "golangci-lint"],
+    },
+    "Go Mod": {
+      "format_on_save": "on",
+      "code_actions_on_format": {
+        "source.organizeImports": true,
+      },
     },
     "Shell Script": {
       "format_on_save": "on",
       "formatter": {
         "external": {
           "command": "shfmt",
-          "arguments": ["--filename", "{buffer_path}"]
-        }
-      }
-    }
+          "arguments": ["--filename", "{buffer_path}"],
+        },
+      },
+    },
+  },
+
+  "lsp": {
+    "gopls": {
+      "initialization_options": {
+        "gofumpt": true,
+      },
+    },
+    "golangci-lint": {
+      "initialization_options": {
+        "command": [
+          "golangci-lint",
+          "run",
+          "--fast",
+          "--out-format",
+          "json",
+          "--issues-exit-code=1",
+        ],
+      },
+    },
   },
 
   // --- General ---
-  "theme": "Everforest Dark Hard",
+  "theme": "Catppuccin Macchiato (Blur) [Heavy]",
   "ui_font_family": "SF Pro",
   "ui_font_size": 17,
   "auto_update": true,
   "disable_ai": true,
   "telemetry": {
     "diagnostics": false,
-    "metrics": false
+    "metrics": false,
   },
 
   // --- Text Editor ---
@@ -55,67 +85,63 @@
   "autosave": "on_focus_change",
   "format_on_save": "off",
   "inline_code_actions": false,
-  "completions": {
-    "words": "enabled",
-    "words_min_length": 3
-  },
 
   // --- Window Layout & Panels ---
   "inlay_hints": {
-    "enabled": false
+    "enabled": false,
   },
   "notification_panel": {
-    "button": false
+    "button": false,
   },
   "collaboration_panel": {
-    "button": false
+    "button": false,
   },
   "toolbar": {
     "breadcrumbs": false,
     "quick_actions": false,
     "agent_review": false,
     "code_actions": false,
-    "selections_menu": false
+    "selections_menu": false,
   },
   "tabs": {
     "activate_on_close": "neighbour",
     "close_position": "right",
     "git_status": true,
     "show_close_button": "hover",
-    "show_diagnostics": "errors"
+    "show_diagnostics": "errors",
   },
   "project_panel": {
     "entry_spacing": "standard",
     "default_width": 200,
     "indent_size": 12,
     "indent_guides": {
-      "show": "never"
-    }
+      "show": "never",
+    },
   },
   "terminal": {
     "line_height": "standard",
     "toolbar": {
-      "breadcrumbs": false
-    }
+      "breadcrumbs": false,
+    },
   },
   "minimap": {
-    "show": "never"
+    "show": "never",
   },
   "scrollbar": {
-    "show": "never"
+    "show": "never",
   },
   "gutter": {
     "breakpoints": true,
     "min_line_number_digits": 0,
     "folds": false,
-    "runnables": true
+    "runnables": true,
   },
 
   // --- Tools ---
   "git": {
     "git_gutter": "tracked_files",
     "inline_blame": {
-      "enabled": false
-    }
-  }
+      "enabled": false,
+    },
+  },
 }
