@@ -8,6 +8,8 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   // --- Profiles ---
+  "cursor_shape": "block",
+  "cursor_blink": false,
   "profiles": {
     "agentic": {
       "disable_ai": false,
@@ -68,7 +70,7 @@
   },
 
   // --- General ---
-  "theme": "Catppuccin Macchiato (Blur) [Heavy]",
+  "theme": "Everforest Dark Hard",
   "ui_font_family": "SF Pro",
   "ui_font_size": 17,
   "auto_update": true,
