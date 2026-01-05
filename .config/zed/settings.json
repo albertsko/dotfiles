@@ -70,7 +70,7 @@
   },
 
   // --- General ---
-  "theme": "Everforest Dark Hard",
+  "theme": "Everforest Dark Hard (material)",
   "ui_font_family": "SF Pro",
   "ui_font_size": 17,
   "auto_update": true,
