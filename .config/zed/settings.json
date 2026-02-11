@@ -8,8 +8,6 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   // --- Profiles ---
-  "cursor_shape": "block",
-  "cursor_blink": false,
   "profiles": {
     "agentic": {
       "disable_ai": false,
@@ -22,7 +20,6 @@
       },
     },
   },
-
   // --- Languages ---
   "languages": {
     "Go": {
@@ -48,7 +45,6 @@
       },
     },
   },
-
   "lsp": {
     "gopls": {
       "initialization_options": {
@@ -68,7 +64,6 @@
       },
     },
   },
-
   // --- General ---
   "theme": "Everforest Dark Hard (material)",
   "ui_font_family": "SF Pro",
@@ -79,21 +74,22 @@
     "diagnostics": false,
     "metrics": false,
   },
-
   // --- Text Editor ---
+  "cursor_shape": "block",
+  "cursor_blink": false,
   "buffer_font_family": "JetBrainsMonoNL Nerd Font",
   "buffer_font_size": 15,
   "buffer_line_height": "standard",
   "autosave": "on_focus_change",
   "format_on_save": "off",
   "inline_code_actions": false,
-
+  "hard_tabs": false,
   // --- Window Layout & Panels ---
   "inlay_hints": {
     "enabled": false,
   },
   "notification_panel": {
-    "button": false,
+    "button": true,
   },
   "collaboration_panel": {
     "button": false,
@@ -138,7 +134,6 @@
     "folds": false,
     "runnables": true,
   },
-
   // --- Tools ---
   "git": {
     "git_gutter": "tracked_files",
