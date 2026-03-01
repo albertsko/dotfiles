@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
 MOTD_FILE="$HOME/.config/motd.md"
-LOCK_FILE="/tmp/motd.lastrun"
+LOCK_FILE="$HOME/.cache/motd.lock"
 CURRENT_DATE=$(date +%Y-%m-%d)
+
+BOOT_ID=$(who -b | md5)
+CURRENT_STATE="${CURRENT_DATE}_${BOOT_ID}"
 
 if [ ! -f "$MOTD_FILE" ]; then
 	mkdir -p "$(dirname "$MOTD_FILE")"
@@ -11,17 +14,18 @@ if [ ! -f "$MOTD_FILE" ]; then
 fi
 
 if [ -f "$LOCK_FILE" ]; then
-	LAST_RUN=$(cat "$LOCK_FILE")
+	LAST_STATE=$(cat "$LOCK_FILE")
 else
-	LAST_RUN=""
+	LAST_STATE=""
 fi
 
-if [ "$CURRENT_DATE" != "$LAST_RUN" ]; then
+if [ "$CURRENT_STATE" != "$LAST_STATE" ]; then
 	if command -v bat &>/dev/null; then
 		bat "$MOTD_FILE"
 	else
 		cat "$MOTD_FILE"
 	fi
 
-	echo "$CURRENT_DATE" >"$LOCK_FILE"
+	mkdir -p "$(dirname "$LOCK_FILE")"
+	echo "$CURRENT_STATE" >"$LOCK_FILE"
 fi
