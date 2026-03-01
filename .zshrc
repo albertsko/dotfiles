@@ -46,15 +46,27 @@ eval "$(zoxide init --cmd cd zsh)"
 export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$PATH:$HOME/.scripts"
 export PATH="$PATH:$HOME/go/bin"
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+export PATH="/Users/albertsko/.local/bin:$PATH"
+export PNPM_HOME="/Users/albertsko/Library/pnpm"
+case ":$PATH:" in
+*":$PNPM_HOME:"*) ;;
+*) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 
-export EDITOR="zed --wait"
-export VISUAL="zed --wait"
+export EDITOR="vim"
+export VISUAL="vim"
 export MANPAGER="less -X"
+
+export BAT_THEME="ansi"
 
 # Other
 bindkey -e
 
-# Load zsh configuration for work at Fandom
 if [[ -d "$HOME/Documents/github.com/Wikia" ]]; then
 	source ~/.zshrc-fandom
+fi
+
+if [[ "$TERM_PROGRAM" == "ghostty" ]]; then
+	"$HOME/.scripts/motd.sh"
 fi
