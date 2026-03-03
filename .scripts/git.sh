@@ -1,17 +1,17 @@
 #!/bin/zsh
 
-read -rp "Git user.name: " GIT_NAME
-read -rp "Git user.email: " GIT_EMAIL
+GIT_NAME="Albert Skonieczny"
+GIT_EMAIL="albertskonieczny@gmail.com"
 
 git config --global user.name "$GIT_NAME"
 git config --global user.email "$GIT_EMAIL"
 
-git config --global init.defaultBranch main # new repos use 'main'
+git config --global init.defaultBranch main
 git config --global color.ui auto
-git config --global push.default current      # 'git push' works without extra args
-git config --global push.autoSetupRemote true # first push sets upstream automatically
-git config --global fetch.prune true          # clean up deleted remote branches
-git config --global pull.ff only              # avoid accidental merge commits
+git config --global push.default current
+git config --global push.autoSetupRemote true
+git config --global fetch.prune true
+git config --global pull.ff only
 git config --global credential.helper osxkeychain
 
 SSH_PUBKEY="${HOME}/.ssh/id_ed25519.pub"
@@ -24,7 +24,10 @@ else
 	echo "SSH public key not found at $SSH_PUBKEY"
 fi
 
-git config --global core.pager delta
-git config --global interactive.diffFilter 'delta --color-only'
-git config --global delta.navigate true
-git config --global merge.conflictStyle zdiff3
+# --- delta config ---
+# git config --global core.pager delta
+# git config --global interactive.diffFilter 'delta --color-only'
+# git config --global merge.conflictStyle zdiff3
+# git config --global delta.navigate false
+# git config --global delta.line-numbers true
+# git config --global delta.pager "less --mouse -R"
