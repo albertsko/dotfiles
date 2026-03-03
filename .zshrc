@@ -38,6 +38,44 @@ function diffy() {
 	diff -u "$1" "$2" | delta --side-by-side
 }
 
+function gw() {
+	local cmd=$1
+	local name=$2
+	local repo_root=$(git rev-parse --show-toplevel)
+	local repo_name=$(basename "$repo_root")
+	local parent_dir=$(dirname "$repo_root")
+
+	case $cmd in
+	"switch")
+		if [ -z "$name" ]; then
+			echo "Usage: gw switch <branch-name>"
+			return 1
+		fi
+		local target_path="$parent_dir/$repo_name.$name"
+		git worktree add -b "$name" "$target_path"
+		cd "$target_path"
+		;;
+	"remove")
+		if [ -z "$name" ]; then
+			echo "Usage: gw remove <branch-name>"
+			return 1
+		fi
+		local target_path="$parent_dir/$repo_name.$name"
+		if [[ "$PWD" == "$target_path"* ]]; then
+			cd "$parent_dir"
+		fi
+		git worktree remove "$target_path"
+		git branch -d "$name"
+		;;
+	"list")
+		git worktree list
+		;;
+	*)
+		echo "Commands: switch, remove, list"
+		;;
+	esac
+}
+
 # Evaluations
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd cd zsh)"
