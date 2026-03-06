@@ -1,7 +1,6 @@
 # Hey Albert! It's important to you.
 
-We are learning daily! :D
+Sit back for a second, slow down, and visualize how cool and fun programming was back in the school days.
 
-1. Sit back for a second, slow down, maybe visualize how cool and fun programming was back in the middle school days
-2. Have fun with https://www.boot.dev/dashboard
-3. Currently we are finishing Learn HTTP Servers in Go course :D
+- [ ] gopsit -> zed $HOME/Documents/github.com/albertsko/gopsit
+- [x] boot.dev course in `github.com/albertsko/learn-http-server`
