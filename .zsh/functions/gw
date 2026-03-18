@@ -1,0 +1,77 @@
+function gw() {
+    local cmd=$1
+    local name=$2
+    local main_path=$(git worktree list | head -n 1 | awk '{print $1}')
+    if [ -z "$main_path" ]; then
+        echo "Error: Not a git repository."
+        return 1
+    fi
+
+    local repo_name=$(basename "$main_path")
+    local parent_dir=$(dirname "$main_path")
+    local target_path="$parent_dir/$repo_name.$name"
+
+    case $cmd in
+    "switch")
+        if [ -z "$name" ]; then
+            echo "Usage: gw switch <branch-name>"
+            return 1
+        fi
+
+        local existing_path=$(git worktree list | grep "\[$name\]" | awk '{print $1}')
+        if [ -n "$existing_path" ]; then
+            echo "Branch '$name' is already active at: $existing_path"
+            cd "$existing_path"
+            return
+        fi
+
+        if [ -d "$target_path" ]; then
+            echo "Directory exists, switching to $target_path"
+            cd "$target_path"
+            return
+        fi
+
+        if git show-ref --verify --quiet "refs/heads/$name"; then
+            echo "Branch '$name' exists. Adding worktree..."
+            git worktree add "$target_path" "$name"
+        else
+            echo "Creating new branch '$name' and adding worktree..."
+            git worktree add -b "$name" "$target_path"
+        fi
+
+        cd "$target_path"
+        ;;
+    "remove")
+        if [ -z "$name" ]; then
+            echo "Usage: gw remove <branch-name>"
+            return 1
+        fi
+
+        if ! git worktree list | grep -q "\[$name\]"; then
+            echo "Error: No worktree found for branch '$name'."
+            return 1
+        fi
+
+        if [ -d "$target_path" ] && [ -n "$(git -C "$target_path" status --porcelain)" ]; then
+            echo "Warning: Branch '$name' has uncommitted changes."
+            echo "Please commit or stash them before removing the worktree."
+            return 1
+        fi
+
+        if [[ "$PWD" == "$target_path"* ]]; then
+            echo "Leaving worktree..."
+            cd "$main_path"
+        fi
+
+        echo "Removing worktree and deleting branch '$name'..."
+        git worktree remove "$target_path"
+        git branch -d "$name"
+        ;;
+    "list")
+        git worktree list
+        ;;
+    *)
+        echo "Commands: switch, remove, list"
+        ;;
+    esac
+}
