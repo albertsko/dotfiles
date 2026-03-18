@@ -27,7 +27,7 @@ parse_git_branch() {
 
 PROMPT="
 ${C_DARKGRAY}%~${C_RESET}\$(parse_git_branch)
-${C_BLACK}>${C_RESET} "
+${C_BLACK}%B>%b${C_RESET} "
 
 # Functions
 fpath=(~/.zsh/functions "${fpath[@]}")
