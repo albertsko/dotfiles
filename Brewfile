@@ -51,6 +51,7 @@ cask "vlc"
 cask "obsidian"
 cask "zed"
 cask "screen-studio"
+cask "karabiner-elements"
 
 # Fonts
 cask "sf-symbols"

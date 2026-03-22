@@ -10,3 +10,6 @@ brew analytics off
 
 mkdir -p /opt/homebrew/share
 sudo chmod -R go-w /opt/homebrew/share
+
+CURR_DIR=$(realpath "${BASH_SOURCE[0]:-${(%):-%x}}" | xargs dirname)
+brew bundle --file="$CURR_DIR/../Brewfile"
