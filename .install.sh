@@ -3,7 +3,7 @@ set -euo pipefail
 
 TMP_DIR=$(mktemp -d -t "dotfiles")
 cleanup() {
-  rm -rf "$TMP_DIR"
+	rm -rf "$TMP_DIR"
 }
 trap cleanup EXIT
 
@@ -27,9 +27,6 @@ source "$HOME/.zprofile"
 source "$HOME/.zshrc"
 cfg config --local status.showUntrackedFiles no
 
-echo "Linking iCloud to "$HOME/.icloud"
+echo "Linking iCloud to $HOME/.icloud"
 mkdir -p "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
 ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" "$HOME/.icloud"
-
-
-
