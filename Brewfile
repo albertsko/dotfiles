@@ -1,0 +1,60 @@
+# CLI
+brew "wget"
+brew "jq"
+brew "ripgrep"
+brew "mas"
+brew "gh"
+brew "lazygit"
+brew "lazydocker"
+brew "lazysql"
+brew "htop"
+brew "tldr"
+brew "bat"
+brew "xh"
+brew "git"
+brew "git-delta"
+
+# Shell
+brew "starship"
+brew "zoxide"
+brew "zsh-autosuggestions"
+brew "zsh-fast-syntax-highlighting"
+
+# Containers
+brew "docker"
+brew "docker-compose"
+brew "docker-buildx"
+brew "kubernetes-cli"
+brew "minikube"
+brew "k9s"
+brew "helm"
+brew "cri-tools"
+
+# Coding
+brew "go"
+brew "lua"
+brew "python"
+brew "uv"
+brew "deno"
+brew "shellcheck"
+brew "shfmt"
+brew "go-task"
+brew "sqlc"
+brew "goose"
+
+# Casks
+cask "ghostty"
+cask "raycast"
+cask "brave-browser"
+cask "zen"
+cask "vlc"
+cask "obsidian"
+cask "zed"
+cask "screen-studio"
+
+# Fonts
+cask "sf-symbols"
+cask "font-sf-mono"
+cask "font-sf-pro"
+cask "font-inter"
+cask "font-jetbrains-mono-nerd-font"

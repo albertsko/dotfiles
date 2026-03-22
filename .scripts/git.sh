@@ -1,10 +1,7 @@
 #!/bin/zsh
 
-GIT_NAME="Albert Skonieczny"
-GIT_EMAIL="albertskonieczny@gmail.com"
-
-git config --global user.name "$GIT_NAME"
-git config --global user.email "$GIT_EMAIL"
+git config --global user.name "Albert Skonieczny"
+git config --global user.email "50720306+albertsko@users.noreply.github.com"
 
 git config --global init.defaultBranch main
 git config --global color.ui auto
