@@ -1,5 +1,6 @@
 #!/bin/zsh
 set -euo pipefail
+touch "$HOME/.hushlogin"
 
 # Clone repo
 TMP_DIR=$(mktemp -d -t "dotfiles")

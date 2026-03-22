@@ -55,4 +55,3 @@ export BAT_THEME="ansi"
 
 # Other
 bindkey -e
-clear
