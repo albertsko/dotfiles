@@ -10,8 +10,15 @@ cleanup() {
 trap cleanup EXIT
 git clone https://github.com/albertsko/dotfiles.git "$TMP_DIR"
 
-# Run scripts
+# Make XDG dirs
 source "$TMP_DIR/.zprofile"
+mkdir -p "$XDG_CONFIG_HOME"
+mkdir -p "$XDG_CACHE_HOME"
+mkdir -p "$XDG_DATA_HOME"
+mkdir -p "$XDG_STATE_HOME"
+
+# Run scripts
+
 "$TMP_DIR/.scripts/sudo-touchid.sh"
 "$TMP_DIR/.scripts/brew.sh"
 "$TMP_DIR/.scripts/macos.sh"
