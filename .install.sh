@@ -18,7 +18,6 @@ mkdir -p "$XDG_DATA_HOME"
 mkdir -p "$XDG_STATE_HOME"
 
 # Run scripts
-
 "$TMP_DIR/.scripts/sudo-touchid.sh"
 "$TMP_DIR/.scripts/brew.sh"
 "$TMP_DIR/.scripts/macos.sh"
