@@ -4,7 +4,7 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Disable Command+Tab",
+                        "description": "Disable Alt-Tabbing",
                         "manipulators": [
                             {
                                 "description": "Block Left Command+Tab",
@@ -12,6 +12,18 @@
                                     "key_code": "tab",
                                     "modifiers": {
                                         "mandatory": ["left_command"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Block Left Option+Tab",
+                                "from": {
+                                    "key_code": "tab",
+                                    "modifiers": {
+                                        "mandatory": ["left_option"],
                                         "optional": ["any"]
                                     }
                                 },
