@@ -51,22 +51,10 @@
         "gofumpt": true,
       },
     },
-    "golangci-lint": {
-      "initialization_options": {
-        "command": [
-          "golangci-lint",
-          "run",
-          "--fast",
-          "--out-format",
-          "json",
-          "--issues-exit-code=1",
-        ],
-      },
-    },
   },
   // --- General ---
-  "theme": "Everforest Dark Hard (material)",
-  "ui_font_family": "SF Pro",
+  "theme": "Everforest Dark Medium",
+  "ui_font_family": ".ZedSans",
   "ui_font_size": 17,
   "auto_update": true,
   "disable_ai": true,
@@ -79,7 +67,7 @@
   "cursor_blink": false,
   "buffer_font_family": "JetBrainsMonoNL Nerd Font",
   "buffer_font_size": 15,
-  "buffer_line_height": "standard",
+  "buffer_line_height": "comfortable",
   "autosave": "on_focus_change",
   "format_on_save": "off",
   "inline_code_actions": false,
@@ -109,7 +97,7 @@
     "show_diagnostics": "errors",
   },
   "project_panel": {
-    "entry_spacing": "standard",
+    "entry_spacing": "comfortable",
     "default_width": 200,
     "indent_size": 12,
     "indent_guides": {
@@ -129,10 +117,11 @@
     "show": "never",
   },
   "gutter": {
-    "breakpoints": true,
-    "min_line_number_digits": 0,
+    "line_numbers": true,
+    "runnables": false,
+    "breakpoints": false,
     "folds": false,
-    "runnables": true,
+    "min_line_number_digits": 0,
   },
   // --- Tools ---
   "git": {
