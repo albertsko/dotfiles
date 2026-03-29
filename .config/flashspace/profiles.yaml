@@ -1,0 +1,34 @@
+profiles:
+- id: 8C0CDBD8-5DC7-4717-8674-D974FFF14222
+  name: Default
+  workspaces:
+  - id: 0C97444F-757C-4631-8372-56E45B663ADB
+    name: Browser
+    display: DELL G2724D
+    shortcut: opt+1
+    apps:
+    - name: Firefox
+      bundleIdentifier: org.mozilla.firefox
+      iconPath: /Applications/Firefox.app/Contents/Resources/firefox.icns
+    - name: Brave Browser
+      bundleIdentifier: com.brave.Browser
+      iconPath: /Applications/Brave Browser.app/Contents/Resources/app.icns
+    openAppsOnActivation: false
+  - id: C655FD09-634B-4CD6-8CC0-2B6282058EF0
+    name: Coding
+    display: DELL G2724D
+    shortcut: opt+2
+    apps:
+    - name: Code
+      bundleIdentifier: com.microsoft.VSCode
+      iconPath: /Applications/Visual Studio Code.app/Contents/Resources/Code.icns
+    openAppsOnActivation: false
+  - id: 650F6616-39B4-4EE9-B763-5AFEA4D84DB8
+    name: Terminal
+    display: DELL G2724D
+    shortcut: opt+3
+    apps:
+    - name: Ghostty
+      bundleIdentifier: com.mitchellh.ghostty
+      iconPath: /Applications/Ghostty.app/Contents/Resources/Ghostty.icns
+    openAppsOnActivation: false
