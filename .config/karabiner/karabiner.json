@@ -4,35 +4,6 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Disable Alt-Tabbing",
-                        "manipulators": [
-                            {
-                                "description": "Block Left Command+Tab",
-                                "from": {
-                                    "key_code": "tab",
-                                    "modifiers": {
-                                        "mandatory": ["left_command"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [],
-                                "type": "basic"
-                            },
-                            {
-                                "description": "Block Left Option+Tab",
-                                "from": {
-                                    "key_code": "tab",
-                                    "modifiers": {
-                                        "mandatory": ["left_option"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Hyper Key & IDE Configuration",
                         "manipulators": [
                             {
