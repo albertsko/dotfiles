@@ -15,10 +15,9 @@ brew "git"
 brew "git-delta"
 
 # Shell
+brew "fish"
 brew "starship"
 brew "zoxide"
-brew "zsh-autosuggestions"
-brew "zsh-fast-syntax-highlighting"
 
 # Containers
 brew "docker"

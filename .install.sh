@@ -1,4 +1,5 @@
-#!/bin/zsh
+#!/usr/bin/env bash
+
 set -euo pipefail
 touch "$HOME/.hushlogin"
 
@@ -11,7 +12,10 @@ trap cleanup EXIT
 git clone https://github.com/albertsko/dotfiles.git "$TMP_DIR"
 
 # Make XDG dirs
-source "$TMP_DIR/.zprofile"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
 mkdir -p "$XDG_CONFIG_HOME"
 mkdir -p "$XDG_CACHE_HOME"
 mkdir -p "$XDG_DATA_HOME"
@@ -28,8 +32,4 @@ mkdir -p "$XDG_STATE_HOME"
 rm -rf "$XDG_STATE_HOME/dotfiles"
 git clone --bare git@github.com:albertsko/dotfiles.git "$XDG_STATE_HOME/dotfiles"
 git --git-dir="$XDG_STATE_HOME/dotfiles/" --work-tree="$HOME" checkout --force main
-
-# Source dotfiles
-source "$HOME/.zprofile"
-source "$HOME/.zshrc"
-cfg config --local status.showUntrackedFiles no
+git --git-dir="$XDG_STATE_HOME/dotfiles/" --work-tree="$HOME" config --local status.showUntrackedFiles no

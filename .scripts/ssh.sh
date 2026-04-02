@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 
 KEY_PATH="$HOME/.ssh/id_ed25519"
 KEY_COMMENT="$(date '+%Y-%m-%d %H:%M')"

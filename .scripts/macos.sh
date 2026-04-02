@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 
 echo "Changing macOS defaults..."
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1                  # enable browsing of all network interfaces

@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 
 PAM_FILE="/etc/pam.d/sudo"
 LINE='auth       sufficient     pam_tid.so'
