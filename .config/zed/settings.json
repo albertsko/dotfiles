@@ -10,14 +10,16 @@
   // --- Profiles ---
   "profiles": {
     "agentic": {
-      "disable_ai": false,
-      "toolbar": {
-        "agent_review": true,
-        "breadcrumbs": true,
-        "code_actions": true,
-        "quick_actions": true,
-        "selections_menu": true,
-      },
+      "settings": {
+        "disable_ai": false,
+        "toolbar": {
+          "agent_review": true,
+          "breadcrumbs": true,
+          "code_actions": true,
+          "quick_actions": true,
+          "selections_menu": true
+        }
+      }
     },
   },
   // --- Languages ---
@@ -53,9 +55,13 @@
     },
   },
   // --- General ---
-  "theme": "Catppuccin Macchiato (Blur) [Heavy]",
-  "ui_font_family": ".ZedSans",
-  "ui_font_size": 17,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Catppuccin Macchiato (Blur) [Heavy]"
+  },
+  "ui_font_family": "Inter",
+  "ui_font_size": 15,
   "auto_update": true,
   "disable_ai": true,
   "telemetry": {
@@ -73,12 +79,10 @@
   "inline_code_actions": false,
   "hard_tabs": false,
   "show_signature_help_after_edits": true,
+  "extend_comment_on_newline": false,
   // --- Window Layout & Panels ---
   "inlay_hints": {
     "enabled": false,
-  },
-  "notification_panel": {
-    "button": true,
   },
   "collaboration_panel": {
     "button": false,
@@ -98,6 +102,7 @@
     "show_diagnostics": "errors",
   },
   "project_panel": {
+    "dock": "left",
     "entry_spacing": "comfortable",
     "default_width": 200,
     "indent_size": 12,
@@ -126,7 +131,6 @@
   },
   // --- Tools ---
   "git": {
-    "git_gutter": "tracked_files",
     "inline_blame": {
       "enabled": false,
     },
