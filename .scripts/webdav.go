@@ -3,6 +3,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -47,12 +48,8 @@ func run() {
 	}
 
 	// check deps
-	err = checkDependency([]string{"rclone", "--version"})
-	err = checkDependency([]string{"openssl", "version"})
-	err = checkDependency([]string{"lsof", "-h"})
-	if err != nil {
-		log.Fatalf("%v\n", err)
-	}
+	deps := []string{"rclone", "openssl", "lsof"}
+	checkDependencies(deps)
 
 	// generate cert
 	certPath := filepath.Join(homePath, ".local/share/certs", "webdav")
@@ -158,7 +155,7 @@ func freeTCPPort(port int, killAfter time.Duration) bool {
 		return false
 	}
 
-	for _, pidStr := range strings.Fields(string(output)) {
+	for pidStr := range strings.FieldsSeq(string(output)) {
 		pid, err := strconv.Atoi(pidStr)
 		if err != nil {
 			continue
@@ -220,20 +217,17 @@ func printInterfaceAddresses(port int, protocol string) {
 	}
 }
 
-// checkDependency runs command and check if its stdout is fine, if not then return error.
-func checkDependency(cmd []string) error {
-	if len(cmd) < 1 {
-		return fmt.Errorf("empty cmd")
+// checkDependencies look for an executable in path, returns joined errors for not found dependencies.
+func checkDependencies(deps []string) error {
+	var errs []error
+	for _, dep := range deps {
+		if _, err := exec.LookPath(dep); err != nil {
+			errs = append(errs, fmt.Errorf("'%s' is not installed or not in PATH\n", dep))
+		}
 	}
 
-	c := exec.Command(cmd[0], cmd[1:]...)
-	if len(cmd) == 1 {
-		c = exec.Command(cmd[0])
-	}
-
-	_, err := c.Output()
-	if err != nil {
-		return fmt.Errorf("failed to get any %s output; install it, or make it available in PATH\n\n%w", cmd[0], err)
+	if len(errs) != 0 {
+		return errors.Join(errs...)
 	}
 
 	return nil
