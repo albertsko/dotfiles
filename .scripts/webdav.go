@@ -30,7 +30,7 @@ func run() {
 	dirPtr := flag.String("d", homePath, "Directory path to share via rclone")
 	userPtr := flag.String("u", "user", "WebDAV user")
 	passPtr := flag.String("p", "pass", "WebDAV pass")
-	hostPtr := flag.String("h", "0.0.0.0", "WebDAV host")
+	hostPtr := flag.String("h", "127.0.0.1", "WebDAV host")
 	portPtr := flag.Int("port", 8443, "WebDAV port")
 	exitPtr := flag.Bool("exit", false, "Terminate process on specified port")
 
