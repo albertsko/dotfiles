@@ -27,7 +27,7 @@ func run() {
 		log.Fatalf("failed to get user home dir")
 	}
 
-	dirPtr := flag.String("d", os.Getenv("HOME"), "Directory path to share via rclone")
+	dirPtr := flag.String("d", homePath, "Directory path to share via rclone")
 	userPtr := flag.String("u", "user", "WebDAV user")
 	passPtr := flag.String("p", "pass", "WebDAV pass")
 	hostPtr := flag.String("h", "0.0.0.0", "WebDAV host")
@@ -47,16 +47,11 @@ func run() {
 	}
 
 	// check deps
-	c := exec.Command("rclone", "--version")
-	_, err = c.Output()
+	err = checkDependency([]string{"rclone", "--version"})
+	err = checkDependency([]string{"openssl", "version"})
+	err = checkDependency([]string{"lsof", "-h"})
 	if err != nil {
-		log.Fatalf("failed to get any rclone output; install rclone, or make it available in PATH")
-	}
-
-	c = exec.Command("openssl", "version")
-	_, err = c.Output()
-	if err != nil {
-		log.Fatalf("failed to get any openssl output; install openssl, or make it available in PATH")
+		log.Fatalf("%v\n", err)
 	}
 
 	// generate cert
@@ -223,4 +218,23 @@ func printInterfaceAddresses(port int, protocol string) {
 
 		fmt.Printf("  -> %s%s:%d\n", protocol, ip4.String(), port)
 	}
+}
+
+// checkDependency runs command and check if its stdout is fine, if not then return error.
+func checkDependency(cmd []string) error {
+	if len(cmd) < 1 {
+		return fmt.Errorf("empty cmd")
+	}
+
+	c := exec.Command(cmd[0], cmd[1:]...)
+	if len(cmd) == 1 {
+		c = exec.Command(cmd[0])
+	}
+
+	_, err := c.Output()
+	if err != nil {
+		return fmt.Errorf("failed to get any %s output; install it, or make it available in PATH\n\n%w", cmd[0], err)
+	}
+
+	return nil
 }
