@@ -31,9 +31,10 @@ func run() {
 	dirPtr := flag.String("d", homePath, "Directory path to share via rclone")
 	userPtr := flag.String("u", "user", "WebDAV user")
 	passPtr := flag.String("p", "pass", "WebDAV pass")
-	hostPtr := flag.String("h", "127.0.0.1", "WebDAV host")
+	hostPtr := flag.String("h", getLocalIP(), "WebDAV host")
 	portPtr := flag.Int("port", 8443, "WebDAV port")
 	exitPtr := flag.Bool("exit", false, "Terminate process on specified port")
+	securePtr := flag.Bool("s", false, "WebDAV via https")
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: %s [options]\n\nOptions:\n", filepath.Base(os.Args[0]))
@@ -51,28 +52,44 @@ func run() {
 	deps := []string{"rclone", "openssl", "lsof"}
 	checkDependencies(deps)
 
-	// generate cert
-	certPath := filepath.Join(homePath, ".local/share/certs", "webdav")
-	if err := generateCert(certPath, *hostPtr); err != nil {
-		log.Fatalf("failed to generate certificate: %v", err)
-	}
-
-	// run decoupled `rclone serve webdav` process
+	// build command
 	addr := fmt.Sprintf("%s:%d", *hostPtr, *portPtr)
-	certFile := filepath.Join(certPath, "cert.pem")
-	keyFile := filepath.Join(certPath, "key.pem")
-
+	protocolPrefix := "dav://"
 	rcloneCmd := exec.Command("rclone", "serve", "webdav", *dirPtr,
 		"--addr", addr,
 		"--user", *userPtr,
 		"--pass", *passPtr,
-		"--cert", certFile,
-		"--key", keyFile,
 	)
+
+	if *securePtr == true {
+		protocolPrefix = "davs://"
+		certPath := filepath.Join(homePath, ".local/share/certs", "webdav")
+		if err := generateCert(certPath, *hostPtr); err != nil {
+			log.Fatalf("failed to generate certificate: %v", err)
+		}
+		certFile := filepath.Join(certPath, "cert.pem")
+		keyFile := filepath.Join(certPath, "key.pem")
+
+		rcloneCmd = exec.Command("rclone", "serve", "webdav", *dirPtr,
+			"--addr", addr,
+			"--user", *userPtr,
+			"--pass", *passPtr,
+			"--cert", certFile,
+			"--key", keyFile,
+		)
+	}
+
+	// run decoupled `rclone serve webdav` process
 	rcloneCmd.SysProcAttr = &syscall.SysProcAttr{Setsid: true}
 
-	var stderr strings.Builder
-	rcloneCmd.Stderr = &stderr
+	logPath := filepath.Join(os.TempDir(), "webdav-rclone.log")
+	logFile, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+	if err != nil {
+		log.Fatalf("failed to create log file: %v", err)
+	}
+
+	rcloneCmd.Stdout = logFile
+	rcloneCmd.Stderr = logFile
 
 	if err := rcloneCmd.Start(); err != nil {
 		log.Fatalf("failed to start rclone: %v", err)
@@ -88,13 +105,13 @@ func run() {
 
 	select {
 	case <-exitChan:
-		log.Fatalf("rclone failed to stay alive:\n\n%s", stderr.String())
+		log.Fatalf("rclone failed to stay alive. Check logs at: %s", logPath)
 	case <-timer.C:
 		break
 	}
 
 	fmt.Printf("WebDAV server (PID: %d) running at:\n", rcloneCmd.Process.Pid)
-	printInterfaceAddresses(*portPtr, "https://")
+	printInterfaceAddresses(*portPtr, protocolPrefix)
 }
 
 // generateCert generates certificate for WebDAV in certPath.
@@ -231,4 +248,24 @@ func checkDependencies(deps []string) error {
 	}
 
 	return nil
+}
+
+// getLocalIP returns the first non-loopback local IPv4 address.
+// Falls back to "127.0.0.1" if it cannot find one.
+func getLocalIP() string {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return "127.0.0.1"
+	}
+
+	for _, address := range addrs {
+		// check the address type and if it is not a loopback
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ip4 := ipnet.IP.To4(); ip4 != nil {
+				return ip4.String()
+			}
+		}
+	}
+
+	return "127.0.0.1"
 }
