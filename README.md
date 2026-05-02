@@ -11,12 +11,14 @@ Profiles are top-level Stow packages:
 - `work`: work-machine packages
 - `ubuntu`: Ubuntu packages
 
-The installer clones this repo to `$XDG_DATA_HOME/dotfiles` and stows `_common` plus the selected profile from the repo root into `$HOME`.
+The root installer clones this repo to `$XDG_DATA_HOME/dotfiles`, runs `_common/.install.sh`, then runs the selected profile installer. Each profile installer owns its setup and stows its top-level package from the repo root. Profile `.stow-local-ignore` files are symlinks to the root `.stow-local-ignore`.
 
 Useful commands:
 
 ```sh
 cfg status
+./_common/.install.sh
+./macOS/.install.sh
 stow --dir "$DOTFILES_HOME" --target "$HOME" --no-folding --restow _common macOS
 ```
 

@@ -29,7 +29,7 @@ mkdir -p "$XDG_CONFIG_HOME"
 mkdir -p "$XDG_CACHE_HOME"
 mkdir -p "$XDG_DATA_HOME"
 mkdir -p "$XDG_STATE_HOME"
-mkdir -p "$(dirname "$DOTFILES_HOME")"
+mkdir -p "$DOTFILES_HOME"
 
 if [[ -d "$DOTFILES_HOME/.git" ]]; then
 	git -C "$DOTFILES_HOME" pull --ff-only
@@ -37,71 +37,13 @@ else
 	git clone "$REPO_URL" "$DOTFILES_HOME"
 fi
 
-ensure_homebrew() {
-	if command -v brew >/dev/null 2>&1; then
-		return
-	fi
-
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-}
-
-ensure_stow() {
-	if command -v stow >/dev/null 2>&1; then
-		return
-	fi
-
-	case "$(uname -s)" in
-	Darwin)
-		ensure_homebrew
-		BREW_BIN="$(command -v brew)"
-		eval "$("$BREW_BIN" shellenv)"
-		brew install stow
-		;;
-	Linux)
-		if command -v apt-get >/dev/null 2>&1; then
-			sudo apt-get update
-			sudo apt-get install -y stow
-		else
-			echo "GNU Stow is required. Install it with this machine's package manager and rerun." >&2
-			exit 1
-		fi
-		;;
-	*)
-		echo "GNU Stow is required and no installer is defined for this OS." >&2
-		exit 1
-		;;
-	esac
-}
-
-run_script() {
+run_install() {
 	local script="$1"
 
-	if [[ -x "$script" ]]; then
-		"$script"
+	if [[ -f "$script" ]]; then
+		bash "$script"
 	fi
 }
 
-stow_profiles() {
-	local stow_flags=(--dir="$DOTFILES_HOME" --target="$HOME" --no-folding)
-	if [[ "${DOTFILES_STOW_ADOPT:-0}" == "1" ]]; then
-		stow_flags+=(--adopt)
-	else
-		stow_flags+=(--restow)
-	fi
-
-	stow "${stow_flags[@]}" _common "$PROFILE"
-}
-
-# Run scripts
-if [[ "$PROFILE" == "macOS" ]]; then
-	run_script "$DOTFILES_HOME/macOS/.scripts/sudo-touchid.sh"
-	run_script "$DOTFILES_HOME/macOS/.scripts/brew.sh"
-	run_script "$DOTFILES_HOME/macOS/.scripts/macos.sh"
-fi
-
-ensure_stow
-run_script "$DOTFILES_HOME/_common/.scripts/ssh.sh"
-run_script "$DOTFILES_HOME/_common/.scripts/git.sh"
-
-# Plant dotfiles
-stow_profiles
+run_install "$DOTFILES_HOME/_common/.install.sh"
+run_install "$DOTFILES_HOME/$PROFILE/.install.sh"
