@@ -9,6 +9,6 @@ fi
 
 TMP_FILE=$(mktemp) || exit 1
 echo "$LINE" >"$TMP_FILE"
-sudo cat "$PAM_FILE" >>"$TMP_FILE"
+cat "$PAM_FILE" | sudo tee -a "$TMP_FILE"
 sudo cp "$PAM_FILE" "${PAM_FILE}.bak"
 sudo mv "$TMP_FILE" "$PAM_FILE"
