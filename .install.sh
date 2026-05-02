@@ -18,7 +18,6 @@ esac
 
 touch "$HOME/.hushlogin"
 
-# Make XDG dirs
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -37,13 +36,14 @@ else
 	git clone "$REPO_URL" "$DOTFILES_HOME"
 fi
 
-run_install() {
-	local script="$1"
+bash "$DOTFILES_HOME/_common/.install.sh"
+bash "$DOTFILES_HOME/$PROFILE/.install.sh"
 
-	if [[ -f "$script" ]]; then
-		bash "$script"
-	fi
-}
+stow_flags=(--dir="$DOTFILES_HOME" --target="$HOME" --no-folding)
+if [[ "${DOTFILES_STOW_ADOPT:-0}" == "1" ]]; then
+	stow_flags+=(--adopt)
+else
+	stow_flags+=(--restow)
+fi
 
-run_install "$DOTFILES_HOME/_common/.install.sh"
-run_install "$DOTFILES_HOME/$PROFILE/.install.sh"
+stow "${stow_flags[@]}" "$PROFILE"
