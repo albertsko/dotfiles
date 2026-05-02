@@ -1,0 +1,33 @@
+# macOS
+- .DS_Store
+- ._*
+- .AppleDouble/**
+- .LSOverride
+- .Spotlight-V100/**
+- .Trashes/**
+- .fseventsd/**
+- .TemporaryItems/**
+- .apdisk
+- Icon\r
+
+# Windows
+- Thumbs.db
+- Thumbs.db:encryptable
+- ehthumbs.db
+- ehthumbs_vista.db
+- desktop.ini
+- ~$*
+- ~*.tmp
+- *.tmp
+
+# General
+- .*.swp
+- .*.swo
+- *~
+- .Trash-*/**
+
+# Dev
+- .git/**
+- node_modules/**
+- __pycache__/**
+- .venv/**
