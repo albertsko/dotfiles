@@ -13,6 +13,7 @@ brew "bat"
 brew "xh"
 brew "git"
 brew "git-delta"
+brew "stow"
 
 # Shell
 brew "fish"
