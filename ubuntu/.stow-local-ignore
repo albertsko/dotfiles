@@ -1,0 +1,9 @@
+_install\.sh
+\.gitkeep
+\.git
+\.gitignore
+\.gitmodules
+\.DS_Store
+^/README.*
+^/LICENSE.*
+^/COPYING
