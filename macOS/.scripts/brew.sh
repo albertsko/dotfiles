@@ -19,4 +19,6 @@ mkdir -p "$BREW_PREFIX/share"
 sudo chmod -R go-w "$BREW_PREFIX/share"
 
 CURR_DIR="$(dirname -- "$(realpath "${BASH_SOURCE[0]}")")"
+
+brew install stow
 brew bundle --file="$CURR_DIR/../Brewfile"
