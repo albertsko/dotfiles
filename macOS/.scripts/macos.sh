@@ -53,3 +53,5 @@ sudo tmutil disable
 
 ## Apply most of the macOS defaults changes
 killall Finder Dock SystemUIServer cfprefsd
+
+touch "$HOME/.hushlogin"
