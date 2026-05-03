@@ -6,7 +6,7 @@
 bash <(curl -fsSL https://raw.githubusercontent.com/albertsko/dotfiles/main/install.sh)
 ```
 
-Clones the repo to `~/.local/share/dotfiles`, prompts for a profile (`macOS`, `ubuntu`, `work`), sets up SSH + git, runs the profile installer, then symlinks dotfiles into `$HOME` via stow.
+Clones the repo to `~/.local/share/dotfiles`, prompts for a profile (`macos`, `ubuntu`, `work`), sets up SSH + git, runs the profile installer, then symlinks dotfiles into `$HOME` via stow.
 
 Set `DOTFILES_DRY_RUN=1` to preview without making changes.
 
@@ -15,7 +15,7 @@ Set `DOTFILES_DRY_RUN=1` to preview without making changes.
 Dotfiles are organized into stow packages:
 
 - `_common/` — applied to all profiles
-- `macOS/`, `ubuntu/`, `work/` — profile-specific overrides
+- `macos/`, `ubuntu/`, `work/` — profile-specific overrides
 
 To re-stow manually after adding files:
 
