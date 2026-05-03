@@ -4,7 +4,7 @@ set -euo pipefail
 
 REPO_URL="https://github.com/albertsko/dotfiles.git"
 
-export DOTFILES_DRY_RUN="${DOTFILES_DRY_RUN:-1}"
+export DOTFILES_DRY_RUN="${DOTFILES_DRY_RUN:-0}"
 run() {
 	if [[ "$DOTFILES_DRY_RUN" == "1" ]]; then
 		echo "[dry-run]" "$@"
