@@ -1,1 +1,9 @@
 _install\.sh
+\.git
+\.gitignore
+\.gitmodules
+\.DS_Store
+^/README.*
+^/LICENSE.*
+^/COPYING
+^/Brewfile$
