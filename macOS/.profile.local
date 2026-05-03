@@ -1,0 +1,10 @@
+export DOTFILES_PROFILE=macOS
+
+if [[ -x /opt/homebrew/bin/brew ]]; then
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+export PNPM_HOME="$HOME/Library/pnpm"
+
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+export PATH="$PNPM_HOME:$PATH"

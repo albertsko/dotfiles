@@ -1,4 +1,4 @@
-^/\.install\.sh$
+^/_install\.sh$
 \.DS_Store
 .+~
 \#.*\#
