@@ -8,10 +8,13 @@ if [[ -z "$DOTFILES_PROFILE" ]]; then
 fi
 
 stow_flags=(--dir="$DOTFILES_HOME" --target="$HOME" --no-folding)
-if [[ "$DOTFILES_STOW_ADOPT" == "1" ]]; then
+if [[ "${DOTFILES_STOW_ADOPT:-0}" == "1" ]]; then
 	stow_flags+=(--adopt)
 else
 	stow_flags+=(--restow)
+fi
+if [[ "${DOTFILES_DRY_RUN:-0}" == "1" ]]; then
+	stow_flags+=(-n -v)
 fi
 
 stow "${stow_flags[@]}" _common
