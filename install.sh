@@ -76,5 +76,4 @@ run bash "$DOTFILES_HOME/_common/_install.sh"
 run bash "$DOTFILES_HOME/$DOTFILES_PROFILE/_install.sh"
 
 # run stow
-export DOTFILES_STOW_ADOPT=1
 bash "$DOTFILES_HOME/_common/.scripts/stow.sh"
