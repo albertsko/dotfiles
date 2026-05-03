@@ -46,20 +46,15 @@ fi
 base_flags=(--dir="$DOTFILES_HOME" --target="$HOME" --no-folding --verbose=1)
 [[ "$DRY_RUN" == "1" ]] && base_flags+=(-n)
 
-stow_package() {
-	local action="$1"
-	local package="$2"
-	shift 2
-
-	echo "==> $action $package -> $HOME"
-	stow "${base_flags[@]}" "$@" "$package"
-}
-
 if [[ "$DELETE" == "1" ]]; then
-	stow_package unstow "$DOTFILES_PROFILE" --delete
-	stow_package unstow _common --delete
+	echo "==> unstow $DOTFILES_PROFILE -> $HOME"
+	stow "${base_flags[@]}" --delete "$DOTFILES_PROFILE"
+	echo "==> unstow _common -> $HOME"
+	stow "${base_flags[@]}" --delete _common
 	exit 0
 fi
 
-stow_package stow _common --restow --defer='.*'
-stow_package stow "$DOTFILES_PROFILE" --restow --override='.*'
+echo "==> stow _common -> $HOME"
+stow "${base_flags[@]}" --restow --defer='.*' _common
+echo "==> stow $DOTFILES_PROFILE -> $HOME"
+stow "${base_flags[@]}" --restow --override='.*' "$DOTFILES_PROFILE"
