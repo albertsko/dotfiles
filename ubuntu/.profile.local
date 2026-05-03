@@ -1,0 +1,20 @@
+export DOTFILES_PROFILE=ubuntu
+
+_profile_local_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+# shellcheck disable=SC1091
+. "$_profile_local_dir/.scripts/eval-brew.sh" || true
+unset _profile_local_dir
+
+if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
+	BREW_KEGS_PKGCONFIG=(
+		zlib
+		libpq
+		mysql-client
+		openssl@3
+	)
+
+	for keg in "${BREW_KEGS_PKGCONFIG[@]}"; do
+		pc_dir="$HOMEBREW_PREFIX/opt/$keg/lib/pkgconfig"
+		[[ -d "$pc_dir" ]] && export PKG_CONFIG_PATH="$pc_dir${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+	done
+fi
