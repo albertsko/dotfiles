@@ -3,6 +3,7 @@
 set -euo pipefail
 
 REPO_URL="https://github.com/albertsko/dotfiles.git"
+PROFILES=(macOS ubuntu work)
 
 export DOTFILES_DRY_RUN="${DOTFILES_DRY_RUN:-0}"
 run() {
@@ -37,37 +38,22 @@ fi
 
 # select profile
 if [[ -z "${DOTFILES_PROFILE:-}" ]]; then
-	profiles=()
-	for _dir in "$DOTFILES_HOME"/*/; do
-		_name="$(basename "$_dir")"
-		[[ "$_name" == _* ]] && continue
-		profiles+=("$_name")
-	done
-
-	if ! [[ "${#profiles[@]}" -gt 1 ]]; then
-		echo "Error: no profiles found in $DOTFILES_HOME." >&2
-		exit 1
-	fi
-
-	_sorted=()
-	while IFS= read -r _p; do _sorted+=("$_p"); done < <(printf '%s\n' "${profiles[@]}" | sort)
-	profiles=("${_sorted[@]}")
-
-	echo "Available profiles:"
-	for _i in "${!profiles[@]}"; do
-		echo "  [$_i] ${profiles[$_i]}"
-	done
+	printf 'Enter profile (%s): ' "${PROFILES[*]}"
+	read -r DOTFILES_PROFILE
 	echo ""
+fi
 
-	read -rp "Enter profile number: " _num
-	echo ""
-
-	if ! [[ "$_num" =~ ^[0-9]+$ ]] || [[ "$_num" -ge "${#profiles[@]}" ]]; then
-		echo "Error: invalid selection '$_num'." >&2
-		exit 1
+valid_profile=0
+for profile in "${PROFILES[@]}"; do
+	if [[ "$DOTFILES_PROFILE" == "$profile" ]]; then
+		valid_profile=1
+		break
 	fi
+done
 
-	DOTFILES_PROFILE="${profiles[$_num]}"
+if [[ "$valid_profile" != "1" ]]; then
+	echo "Error: invalid profile '$DOTFILES_PROFILE'. Expected one of: ${PROFILES[*]}." >&2
+	exit 1
 fi
 export DOTFILES_PROFILE
 
