@@ -37,11 +37,9 @@ if [[ -d "$DOTFILES_HOME/.git" ]]; then
 fi
 
 # select profile
-if [[ -z "${DOTFILES_PROFILE:-}" ]]; then
-	printf 'Enter profile (%s): ' "${PROFILES[*]}"
-	read -r DOTFILES_PROFILE
-	echo ""
-fi
+printf 'Enter profile (%s): ' "${PROFILES[*]}"
+read -r DOTFILES_PROFILE
+echo ""
 
 valid_profile=0
 for profile in "${PROFILES[@]}"; do
