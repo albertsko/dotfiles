@@ -8,6 +8,7 @@ SCRIPT_DIR="$(dirname -- "$SCRIPT_PATH")"
 DOTFILES_HOME="${DOTFILES_HOME:-$(realpath "$SCRIPT_DIR/../..")}"
 DOTFILES_PROFILE="${DOTFILES_PROFILE:-}"
 DRY_RUN="${DOTFILES_DRY_RUN:-0}"
+OVERRIDE=0
 DELETE=0
 
 usage() {
@@ -18,6 +19,7 @@ for arg in "$@"; do
 	case "$arg" in
 	--delete | -D) DELETE=1 ;;
 	--simulate | -n | --dry-run) DRY_RUN=1 ;;
+	--override | -O) OVERRIDE=1 ;;
 	--*)
 		echo "Error: unknown flag '$arg'" >&2
 		usage
@@ -54,7 +56,11 @@ if [[ "$DELETE" == "1" ]]; then
 	exit 0
 fi
 
+common_flags=("${base_flags[@]}")
+[[ "$OVERRIDE" == "0" ]] && common_flags+=(--defer='.*')
+[[ "$OVERRIDE" == "1" ]] && common_flags+=(--override='.*')
+
 echo "==> stow _common -> $HOME"
-stow "${base_flags[@]}" --restow --defer='.*' _common
+stow "${common_flags[@]}" --restow _common
 echo "==> stow $DOTFILES_PROFILE -> $HOME"
 stow "${base_flags[@]}" --restow --override='.*' "$DOTFILES_PROFILE"

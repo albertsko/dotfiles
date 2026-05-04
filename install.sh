@@ -60,4 +60,4 @@ run bash "$DOTFILES_HOME/_common/_install.sh"
 run bash "$DOTFILES_HOME/$DOTFILES_PROFILE/_install.sh"
 
 # run stow
-bash "$DOTFILES_HOME/_common/.scripts/stow.sh"
+bash "$DOTFILES_HOME/_common/.scripts/stow.sh" --override
