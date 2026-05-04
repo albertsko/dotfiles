@@ -23,6 +23,7 @@ brew_packages=(
 	bat
 	bison
 	eza
+	jq
 	fd
 	fish
 	fzf
