@@ -70,7 +70,6 @@ printf '%s\n' "$nerd_tag" >"$jetbrains_target_dir/.release"
 # Font rendering settings
 ## 1. fontconfig  - read by FreeType via any app that queries fontconfig
 fontconfig_dir="$HOME/.config/fontconfig/conf.d"
-rm -rf "$fontconfig_dir"
 mkdir -p "$fontconfig_dir"
 
 fontconfig_file="$fontconfig_dir/50-rendering.conf"
@@ -127,7 +126,6 @@ gtk4_dir="$HOME/.config/gtk-4.0"
 mkdir -p "$gtk4_dir"
 
 gtk4_settings_file="$gtk4_dir/settings.ini"
-rm -rf "$gtk4_settings_file"
 cat >"$gtk4_settings_file" <<'EOF_GTK'
 [Settings]
 gtk-font-rendering=manual
@@ -137,7 +135,6 @@ EOF_GTK
 ## 4. environment.d - FreeType stem-darkening for OTF fonts (Inter)
 environment_dir="$HOME/.config/environment.d"
 mkdir -p "$environment_dir"
-rm -rf "$environment_dir/*freetype*"
 
 environment_file="$environment_dir/20-freetype.conf"
 cat >"$environment_file" <<'EOF_ENV'
