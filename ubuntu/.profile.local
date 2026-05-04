@@ -1,10 +1,11 @@
+#!/usr/bin/env bash
+
 export DOTFILES_PROFILE=ubuntu
 
-_profile_local_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-# shellcheck disable=SC1091
-. "$_profile_local_dir/.scripts/eval-brew.sh" || true
-unset _profile_local_dir
+# shellcheck disable=SC1090
+. "$DOTFILES_HOME/$DOTFILES_PROFILE/.scripts/eval-brew.sh"
 
+# load brew kegs to pkgconfig
 if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
 	BREW_KEGS_PKGCONFIG=(
 		zlib
