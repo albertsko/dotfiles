@@ -2,6 +2,13 @@
 
 export DOTFILES_PROFILE=ubuntu
 
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+
 # shellcheck disable=SC1090
 . "$DOTFILES_HOME/$DOTFILES_PROFILE/.scripts/eval-brew.sh"
 
