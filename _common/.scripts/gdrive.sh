@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-readonly REMOTE='gdrive:rclone'
+readonly REMOTE='gdrive:'
 readonly LOCAL_DIR="${HOME}/rclone-gdrive"
 readonly STALE_THRESHOLD_DAYS=7
-readonly LOG_FILE="${HOME}/.config/rclone/gdrive-bisync.log"
-readonly ZOMBIE_REPORT="${HOME}/.config/rclone/gdrive-bisync-zombie-candidates.txt"
+readonly SUCCESS_MARKER="${HOME}/.config/rclone/gdrive-bisync.last-success"
 readonly FILTERS_FILE="${HOME}/.config/rclone/filters.txt"
+readonly RCLONE_TEST_FILE='RCLONE_TEST'
+mkdir -p "${LOCAL_DIR}" "$(dirname "${SUCCESS_MARKER}")"
 
+# Build command
 readonly -a BISYNC_FLAGS=(
 	--create-empty-src-dirs
 	--compare 'size,modtime'
@@ -26,11 +28,7 @@ readonly -a BISYNC_FLAGS=(
 	--fix-case
 	--check-access
 	--filters-file "${FILTERS_FILE}"
-	--log-file "${LOG_FILE}"
-	--log-level 'INFO'
 )
-
-mkdir -p "${LOCAL_DIR}" "$(dirname "${LOG_FILE}")"
 
 dry_run='false'
 if [[ "${1:-}" == "--dry-run" ]]; then
@@ -42,45 +40,35 @@ if [[ "${dry_run}" == 'true' ]]; then
 	cmd+=('--dry-run')
 fi
 
+# Preflight
+if [[ ! -f "${LOCAL_DIR}/${RCLONE_TEST_FILE}" ]]; then
+	echo "Seeding check-access file locally."
+	touch "${LOCAL_DIR}/${RCLONE_TEST_FILE}"
+fi
+
+if ! rclone lsf "${REMOTE}${RCLONE_TEST_FILE}" &>/dev/null 2>&1; then
+	echo "Seeding check-access file on remote."
+	rclone touch "${REMOTE}${RCLONE_TEST_FILE}"
+fi
+
 needs_resync='false'
-if [[ ! -f "${LOG_FILE}" ]]; then
-	echo "First run — no log file found."
+if [[ ! -f "${SUCCESS_MARKER}" ]]; then
+	echo "First run - no prior successful sync recorded."
 	needs_resync='true'
 elif fd -q --changed-before "${STALE_THRESHOLD_DAYS}days" -tf \
-	-g "$(basename "${LOG_FILE}")" "$(dirname "${LOG_FILE}")"; then
-	echo "Log is stale (older than ${STALE_THRESHOLD_DAYS} days) — resyncing."
+	-g "$(basename "${SUCCESS_MARKER}")" "$(dirname "${SUCCESS_MARKER}")"; then
+	echo "Last success is stale (older than ${STALE_THRESHOLD_DAYS} days) - resyncing."
 	needs_resync='true'
 fi
 
-if [[ "${needs_resync}" == 'true' ]]; then
-	if [[ -n "$(ls -A "${LOCAL_DIR}" 2>/dev/null)" ]]; then
-		echo "Scanning for zombie candidates (local-only files)..."
-		tmp_zombie="$(mktemp)"
-		rclone check "${LOCAL_DIR}" "${REMOTE}" \
-			--one-way --size-only --drive-skip-gdocs --disable 'ListR' \
-			--missing-on-src "${tmp_zombie}" 2>/dev/null || true
-		if [[ -s "${tmp_zombie}" ]]; then
-			count="$(wc -l <"${tmp_zombie}" | tr -d ' ')"
-			echo "Found ${count} zombie candidate(s). Report: ${ZOMBIE_REPORT}"
-			mv "${tmp_zombie}" "${ZOMBIE_REPORT}"
-		else
-			echo "No zombie candidates found."
-			rm -f "${tmp_zombie}" "${ZOMBIE_REPORT}"
-		fi
-	fi
-
+if [[ "${needs_resync}" != 'true' ]]; then
 	echo "Running resync..."
 	cmd+=('--resync' '--resync-mode' 'newer')
-else
-	echo "Log is fresh — running normal bisync."
 fi
 
 if ! "${cmd[@]}"; then
-	echo "ERROR: Bisync failed. Check log: ${LOG_FILE}" >&2
 	exit 1
 fi
 
+date -Iseconds >"${SUCCESS_MARKER}"
 echo "Done."
-if [[ -f "${ZOMBIE_REPORT}" ]]; then
-	echo "Review zombie candidates: ${ZOMBIE_REPORT}"
-fi
