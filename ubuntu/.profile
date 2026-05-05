@@ -18,7 +18,6 @@ export VISUAL="vim"
 export MANPAGER="less -X"
 export BAT_THEME="ansi"
 
-# shellcheck disable=SC1091
 [[ -f "$HOME/.profile.local" ]] && source "$HOME/.profile.local"
-# shellcheck disable=SC1091
+
 [[ -f "$HOME/.bashrc" ]] && source "$HOME/.bashrc"

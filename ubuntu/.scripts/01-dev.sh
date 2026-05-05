@@ -45,14 +45,12 @@ sudo add-apt-repository universe -y
 sudo apt-get update
 sudo apt-get install -y "${apt_packages[@]}"
 
-# shellcheck disable=SC1091
 . "$SCRIPT_DIR/eval-brew.sh" || true
 
 if ! command -v brew >/dev/null 2>&1; then
 	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-# shellcheck disable=SC1091
 . "$SCRIPT_DIR/eval-brew.sh"
 
 if ! command -v brew >/dev/null 2>&1; then

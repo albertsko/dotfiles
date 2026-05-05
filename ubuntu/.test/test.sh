@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# shellcheck disable=SC1091
 source ./.profile.local
 
 brew_prefix="$(brew --prefix)"
