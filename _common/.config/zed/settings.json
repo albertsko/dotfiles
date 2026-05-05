@@ -17,9 +17,9 @@
           "breadcrumbs": true,
           "code_actions": true,
           "quick_actions": true,
-          "selections_menu": true
-        }
-      }
+          "selections_menu": true,
+        },
+      },
     },
   },
   // --- Languages ---
@@ -58,7 +58,7 @@
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Catppuccin Macchiato (Blur) [Heavy]"
+    "dark": "One Dark",
   },
   "ui_font_family": "Inter",
   "ui_font_size": 15,
@@ -82,15 +82,15 @@
   "extend_comment_on_newline": false,
   // --- Window Layout & Panels ---
   "outline_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "agent": {
     "dock": "right",
     "favorite_models": [],
-    "model_parameters": []
+    "model_parameters": [],
   },
   "git_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "inlay_hints": {
     "enabled": false,
@@ -127,6 +127,7 @@
     "toolbar": {
       "breadcrumbs": false,
     },
+    "dock": "bottom",
   },
   "minimap": {
     "show": "never",
