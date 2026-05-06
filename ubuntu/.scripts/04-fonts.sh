@@ -83,39 +83,13 @@ cat >"$fontconfig_file" <<'EOF_FONTCONFIG'
     <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
     <edit name="rgba" mode="assign"><const>rgb</const></edit>
     <edit name="lcdfilter" mode="assign"><const>lcddefault</const></edit>
-    <edit name="embeddedbitmap" mode="assign"><bool>false</bool></edit>
   </match>
-
-  <match target="font">
-    <test name="family" qual="any"><string>Noto Color Emoji</string></test>
-    <edit name="embeddedbitmap" mode="assign"><bool>true</bool></edit>
-  </match>
-
-  <match target="pattern">
-    <test name="family" qual="any"><string>sans-serif</string></test>
-    <edit name="family" mode="assign" binding="strong"><string>Inter</string></edit>
-  </match>
-
-  <match target="pattern">
-    <test name="family" qual="any"><string>monospace</string></test>
-    <edit name="family" mode="assign" binding="strong"><string>JetBrainsMonoNL Nerd Font</string></edit>
-  </match>
-
-  <alias>
-    <family>sans-serif</family>
-    <accept><family>Noto Color Emoji</family></accept>
-  </alias>
-
-  <alias>
-    <family>monospace</family>
-    <accept><family>Noto Color Emoji</family></accept>
-  </alias>
 </fontconfig>
 EOF_FONTCONFIG
 
 ## 2. gsettings - read by GNOME Shell, GTK3 apps, and gnome-settings-daemon
-/usr/bin/gsettings set org.gnome.desktop.interface font-name 'Inter 10.5'
-/usr/bin/gsettings set org.gnome.desktop.interface document-font-name 'Inter 10.5'
+/usr/bin/gsettings set org.gnome.desktop.interface font-name 'Inter 11'
+/usr/bin/gsettings set org.gnome.desktop.interface document-font-name 'Inter 11'
 /usr/bin/gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMonoNL Nerd Font 11'
 /usr/bin/gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
 /usr/bin/gsettings set org.gnome.desktop.interface font-hinting 'slight'
@@ -138,7 +112,7 @@ mkdir -p "$environment_dir"
 
 environment_file="$environment_dir/20-freetype.conf"
 cat >"$environment_file" <<'EOF_ENV'
-FREETYPE_PROPERTIES=cff:no-stem-darkening=0
+FREETYPE_PROPERTIES="cff:no-stem-darkening=0 autofitter:no-stem-darkening=0"
 EOF_ENV
 
 echo "Installed Inter $inter_tag and JetBrains Mono Nerd Font $nerd_tag."
