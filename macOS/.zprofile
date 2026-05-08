@@ -15,4 +15,4 @@ export VISUAL="vim"
 export MANPAGER="less -X"
 export BAT_THEME="ansi"
 
-[[ -f "$HOME/.profile.local" ]] && source "$HOME/.profile.local"
+[[ -f "$HOME/.profile.local" ]] && . "$HOME/.profile.local"

@@ -4,7 +4,9 @@ fish_vi_key_bindings
 alias x exit
 alias http xh
 alias ssh 'env TERM=xterm-256color ssh'
+
 alias cfg 'git -C "$DOTFILES_HOME"'
+abbr --add cdcfg 'cd "$DOTFILES_HOME"'
 
 abbr --add add git add
 abbr --add commit git commit
