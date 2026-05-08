@@ -1,19 +1,8 @@
 # shellcheck shell=bash
 # this file must be sourced or included
 
-case ":$PATH:" in
-*":/home/linuxbrew/.linuxbrew/bin:"* | *":$HOME/.linuxbrew/bin:"*)
-	# shellcheck disable=SC2317
-	return 0 2>/dev/null || exit 0
-	;;
-esac
-
-_orig_PATH="$PATH"
-
 if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
 	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
-elif [[ -x "$HOME/.linuxbrew/bin/brew" ]]; then
-	eval "$("$HOME/.linuxbrew/bin/brew" shellenv bash)"
 else
 	echo "fail: eval brew"
 
@@ -21,13 +10,14 @@ else
 	return 1 2>/dev/null || exit 1
 fi
 
-_brew_prepended="${PATH%":${_orig_PATH}"}"
-[[ "$_brew_prepended" == "$PATH" ]] && _brew_prepended=""
+_PATH=$(echo "$PATH" | tr ':' '\n' |
+	grep -vFx "/home/linuxbrew/.linuxbrew/bin" |
+	grep -vFx "/home/linuxbrew/.linuxbrew/sbin" |
+	tr '\n' ':')
+_PATH="${_PATH%:}"
 
-PATH="${_orig_PATH}${_brew_prepended:+:${_brew_prepended}}"
-export PATH
-
-unset _orig_PATH _brew_prepended
+PATH="${_PATH}:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"
+unset _PATH
 
 if ! command -v jq &>/dev/null; then
 	echo "fail: jq not found"
@@ -47,6 +37,7 @@ _on_request=$(jq -rn '
 ' "$HOMEBREW_CELLAR"/*/*/INSTALL_RECEIPT.json | sort -u)
 
 # this _merged is assumed to have exactly the same output as `brew leaves --installed-on-request`
+# benchmark with `hyperfine -w 3 -i -S bash 'source ~/.profile'`
 _merged=$(comm -23 <(echo "$_on_request") <(echo "$_deps"))
 
 mkdir -p "$HOME/.local/bin"
