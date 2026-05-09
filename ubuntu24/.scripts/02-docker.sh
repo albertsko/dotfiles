@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
 if [[ "$EUID" -eq 0 ]]; then
@@ -20,17 +19,9 @@ if [[ -z "$ubuntu_codename" ]]; then
 	exit 1
 fi
 
-for package in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do
-	sudo apt-get remove -y "$package" >/dev/null 2>&1 || true
-done
-
-sudo apt-get update
-sudo apt-get install -y ca-certificates curl
-
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
-
 docker_sources_file="/etc/apt/sources.list.d/docker.sources"
 docker_sources_tmp="$(mktemp)"
 trap 'rm -f "$docker_sources_tmp"' EXIT

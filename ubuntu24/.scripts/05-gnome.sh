@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
 if [[ "$EUID" -eq 0 ]]; then
@@ -7,7 +6,6 @@ if [[ "$EUID" -eq 0 ]]; then
 	exit 1
 fi
 
-sudo add-apt-repository universe -y
 sudo apt-get update
 sudo apt-get install -y gnome-shell-extension-manager gir1.2-gtop-2.0 gir1.2-clutter-1.0 gnome-sushi gnome-tweaks
 
@@ -35,6 +33,8 @@ sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 gsettings set org.gnome.mutter center-new-windows true
 gsettings set org.gnome.desktop.calendar show-weekdate true
 gsettings set org.gnome.settings-daemon.plugins.power ambient-enabled false
+gsettings set org.gnome.desktop.interface enable-animations false
+gsettings set org.gnome.desktop.interface enable-hot-corners false
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface cursor-theme 'Yaru'
 gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-orange-dark'
@@ -43,8 +43,6 @@ gsettings set org.gnome.desktop.interface accent-color 'orange' 2>/dev/null || t
 
 gsettings set org.gnome.desktop.wm.keybindings close "['<Super>q']"
 gsettings set org.gnome.desktop.wm.keybindings maximize "['<Super>Up']"
-gsettings set org.gnome.desktop.wm.keybindings begin-resize "['<Super>BackSpace']"
-gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Shift>AudioPlay']"
 gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen "['<Shift>F11']"
 
 gsettings set org.gnome.mutter dynamic-workspaces false
@@ -65,7 +63,6 @@ gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-6 "['<Shift><Su
 
 gsettings set org.gnome.desktop.wm.keybindings switch-input-source "@as []"
 
-gsettings set org.gnome.shell.extensions.just-perfection animation 2
 gsettings set org.gnome.shell.extensions.just-perfection dash-app-running true
 gsettings set org.gnome.shell.extensions.just-perfection workspace true
 gsettings set org.gnome.shell.extensions.just-perfection workspace-popup false

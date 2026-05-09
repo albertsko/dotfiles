@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
 PAM_FILE="/etc/pam.d/sudo"

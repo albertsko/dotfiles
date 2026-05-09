@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
 if [[ "$EUID" -eq 0 ]]; then
@@ -65,7 +64,7 @@ cp "${jetbrains_fonts[@]}" "$jetbrains_target_dir/"
 printf '%s\n' "$inter_tag" >"$inter_target_dir/.release"
 printf '%s\n' "$nerd_tag" >"$jetbrains_target_dir/.release"
 
-/usr/bin/fc-cache -f "$fonts_root"
+fc-cache -f "$fonts_root"
 
 # Font rendering settings
 ## 1. fontconfig  - read by FreeType via any app that queries fontconfig
@@ -102,12 +101,12 @@ cat >"$fontconfig_file" <<'EOF_FONTCONFIG'
 EOF_FONTCONFIG
 
 ## 2. gsettings - read by GNOME Shell, GTK3 apps, and gnome-settings-daemon
-/usr/bin/gsettings set org.gnome.desktop.interface font-name 'Inter 11'
-/usr/bin/gsettings set org.gnome.desktop.interface document-font-name 'Inter 11'
-/usr/bin/gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMonoNL Nerd Font 11'
-/usr/bin/gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
-/usr/bin/gsettings set org.gnome.desktop.interface font-hinting 'slight'
-/usr/bin/gsettings set org.gnome.desktop.interface font-rgba-order 'rgb'
+gsettings set org.gnome.desktop.interface font-name 'Inter 11'
+gsettings set org.gnome.desktop.interface document-font-name 'Inter 11'
+gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMonoNL Nerd Font 11'
+gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
+gsettings set org.gnome.desktop.interface font-hinting 'slight'
+gsettings set org.gnome.desktop.interface font-rgba-order 'rgb'
 
 ## 3. GTK4 ini - GTK4/libadwaita apps ignore gsettings hinting unless gtk-font-rendering=manual
 gtk4_dir="$HOME/.config/gtk-4.0"
@@ -135,7 +134,7 @@ lcdfilter_conf="/usr/share/fontconfig/conf.avail/11-lcdfilter-default.conf"
 [[ -f "$subpixel_conf" ]] && sudo ln -sf "$subpixel_conf" /etc/fonts/conf.d/
 [[ -f "$lcdfilter_conf" ]] && sudo ln -sf "$lcdfilter_conf" /etc/fonts/conf.d/
 
-sudo /usr/bin/fc-cache -f
+sudo fc-cache -f
 
 echo "Installed Inter $inter_tag and JetBrains Mono Nerd Font $nerd_tag."
 echo "Log out and log back in to apply FREETYPE_PROPERTIES and GTK4 settings everywhere."

@@ -8,6 +8,7 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   // --- Profiles ---
+  "cli_default_open_behavior": "existing_window",
   "profiles": {
     "agentic": {
       "settings": {
