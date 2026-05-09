@@ -35,7 +35,6 @@ sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 gsettings set org.gnome.mutter center-new-windows true
 gsettings set org.gnome.desktop.calendar show-weekdate true
 gsettings set org.gnome.settings-daemon.plugins.power ambient-enabled false
-gsettings set org.gnome.desktop.interface enable-animations false
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface cursor-theme 'Yaru'
 gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-orange-dark'
