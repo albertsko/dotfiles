@@ -80,10 +80,24 @@ cat >"$fontconfig_file" <<'EOF_FONTCONFIG'
   <match target="font">
     <edit name="antialias" mode="assign"><bool>true</bool></edit>
     <edit name="hinting" mode="assign"><bool>true</bool></edit>
+    <edit name="autohint" mode="assign"><bool>false</bool></edit>
     <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
     <edit name="rgba" mode="assign"><const>rgb</const></edit>
     <edit name="lcdfilter" mode="assign"><const>lcddefault</const></edit>
+    <edit name="embeddedbitmap" mode="assign"><bool>false</bool></edit>
   </match>
+  <alias>
+    <family>sans-serif</family>
+    <prefer><family>Inter</family><family>Noto Sans</family></prefer>
+  </alias>
+  <alias>
+    <family>serif</family>
+    <prefer><family>Noto Serif</family><family>Liberation Serif</family></prefer>
+  </alias>
+  <alias>
+    <family>monospace</family>
+    <prefer><family>JetBrainsMono Nerd Font</family><family>Noto Sans Mono</family></prefer>
+  </alias>
 </fontconfig>
 EOF_FONTCONFIG
 
@@ -114,6 +128,14 @@ environment_file="$environment_dir/20-freetype.conf"
 cat >"$environment_file" <<'EOF_ENV'
 FREETYPE_PROPERTIES="cff:no-stem-darkening=0 autofitter:no-stem-darkening=0"
 EOF_ENV
+
+## 5. System-level fontconfig symlinks (requires sudo)
+subpixel_conf="/usr/share/fontconfig/conf.avail/10-sub-pixel-rgb.conf"
+lcdfilter_conf="/usr/share/fontconfig/conf.avail/11-lcdfilter-default.conf"
+[[ -f "$subpixel_conf" ]] && sudo ln -sf "$subpixel_conf" /etc/fonts/conf.d/
+[[ -f "$lcdfilter_conf" ]] && sudo ln -sf "$lcdfilter_conf" /etc/fonts/conf.d/
+
+sudo /usr/bin/fc-cache -f
 
 echo "Installed Inter $inter_tag and JetBrains Mono Nerd Font $nerd_tag."
 echo "Log out and log back in to apply FREETYPE_PROPERTIES and GTK4 settings everywhere."
