@@ -3,7 +3,7 @@
 set -euo pipefail
 
 REPO_URL="https://github.com/albertsko/dotfiles.git"
-PROFILES=(macos ubuntu work)
+PROFILES=(macos ubuntu24 work)
 
 export DOTFILES_DRY_RUN="${DOTFILES_DRY_RUN:-0}"
 run() {
