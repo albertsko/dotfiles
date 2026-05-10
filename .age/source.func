@@ -1,0 +1,22 @@
+dotfiles-age-unlock() {
+	local dir="${XDG_RUNTIME_DIR:-/tmp}/age-$$"
+	mkdir -p "$dir" && chmod 700 "$dir"
+
+	if ! age -d "$DOTFILES_HOME/.age/identity.age" >"$dir/key.txt"; then
+		rm -rf "$dir"
+		echo "age-unlock: failed to decrypt identity" >&2
+		return 1
+	fi
+
+	chmod 600 "$dir/key.txt"
+	export DOTFILES_AGE_IDENTITY="$dir/key.txt"
+	trap 'rm -rf "$dir"' EXIT
+}
+
+dotfiles-age-decrypt() {
+	if test -z "${DOTFILES_AGE_IDENTITY:-}"; then
+		dotfiles-age-unlock || return 1
+	fi
+
+	age -d -i "$DOTFILES_AGE_IDENTITY" "$@"
+}
