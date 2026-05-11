@@ -22,5 +22,5 @@ dotfiles-age-decrypt() {
 }
 
 dotfiles-age-encrypt() {
-	age -e -r <(echo "$DOTFILES_HOME/.age/recipient.txt") "$@"
+	age -e -R "$DOTFILES_HOME/.age/recipient.txt" "$@"
 }
