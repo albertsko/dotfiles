@@ -1,0 +1,5 @@
+# crontab ~/.config/cron/crontab
+# crontab -l
+
+# every 5 minutes
+*/5 * * * * source ~/.profile.common && "$DOTFILES_HOME/_common/.scripts/gdrive.sh"
