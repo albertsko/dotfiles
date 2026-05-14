@@ -59,4 +59,10 @@ run bash "$DOTFILES_HOME/_common/_install.sh"
 run bash "$DOTFILES_HOME/$DOTFILES_PROFILE/_install.sh"
 
 # run stow
-bash "$DOTFILES_HOME/_common/.scripts/stow.sh" --override
+run bash "$DOTFILES_HOME/_common/.local/bin/stow.sh" --override
+
+# install profile services
+service_installer="$DOTFILES_HOME/$DOTFILES_PROFILE/.local/bin/entrypoint.sh"
+if [[ -x "$service_installer" ]]; then
+	run bash "$service_installer"
+fi

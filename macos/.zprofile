@@ -1,6 +1,3 @@
-[[ -f "$HOME/.profile.common" ]] && . "$HOME/.profile.common"
-[[ -f "$HOME/.profile.local" ]] && . "$HOME/.profile.local"
-
 export DOTFILES_PROFILE=macos
 
 export PNPM_HOME="$HOME/Library/pnpm"
@@ -11,3 +8,6 @@ export PATH="$PNPM_HOME:$PATH"
 if [[ -x /opt/homebrew/bin/brew ]]; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+
+[[ -f "$HOME/.profile.common" ]] && . "$HOME/.profile.common"
+[[ -f "$HOME/.profile.local" ]] && . "$HOME/.profile.local"

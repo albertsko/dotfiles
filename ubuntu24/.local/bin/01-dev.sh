@@ -15,7 +15,7 @@ apt_packages=(
 	redis-tools sqlite3 libsqlite3-0 libmysqlclient-dev libpq-dev postgresql-client postgresql-client-common
 )
 
-brew_packages=(bat eza jq fd fish fzf ripgrep starship zoxide)
+brew_packages=(bat eza jq fd fish fzf go ripgrep starship zoxide)
 
 sudo add-apt-repository universe -y
 sudo apt-get update

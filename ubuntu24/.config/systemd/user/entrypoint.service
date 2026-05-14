@@ -1,0 +1,14 @@
+[Unit]
+Description=User startup entrypoint
+StartLimitIntervalSec=5min
+StartLimitBurst=3
+
+[Service]
+Type=exec
+ExecStart=/bin/bash -lc 'exec "$$DOTFILES_HOME/.entrypoint/run.sh"'
+Restart=on-failure
+RestartSec=30s
+WorkingDirectory=%h
+
+[Install]
+WantedBy=default.target

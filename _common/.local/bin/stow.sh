@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(dirname -- "$SCRIPT_PATH")"
 
-DOTFILES_HOME="${DOTFILES_HOME:-$(realpath "$SCRIPT_DIR/../..")}"
+DOTFILES_HOME="${DOTFILES_HOME:-$(realpath "$SCRIPT_DIR/../../..")}"
 DOTFILES_PROFILE="${DOTFILES_PROFILE:-}"
 DRY_RUN="${DOTFILES_DRY_RUN:-0}"
 OVERRIDE=0
