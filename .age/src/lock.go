@@ -2,9 +2,14 @@ package main
 
 import (
 	"bufio"
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"io"
+	"io/fs"
+	"log"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -32,7 +37,8 @@ func NewSecretsLock(r io.Reader) (SecretsLock, error) {
 
 		secret, hash, err := parseSecretsLockLine(line)
 		if err != nil {
-			return lock, err
+			log.Println()
+			continue
 		}
 
 		lock.secrets[secret] = hash
@@ -43,15 +49,22 @@ func NewSecretsLock(r io.Reader) (SecretsLock, error) {
 }
 
 // TODO
-func (sl *SecretsLock) Add(path string) error {
+func (sl *SecretsLock) Add(name, path string) error {
 	info, err := os.Stat(path)
 	if err != nil {
-		return fmt.Errorf("")
+		return fmt.Errorf("failed to os.Stat path '%s': %w", path, err)
 	}
 
 	if info.IsDir() {
-		fmt.Printf("%#v", info)
+		hash, err := hashDirState(path)
+		if err != nil {
+			return err
+		}
+		sl.secrets[name] = hash
+		fmt.Printf("%#v", sl.secrets)
+		return nil
 	}
+
 	return nil
 }
 
@@ -60,6 +73,7 @@ func (sl *SecretsLock) Diff() []string {
 	return []string{}
 }
 
+// TODO
 func (sl *SecretsLock) String() string {
 	return ""
 }
@@ -79,4 +93,47 @@ func parseSecretsLockLine(line string) (secret, hash string, err error) {
 	}
 
 	return split[0], split[1], nil
+}
+
+// TODO: hashFile
+
+// hashDirState walks a dir and generates a SHA256 hash based on the
+// metadata of all files within it.
+func hashDirState(rootPath string) (string, error) {
+	h := sha256.New()
+
+	err := filepath.WalkDir(rootPath, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if d.IsDir() {
+			return nil
+		}
+
+		info, err := d.Info()
+		if err != nil {
+			return err
+		}
+
+		relPath, err := filepath.Rel(rootPath, path)
+		if err != nil {
+			return err
+		}
+
+		fileState := fmt.Sprintf("%s|%d|%o|%d",
+			relPath,
+			info.Size(),
+			info.Mode(),
+			info.ModTime().UnixNano(),
+		)
+
+		h.Write([]byte(fileState))
+
+		return nil
+	})
+	if err != nil {
+		return "", err
+	}
+
+	return hex.EncodeToString(h.Sum(nil)), nil
 }

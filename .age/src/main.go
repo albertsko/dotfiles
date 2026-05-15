@@ -11,7 +11,7 @@ import (
 
 func main() {
 	sl, _ := NewSecretsLock(nil)
-	sl.Add("/Users/askonieczny/.local/share/dotfiles")
+	sl.Add(".age", "/Users/askonieczny/.local/share/dotfiles/.age/src")
 
 	// err := run()
 	// if err != nil {
