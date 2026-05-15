@@ -4,17 +4,19 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
 )
 
 func main() {
-	err := run()
-	if err != nil {
-		log.Fatalf("main err: %+v", err)
-	}
+	sl, _ := NewSecretsLock(nil)
+	sl.Add("/Users/askonieczny/.local/share/dotfiles")
+
+	// err := run()
+	// if err != nil {
+	// 	log.Fatalf("main err: %+v", err)
+	// }
 }
 
 func run() error {
@@ -66,37 +68,4 @@ func run() error {
 	// chcę sobie dowiedzieć się co się zmieniło co nie
 
 	return nil
-}
-
-type SecretsLock struct {
-	secretsHash    map[string]string
-	secretsOrdered []string
-}
-
-// buildOkGitignoreLine builds a .gitignore line for existing path
-func buildOkGitignoreLine(base, sub string) string {
-	full := filepath.Join(base, sub)
-	info, err := os.Stat(full)
-	if err != nil {
-		return ""
-	}
-
-	relPath, err := filepath.Rel(base, full)
-	if err != nil {
-		return ""
-	}
-
-	gitPath := filepath.ToSlash(relPath)
-
-	if !strings.HasPrefix(gitPath, "/") {
-		gitPath = "/" + gitPath
-	}
-
-	if info.IsDir() {
-		if !strings.HasSuffix(gitPath, "/") {
-			gitPath += "/"
-		}
-	}
-
-	return gitPath
 }
