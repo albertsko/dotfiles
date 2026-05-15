@@ -55,11 +55,11 @@ fi
 export DOTFILES_PROFILE
 
 # install dotfiles
-run bash "$DOTFILES_HOME/_common/_install.sh"
+run bash "$DOTFILES_HOME/shared/_install.sh"
 run bash "$DOTFILES_HOME/$DOTFILES_PROFILE/_install.sh"
 
 # run stow
-run bash "$DOTFILES_HOME/_common/.local/bin/stow.sh" --override
+run bash "$DOTFILES_HOME/shared/.local/bin/stow.sh" --override
 
 # install profile services
 service_installer="$DOTFILES_HOME/$DOTFILES_PROFILE/.local/bin/entrypoint.sh"

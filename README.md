@@ -14,7 +14,7 @@ Set `DOTFILES_DRY_RUN=1` to preview without making changes.
 
 Dotfiles are organized into stow packages:
 
-- `_common/` — applied to all profiles
+- `shared/` — applied to all profiles
 - `macos/`, `ubuntu24/`, `work/` — profile-specific overrides
 
 To re-stow manually after adding files:

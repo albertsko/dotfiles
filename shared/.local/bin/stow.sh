@@ -34,8 +34,8 @@ if [[ -z "$DOTFILES_PROFILE" ]]; then
 	exit 1
 fi
 
-if [[ ! -d "$DOTFILES_HOME/_common" ]]; then
-	echo "Error: common stow package is missing: $DOTFILES_HOME/_common" >&2
+if [[ ! -d "$DOTFILES_HOME/shared" ]]; then
+	echo "Error: common stow package is missing: $DOTFILES_HOME/shared" >&2
 	exit 1
 fi
 
@@ -50,8 +50,8 @@ base_flags=(--dir="$DOTFILES_HOME" --target="$HOME" --no-folding --verbose=1)
 if [[ "$DELETE" == "1" ]]; then
 	echo "==> unstow $DOTFILES_PROFILE -> $HOME"
 	stow "${base_flags[@]}" --delete "$DOTFILES_PROFILE"
-	echo "==> unstow _common -> $HOME"
-	stow "${base_flags[@]}" --delete _common
+	echo "==> unstow shared -> $HOME"
+	stow "${base_flags[@]}" --delete shared
 	exit 0
 fi
 
@@ -59,7 +59,7 @@ common_flags=("${base_flags[@]}")
 [[ "$OVERRIDE" == "0" ]] && common_flags+=(--defer='.*')
 [[ "$OVERRIDE" == "1" ]] && common_flags+=(--override='.*')
 
-echo "==> stow _common -> $HOME"
-stow "${common_flags[@]}" --restow _common
+echo "==> stow shared -> $HOME"
+stow "${common_flags[@]}" --restow shared
 echo "==> stow $DOTFILES_PROFILE -> $HOME"
 stow "${base_flags[@]}" --restow --override='.*' "$DOTFILES_PROFILE"
