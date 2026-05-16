@@ -4,10 +4,10 @@ import (
 	"bufio"
 	"crypto/sha256"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"io"
 	"io/fs"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -39,7 +39,7 @@ func NewSecretsLockFromSecrets(lockPath, rootPath string, secretsRelPaths []stri
 	for _, secretRelPath := range secretsRelPaths {
 		err := lock.Add(secretRelPath)
 		if err != nil {
-			return lock, err
+			return nil, fmt.Errorf("failed to add secret '%s': %w", secretRelPath, err)
 		}
 	}
 
@@ -58,17 +58,21 @@ func NewSecretsLockFromLockPath(lockPath, rootPath string) (*SecretsLock, error)
 
 	secretsLock, err := os.OpenFile(lockPath, os.O_RDONLY|os.O_CREATE, 0o644)
 	if err != nil {
-		return nil, fmt.Errorf("failed to open: %w", lockPath, err)
+		return nil, fmt.Errorf("failed to open lock file '%s': %w", lockPath, err)
 	}
 	defer secretsLock.Close()
 
-	lock.loadSecretsLock(secretsLock)
+	err = lock.loadSecretsLock(secretsLock)
+	if err != nil {
+		return nil, err
+	}
+
 	return lock, nil
 }
 
-func (ls *SecretsLock) loadSecretsLock(r io.Reader) {
+func (ls *SecretsLock) loadSecretsLock(r io.Reader) error {
 	if r == nil {
-		return
+		return nil
 	}
 
 	s := bufio.NewScanner(r)
@@ -77,7 +81,6 @@ func (ls *SecretsLock) loadSecretsLock(r io.Reader) {
 
 		secret, hash, err := parseSecretsLockLine(line)
 		if err != nil {
-			log.Println()
 			continue
 		}
 
@@ -87,6 +90,12 @@ func (ls *SecretsLock) loadSecretsLock(r io.Reader) {
 			ls.secretsOrdered = append(ls.secretsOrdered, secret)
 		}
 	}
+
+	if err := s.Err(); err != nil {
+		return fmt.Errorf("failed to scan lock file: %w", err)
+	}
+
+	return nil
 }
 
 // Add records the current hash for a secret path.
@@ -169,6 +178,20 @@ func (sl *SecretsLock) String() string {
 	}
 
 	return b.String()
+}
+
+// Write writes the lock file contents to lockPath.
+func (sl *SecretsLock) Write() error {
+	if sl.lockPath == "" {
+		return fmt.Errorf("secrets lock path is empty")
+	}
+
+	err := os.Remove(sl.lockPath)
+	if err != nil && !errors.Is(err, os.ErrNotExist) {
+		return fmt.Errorf("failed to remove lock file '%s': %w", sl.lockPath, err)
+	}
+
+	return os.WriteFile(sl.lockPath, []byte(sl.String()), 0o644)
 }
 
 // parseSecretsLockLine parses one lock file line.
