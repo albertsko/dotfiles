@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"crypto/sha256"
 	"encoding/hex"
-	"errors"
 	"fmt"
 	"io"
 	"io/fs"
@@ -75,13 +74,16 @@ func (ls *SecretsLock) loadSecretsLock(r io.Reader) error {
 		return nil
 	}
 
+	lineNo := 0
+
 	s := bufio.NewScanner(r)
 	for s.Scan() {
+		lineNo++
 		line := s.Text()
 
 		secret, hash, err := parseSecretsLockLine(line)
 		if err != nil {
-			continue
+			return fmt.Errorf("failed to parse lock file line %d: %w", lineNo, err)
 		}
 
 		_, ok := ls.secrets[secret]
@@ -184,11 +186,6 @@ func (sl *SecretsLock) String() string {
 func (sl *SecretsLock) Write() error {
 	if sl.lockPath == "" {
 		return fmt.Errorf("secrets lock path is empty")
-	}
-
-	err := os.Remove(sl.lockPath)
-	if err != nil && !errors.Is(err, os.ErrNotExist) {
-		return fmt.Errorf("failed to remove lock file '%s': %w", sl.lockPath, err)
 	}
 
 	return os.WriteFile(sl.lockPath, []byte(sl.String()), 0o644)

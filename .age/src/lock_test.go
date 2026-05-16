@@ -211,7 +211,7 @@ func TestSecretsLockWrite(t *testing.T) {
 
 func TestSecretsLockWriteReplacesExistingLockFile(t *testing.T) {
 	lockPath := filepath.Join(t.TempDir(), ".secrets.lock")
-	err := os.WriteFile(lockPath, []byte("old contents\n"), 0o400)
+	err := os.WriteFile(lockPath, []byte("old contents\n"), 0o644)
 	if err != nil {
 		t.Fatalf("failed to write old lock file: %v", err)
 	}
