@@ -7,9 +7,11 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"maps"
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 const sha256HexLen = sha256.Size * 2
@@ -22,6 +24,8 @@ type (
 
 		secrets        secret
 		secretsOrdered []string
+
+		mu sync.Mutex
 	}
 )
 
@@ -74,6 +78,9 @@ func (ls *SecretsLock) loadSecretsLock(r io.Reader) error {
 		return nil
 	}
 
+	ls.mu.Lock()
+	defer ls.mu.Unlock()
+
 	lineNo := 0
 
 	s := bufio.NewScanner(r)
@@ -102,6 +109,9 @@ func (ls *SecretsLock) loadSecretsLock(r io.Reader) error {
 
 // Add records the current hash for a secret path.
 func (sl *SecretsLock) Add(path string) error {
+	sl.mu.Lock()
+	defer sl.mu.Unlock()
+
 	fullPath := filepath.Join(sl.rootPath, path)
 
 	info, err := os.Stat(fullPath)
@@ -109,22 +119,21 @@ func (sl *SecretsLock) Add(path string) error {
 		return fmt.Errorf("failed to os.Stat path '%s': %w", fullPath, err)
 	}
 
+	var hash string
 	if info.IsDir() {
-		hash, err := hashDirState(fullPath)
+		hash, err = hashDirState(fullPath)
 		if err != nil {
 			return err
 		}
-		if _, ok := sl.secrets[path]; !ok {
-			sl.secretsOrdered = append(sl.secretsOrdered, path)
-		}
-		sl.secrets[path] = hash
-		return nil
 	}
 
-	hash, err := hashFile(fullPath)
-	if err != nil {
-		return err
+	if !info.IsDir() {
+		hash, err = hashFile(fullPath)
+		if err != nil {
+			return err
+		}
 	}
+
 	if _, ok := sl.secrets[path]; !ok {
 		sl.secretsOrdered = append(sl.secretsOrdered, path)
 	}
@@ -135,24 +144,27 @@ func (sl *SecretsLock) Add(path string) error {
 
 // Diff returns secret names whose hashes differ from another lock.
 func (sl *SecretsLock) Diff(other *SecretsLock) []string {
+	secretsOrdered, secrets := sl.snapshot()
+
 	if other == nil {
-		return append([]string(nil), sl.secretsOrdered...)
+		return secretsOrdered
 	}
 
+	otherSecretsOrdered, otherSecrets := other.snapshot()
 	diff := make([]string, 0)
-	seen := make(map[string]struct{}, len(sl.secrets)+len(other.secrets))
+	seen := make(map[string]struct{}, len(secrets)+len(otherSecrets))
 
-	for _, name := range sl.secretsOrdered {
+	for _, name := range secretsOrdered {
 		seen[name] = struct{}{}
 
-		if sl.secrets[name] == other.secrets[name] {
+		if secrets[name] == otherSecrets[name] {
 			continue
 		}
 
 		diff = append(diff, name)
 	}
 
-	for _, name := range other.secretsOrdered {
+	for _, name := range otherSecretsOrdered {
 		if _, ok := seen[name]; ok {
 			continue
 		}
@@ -165,6 +177,13 @@ func (sl *SecretsLock) Diff(other *SecretsLock) []string {
 
 // String formats the lock file contents.
 func (sl *SecretsLock) String() string {
+	sl.mu.Lock()
+	defer sl.mu.Unlock()
+
+	return sl.string()
+}
+
+func (sl *SecretsLock) string() string {
 	b := new(strings.Builder)
 
 	for _, name := range sl.secretsOrdered {
@@ -184,11 +203,25 @@ func (sl *SecretsLock) String() string {
 
 // Write writes the lock file contents to lockPath.
 func (sl *SecretsLock) Write() error {
+	sl.mu.Lock()
+	defer sl.mu.Unlock()
+
 	if sl.lockPath == "" {
 		return fmt.Errorf("secrets lock path is empty")
 	}
 
-	return os.WriteFile(sl.lockPath, []byte(sl.String()), 0o644)
+	return os.WriteFile(sl.lockPath, []byte(sl.string()), 0o644)
+}
+
+func (sl *SecretsLock) snapshot() ([]string, secret) {
+	sl.mu.Lock()
+	defer sl.mu.Unlock()
+
+	secretsOrdered := append([]string(nil), sl.secretsOrdered...)
+	secrets := make(secret, len(sl.secrets))
+	maps.Copy(secrets, sl.secrets)
+
+	return secretsOrdered, secrets
 }
 
 // parseSecretsLockLine parses one lock file line.

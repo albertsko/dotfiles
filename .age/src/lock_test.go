@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+	"sync"
 	"testing"
 )
 
@@ -179,6 +180,58 @@ func TestSecretsLockAddExistingSecretKeepsOrder(t *testing.T) {
 	wantOrder := []string{"secret"}
 	if !slices.Equal(lock.secretsOrdered, wantOrder) {
 		t.Fatalf("secretsOrdered = %#v, want %#v", lock.secretsOrdered, wantOrder)
+	}
+}
+
+func TestSecretsLockConcurrentAccess(t *testing.T) {
+	rootPath := t.TempDir()
+
+	err := os.WriteFile(filepath.Join(rootPath, "secret"), []byte("secret contents\n"), 0o600)
+	if err != nil {
+		t.Fatalf("failed to write test secret: %v", err)
+	}
+
+	lock := &SecretsLock{
+		rootPath:       rootPath,
+		secrets:        make(secret),
+		secretsOrdered: make([]string, 0),
+	}
+	previous := &SecretsLock{
+		secrets:        make(secret),
+		secretsOrdered: make([]string, 0),
+	}
+
+	var wg sync.WaitGroup
+	errs := make(chan error, 4)
+
+	for range 4 {
+		wg.Go(func() {
+			for range 100 {
+				if err := lock.Add("secret"); err != nil {
+					errs <- err
+					return
+				}
+			}
+		})
+	}
+
+	wg.Go(func() {
+		for range 100 {
+			_ = lock.String()
+			_ = lock.Diff(previous)
+		}
+	})
+
+	wg.Wait()
+	close(errs)
+
+	for err := range errs {
+		t.Fatalf("concurrent Add returned error: %v", err)
+	}
+
+	wantOrder := []string{"secret"}
+	if !slices.Equal(lock.Diff(nil), wantOrder) {
+		t.Fatalf("Diff(nil) = %#v, want %#v", lock.Diff(nil), wantOrder)
 	}
 }
 
