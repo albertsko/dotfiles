@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 const (
@@ -19,11 +20,36 @@ func main() {
 }
 
 func run() error {
-	// determine root dir
-	rootDir := os.Getenv("DOTFILES_HOME")
-	if rootDir == "" {
-		return fmt.Errorf("requirement: DOTFILES_HOME not set")
+	rootPath := os.Getenv("DOTFILES_HOME")
+	if rootPath == "" {
+		return fmt.Errorf("DOTFILES_HOME not set")
 	}
 
-	return handleSecrets(rootDir)
+	secretsPath := filepath.Join(rootPath, secretsFile)
+	secretsLockPath := filepath.Join(rootPath, secretsLockFile)
+
+	secrets, err := NewSecrets(secretsPath, rootPath)
+	if err != nil {
+		return err
+	}
+
+	secretsRelPaths := secrets.SecretsRelPaths()
+
+	oldSecretsLock, err := NewSecretsLockFromLockPath(secretsLockPath, rootPath)
+	if err != nil {
+		return err
+	}
+
+	newSecretsLock, err := NewSecretsLockFromSecrets(secretsLockPath, rootPath, secretsRelPaths)
+	if err != nil {
+		return err
+	}
+
+	for _, secret := range newSecretsLock.Diff(oldSecretsLock) {
+		fmt.Println(secret)
+	}
+
+	fmt.Println(secrets.Gitignore())
+
+	return newSecretsLock.Write()
 }
