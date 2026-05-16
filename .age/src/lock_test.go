@@ -47,7 +47,7 @@ func TestSecretsLockWriteAndClose(t *testing.T) {
 }
 
 func TestSecretsLockWriteWithoutWriter(t *testing.T) {
-	lock, err := NewSecretsLock(nil)
+	lock, err := NewSecretsLock(nil, nil)
 	if err != nil {
 		t.Fatalf("NewSecretsLock returned error: %v", err)
 	}

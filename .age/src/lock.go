@@ -25,25 +25,18 @@ type (
 )
 
 // NewSecretsLock parses a lock file reader into a SecretsLock.
-func NewSecretsLock(r io.Reader, writers ...io.WriteCloser) (*SecretsLock, error) {
+func NewSecretsLock(secretsReader io.Reader, lockWriter io.WriteCloser) (*SecretsLock, error) {
 	lock := &SecretsLock{
 		secrets:        make(secret),
 		secretsOrdered: make([]string, 0, 1024),
+		writer:         lockWriter,
 	}
 
-	if len(writers) > 1 {
-		return nil, fmt.Errorf("expected at most one lock writer, got %d", len(writers))
-	}
-
-	if len(writers) == 1 {
-		lock.writer = writers[0]
-	}
-
-	if r == nil {
+	if secretsReader == nil {
 		return lock, nil
 	}
 
-	s := bufio.NewScanner(r)
+	s := bufio.NewScanner(secretsReader)
 	for s.Scan() {
 		line := s.Text()
 

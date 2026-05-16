@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	sl, _ := NewSecretsLock(nil)
+	sl, _ := NewSecretsLock(nil, nil)
 	sl.Add(".age", "/Users/askonieczny/.local/share/dotfiles/.age/src")
 
 	// err := run()
