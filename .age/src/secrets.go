@@ -18,8 +18,9 @@ type Secrets struct {
 
 func NewSecrets(secretsPath, rootPath string) (*Secrets, error) {
 	s := &Secrets{
-		secretsPath: secretsPath,
-		rootPath:    rootPath,
+		secretsPath:     secretsPath,
+		rootPath:        rootPath,
+		secretsRelPaths: make([]string, 0, 1024),
 	}
 
 	secretsFile, err := os.OpenFile(secretsPath, os.O_RDWR|os.O_CREATE, 0o644)
@@ -30,13 +31,21 @@ func NewSecrets(secretsPath, rootPath string) (*Secrets, error) {
 
 	err = s.loadSecrets(secretsFile)
 	if err != nil {
-		return s, nil
+		return s, fmt.Errorf("failed to load secrets: %w", err)
+	}
+
+	if len(s.secretsRelPaths) == 0 {
+		return s, fmt.Errorf("%s is empty", secretsPath)
 	}
 
 	return s, nil
 }
 
 func (s *Secrets) loadSecrets(r io.Reader) error {
+	if r == nil {
+		return nil
+	}
+
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
