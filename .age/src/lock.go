@@ -18,25 +18,60 @@ const sha256HexLen = sha256.Size * 2
 type (
 	secret      map[string]string
 	SecretsLock struct {
+		lockPath string
+		rootPath string
+
 		secrets        secret
 		secretsOrdered []string
-		writer         io.WriteCloser
 	}
 )
 
-// NewSecretsLock parses a lock file reader into a SecretsLock.
-func NewSecretsLock(secretsReader io.Reader, lockWriter io.WriteCloser) (*SecretsLock, error) {
+// NewSecretsLockFromSecrets creates new SecretsLock from secretsRelPaths,
+// takes rootPath, as root dir for relative secrets paths.
+func NewSecretsLockFromSecrets(lockPath, rootPath string, secretsRelPaths []string) (*SecretsLock, error) {
 	lock := &SecretsLock{
+		lockPath:       lockPath,
+		rootPath:       rootPath,
 		secrets:        make(secret),
 		secretsOrdered: make([]string, 0, 1024),
-		writer:         lockWriter,
 	}
 
-	if secretsReader == nil {
-		return lock, nil
+	for _, secretRelPath := range secretsRelPaths {
+		err := lock.Add(secretRelPath)
+		if err != nil {
+			return lock, err
+		}
 	}
 
-	s := bufio.NewScanner(secretsReader)
+	return lock, nil
+}
+
+// NewSecretsLockFromLockPath creates new SecretsLock from lockPath,
+// takes rootPath, as root dir for relative secrets paths.
+func NewSecretsLockFromLockPath(lockPath, rootPath string) (*SecretsLock, error) {
+	lock := &SecretsLock{
+		lockPath:       lockPath,
+		rootPath:       rootPath,
+		secrets:        make(secret),
+		secretsOrdered: make([]string, 0, 1024),
+	}
+
+	secretsLock, err := os.OpenFile(lockPath, os.O_RDONLY|os.O_CREATE, 0o644)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open: %w", lockPath, err)
+	}
+	defer secretsLock.Close()
+
+	lock.loadSecretsLock(secretsLock)
+	return lock, nil
+}
+
+func (ls *SecretsLock) loadSecretsLock(r io.Reader) {
+	if r == nil {
+		return
+	}
+
+	s := bufio.NewScanner(r)
 	for s.Scan() {
 		line := s.Text()
 
@@ -46,40 +81,43 @@ func NewSecretsLock(secretsReader io.Reader, lockWriter io.WriteCloser) (*Secret
 			continue
 		}
 
-		lock.secrets[secret] = hash
-		lock.secretsOrdered = append(lock.secretsOrdered, secret)
+		_, ok := ls.secrets[secret]
+		if !ok {
+			ls.secrets[secret] = hash
+			ls.secretsOrdered = append(ls.secretsOrdered, secret)
+		}
 	}
-
-	return lock, nil
 }
 
 // Add records the current hash for a secret path.
-func (sl *SecretsLock) Add(name, path string) error {
-	info, err := os.Stat(path)
+func (sl *SecretsLock) Add(path string) error {
+	fullPath := filepath.Join(sl.rootPath, path)
+
+	info, err := os.Stat(fullPath)
 	if err != nil {
-		return fmt.Errorf("failed to os.Stat path '%s': %w", path, err)
+		return fmt.Errorf("failed to os.Stat path '%s': %w", fullPath, err)
 	}
 
 	if info.IsDir() {
-		hash, err := hashDirState(path)
+		hash, err := hashDirState(fullPath)
 		if err != nil {
 			return err
 		}
-		if _, ok := sl.secrets[name]; !ok {
-			sl.secretsOrdered = append(sl.secretsOrdered, name)
+		if _, ok := sl.secrets[path]; !ok {
+			sl.secretsOrdered = append(sl.secretsOrdered, path)
 		}
-		sl.secrets[name] = hash
+		sl.secrets[path] = hash
 		return nil
 	}
 
-	hash, err := hashFile(path)
+	hash, err := hashFile(fullPath)
 	if err != nil {
 		return err
 	}
-	if _, ok := sl.secrets[name]; !ok {
-		sl.secretsOrdered = append(sl.secretsOrdered, name)
+	if _, ok := sl.secrets[path]; !ok {
+		sl.secretsOrdered = append(sl.secretsOrdered, path)
 	}
-	sl.secrets[name] = hash
+	sl.secrets[path] = hash
 
 	return nil
 }
@@ -131,25 +169,6 @@ func (sl *SecretsLock) String() string {
 	}
 
 	return b.String()
-}
-
-// Write writes the lock contents to the lock writer.
-func (sl *SecretsLock) Write() error {
-	if sl.writer == nil {
-		return fmt.Errorf("secrets lock writer is nil")
-	}
-
-	_, err := io.WriteString(sl.writer, sl.String())
-	return err
-}
-
-// Close closes the lock writer.
-func (sl *SecretsLock) Close() error {
-	if sl.writer == nil {
-		return nil
-	}
-
-	return sl.writer.Close()
 }
 
 // parseSecretsLockLine parses one lock file line.
