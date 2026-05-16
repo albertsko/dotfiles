@@ -13,18 +13,30 @@ import (
 	"strings"
 )
 
+const sha256HexLen = sha256.Size * 2
+
 type (
 	secret      map[string]string
 	SecretsLock struct {
 		secrets        secret
 		secretsOrdered []string
+		writer         io.WriteCloser
 	}
 )
 
-func NewSecretsLock(r io.Reader) (SecretsLock, error) {
-	lock := SecretsLock{
+// NewSecretsLock parses a lock file reader into a SecretsLock.
+func NewSecretsLock(r io.Reader, writers ...io.WriteCloser) (*SecretsLock, error) {
+	lock := &SecretsLock{
 		secrets:        make(secret),
 		secretsOrdered: make([]string, 0, 1024),
+	}
+
+	if len(writers) > 1 {
+		return nil, fmt.Errorf("expected at most one lock writer, got %d", len(writers))
+	}
+
+	if len(writers) == 1 {
+		lock.writer = writers[0]
 	}
 
 	if r == nil {
@@ -48,7 +60,7 @@ func NewSecretsLock(r io.Reader) (SecretsLock, error) {
 	return lock, nil
 }
 
-// TODO
+// Add records the current hash for a secret path.
 func (sl *SecretsLock) Add(name, path string) error {
 	info, err := os.Stat(path)
 	if err != nil {
@@ -60,24 +72,94 @@ func (sl *SecretsLock) Add(name, path string) error {
 		if err != nil {
 			return err
 		}
+		if _, ok := sl.secrets[name]; !ok {
+			sl.secretsOrdered = append(sl.secretsOrdered, name)
+		}
 		sl.secrets[name] = hash
-		fmt.Printf("%#v", sl.secrets)
 		return nil
 	}
+
+	hash, err := hashFile(path)
+	if err != nil {
+		return err
+	}
+	if _, ok := sl.secrets[name]; !ok {
+		sl.secretsOrdered = append(sl.secretsOrdered, name)
+	}
+	sl.secrets[name] = hash
 
 	return nil
 }
 
-// TODO
-func (sl *SecretsLock) Diff() []string {
-	return []string{}
+// Diff returns secret names whose hashes differ from another lock.
+func (sl *SecretsLock) Diff(other *SecretsLock) []string {
+	if other == nil {
+		return append([]string(nil), sl.secretsOrdered...)
+	}
+
+	diff := make([]string, 0)
+	seen := make(map[string]struct{}, len(sl.secrets)+len(other.secrets))
+
+	for _, name := range sl.secretsOrdered {
+		seen[name] = struct{}{}
+
+		if sl.secrets[name] == other.secrets[name] {
+			continue
+		}
+
+		diff = append(diff, name)
+	}
+
+	for _, name := range other.secretsOrdered {
+		if _, ok := seen[name]; ok {
+			continue
+		}
+
+		diff = append(diff, name)
+	}
+
+	return diff
 }
 
-// TODO
+// String formats the lock file contents.
 func (sl *SecretsLock) String() string {
-	return ""
+	b := new(strings.Builder)
+
+	for _, name := range sl.secretsOrdered {
+		hash, ok := sl.secrets[name]
+		if !ok {
+			continue
+		}
+
+		b.WriteString(name)
+		b.WriteByte('\t')
+		b.WriteString(hash)
+		b.WriteByte('\n')
+	}
+
+	return b.String()
 }
 
+// Write writes the lock contents to the lock writer.
+func (sl *SecretsLock) Write() error {
+	if sl.writer == nil {
+		return fmt.Errorf("secrets lock writer is nil")
+	}
+
+	_, err := io.WriteString(sl.writer, sl.String())
+	return err
+}
+
+// Close closes the lock writer.
+func (sl *SecretsLock) Close() error {
+	if sl.writer == nil {
+		return nil
+	}
+
+	return sl.writer.Close()
+}
+
+// parseSecretsLockLine parses one lock file line.
 func parseSecretsLockLine(line string) (secret, hash string, err error) {
 	errstr := "failed to parse secrets lock line"
 
@@ -88,14 +170,29 @@ func parseSecretsLockLine(line string) (secret, hash string, err error) {
 		return "", "", fmt.Errorf("%s: split is not len 2", errstr)
 	}
 
-	if len(split[1]) != 256 {
-		return "", "", fmt.Errorf("%s: hash is not len 256", errstr)
+	if len(split[1]) != sha256HexLen {
+		return "", "", fmt.Errorf("%s: hash is not len %d", errstr, sha256HexLen)
 	}
 
 	return split[0], split[1], nil
 }
 
-// TODO: hashFile
+// hashFile generates a SHA256 hash from file contents.
+func hashFile(path string) (string, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	h := sha256.New()
+	_, err = io.Copy(h, file)
+	if err != nil {
+		return "", err
+	}
+
+	return hex.EncodeToString(h.Sum(nil)), nil
+}
 
 // hashDirState walks a dir and generates a SHA256 hash based on the
 // metadata of all files within it.
