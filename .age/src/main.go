@@ -10,6 +10,14 @@ import (
 const (
 	secretsFile     = ".secrets"
 	secretsLockFile = ".secrets.lock"
+
+	ageScriptsDir         = ".age/src/scripts"
+	identityToPlainScript = "identity-to-plain.sh"
+	verifyRecipientScript = "verify-recipient.sh"
+	encryptFileScript     = "encrypt-file.sh"
+	decryptFileScript     = "decrypt-file.sh"
+	encryptDirScript      = "encrypt-dir.sh"
+	decryptDirScript      = "decrypt-dir.sh"
 )
 
 func main() {
@@ -48,8 +56,34 @@ func run() error {
 	for _, secret := range newSecretsLock.Diff(oldSecretsLock) {
 		fmt.Println(secret)
 	}
-
 	fmt.Println(secrets.Gitignore())
 
-	return newSecretsLock.Write()
+	vault, err := NewAgeVaultFromRoot(
+		rootPath,
+		WithIdentityPassphrase("testowe haslo"),
+		WithRecipientPath(filepath.Join(rootPath, ".age", "recipient.txt")),
+		WithIdentityPath(filepath.Join(rootPath, ".age", "identity.age")),
+	)
+	if err != nil {
+		return err
+	}
+
+	vault.Encrypt(filepath.Join(rootPath, ".gitignore"), filepath.Join(rootPath, ".gitignore.age"))
+
+	return nil
+	// return newSecretsLock.Write()
+}
+
+func NewAgeVaultFromRoot(rootPath string, opts ...AgeVaultOption) (*AgeVault, error) {
+	scriptsDir := filepath.Join(rootPath, ageScriptsDir)
+
+	return NewAgeVault(
+		filepath.Join(scriptsDir, identityToPlainScript),
+		filepath.Join(scriptsDir, verifyRecipientScript),
+		filepath.Join(scriptsDir, encryptFileScript),
+		filepath.Join(scriptsDir, decryptFileScript),
+		filepath.Join(scriptsDir, encryptDirScript),
+		filepath.Join(scriptsDir, decryptDirScript),
+		opts...,
+	)
 }
