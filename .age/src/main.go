@@ -5,19 +5,13 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/albertsko/dotfiles/.age/src/age"
 )
 
 const (
 	secretsFile     = ".secrets"
 	secretsLockFile = ".secrets.lock"
-
-	ageScriptsDir         = ".age/src/scripts"
-	identityToPlainScript = "identity-to-plain.sh"
-	verifyRecipientScript = "verify-recipient.sh"
-	encryptFileScript     = "encrypt-file.sh"
-	decryptFileScript     = "decrypt-file.sh"
-	encryptDirScript      = "encrypt-dir.sh"
-	decryptDirScript      = "decrypt-dir.sh"
 )
 
 func main() {
@@ -58,32 +52,18 @@ func run() error {
 	}
 	fmt.Println(secrets.Gitignore())
 
-	vault, err := NewAgeVaultFromRoot(
+	v, err := age.NewVault(
 		rootPath,
-		WithIdentityPassphrase("testowe haslo"),
-		WithRecipientPath(filepath.Join(rootPath, ".age", "recipient.txt")),
-		WithIdentityPath(filepath.Join(rootPath, ".age", "identity.age")),
+		age.WithIdentityPassphrase("testowe haslo"),
+		age.WithRecipientPath(filepath.Join(rootPath, ".age", "recipient.txt")),
+		age.WithIdentityPath(filepath.Join(rootPath, ".age", "identity.age")),
 	)
 	if err != nil {
 		return err
 	}
 
-	vault.Encrypt(filepath.Join(rootPath, ".gitignore"), filepath.Join(rootPath, ".gitignore.age"))
+	v.Encrypt(filepath.Join(rootPath, ".gitignore"))
 
 	return nil
 	// return newSecretsLock.Write()
-}
-
-func NewAgeVaultFromRoot(rootPath string, opts ...AgeVaultOption) (*AgeVault, error) {
-	scriptsDir := filepath.Join(rootPath, ageScriptsDir)
-
-	return NewAgeVault(
-		filepath.Join(scriptsDir, identityToPlainScript),
-		filepath.Join(scriptsDir, verifyRecipientScript),
-		filepath.Join(scriptsDir, encryptFileScript),
-		filepath.Join(scriptsDir, decryptFileScript),
-		filepath.Join(scriptsDir, encryptDirScript),
-		filepath.Join(scriptsDir, decryptDirScript),
-		opts...,
-	)
 }
