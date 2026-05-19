@@ -3,11 +3,19 @@ package age
 import (
 	"fmt"
 	"io"
+	"log"
 	"os"
+	"os/exec"
 )
 
 func init() {
-	// make sure
+	required := []string{"age", "tar", "bash", "echo"}
+	for _, req := range required {
+		_, err := exec.LookPath(req)
+		if err != nil {
+			log.Fatalf("required bin %s is not installed or not in PATH\n", req)
+		}
+	}
 }
 
 // Vault stores validated age material and runs age helper scripts.
