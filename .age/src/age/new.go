@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	required := []string{"age", "tar", "bash", "echo"}
+	required := []string{"age", "tar", "bash", "echo", "head", "grep"}
 	for _, req := range required {
 		_, err := exec.LookPath(req)
 		if err != nil {
@@ -47,10 +47,10 @@ func NewVault(rootPath string, opts ...Option) (*Vault, error) {
 		}
 	}
 
-	err := v.verify()
-	if err != nil {
-		return nil, err
-	}
+	// err := v.verify()
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	return v, nil
 }

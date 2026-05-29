@@ -1,10 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
 	"path/filepath"
+	"syscall"
 
 	"github.com/albertsko/dotfiles/.age/src/age"
 )
@@ -15,10 +18,19 @@ const (
 )
 
 func main() {
+	ctx, cancel := signal.NotifyContext(
+		context.Background(),
+		syscall.SIGTERM,
+		syscall.SIGINT,
+	)
+	defer cancel()
+
 	err := run()
 	if err != nil {
 		log.Fatalf("%+v", err)
 	}
+
+	<-ctx.Done()
 }
 
 func run() error {
