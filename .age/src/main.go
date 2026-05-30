@@ -66,7 +66,7 @@ func run() error {
 
 	v, err := age.NewVault(
 		rootPath,
-		age.WithIdentityPassphrase("testowe haslo"),
+		age.WithIdentityPassphrase([]byte("testowe haslo")),
 		age.WithRecipientPath(filepath.Join(rootPath, ".age", "recipient.txt")),
 		age.WithIdentityPath(filepath.Join(rootPath, ".age", "identity.age")),
 	)

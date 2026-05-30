@@ -1,6 +1,7 @@
 package age
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"log"
@@ -22,9 +23,9 @@ func init() {
 type Vault struct {
 	rootPath string
 
-	identity   string
-	recipient  string
-	passphrase string
+	identity   []byte
+	recipient  []byte
+	passphrase []byte
 }
 
 // Option configures an Vault before validation.
@@ -59,19 +60,18 @@ func NewVault(rootPath string, opts ...Option) (*Vault, error) {
 func WithIdentityReader(r io.Reader) Option {
 	return func(v *Vault) error {
 		identity, err := io.ReadAll(r)
-		identityStr := string(identity)
-		if err != nil || identityStr == "" {
+		if err != nil || len(identity) == 0 {
 			return fmt.Errorf("failed to read identity: %w", err)
 		}
-		v.identity = identityStr
+		v.identity = identity
 		return nil
 	}
 }
 
 // WithIdentityPassphrase sets the passphrase used by batchpass scripts.
-func WithIdentityPassphrase(passphrase string) Option {
+func WithIdentityPassphrase(passphrase []byte) Option {
 	return func(v *Vault) error {
-		v.passphrase = passphrase
+		v.passphrase = bytes.Clone(passphrase)
 		return nil
 	}
 }
@@ -93,11 +93,10 @@ func WithIdentityPath(path string) Option {
 func WithRecipientReader(r io.Reader) Option {
 	return func(v *Vault) error {
 		recipient, err := io.ReadAll(r)
-		recipientStr := string(recipient)
-		if err != nil || recipientStr == "" {
+		if err != nil || len(recipient) == 0 {
 			return fmt.Errorf("failed to read recipient: %w", err)
 		}
-		v.recipient = recipientStr
+		v.recipient = recipient
 		return nil
 	}
 }

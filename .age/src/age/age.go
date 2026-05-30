@@ -1,6 +1,7 @@
 package age
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -21,8 +22,9 @@ func (v *Vault) Decrypt(in string) (out string, err error) {
 	return "", nil
 }
 
-func (v *Vault) loadRecipient(r io.Reader) error {
-	path, done, err := tempFile(r)
+func (v *Vault) loadRecipient() error {
+	recipient := bytes.NewReader(v.recipient)
+	path, done, err := tempFile(recipient)
 	defer done()
 
 	script := fmt.Sprintf(`age -e -R %s -o /dev/null <(echo "")`, path)
@@ -36,7 +38,18 @@ func (v *Vault) loadRecipient(r io.Reader) error {
 	return nil
 }
 
-func (v *Vault) loadIdentity(r io.Reader) error {
+func (v *Vault) loadIdentity() error {
+	// TODO:
+	// 1. get a tempFile using tempFile()
+
+	// 2. find out if identity is a valid identity or if it is passphrase protected
+	// 3. if passphrase protected then use v.passphrase and batchpass plugin for unlocking plain identity and store the unlocked plain identity in v.identity
+	// 4. if identity not valid then return err
+	//   - identity should be valid only for two happy paths:
+	//     - regular identity created with `age-keygen -o`
+	//     - passphrase protected identity created with `age-keygen -o /tmp/key-plaintext.txt && age -p -a -o identity.age /tmp/key-plaintext.txt`
+	// 5. finally return nil
+
 	return nil
 }
 
