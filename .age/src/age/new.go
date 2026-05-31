@@ -12,7 +12,7 @@ import (
 
 // init verifies the shell tools used by the vault are available.
 func init() {
-	required := []string{"age", "tar", "bash", "echo", "head", "grep"}
+	required := []string{"age", "tar", "bash", "echo"}
 	for _, req := range required {
 		_, err := exec.LookPath(req)
 		if err != nil {
