@@ -131,7 +131,7 @@ func commit(rootPath string, opts options) error {
 		return err
 	}
 
-	changedSecrets := newSecretsLock.Diff(oldSecretsLock)
+	changedSecrets := secretsToEncrypt(rootPath, secretsRelPaths, newSecretsLock.Diff(oldSecretsLock))
 	v, err := newVault(rootPath)
 	if err != nil {
 		return err
@@ -174,6 +174,57 @@ func commit(rootPath string, opts options) error {
 	}
 
 	return git(rootPath, args...)
+}
+
+func secretsToEncrypt(rootPath string, secretsRelPaths, changedSecrets []string) []string {
+	seen := make(map[string]struct{}, len(secretsRelPaths))
+	currentSecrets := make(map[string]struct{}, len(secretsRelPaths))
+	secrets := make([]string, 0, len(secretsRelPaths))
+
+	for _, secret := range secretsRelPaths {
+		currentSecrets[secret] = struct{}{}
+	}
+
+	for _, secret := range changedSecrets {
+		if _, ok := currentSecrets[secret]; !ok {
+			continue
+		}
+
+		seen[secret] = struct{}{}
+		secrets = append(secrets, secret)
+	}
+
+	for _, secret := range secretsRelPaths {
+		if _, ok := seen[secret]; ok {
+			continue
+		}
+
+		encrypted, err := encryptedSecretPath(rootPath, secret)
+		if err != nil {
+			continue
+		}
+		if fileExists(encrypted) {
+			continue
+		}
+
+		secrets = append(secrets, secret)
+	}
+
+	return secrets
+}
+
+func encryptedSecretPath(rootPath, secret string) (string, error) {
+	path := filepath.Join(rootPath, secret)
+	info, err := os.Stat(path)
+	if err != nil {
+		return "", err
+	}
+
+	if info.IsDir() {
+		return path + ".tar.gz.age", nil
+	}
+
+	return path + ".age", nil
 }
 
 func pull(rootPath string) error {
