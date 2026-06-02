@@ -13,7 +13,6 @@ import (
 	"github.com/albertsko/dotfiles/.age/src/age"
 )
 
-// init verifies the shell tools used by the vault are available.
 func init() {
 	required := []string{"git", "bash"}
 	for _, req := range required {
@@ -25,6 +24,7 @@ func init() {
 }
 
 const (
+	appName         = "dotfiles-age"
 	secretsFile     = ".secrets"
 	secretsLockFile = ".secrets.lock"
 )
@@ -128,6 +128,57 @@ func commit(rootPath string, opts options) error {
 		return err
 	}
 
+	secretsToEncrypt := func(rootPath string, secretsRelPaths, changedSecrets []string) []string {
+		seen := make(map[string]struct{}, len(secretsRelPaths))
+		currentSecrets := make(map[string]struct{}, len(secretsRelPaths))
+		secrets := make([]string, 0, len(secretsRelPaths))
+
+		for _, secret := range secretsRelPaths {
+			currentSecrets[secret] = struct{}{}
+		}
+
+		for _, secret := range changedSecrets {
+			if _, ok := currentSecrets[secret]; !ok {
+				continue
+			}
+
+			seen[secret] = struct{}{}
+			secrets = append(secrets, secret)
+		}
+
+		encryptedSecretPath := func(rootPath, secret string) (string, error) {
+			path := filepath.Join(rootPath, secret)
+			info, err := os.Stat(path)
+			if err != nil {
+				return "", err
+			}
+
+			if info.IsDir() {
+				return path + ".tar.gz.age", nil
+			}
+
+			return path + ".age", nil
+		}
+
+		for _, secret := range secretsRelPaths {
+			if _, ok := seen[secret]; ok {
+				continue
+			}
+
+			encrypted, err := encryptedSecretPath(rootPath, secret)
+			if err != nil {
+				continue
+			}
+			if fileExists(encrypted) {
+				continue
+			}
+
+			secrets = append(secrets, secret)
+		}
+
+		return secrets
+	}
+
 	changedSecrets := secretsToEncrypt(rootPath, secretsRelPaths, newSecretsLock.Diff(oldSecretsLock))
 	v, err := newVault(rootPath)
 	if err != nil {
@@ -179,57 +230,6 @@ func commit(rootPath string, opts options) error {
 	}
 
 	return git(rootPath, args...)
-}
-
-func secretsToEncrypt(rootPath string, secretsRelPaths, changedSecrets []string) []string {
-	seen := make(map[string]struct{}, len(secretsRelPaths))
-	currentSecrets := make(map[string]struct{}, len(secretsRelPaths))
-	secrets := make([]string, 0, len(secretsRelPaths))
-
-	for _, secret := range secretsRelPaths {
-		currentSecrets[secret] = struct{}{}
-	}
-
-	for _, secret := range changedSecrets {
-		if _, ok := currentSecrets[secret]; !ok {
-			continue
-		}
-
-		seen[secret] = struct{}{}
-		secrets = append(secrets, secret)
-	}
-
-	encryptedSecretPath := func(rootPath, secret string) (string, error) {
-		path := filepath.Join(rootPath, secret)
-		info, err := os.Stat(path)
-		if err != nil {
-			return "", err
-		}
-
-		if info.IsDir() {
-			return path + ".tar.gz.age", nil
-		}
-
-		return path + ".age", nil
-	}
-
-	for _, secret := range secretsRelPaths {
-		if _, ok := seen[secret]; ok {
-			continue
-		}
-
-		encrypted, err := encryptedSecretPath(rootPath, secret)
-		if err != nil {
-			continue
-		}
-		if fileExists(encrypted) {
-			continue
-		}
-
-		secrets = append(secrets, secret)
-	}
-
-	return secrets
 }
 
 func pull(rootPath string) error {
