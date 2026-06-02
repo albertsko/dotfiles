@@ -128,61 +128,14 @@ func commit(rootPath string, opts options) error {
 		return err
 	}
 
-	secretsToEncrypt := func(rootPath string, secretsRelPaths, changedSecrets []string) []string {
-		seen := make(map[string]struct{}, len(secretsRelPaths))
-		currentSecrets := make(map[string]struct{}, len(secretsRelPaths))
-		secrets := make([]string, 0, len(secretsRelPaths))
-
-		for _, secret := range secretsRelPaths {
-			currentSecrets[secret] = struct{}{}
-		}
-
-		for _, secret := range changedSecrets {
-			if _, ok := currentSecrets[secret]; !ok {
-				continue
-			}
-
-			seen[secret] = struct{}{}
-			secrets = append(secrets, secret)
-		}
-
-		encryptedSecretPath := func(rootPath, secret string) (string, error) {
-			path := filepath.Join(rootPath, secret)
-			info, err := os.Stat(path)
-			if err != nil {
-				return "", err
-			}
-
-			if info.IsDir() {
-				return path + ".tar.gz.age", nil
-			}
-
-			return path + ".age", nil
-		}
-
-		for _, secret := range secretsRelPaths {
-			if _, ok := seen[secret]; ok {
-				continue
-			}
-
-			encrypted, err := encryptedSecretPath(rootPath, secret)
-			if err != nil {
-				continue
-			}
-			if fileExists(encrypted) {
-				continue
-			}
-
-			secrets = append(secrets, secret)
-		}
-
-		return secrets
-	}
-
-	changedSecrets := secretsToEncrypt(rootPath, secretsRelPaths, newSecretsLock.Diff(oldSecretsLock))
+	changedSecrets := oldSecretsLock.Diff(newSecretsLock)
 	v, err := newVault(rootPath)
 	if err != nil {
 		return err
+	}
+
+	if len(changedSecrets) == 0 {
+		return nil
 	}
 
 	for _, secret := range changedSecrets {
@@ -201,7 +154,6 @@ func commit(rootPath string, opts options) error {
 		if len(changedSecrets) == 1 {
 			return fmt.Sprintf("age: update %s", changedSecrets[0])
 		}
-
 		return fmt.Sprintf("age: update %d secrets", len(changedSecrets))
 	}
 
@@ -210,9 +162,16 @@ func commit(rootPath string, opts options) error {
 		message = defaultCommitMessage(changedSecrets)
 	}
 
-	err = git(rootPath, "add", "-A")
+	err = git(rootPath, "restore", "--staged", ".")
 	if err != nil {
 		return err
+	}
+
+	for _, secret := range changedSecrets {
+		err = git(rootPath, "add", secret)
+		if err != nil {
+			return err
+		}
 	}
 
 	err = git(rootPath, "commit", "-m", message)
@@ -232,8 +191,9 @@ func commit(rootPath string, opts options) error {
 	return git(rootPath, args...)
 }
 
+// TODO
 func pull(rootPath string) error {
-	err := git(rootPath, "pull")
+	err := git(rootPath, "pull", "--rebase")
 	if err != nil {
 		return err
 	}
