@@ -25,6 +25,14 @@
   },
   // --- Languages ---
   "languages": {
+    "PHP": {
+      "language_servers": [
+        "phpantom_lsp",
+        "!intelephense",
+        "!phpactor",
+        "!phptools",
+      ],
+    },
     "Go": {
       "format_on_save": "on",
       "code_actions_on_format": {
