@@ -38,6 +38,15 @@ type options struct {
 	message string
 }
 
+func newVault(rootPath string) (*age.Vault, error) {
+	return age.NewVault(
+		rootPath,
+		age.WithIdentityPassphrase([]byte("testowe haslo")),
+		age.WithRecipientPath(filepath.Join(rootPath, ".age", "recipient.txt")),
+		age.WithIdentityPath(filepath.Join(rootPath, ".age", "identity.age")),
+	)
+}
+
 func main() {
 	err := run(os.Args[1:])
 	if err != nil {
@@ -46,7 +55,26 @@ func main() {
 }
 
 func run(args []string) error {
-	opts, err := parseOptions(args)
+	opts := options{}
+	fs := flag.NewFlagSet("dotfiles-age", flag.ContinueOnError)
+	fs.SetOutput(io.Discard)
+	fs.BoolVar(&opts.commit, "commit", false, "generate lock, encrypt changed secrets, and commit")
+	fs.BoolVar(&opts.push, "push", false, "commit and push")
+	fs.BoolVar(&opts.pull, "pull", false, "pull and decrypt secrets")
+	fs.BoolVar(&opts.force, "force", false, "push with --force-with-lease")
+	fs.StringVar(&opts.message, "m", "", "commit message")
+
+	usage := func(w io.Writer) {
+		fmt.Fprintln(w, "Usage:")
+		fmt.Fprintln(w, "  dotfiles-age -commit [-m message]")
+		fmt.Fprintln(w, "  dotfiles-age -push [-m message] [-force]")
+		fmt.Fprintln(w, "  dotfiles-age -pull")
+	}
+
+	err := fs.Parse(args)
+	if err != nil {
+		usage(os.Stderr)
+	}
 	if err == flag.ErrHelp {
 		return nil
 	}
@@ -54,8 +82,8 @@ func run(args []string) error {
 		return err
 	}
 
-	if !opts.hasAction() {
-		printUsage(os.Stdout)
+	if !(opts.commit || opts.push || opts.pull) {
+		usage(os.Stdout)
 		return nil
 	}
 
@@ -77,37 +105,6 @@ func run(args []string) error {
 	}
 
 	return commit(rootPath, opts)
-}
-
-func parseOptions(args []string) (options, error) {
-	opts := options{}
-
-	fs := flag.NewFlagSet("dotfiles-age", flag.ContinueOnError)
-	fs.SetOutput(io.Discard)
-	fs.BoolVar(&opts.commit, "commit", false, "generate lock, encrypt changed secrets, and commit")
-	fs.BoolVar(&opts.push, "push", false, "commit and push")
-	fs.BoolVar(&opts.pull, "pull", false, "pull and decrypt secrets")
-	fs.BoolVar(&opts.force, "force", false, "push with --force-with-lease")
-	fs.StringVar(&opts.message, "m", "", "commit message")
-
-	err := fs.Parse(args)
-	if err != nil {
-		printUsage(os.Stderr)
-		return opts, err
-	}
-
-	return opts, nil
-}
-
-func (o options) hasAction() bool {
-	return o.commit || o.push || o.pull
-}
-
-func printUsage(w io.Writer) {
-	fmt.Fprintln(w, "Usage:")
-	fmt.Fprintln(w, "  dotfiles-age -commit [-m message]")
-	fmt.Fprintln(w, "  dotfiles-age -push [-m message] [-force]")
-	fmt.Fprintln(w, "  dotfiles-age -pull")
 }
 
 func commit(rootPath string, opts options) error {
@@ -147,6 +144,14 @@ func commit(rootPath string, opts options) error {
 	err = newSecretsLock.Write()
 	if err != nil {
 		return err
+	}
+
+	defaultCommitMessage := func(changedSecrets []string) string {
+		if len(changedSecrets) == 1 {
+			return fmt.Sprintf("age: update %s", changedSecrets[0])
+		}
+
+		return fmt.Sprintf("age: update %d secrets", len(changedSecrets))
 	}
 
 	message := opts.message
@@ -194,6 +199,20 @@ func secretsToEncrypt(rootPath string, secretsRelPaths, changedSecrets []string)
 		secrets = append(secrets, secret)
 	}
 
+	encryptedSecretPath := func(rootPath, secret string) (string, error) {
+		path := filepath.Join(rootPath, secret)
+		info, err := os.Stat(path)
+		if err != nil {
+			return "", err
+		}
+
+		if info.IsDir() {
+			return path + ".tar.gz.age", nil
+		}
+
+		return path + ".age", nil
+	}
+
 	for _, secret := range secretsRelPaths {
 		if _, ok := seen[secret]; ok {
 			continue
@@ -213,20 +232,6 @@ func secretsToEncrypt(rootPath string, secretsRelPaths, changedSecrets []string)
 	return secrets
 }
 
-func encryptedSecretPath(rootPath, secret string) (string, error) {
-	path := filepath.Join(rootPath, secret)
-	info, err := os.Stat(path)
-	if err != nil {
-		return "", err
-	}
-
-	if info.IsDir() {
-		return path + ".tar.gz.age", nil
-	}
-
-	return path + ".age", nil
-}
-
 func pull(rootPath string) error {
 	err := git(rootPath, "pull")
 	if err != nil {
@@ -243,6 +248,29 @@ func pull(rootPath string) error {
 		return err
 	}
 
+	decryptSecret := func(v *age.Vault, rootPath, secret string) error {
+		path := filepath.Join(rootPath, secret)
+		dirEncrypted := path + ".tar.gz.age"
+		fileEncrypted := path + ".age"
+
+		if fileExists(dirEncrypted) {
+			err := os.RemoveAll(path)
+			if err != nil {
+				return err
+			}
+
+			_, err = v.Decrypt(dirEncrypted)
+			return err
+		}
+
+		if fileExists(fileEncrypted) {
+			_, err := v.Decrypt(fileEncrypted)
+			return err
+		}
+
+		return fmt.Errorf("encrypted secret not found: %s", secret)
+	}
+
 	for _, secret := range secrets.SecretsRelPaths() {
 		err := decryptSecret(v, rootPath, secret)
 		if err != nil {
@@ -251,46 +279,6 @@ func pull(rootPath string) error {
 	}
 
 	return nil
-}
-
-func decryptSecret(v *age.Vault, rootPath, secret string) error {
-	path := filepath.Join(rootPath, secret)
-	dirEncrypted := path + ".tar.gz.age"
-	fileEncrypted := path + ".age"
-
-	if fileExists(dirEncrypted) {
-		err := os.RemoveAll(path)
-		if err != nil {
-			return err
-		}
-
-		_, err = v.Decrypt(dirEncrypted)
-		return err
-	}
-
-	if fileExists(fileEncrypted) {
-		_, err := v.Decrypt(fileEncrypted)
-		return err
-	}
-
-	return fmt.Errorf("encrypted secret not found: %s", secret)
-}
-
-func newVault(rootPath string) (*age.Vault, error) {
-	return age.NewVault(
-		rootPath,
-		age.WithIdentityPassphrase([]byte("testowe haslo")),
-		age.WithRecipientPath(filepath.Join(rootPath, ".age", "recipient.txt")),
-		age.WithIdentityPath(filepath.Join(rootPath, ".age", "identity.age")),
-	)
-}
-
-func defaultCommitMessage(changedSecrets []string) string {
-	if len(changedSecrets) == 1 {
-		return fmt.Sprintf("age: update %s", changedSecrets[0])
-	}
-
-	return fmt.Sprintf("age: update %d secrets", len(changedSecrets))
 }
 
 func git(rootPath string, args ...string) error {
