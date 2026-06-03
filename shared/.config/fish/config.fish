@@ -24,7 +24,6 @@ function log
     git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit $argv
 end
 
-
 function ggg
     git add -A && git commit -m "$argv" && git push
 end
