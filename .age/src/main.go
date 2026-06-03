@@ -24,7 +24,6 @@ func init() {
 }
 
 const (
-	appName         = "dotfiles-age"
 	secretsFile     = ".secrets"
 	secretsLockFile = ".secrets.lock"
 )
@@ -191,7 +190,6 @@ func commit(rootPath string, opts options) error {
 	return git(rootPath, args...)
 }
 
-// TODO
 func pull(rootPath string) error {
 	err := git(rootPath, "pull", "--rebase")
 	if err != nil {
@@ -210,25 +208,21 @@ func pull(rootPath string) error {
 
 	decryptSecret := func(v *age.Vault, rootPath, secret string) error {
 		path := filepath.Join(rootPath, secret)
-		dirEncrypted := path + ".tar.gz.age"
-		fileEncrypted := path + ".age"
+		candidates := []string{
+			filepath.Join(path, age.EncryptedDirSuffix),
+			filepath.Join(path, age.EncryptedFileSuffix),
+		}
 
-		if fileExists(dirEncrypted) {
-			err := os.RemoveAll(path)
-			if err != nil {
-				return err
+		for _, candidate := range candidates {
+			if fileExists(candidate) {
+				_, err := v.Decrypt(candidate)
+				if err != nil {
+					return err
+				}
 			}
-
-			_, err = v.Decrypt(dirEncrypted)
-			return err
 		}
 
-		if fileExists(fileEncrypted) {
-			_, err := v.Decrypt(fileEncrypted)
-			return err
-		}
-
-		return fmt.Errorf("encrypted secret not found: %s", secret)
+		return nil
 	}
 
 	for _, secret := range secrets.SecretsRelPaths() {

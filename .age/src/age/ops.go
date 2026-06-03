@@ -18,9 +18,9 @@ var (
 )
 
 const (
-	encryptedFileSuffix = ".age"
-	encryptedDirSuffix  = ".tar.gz.age"
-	tarGzSuffix         = ".tar.gz"
+	EncryptedFileSuffix = ".age"
+	EncryptedDirSuffix  = ".tar.gz.age"
+	TarGzSuffix         = ".tar.gz"
 )
 
 // Encrypt encrypts files to <path>.age, and directories to <path>.tar.gz.age.
@@ -40,7 +40,7 @@ func (v *Vault) Encrypt(in string) (out string, err error) {
 	defer done()
 
 	if info.IsDir() {
-		out = in + encryptedDirSuffix
+		out = in + EncryptedDirSuffix
 		script := fmt.Sprintf(
 			`tar -C %s -czf - %s | age -e -R %s -o %s`,
 			filepath.Dir(in),
@@ -57,7 +57,7 @@ func (v *Vault) Encrypt(in string) (out string, err error) {
 		return out, nil
 	}
 
-	out = in + encryptedFileSuffix
+	out = in + EncryptedFileSuffix
 	script := fmt.Sprintf(`age -e -R %s -o %s %s`, recipientPath, out, in)
 
 	cmdOut, err := exec.Command("bash", "-c", script).CombinedOutput()
@@ -81,7 +81,7 @@ func (v *Vault) Decrypt(in string) (out string, err error) {
 		return "", fmt.Errorf("%w: %s", ErrUnsupportedFileType, in)
 	}
 
-	if !strings.HasSuffix(in, encryptedFileSuffix) {
+	if !strings.HasSuffix(in, EncryptedFileSuffix) {
 		return "", fmt.Errorf("%w: %s", ErrNotEncrypted, in)
 	}
 
@@ -92,7 +92,7 @@ func (v *Vault) Decrypt(in string) (out string, err error) {
 	}
 	defer done()
 
-	out = strings.TrimSuffix(in, encryptedFileSuffix)
+	out = strings.TrimSuffix(in, EncryptedFileSuffix)
 	script := fmt.Sprintf(`age -d -i %s -o %s %s`, identityPath, out, in)
 
 	cmdOut, err := exec.Command("bash", "-c", script).CombinedOutput()
@@ -100,7 +100,7 @@ func (v *Vault) Decrypt(in string) (out string, err error) {
 		return "", fmt.Errorf("failed to decrypt file: %w\noutput: %s", err, string(cmdOut))
 	}
 
-	if !strings.HasSuffix(out, tarGzSuffix) {
+	if !strings.HasSuffix(out, TarGzSuffix) {
 		return out, nil
 	}
 
@@ -115,7 +115,7 @@ func (v *Vault) Decrypt(in string) (out string, err error) {
 		return "", err
 	}
 
-	return strings.TrimSuffix(out, tarGzSuffix), nil
+	return strings.TrimSuffix(out, TarGzSuffix), nil
 }
 
 func classifyPath(path string) (fs.FileInfo, error) {
