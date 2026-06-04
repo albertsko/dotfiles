@@ -137,11 +137,19 @@ func commit(rootPath string, opts options) error {
 		return nil
 	}
 
+	toCommit := make([]string, 0, 1024)
+	toCommit = append(toCommit, secretsLockFile)
 	for _, secret := range changedSecrets {
-		_, err := v.Encrypt(filepath.Join(rootPath, secret))
+		out, err := v.Encrypt(filepath.Join(rootPath, secret))
 		if err != nil {
 			return fmt.Errorf("failed to encrypt secret '%s': %w", secret, err)
 		}
+
+		outRel, err := filepath.Rel(rootPath, out)
+		if err != nil {
+			return err
+		}
+		toCommit = append(toCommit, outRel)
 	}
 
 	err = newSecretsLock.Write()
@@ -163,13 +171,13 @@ func commit(rootPath string, opts options) error {
 
 	err = git(rootPath, "restore", "--staged", ".")
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to restore --staged: %w", err)
 	}
 
-	for _, secret := range changedSecrets {
-		err = git(rootPath, "add", secret)
+	for _, out := range toCommit {
+		err = git(rootPath, "add", out)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to git add: %w", err)
 		}
 	}
 
