@@ -12,7 +12,7 @@ import (
 
 // init verifies the shell tools used by the vault are available.
 func init() {
-	required := []string{"age", "tar", "bash", "echo", "head", "grep"}
+	required := []string{"age", "tar", "bash", "echo"}
 	for _, req := range required {
 		_, err := exec.LookPath(req)
 		if err != nil {
@@ -150,40 +150,50 @@ func (v *Vault) loadIdentity() error {
 	}
 	defer done()
 
-	script := fmt.Sprintf(`age -e -i %s -o /dev/null <(echo "")`, path)
-	out, err := exec.Command("bash", "-c", script).CombinedOutput()
-	if err == nil {
+	if len(v.passphrase) > 0 && isAgeEncrypted(v.identity) {
+		script := fmt.Sprintf(`AGE_PASSPHRASE=%q age -d -j batchpass %s`, string(v.passphrase), path)
+		unlockedIdentity, err := exec.Command("bash", "-c", script).CombinedOutput()
+		if err != nil {
+			return fmt.Errorf("failed to unlock passphrase-protected identity: %w\noutput: %s", err, string(unlockedIdentity))
+		}
+
+		unlockedPath, unlockedDone, err := tempFile(bytes.NewReader(unlockedIdentity))
+		if err != nil {
+			return err
+		}
+		defer unlockedDone()
+
+		script = fmt.Sprintf(`age -e -i %s -o /dev/null <(echo "")`, unlockedPath)
+		out, err := exec.Command("bash", "-c", script).CombinedOutput()
+		if err != nil {
+			return fmt.Errorf("failed to verify unlocked identity: %w\noutput: %s", err, string(out))
+		}
+
+		v.identity = unlockedIdentity
 		return nil
 	}
 
-	script = fmt.Sprintf(`AGE_PASSPHRASE=%q age -d -j batchpass %s`, string(v.passphrase), path)
-	unlockedIdentity, err := exec.Command("bash", "-c", script).CombinedOutput()
-	if err != nil {
-		return fmt.Errorf(
-			"failed to verify plain identity or unlock passphrase-protected identity: %w\noutput: %s",
-			err,
-			string(out)+string(unlockedIdentity),
-		)
+	if isAgeEncrypted(v.identity) {
+		return fmt.Errorf("identity is age-encrypted, but no passphrase was configured")
 	}
 
-	unlockedPath, unlockedDone, err := tempFile(bytes.NewReader(unlockedIdentity))
+	script := fmt.Sprintf(`age -e -i %s -o /dev/null <(echo "")`, path)
+	out, err := exec.Command("bash", "-c", script).CombinedOutput()
 	if err != nil {
-		return err
-	}
-	defer unlockedDone()
-
-	script = fmt.Sprintf(`age -e -i %s -o /dev/null <(echo "")`, unlockedPath)
-	out, err = exec.Command("bash", "-c", script).CombinedOutput()
-	if err != nil {
-		return fmt.Errorf(
-			"failed to verify unlocked identity: %w\noutput: %s",
-			err,
-			string(out),
-		)
+		return fmt.Errorf("failed to verify plain identity: %w\noutput: %s", err, string(out))
 	}
 
-	v.identity = unlockedIdentity
 	return nil
+}
+
+func isAgeEncrypted(input []byte) bool {
+	input = bytes.TrimSpace(input)
+
+	if bytes.HasPrefix(input, []byte("-----BEGIN AGE ENCRYPTED FILE-----")) {
+		return true
+	}
+
+	return bytes.HasPrefix(input, []byte("age-encryption.org/v1"))
 }
 
 // tempFile writes reader contents into a temporary file.

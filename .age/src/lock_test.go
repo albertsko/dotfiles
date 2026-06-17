@@ -3,23 +3,29 @@ package main
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"fmt"
 	"os"
 	"path/filepath"
 	"slices"
 	"strings"
 	"sync"
 	"testing"
+	"text/tabwriter"
+	"time"
 )
 
 func TestNewSecretsLockFromSecrets(t *testing.T) {
 	rootPath := t.TempDir()
 	lockPath := filepath.Join(rootPath, ".secrets.lock")
+	secretPath := filepath.Join(rootPath, "secret")
 	content := []byte("secret contents\n")
+	modTime := time.Date(2026, 5, 31, 10, 11, 12, 0, time.UTC)
 
-	err := os.WriteFile(filepath.Join(rootPath, "secret"), content, 0o600)
+	err := os.WriteFile(secretPath, content, 0o600)
 	if err != nil {
 		t.Fatalf("failed to write test secret: %v", err)
 	}
+	setModTime(t, secretPath, modTime)
 
 	lock, err := NewSecretsLockFromSecrets(lockPath, rootPath, []string{"secret"})
 	if err != nil {
@@ -27,7 +33,7 @@ func TestNewSecretsLockFromSecrets(t *testing.T) {
 	}
 
 	sum := sha256.Sum256(content)
-	want := "secret\t" + hex.EncodeToString(sum[:]) + "\n"
+	want := lockLine("secret", formatModTime(modTime), hex.EncodeToString(sum[:]))
 
 	if lock.String() != want {
 		t.Fatalf("String() = %q, want %q", lock.String(), want)
@@ -39,8 +45,13 @@ func TestNewSecretsLockFromLockPath(t *testing.T) {
 	lockPath := filepath.Join(rootPath, ".secrets.lock")
 	firstHash := strings.Repeat("a", sha256HexLen)
 	secondHash := strings.Repeat("b", sha256HexLen)
+	firstTime := "2026-05-31T10:11:12Z"
+	secondTime := "2026-05-31T10:11:13Z"
 
-	err := os.WriteFile(lockPath, []byte("first\t"+firstHash+"\nsecond\t"+secondHash+"\n"), 0o600)
+	err := os.WriteFile(lockPath, []byte(
+		lockLine("first", firstTime, firstHash)+
+			lockLine("second", secondTime, secondHash),
+	), 0o600)
 	if err != nil {
 		t.Fatalf("failed to write test lock: %v", err)
 	}
@@ -62,6 +73,14 @@ func TestNewSecretsLockFromLockPath(t *testing.T) {
 	if lock.secrets["second"] != secondHash {
 		t.Fatalf("lock.secrets[second] = %q, want %q", lock.secrets["second"], secondHash)
 	}
+
+	if lock.secretTimes["first"] != firstTime {
+		t.Fatalf("lock.secretTimes[first] = %q, want %q", lock.secretTimes["first"], firstTime)
+	}
+
+	if lock.secretTimes["second"] != secondTime {
+		t.Fatalf("lock.secretTimes[second] = %q, want %q", lock.secretTimes["second"], secondTime)
+	}
 }
 
 func TestNewSecretsLockFromMissingLockPath(t *testing.T) {
@@ -81,11 +100,14 @@ func TestNewSecretsLockFromMissingLockPath(t *testing.T) {
 func TestSecretsLockAddFile(t *testing.T) {
 	rootPath := t.TempDir()
 	content := []byte("secret contents\n")
+	secretPath := filepath.Join(rootPath, "secret")
+	modTime := time.Date(2026, 5, 31, 10, 11, 14, 0, time.UTC)
 
-	err := os.WriteFile(filepath.Join(rootPath, "secret"), content, 0o600)
+	err := os.WriteFile(secretPath, content, 0o600)
 	if err != nil {
 		t.Fatalf("failed to write test secret: %v", err)
 	}
+	setModTime(t, secretPath, modTime)
 
 	lock := &SecretsLock{
 		rootPath:       rootPath,
@@ -103,6 +125,10 @@ func TestSecretsLockAddFile(t *testing.T) {
 
 	if lock.secrets["secret"] != wantHash {
 		t.Fatalf("lock.secrets[secret] = %q, want %q", lock.secrets["secret"], wantHash)
+	}
+
+	if lock.secretTimes["secret"] != formatModTime(modTime) {
+		t.Fatalf("lock.secretTimes[secret] = %q, want %q", lock.secretTimes["secret"], formatModTime(modTime))
 	}
 
 	wantOrder := []string{"secret"}
@@ -243,6 +269,9 @@ func TestSecretsLockWrite(t *testing.T) {
 		secrets: secret{
 			"secret": hash,
 		},
+		secretTimes: secret{
+			"secret": "2026-05-31T10:11:12Z",
+		},
 		secretsOrdered: []string{"secret"},
 	}
 
@@ -274,6 +303,9 @@ func TestSecretsLockWriteReplacesExistingLockFile(t *testing.T) {
 		lockPath: lockPath,
 		secrets: secret{
 			"secret": hash,
+		},
+		secretTimes: secret{
+			"secret": "2026-05-31T10:11:12Z",
 		},
 		secretsOrdered: []string{"secret"},
 	}
@@ -355,4 +387,21 @@ func TestSecretsLockDiffNilOther(t *testing.T) {
 	if !slices.Equal(got, want) {
 		t.Fatalf("Diff(nil) = %#v, want %#v", got, want)
 	}
+}
+
+func setModTime(t *testing.T, path string, modTime time.Time) {
+	t.Helper()
+
+	err := os.Chtimes(path, modTime, modTime)
+	if err != nil {
+		t.Fatalf("failed to set mod time: %v", err)
+	}
+}
+
+func lockLine(path, modTime, hash string) string {
+	b := new(strings.Builder)
+	tw := tabwriter.NewWriter(b, 0, 8, 1, ' ', 0)
+	fmt.Fprintf(tw, "%s\t%s\t%s\n", path, modTime, hash)
+	tw.Flush()
+	return b.String()
 }

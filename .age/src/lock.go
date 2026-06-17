@@ -12,6 +12,8 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"text/tabwriter"
+	"time"
 )
 
 const sha256HexLen = sha256.Size * 2
@@ -23,6 +25,7 @@ type (
 		rootPath string
 
 		secrets        secret
+		secretTimes    secret
 		secretsOrdered []string
 
 		mu sync.Mutex
@@ -36,6 +39,7 @@ func NewSecretsLockFromSecrets(lockPath, rootPath string, secretsRelPaths []stri
 		lockPath:       lockPath,
 		rootPath:       rootPath,
 		secrets:        make(secret),
+		secretTimes:    make(secret),
 		secretsOrdered: make([]string, 0, 1024),
 	}
 
@@ -56,6 +60,7 @@ func NewSecretsLockFromLockPath(lockPath, rootPath string) (*SecretsLock, error)
 		lockPath:       lockPath,
 		rootPath:       rootPath,
 		secrets:        make(secret),
+		secretTimes:    make(secret),
 		secretsOrdered: make([]string, 0, 1024),
 	}
 
@@ -88,7 +93,7 @@ func (ls *SecretsLock) loadSecretsLock(r io.Reader) error {
 		lineNo++
 		line := s.Text()
 
-		secret, hash, err := parseSecretsLockLine(line)
+		secret, modTime, hash, err := parseSecretsLockLine(line)
 		if err != nil {
 			return fmt.Errorf("failed to parse lock file line %d: %w", lineNo, err)
 		}
@@ -96,6 +101,7 @@ func (ls *SecretsLock) loadSecretsLock(r io.Reader) error {
 		_, ok := ls.secrets[secret]
 		if !ok {
 			ls.secrets[secret] = hash
+			ls.secretTimes[secret] = modTime
 			ls.secretsOrdered = append(ls.secretsOrdered, secret)
 		}
 	}
@@ -118,6 +124,7 @@ func (sl *SecretsLock) Add(path string) error {
 	if err != nil {
 		return fmt.Errorf("failed to os.Stat path '%s': %w", fullPath, err)
 	}
+	modTime := formatModTime(info.ModTime())
 
 	var hash string
 	if info.IsDir() {
@@ -134,10 +141,17 @@ func (sl *SecretsLock) Add(path string) error {
 		}
 	}
 
+	if sl.secrets == nil {
+		sl.secrets = make(secret)
+	}
 	if _, ok := sl.secrets[path]; !ok {
 		sl.secretsOrdered = append(sl.secretsOrdered, path)
 	}
+	if sl.secretTimes == nil {
+		sl.secretTimes = make(secret)
+	}
 	sl.secrets[path] = hash
+	sl.secretTimes[path] = modTime
 
 	return nil
 }
@@ -185,6 +199,7 @@ func (sl *SecretsLock) String() string {
 
 func (sl *SecretsLock) string() string {
 	b := new(strings.Builder)
+	tw := tabwriter.NewWriter(b, 0, 8, 1, ' ', 0)
 
 	for _, name := range sl.secretsOrdered {
 		hash, ok := sl.secrets[name]
@@ -192,12 +207,10 @@ func (sl *SecretsLock) string() string {
 			continue
 		}
 
-		b.WriteString(name)
-		b.WriteByte('\t')
-		b.WriteString(hash)
-		b.WriteByte('\n')
+		fmt.Fprintf(tw, "%s\t%s\t%s\n", name, sl.secretTimes[name], hash)
 	}
 
+	tw.Flush()
 	return b.String()
 }
 
@@ -225,21 +238,30 @@ func (sl *SecretsLock) snapshot() ([]string, secret) {
 }
 
 // parseSecretsLockLine parses one lock file line.
-func parseSecretsLockLine(line string) (secret, hash string, err error) {
+func parseSecretsLockLine(line string) (secret, modTime, hash string, err error) {
 	errstr := "failed to parse secrets lock line"
 
 	line = strings.TrimSpace(line)
-	split := strings.Split(line, "\t")
+	split := strings.Fields(line)
 
-	if len(split) != 2 {
-		return "", "", fmt.Errorf("%s: split is not len 2", errstr)
+	if len(split) != 3 {
+		return "", "", "", fmt.Errorf("%s: split is not len 3", errstr)
 	}
 
-	if len(split[1]) != sha256HexLen {
-		return "", "", fmt.Errorf("%s: hash is not len %d", errstr, sha256HexLen)
+	_, err = time.Parse(time.RFC3339Nano, split[1])
+	if err != nil {
+		return "", "", "", fmt.Errorf("%s: time is not RFC3339Nano: %w", errstr, err)
 	}
 
-	return split[0], split[1], nil
+	if len(split[2]) != sha256HexLen {
+		return "", "", "", fmt.Errorf("%s: hash is not len %d", errstr, sha256HexLen)
+	}
+
+	return split[0], split[1], split[2], nil
+}
+
+func formatModTime(t time.Time) string {
+	return t.UTC().Format(time.RFC3339Nano)
 }
 
 // hashFile generates a SHA256 hash from file contents.
