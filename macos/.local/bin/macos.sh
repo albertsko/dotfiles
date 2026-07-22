@@ -8,6 +8,8 @@ defaults write com.apple.dock autohide -bool true                              #
 defaults write com.apple.dock autohide-delay -float 0                          # start showing dock immediately
 defaults write com.apple.dock autohide-time-modifier -float 0.5                # show whole dock in 0.5s
 defaults write com.apple.dock "mru-spaces" -bool "false"                       # disable automatically rearranging spaces based on recent use
+defaults write com.apple.dock workspaces-auto-swoosh -bool true                # switch to a space with open windows when focusing an app/window (legacy dock key, must match the global one below)
+defaults write NSGlobalDomain AppleSpacesSwitchOnActivate -bool true           # switch to a space with open windows when focusing an app/window
 defaults write com.apple.dock persistent-apps -array                           # detach tails from dock
 defaults write com.apple.dock persistent-others -array                         # detach others from dock
 defaults write com.apple.dock show-recents -bool false                         # do not show recents in dock
