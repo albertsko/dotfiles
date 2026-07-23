@@ -39,6 +39,11 @@ if [[ ! -d "$DOTFILES_HOME/shared" ]]; then
 	exit 1
 fi
 
+if [[ ! -d "$DOTFILES_HOME/agents" ]]; then
+	echo "Error: agents stow package is missing: $DOTFILES_HOME/agents" >&2
+	exit 1
+fi
+
 if [[ ! -d "$DOTFILES_HOME/$DOTFILES_PROFILE" ]]; then
 	echo "Error: profile stow package is missing: $DOTFILES_HOME/$DOTFILES_PROFILE" >&2
 	exit 1
@@ -50,6 +55,8 @@ base_flags=(--dir="$DOTFILES_HOME" --target="$HOME" --no-folding --verbose=1)
 if [[ "$DELETE" == "1" ]]; then
 	echo "==> unstow $DOTFILES_PROFILE -> $HOME"
 	stow "${base_flags[@]}" --delete "$DOTFILES_PROFILE"
+	echo "==> unstow agents -> $HOME"
+	stow "${base_flags[@]}" --delete agents
 	echo "==> unstow shared -> $HOME"
 	stow "${base_flags[@]}" --delete shared
 	exit 0
@@ -61,5 +68,7 @@ common_flags=("${base_flags[@]}")
 
 echo "==> stow shared -> $HOME"
 stow "${common_flags[@]}" --restow shared
+echo "==> stow agents -> $HOME"
+stow "${common_flags[@]}" --restow agents
 echo "==> stow $DOTFILES_PROFILE -> $HOME"
 stow "${base_flags[@]}" --restow --override='.*' "$DOTFILES_PROFILE"
