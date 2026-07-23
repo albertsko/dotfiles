@@ -28,6 +28,10 @@ function ggg
     git add -A && git commit -m "$argv" && git push
 end
 
+function docs
+    zed --user-data-dir "$XDG_STATE_HOME/zed-docs" --existing "$DOTFILES_OBSIDIAN_VAULT"
+end
+
 if status is-interactive
     starship init fish | source
     zoxide init fish --cmd cd | source
