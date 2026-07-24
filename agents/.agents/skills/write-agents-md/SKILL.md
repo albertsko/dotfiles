@@ -20,7 +20,7 @@ Apply the removal test to every line: **would deleting this line cause a mistake
 - Boundaries in three tiers: always do / ask first / never do. Put the "never" rules at the top of the file; earlier lines carry more weight.
 - Repository etiquette: branch naming, commit format, PR conventions.
 - Environment quirks: required env vars, auto-reload behavior, non-obvious gotchas.
-- Pointers to skills and reference docs, with when to read each.
+- Pointers to skills and reference docs, with when to read each, at most 10–15 references per file. To write a reference doc, follow `write-agents-md-reference-doc`.
 
 ## What Does Not
 
@@ -47,7 +47,14 @@ Apply the removal test to every line: **would deleting this line cause a mistake
 
 ## Claude Code Interop
 
-Claude Code reads CLAUDE.md, not AGENTS.md. To keep one source of truth, either symlink (`ln -s AGENTS.md CLAUDE.md`) or import:
+Claude Code reads CLAUDE.md, not AGENTS.md. Keep the tool-agnostic files (`AGENTS.md`, `.agents/`) as the single source of truth and symlink the tool-specific paths to them — a symlink is a filesystem alias, so there is nothing to keep in sync, and whole directories alias in one line:
+
+```sh
+ln -s AGENTS.md CLAUDE.md
+ln -s ../.agents/skills .claude/skills
+```
+
+Fall back to an `@AGENTS.md` import only when you need Claude-specific additions, or on Windows, where symlinks require admin rights or Developer Mode:
 
 ```markdown
 @AGENTS.md
@@ -63,6 +70,7 @@ CLAUDE.md files concatenate down the hierarchy (user `~/.claude/CLAUDE.md` → p
 
 - Add rules reactively: when the agent repeats a mistake, that is a gap in the file. Write the file by hand; don't generate it wholesale.
 - Update the file in the same PR that changes a convention; review every 3–6 months and delete rules that stopped pulling their weight (newer models need fewer workarounds).
+- Fix the documentation environment, not just the entry point: a focused 150-line AGENTS.md on top of hundreds of kilobytes of stale specs won't keep the agent out of the specs. Prune or quarantine surrounding docs too.
 
 ## Examples
 
