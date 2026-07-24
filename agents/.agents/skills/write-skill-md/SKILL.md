@@ -1,9 +1,9 @@
 ---
-name: write-a-skill
+name: write-skill-md
 description: Guide for authoring AI agent skills in the open SKILL.md format. Use when creating a new skill, reviewing or improving an existing SKILL.md, or deciding whether repeated instructions should become a skill.
 ---
 
-# Write A Skill
+# Write SKILL.md
 
 A skill is a folder with a required `SKILL.md` and optional supporting files. The format is an open standard adopted across AI agents, so one well-written skill is portable between them.
 
