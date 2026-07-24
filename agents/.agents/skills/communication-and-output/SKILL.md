@@ -29,6 +29,7 @@ Diverging from a rule is fine when you know why, the goal is a message the reade
 - Break long sentences into shorter ones. One idea per sentence.
 - Cut hedging adverbs (basically, essentially, probably-as-filler) and filler ("It's worth noting that", "You can see that"). Commit to the claim, or state the uncertainty explicitly with its reason, which is information, not a hedge.
 - Write complete sentences with technical terms spelled out. No arrow chains ("A → B → fails"), no compressed fragments, compression that forces a reread saves nothing.
+- Construct the sentence without the em dash "—"; instead split it into two sentences, or use a comma, colon, or parentheses.
 
 ## One Vocabulary, One Tone
 
@@ -54,7 +55,7 @@ Before sending, check:
 1. Is the main point the first sentence?
 2. Can any word, sentence, or section be cut without losing meaning?
 3. Any passive voice hiding the actor? Any bare "this/that"?
-4. Any hedge, jargon, unexpanded acronym, or undefined codename?
+4. Any hedge, jargon, unexpanded acronym, undefined codename, or em dash?
 5. Does the format match the question, prose for simple, structure for complex?
 
 ## Examples
@@ -76,6 +77,12 @@ After: `The scheduler triggers the alert and starts the sync job.`
 Before: `Basically, the cache is essentially the problem here.`
 
 After: `The cache returns stale sessions after a deploy, that is the bug.`
+
+**Em Dash → Restructured**
+
+Before: `Quote every expansion — unquoted variables word-split and glob.`
+
+After: `Quote every expansion: unquoted variables word-split and glob.`
 
 **Buried Answer → Outcome First**
 
