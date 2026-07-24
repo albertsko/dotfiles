@@ -59,22 +59,26 @@ Before sending, check:
 
 ## Examples
 
-Fluff → Direct:
+**Fluff → Direct**
 
-> Before: "It's worth noting that you will need to run this script in order to regenerate the fixtures."
-> After: "Run this script to regenerate the fixtures."
+Before: `It's worth noting that you will need to run this script in order to regenerate the fixtures.`
 
-Passive → Active (and exposes what you must actually know):
+After: `Run this script to regenerate the fixtures.`
 
-> Before: "An alert is triggered and the job is started."
-> After: "The scheduler triggers the alert and starts the sync job."
+**Passive → Active**
 
-Hedged → Committed:
+Before: `An alert is triggered and the job is started.`
 
-> Before: "Basically, the cache is essentially the problem here."
-> After: "The cache returns stale sessions after a deploy, that is the bug."
+After: `The scheduler triggers the alert and starts the sync job.`
 
-Buried Answer → Outcome First:
+**Hedged → Committed**
 
-> Before: "I started by reading the config loader, then traced the env parsing, and eventually found that..."
-> After: "The crash comes from `parseEnv` treating an empty string as valid. Here's how I confirmed it: ..."
+Before: `Basically, the cache is essentially the problem here.`
+
+After: `The cache returns stale sessions after a deploy, that is the bug.`
+
+**Buried Answer → Outcome First**
+
+Before: `I started by reading the config loader, then traced the env parsing, and eventually found that...`
+
+After: ``The crash comes from `parseEnv` treating an empty string as valid. Here's how I confirmed it: ...``
