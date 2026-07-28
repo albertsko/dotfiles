@@ -1,18 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "model": "claude-fable-5[1m]",
-  "effortLevel": "medium",
-  "tui": "fullscreen",
-  "theme": "dark",
-  "autoMemoryEnabled": false,
   "env": {
     "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1"
   },
-  "disableBundledSkills": true,
-  "disableWorkflows": true,
-  "disableRemoteControl": true,
-  "disableClaudeAiConnectors": true,
-  "disableArtifact": true,
   "permissions": {
     "deny": [
       "EnterPlanMode",
@@ -28,5 +18,18 @@
       "CronDelete",
       "CronList"
     ]
+  },
+  "model": "claude-fable-5[1m]",
+  "disableClaudeAiConnectors": true,
+  "disableBundledSkills": true,
+  "disableRemoteControl": true,
+  "disableWorkflows": true,
+  "disableArtifact": true,
+  "effortLevel": "medium",
+  "tui": "fullscreen",
+  "autoMemoryEnabled": false,
+  "theme": "dark",
+  "enabledPlugins": {
+    "gopls-lsp@claude-plugins-official": true
   }
 }
