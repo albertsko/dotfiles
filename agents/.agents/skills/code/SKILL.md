@@ -1,6 +1,6 @@
 ---
 name: code
-description: General coding guide, language-agnostic. Use only on demand.
+description: General coding guide, language-agnostic.
 ---
 
 # Code
