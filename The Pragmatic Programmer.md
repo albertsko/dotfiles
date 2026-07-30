@@ -4,9 +4,9 @@ Book cover image for The Pragmatic Programmer, 20th Anniversary Edition by David
 
 # The Pragmatic Programmer
 
-### your journey to mastery
+## your journey to mastery
 
-### by Dave Thomas, Andy Hunt
+## by Dave Thomas, Andy Hunt
 
 Version: P2.0 (October 28, 2019)
 
@@ -68,25 +68,71 @@ Henry and Stuart
 
 # Table of Contents
 
-1. Foreword
-2. Preface to the Second Edition 1. How the Book Is Organized 2. What’s in a Name? 3. Source Code and Other Resources 4. Send Us Feedback 5. Second Edition Acknowledgments
-3. From the Preface to the First Edition 1. Who Should Read This Book? 2. What Makes a Pragmatic Programmer? 3. Individual Pragmatists, Large Teams 4. It’s a Continuous Process
-4. 1. A Pragmatic Philosophy 1. Topic 1. It’s Your Life 2. Topic 2. The Cat Ate My Source Code 3. Topic 3. Software Entropy 4. Topic 4. Stone Soup and Boiled Frogs 5. Topic 5. Good-Enough Software 6. Topic 6. Your Knowledge Portfolio 7. Topic 7. Communicate!
-5. 2. A Pragmatic Approach 1. Topic 8. The Essence of Good Design 2. Topic 9. DRY—The Evils of Duplication 3. Topic 10. Orthogonality 4. Topic 11. Reversibility 5. Topic 12. Tracer Bullets 6. Topic 13. Prototypes and Post-it Notes 7. Topic 14. Domain Languages 8. Topic 15. Estimating
-6. 3. The Basic Tools 1. Topic 16. The Power of Plain Text 2. Topic 17. Shell Games 3. Topic 18. Power Editing 4. Topic 19. Version Control 5. Topic 20. Debugging 6. Topic 21. Text Manipulation 7. Topic 22. Engineering Daybooks
-7. 4. Pragmatic Paranoia 1. Topic 23. Design by Contract 2. Topic 24. Dead Programs Tell No Lies 3. Topic 25. Assertive Programming 4. Topic 26. How to Balance Resources 5. Topic 27. Don’t Outrun Your Headlights
-8. 5. Bend, or Break 1. Topic 28. Decoupling 2. Topic 29. Juggling the Real World 3. Topic 30. Transforming Programming 4. Topic 31. Inheritance Tax 5. Topic 32. Configuration
-9. 6. Concurrency 1. Topic 33. Breaking Temporal Coupling 2. Topic 34. Shared State Is Incorrect State 3. Topic 35. Actors and Processes 4. Topic 36. Blackboards
-10. 7. While You Are Coding 1. Topic 37. Listen to Your Lizard Brain 2. Topic 38. Programming by Coincidence 3. Topic 39. Algorithm Speed 4. Topic 40. Refactoring 5. Topic 41. Test to Code 6. Topic 42. Property-Based Testing 7. Topic 43. Stay Safe Out There 8. Topic 44. Naming Things
-11. 8. Before the Project 1. Topic 45. The Requirements Pit 2. Topic 46. Solving Impossible Puzzles 3. Topic 47. Working Together 4. Topic 48. The Essence of Agility
-12. 9. Pragmatic Projects 1. Topic 49. Pragmatic Teams 2. Topic 50. Coconuts Don’t Cut It 3. Topic 51. Pragmatic Starter Kit 4. Topic 52. Delight Your Users 5. Topic 53. Pride and Prejudice
-13. 10. Postface
-14. A1. Bibliography
-15. A2. Possible Answers to the Exercises
+- [Chapter 1: A Pragmatic Philosophy](#chapter-1-a-pragmatic-philosophy)
+  - [Topic 1: It’s Your Life](#topic-1-its-your-life)
+  - [Topic 2: The Cat Ate My Source Code](#topic-2-the-cat-ate-my-source-code)
+  - [Topic 3: Software Entropy](#topic-3-software-entropy)
+  - [Topic 4: Stone Soup and Boiled Frogs](#topic-4-stone-soup-and-boiled-frogs)
+  - [Topic 5: Good-Enough Software](#topic-5-good-enough-software)
+  - [Topic 6: Your Knowledge Portfolio](#topic-6-your-knowledge-portfolio)
+  - [Topic 7: Communicate!](#topic-7-communicate)
+- [Chapter 2: A Pragmatic Approach](#chapter-2-a-pragmatic-approach)
+  - [Topic 8: The Essence of Good Design](#topic-8-the-essence-of-good-design)
+  - [Topic 9: DRY, The Evils of Duplication](#topic-9-dry-the-evils-of-duplication)
+  - [Topic 10: Orthogonality](#topic-10-orthogonality)
+  - [Topic 11: Reversibility](#topic-11-reversibility)
+  - [Topic 12: Tracer Bullets](#topic-12-tracer-bullets)
+  - [Topic 13: Prototypes and Post-it Notes](#topic-13-prototypes-and-post-it-notes)
+  - [Topic 14: Domain Languages](#topic-14-domain-languages)
+  - [Topic 15: Estimating](#topic-15-estimating)
+- [Chapter 3: The Basic Tools](#chapter-3-the-basic-tools)
+  - [Topic 16: The Power of Plain Text](#topic-16-the-power-of-plain-text)
+  - [Topic 17: Shell Games](#topic-17-shell-games)
+  - [Topic 18: Power Editing](#topic-18-power-editing)
+  - [Topic 19: Version Control](#topic-19-version-control)
+  - [Topic 20: Debugging](#topic-20-debugging)
+  - [Topic 21: Text Manipulation](#topic-21-text-manipulation)
+  - [Topic 22: Engineering Daybooks](#topic-22-engineering-daybooks)
+- [Chapter 4: Pragmatic Paranoia](#chapter-4-pragmatic-paranoia)
+  - [Topic 23: Design by Contract](#topic-23-design-by-contract)
+  - [Topic 24: Dead Programs Tell No Lies](#topic-24-dead-programs-tell-no-lies)
+  - [Topic 25: Assertive Programming](#topic-25-assertive-programming)
+  - [Topic 26: How to Balance Resources](#topic-26-how-to-balance-resources)
+  - [Topic 27: Don’t Outrun Your Headlights](#topic-27-dont-outrun-your-headlights)
+- [Chapter 5: Bend, or Break](#chapter-5-bend-or-break)
+  - [Topic 28: Decoupling](#topic-28-decoupling)
+  - [Topic 29: Juggling the Real World](#topic-29-juggling-the-real-world)
+  - [Topic 30: Transforming Programming](#topic-30-transforming-programming)
+  - [Topic 31: Inheritance Tax](#topic-31-inheritance-tax)
+  - [Topic 32: Configuration](#topic-32-configuration)
+- [Chapter 6: Concurrency](#chapter-6-concurrency)
+  - [Topic 33: Breaking Temporal Coupling](#topic-33-breaking-temporal-coupling)
+  - [Topic 34: Shared State Is Incorrect State](#topic-34-shared-state-is-incorrect-state)
+  - [Topic 35: Actors and Processes](#topic-35-actors-and-processes)
+  - [Topic 36: Blackboards](#topic-36-blackboards)
+- [Chapter 7: While You Are Coding](#chapter-7-while-you-are-coding)
+  - [Topic 37: Listen to Your Lizard Brain](#topic-37-listen-to-your-lizard-brain)
+  - [Topic 38: Programming by Coincidence](#topic-38-programming-by-coincidence)
+  - [Topic 39: Algorithm Speed](#topic-39-algorithm-speed)
+  - [Topic 40: Refactoring](#topic-40-refactoring)
+  - [Topic 41: Test to Code](#topic-41-test-to-code)
+  - [Topic 42: Property-Based Testing](#topic-42-property-based-testing)
+  - [Topic 43: Stay Safe Out There](#topic-43-stay-safe-out-there)
+  - [Topic 44: Naming Things](#topic-44-naming-things)
+- [Chapter 8: Before the Project](#chapter-8-before-the-project)
+  - [Topic 45: The Requirements Pit](#topic-45-the-requirements-pit)
+  - [Topic 46: Solving Impossible Puzzles](#topic-46-solving-impossible-puzzles)
+  - [Topic 47: Working Together](#topic-47-working-together)
+  - [Topic 48: The Essence of Agility](#topic-48-the-essence-of-agility)
+- [Chapter 9: Pragmatic Projects](#chapter-9-pragmatic-projects)
+  - [Topic 49: Pragmatic Teams](#topic-49-pragmatic-teams)
+  - [Topic 50: Coconuts Don’t Cut It](#topic-50-coconuts-dont-cut-it)
+  - [Topic 51: Pragmatic Starter Kit](#topic-51-pragmatic-starter-kit)
+  - [Topic 52: Delight Your Users](#topic-52-delight-your-users)
+  - [Topic 53: Pride and Prejudice](#topic-53-pride-and-prejudice)
+- [Chapter 10: Postface](#chapter-10-postface)
 
-Copyright © 2020 Pearson Education, Inc.
-
-# Praise for the second edition of The Pragmatic Programmer
+## Praise for the second edition of The Pragmatic Programmer
 
 Some say that with _The Pragmatic Programmer_, Andy and Dave captured
 lightning in a bottle; that it’s unlikely anyone will soon write a book
@@ -95,43 +141,43 @@ does strike twice, and this book is proof. The updated content ensures
 that it will stay at the top of “best books in software development”
 lists for another 20 years, right where it belongs.
 
-| —   | VM (Vicky) Brasseur                                |
+| ,   | VM (Vicky) Brasseur                                |
 | --- | -------------------------------------------------- |
 |     | Director of Open Source Strategy, Juniper Networks |
 
 If you want your software to be easy to modernize and maintain, keep a copy of _The Pragmatic Programmer_ close. It’s filled with practical advice, both technical and professional, that will serve you and your projects well for years to come.
 
-| —   | Andrea Goulet                              |
+| ,   | Andrea Goulet                              |
 | --- | ------------------------------------------ |
 |     | CEO, Corgibytes; Founder, LegacyCode.Rocks |
 
 _The Pragmatic Programmer_ is the one book I can point to that completely dislodged the existing trajectory of my career in software and pointed me in the direction of success. Reading it opened my mind to the possibilities of being a craftsman, not just a cog in a big machine. One of the most significant books in my life.
 
-| —   | Obie Fernandez        |
+| ,   | Obie Fernandez        |
 | --- | --------------------- |
 |     | Author, The Rails Way |
 
 First-time readers can look forward to an enthralling induction into the modern world of software practice, a world that the first edition played a major role in shaping. Readers of the first edition will rediscover here the insights and practical wisdom that made the book so significant in the first place, expertly curated and updated, along with much that’s new.
 
-| —   | David A. Black                    |
+| ,   | David A. Black                    |
 | --- | --------------------------------- |
 |     | Author, The Well-Grounded Rubyist |
 
-I have an old paper copy of the original _Pragmatic Programmer_ on my bookshelf. It has been read and re-read and a long time ago it changed everything about how I approached my job as a programmer. In the new edition everything and nothing has changed: I now read it on my iPad and the code examples use modern programming languages—but the underlying concepts, ideas, and attitudes are timeless and universally applicable. Twenty years later, the book is as relevant as ever. It makes me happy to know that current and future developers will have the same opportunity to learn from Andy and Dave’s profound insights as I did back in the day.
+I have an old paper copy of the original _Pragmatic Programmer_ on my bookshelf. It has been read and re-read and a long time ago it changed everything about how I approached my job as a programmer. In the new edition everything and nothing has changed: I now read it on my iPad and the code examples use modern programming languages, but the underlying concepts, ideas, and attitudes are timeless and universally applicable. Twenty years later, the book is as relevant as ever. It makes me happy to know that current and future developers will have the same opportunity to learn from Andy and Dave’s profound insights as I did back in the day.
 
-| —   | Sandy Mamoli                                                |
+| ,   | Sandy Mamoli                                                |
 | --- | ----------------------------------------------------------- |
 |     | Agile coach, author of How Self-Selection Lets People Excel |
 
 Twenty years ago, the first edition of _The Pragmatic Programmer_ completely changed the trajectory of my career. This new edition could do the same for yours.
 
-| —                                  | Mike Cohn                        |
+| ,                                  | Mike Cohn                        |
 | ---------------------------------- | -------------------------------- |
 |                                    | Author of Succeeding with Agile, |
 | Agile Estimating and Planning, and |
 | User Stories Applied               |
 
-# Foreword
+## Foreword
 
 I remember when Dave and Andy first tweeted about the new edition of this book. It was big news. I watched as the coding community responded with excitement. My feed buzzed with anticipation. After twenty years, _The Pragmatic Programmer_ is just as relevant today as it was back then.
 
@@ -144,7 +190,7 @@ unintentionally, make you feel stupid. The more experienced the author,
 the easier it is to forget what it’s like to learn new concepts, to be a
 beginner.
 
-Despite their decades of programming experience, Dave and Andy have conquered the difficult challenge of writing with the same excitement of people who’ve just learned these lessons. They don’t talk down to you. They don’t assume you are an expert. They don’t even assume you’ve read the first edition. They take you as you are—programmers who just want to be better. They spend the pages of this book helping you get there, one actionable step at a time.
+Despite their decades of programming experience, Dave and Andy have conquered the difficult challenge of writing with the same excitement of people who’ve just learned these lessons. They don’t talk down to you. They don’t assume you are an expert. They don’t even assume you’ve read the first edition. They take you as you are, programmers who just want to be better. They spend the pages of this book helping you get there, one actionable step at a time.
 
 To be fair, they’d already done this before. The original release was full of tangible examples, new ideas, and practical tips to build your coding muscles and develop your coding brain that still apply today. But this updated edition makes two improvements on the book.
 
@@ -152,7 +198,7 @@ The first is the obvious one: it removes some of the older references, the out-o
 
 But the second is what makes this release truly exciting. After writing the first edition, they had the chance to reflect on what they were trying to say, what they wanted their readers to take away, and how it was being received. They got feedback on those lessons. They saw what stuck, what needed refining, what was misunderstood. In the twenty years that this book has made its way through the hands and hearts of programmers all over the world, Dave and Andy have studied this response and formulated new ideas, new concepts.
 
-They’ve learned the importance of agency and recognized that developers have arguably more agency than most other professionals. They start this book with the simple but profound message: “it’s your life.” It reminds us of our own power in our code base, in our jobs, in our careers. It sets the tone for everything else in the book—that it’s more than just another technical book filled with code examples.
+They’ve learned the importance of agency and recognized that developers have arguably more agency than most other professionals. They start this book with the simple but profound message: “it’s your life.” It reminds us of our own power in our code base, in our jobs, in our careers. It sets the tone for everything else in the book, that it’s more than just another technical book filled with code examples.
 
 What makes it truly stand out among the shelves of technical books is that it understands what it means to be a programmer. Programming is about trying to make the future less painful. It’s about making things easier for our teammates. It’s about getting things wrong and being able to bounce back. It’s about forming good habits. It’s about understanding your toolset. Coding is just part of the world of being a programmer, and this book explores that world.
 
@@ -162,11 +208,11 @@ For me, it really does feel like entering a new world. A new town, at least. I h
 
 The first few weeks, even months, in a new town can be scary. Wouldn’t it be wonderful to have a friendly, knowledgeable neighbor who’d been living there a while? Who can give you a tour, show you those coffee shops? Someone who’d been there long enough to know the culture, understand the pulse of the town, so you not only feel at home, but become a contributing member as well? Dave and Andy are those neighbors.
 
-As a relative newcomer, it’s easy to be overwhelmed not by the act of programming but the process of becoming a programmer. There is an entire mindset shift that needs to happen—a change in habits, behaviors, and expectations. The process of becoming a better programmer doesn’t just happen because you know how to code; it must be met with intention and deliberate practice. This book is a guide to becoming a better programmer efficiently.
+As a relative newcomer, it’s easy to be overwhelmed not by the act of programming but the process of becoming a programmer. There is an entire mindset shift that needs to happen, a change in habits, behaviors, and expectations. The process of becoming a better programmer doesn’t just happen because you know how to code; it must be met with intention and deliberate practice. This book is a guide to becoming a better programmer efficiently.
 
-But make no mistake—it doesn’t tell you how programming should be. It’s
+But make no mistake, it doesn’t tell you how programming should be. It’s
 not philosophical or judgmental in that way. It tells you, plain and
-simple, what a Pragmatic Programmer is—how they operate, and how they
+simple, what a Pragmatic Programmer is, how they operate, and how they
 approach code. They leave it up to you to decide if you want to be one.
 If you feel it’s not for you, they won’t hold it against you. But if you
 decide it is, they’re your friendly neighbors, there to show you the
@@ -179,7 +225,7 @@ way.
 
 Copyright © 2020 Pearson Education, Inc.
 
-# Preface to the Second Edition
+## Preface to the Second Edition
 
 Back in the 1990s, we worked with companies whose projects were
 having problems. We found ourselves saying the same things to each:
@@ -242,13 +288,13 @@ But, most important, remember to make it fun.
 This book is written as a collection of short topics. Each topic
 is self-contained, and addresses a particular theme. You’ll find
 numerous cross references, which help put each topic in context. Feel
-free to read the topics in any order—this isn’t a book
+free to read the topics in any order, this isn’t a book
 you need to read front-to-back.
 
 Occasionally you’ll come across a box labeled _Tip nn_ (such as
 Tip 1, _Care About Your Craft_). As well as
 emphasizing points in the text, we feel the tips have a life of their
-own—we live by them daily. You’ll find a summary of all the tips on
+own, we live by them daily. You’ll find a summary of all the tips on
 a pull-out card inside the back cover.
 
 We’ve included exercises and challenges where appropriate.
@@ -265,7 +311,7 @@ explicitly reference.
 ## What’s in a Name?
 
 Scattered throughout the book you’ll find various bits of
-jargon—either
+jargon, either
 perfectly good English words that have been corrupted to
 mean something technical, or horrendous made-up words that have been
 assigned meanings by computer scientists with a grudge against the
@@ -288,14 +334,14 @@ philosophies of this book is that most of the techniques we’re
 recommending are universal: modularity applies to code, designs,
 documentation, and team organization, for instance. When we wanted to
 use the conventional jargon word in a broader context, it got
-confusing—we couldn’t seem to overcome the baggage the original
+confusing, we couldn’t seem to overcome the baggage the original
 term brought with it. When this happened, we contributed to
 the decline of the language by inventing our own terms.
 
 ## Source Code and Other Resources
 
 Most of the code shown in this book is extracted from compilable
-source files, available for download from our website. [https://pragprog.com/titles/tpp20]
+source files, available for download from our website. [https://pragprog.com/titles/tpp20](https://pragprog.com/titles/tpp20)
 
 There you’ll also find links to resources we find useful, along with
 updates to the book and news of other Pragmatic Programmer
@@ -334,16 +380,16 @@ years. Here’s to twenty more.
 
 Copyright © 2020 Pearson Education, Inc.
 
-# From the Preface to the First Edition
+## From the Preface to the First Edition
 
 This book will help you become a better programmer.
 
 You could be a lone developer, a member of a large
 project team, or a consultant working with many clients at once. It doesn’t matter; this
 book will help you, as an individual, to do better work. This book isn’t
-theoretical—we concentrate on practical topics, on using your
+theoretical, we concentrate on practical topics, on using your
 experience to make more informed decisions. The word _pragmatic_ comes
-from the Latin _pragmaticus_—“skilled in business”—which in turn is
+from the Latin _pragmaticus_, “skilled in business”, which in turn is
 derived from the Greek πραγματικός, meaning “fit for use.”
 
 This is a book about doing.
@@ -421,7 +467,7 @@ rest of your knowledge. Your confidence is born of experience.
 Inquisitive
 
 You tend to ask questions.
-_That’s neat—how did you do that?_ _Did
+_That’s neat, how did you do that?_ _Did
 you have problems with that library?_ _What’s this quantum computing
 I’ve heard about?_ _How are symbolic links implemented?_ You
 are a pack rat for little facts, each of which may affect some
@@ -454,16 +500,18 @@ challenges.
 We’ve left the most basic characteristics until last. All Pragmatic
 Programmers share them. They’re basic enough to state as tips:
 
-| Tip 1 | Care About Your Craft |
+> [!TIP]
+> **Tip 1: Care About Your Craft**
 
 We feel that there is no point in developing software unless you care
 about doing it well.
 
-| Tip 2 | Think! About Your Work |
+> [!TIP]
+> **Tip 2: Think! About Your Work**
 
 In order to be a Pragmatic Programmer, we’re challenging you to think about what
 you’re doing while you’re doing it. This isn’t a one-time audit of
-current practices—it’s an ongoing critical appraisal of every
+current practices, it’s an ongoing critical appraisal of every
 decision you make, every day, and on every project. Never run on
 auto-pilot. Constantly be thinking, critiquing your work in real
 time. The old IBM corporate motto, _THINK!_, is the
@@ -471,7 +519,7 @@ Pragmatic Programmer’s mantra.
 
 If this sounds like hard work to you, then you’re exhibiting the
 _realistic_ characteristic. This is going to take up some of
-your valuable time—time that is probably already under tremendous
+your valuable time, time that is probably already under tremendous
 pressure. The reward is a more active involvement with a job you
 love, a feeling of mastery over an increasing range of subjects, and
 pleasure in a feeling of continuous improvement. Over the long term,
@@ -531,9 +579,7 @@ experience has blossomed and how your skills have grown.
 
 Copyright © 2020 Pearson Education, Inc.
 
-# Chapter
-
-1A Pragmatic Philosophy
+## Chapter 1: A Pragmatic Philosophy
 
 This book is about you.
 
@@ -574,7 +620,9 @@ ways we can do this better.
 Pragmatic programming stems from a philosophy of pragmatic thinking.
 This chapter sets the basis for that philosophy.
 
-| Topic 1 | It’s Your Life |
+---
+
+### Topic 1: It’s Your Life
 
 I’m not in this world to live up to your expectations and you’re not in
 this world to live up to mine.
@@ -606,11 +654,12 @@ chilling rain and trudge into work.
 
 So here’s the most important tip in the book.
 
-| Tip 3 | You Have Agency |
+> [!TIP]
+> **Tip 3: You Have Agency**
 
 Does your work environment suck? Is your job boring? Try to fix it. But
 don’t try forever. As Martin Fowler says, “you can change your
-organization or change your organization.” [http://wiki.c2.com/?ChangeYourOrganization]
+organization or change your organization.” [http://wiki.c2.com/?ChangeYourOrganization](http://wiki.c2.com/?ChangeYourOrganization)
 
 If technology seems to be passing you by, make time (in your own time)
 to study new stuff that looks interesting. You’re investing in
@@ -622,12 +671,14 @@ someone who says yes.
 This industry gives you a remarkable set of opportunities. Be proactive,
 and take them.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 4, _Stone Soup and Boiled Frogs_
 - Topic 6, _Your Knowledge Portfolio_
 
-| Topic 2 | The Cat Ate My Source Code |
+---
+
+### Topic 2: The Cat Ate My Source Code
 
 The greatest of all weaknesses is the fear of appearing weak.
 
@@ -638,26 +689,26 @@ taking responsibility for yourself and your actions in terms of your
 career advancement, your learning and education, your project, and your
 day-to-day work. Pragmatic Programmers take charge of their own
 career, and aren’t afraid to admit ignorance or error. It’s not the most
-pleasant aspect of programming, to be sure, but it will happen—even on
+pleasant aspect of programming, to be sure, but it will happen, even on
 the best of projects. Despite thorough testing, good documentation, and
 solid automation, things go wrong. Deliveries are late. Unforeseen
 technical problems come up.
 
 These things happen, and we try to deal with them as professionally as
 we can. This means being honest and direct. We can be proud of our
-abilities, but we must own up to our shortcomings—our
+abilities, but we must own up to our shortcomings, our
 ignorance and our mistakes.
 
-### Team Trust
+## Team Trust
 
-Above all, your team needs to be able to trust and rely on you—and you need to be comfortable relying on each of them as well. Trust in a team is absolutely essential for creativity and collaboration according to the research literature. [See, for example, a good meta-analysis at Trust and team performance: A meta-analysis of main effects, moderators, and covariates, http://dx.doi.org/10.1037/apl0000110] In a healthy environment based in trust, you can safely speak your mind, present your ideas, and rely on your team members who can in turn rely on you.
+Above all, your team needs to be able to trust and rely on you, and you need to be comfortable relying on each of them as well. Trust in a team is absolutely essential for creativity and collaboration according to the research literature. [See, for example, a good meta-analysis at Trust and team performance: A meta-analysis of main effects, moderators, and covariates, http://dx.doi.org/10.1037/apl0000110] In a healthy environment based in trust, you can safely speak your mind, present your ideas, and rely on your team members who can in turn rely on you.
 Without trust, well…
 
 Imagine a high-tech, stealth ninja team infiltrating the villain’s evil lair. After months of planning and delicate execution, you’ve made it on site. Now it’s your turn to set up the laser guidance grid: “Sorry, folks, I don’t have the laser. The cat was playing with the red dot and I left it at home.”
 
 That sort of breach of trust might be hard to repair.
 
-### Take Responsibility
+## Take Responsibility
 
 Responsibility is something you actively agree to. You make a
 commitment to ensure that something is done right, but you don’t
@@ -680,11 +731,12 @@ to _you_ to provide solutions, not excuses.
 
 If there was a risk that the vendor wouldn’t come through for you, then
 you should have had a contingency plan. If your mass storage
-melts—taking all of your source code with it—and you don’t have a
+melts, taking all of your source code with it, and you don’t have a
 backup, it’s your fault. Telling your boss “the cat ate my source
-code’’ just won’t cut it.
+code" just won’t cut it.
 
-| Tip 4 | Provide Options, Don’t Make Lame Excuses |
+> [!TIP]
+> **Tip 4: Provide Options, Don’t Make Lame Excuses**
 
 Before you approach anyone to tell them why something can’t be done, is late, or is broken, stop and listen to yourself. Talk to the rubber duck on your monitor, or the cat. Does your excuse sound reasonable, or stupid? How’s it going to sound to your boss?
 
@@ -710,16 +762,18 @@ Try to flush out the lame excuses before voicing them aloud. If you
 must, tell your cat first. After all, if little Tiddles is going to
 take the blame….
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 49, _Pragmatic Teams_
 
-### Challenges
+#### Challenges
 
-- How do you react when someone—such as a bank teller, an auto mechanic, or a clerk—comes to you with a lame excuse? What do you think of them and their company as a result?
-- When you find yourself saying, “I don’t know,” be sure to follow it up with “—but I’ll find out.” It’s a great way to admit what you don’t know, but then take responsibility like a pro.
+- How do you react when someone, such as a bank teller, an auto mechanic, or a clerk, comes to you with a lame excuse? What do you think of them and their company as a result?
+- When you find yourself saying, “I don’t know,” be sure to follow it up with “, but I’ll find out.” It’s a great way to admit what you don’t know, but then take responsibility like a pro.
 
-| Topic 3 | Software Entropy |
+---
+
+### Topic 3: Software Entropy
 
 While software development is immune from almost all physical laws,
 the inexorable increase in
@@ -748,12 +802,12 @@ In inner cities, some buildings are beautiful and clean, while others
 are rotting hulks. Why? Researchers in the field of crime and urban
 decay discovered a fascinating trigger mechanism, one that very
 quickly turns a clean, intact, inhabited building into a smashed and
-abandoned derelict. [See The police and neighborhood safety [WH82]]
+abandoned derelict. [See The police and neighborhood safety (WH82)]
 
 A broken window.
 
 One broken window, left unrepaired for any substantial length of time,
-instills in the inhabitants of the building a sense of abandonment—a
+instills in the inhabitants of the building a sense of abandonment, a
 sense that the powers that be don’t care about the building. So
 another window gets broken. People start littering. Graffiti appears.
 Serious structural damage begins. In a relatively short span of time,
@@ -763,9 +817,10 @@ the sense of abandonment becomes reality.
 Why would that make a difference? Psychologists have done studies [See Contagious depression: Existence, specificity to depressed symptoms, and the role of reassurance seeking [Joi94]]
 that show hopelessness can be contagious. Think of the flu virus in close quarters. Ignoring a clearly broken situation reinforces the ideas that perhaps _nothing_ can be fixed, that no one cares, all is doomed; all negative thoughts which can spread among team members, creating a vicious spiral.
 
-| Tip 5 | Don’t Live with Broken Windows |
+> [!TIP]
+> **Tip 5: Don’t Live with Broken Windows**
 
-Don’t leave “broken windows’’ (bad designs, wrong decisions, or poor
+Don’t leave “broken windows" (bad designs, wrong decisions, or poor
 code) unrepaired. Fix each one as soon as it is discovered. If there
 is insufficient time to fix it properly, then _board it
 up._ Perhaps you can comment out the offending code, or display a
@@ -783,15 +838,15 @@ all the broken glass of a project. If so,
 then you’d better plan on getting a dumpster, or moving to another
 neighborhood. Don’t let entropy win.
 
-### First, Do No Harm
+## First, Do No Harm
 
 Andy once had an acquaintance who was obscenely rich. His
 house was immaculate, loaded with priceless antiques, _objets
 d’art_, and so on. One day, a tapestry that was hanging a little too
 close to a fireplace caught on fire. The fire department
-rushed in to save the day—and his house. But before they dragged their
-big, dirty hoses into the house, they stopped—with the fire
-raging—to roll out a mat between the front door and the source of the
+rushed in to save the day, and his house. But before they dragged their
+big, dirty hoses into the house, they stopped, with the fire
+raging, to roll out a mat between the front door and the source of the
 fire.
 
 They didn’t want to mess up the carpet.
@@ -804,9 +859,9 @@ the property. That’s the way it must be with software: don’t cause
 collateral damage just because there’s a crisis of some sort. One broken
 window is one too many.
 
-One broken window—a badly designed piece of code, a poor
+One broken window, a badly designed piece of code, a poor
 management decision that the team must live with for the duration of
-the project—is all it takes to start the decline. If you find
+the project, is all it takes to start the decline. If you find
 yourself working on a project with quite a few broken windows, it’s
 all too easy to slip into the mindset of “All the rest of this code
 is crap, I’ll just follow suit.” It doesn’t matter if the project has
@@ -816,29 +871,31 @@ But once a single window was broken, the car was stripped and turned
 upside down within _hours_.
 
 By the same token, if you find yourself on a project where
-the code is pristinely beautiful—cleanly written, well designed, and
-elegant—you will likely take extra special care not to mess it up,
+the code is pristinely beautiful, cleanly written, well designed, and
+elegant, you will likely take extra special care not to mess it up,
 just like the firefighters. Even if there’s a fire raging (deadline,
 release date, trade show demo, etc.), _you_ don’t want to be the first
 one to make a mess and inflict additional damage.
 
 Just tell yourself, “No broken windows.”
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 10, _Orthogonality_
 - Topic 40, _Refactoring_
 - Topic 44, _Naming Things_
 
-### Challenges
+#### Challenges
 
 - Help strengthen your team by surveying your project neighborhood. Choose two or three broken windows and discuss with your colleagues what the problems are and what could be done to fix them.
 - Can you tell when a window first gets broken? What is your reaction? If it was the result of someone else’s decision, or a management edict, what can you do about it?
 
-| Topic 4 | Stone Soup and Boiled Frogs |
+---
+
+### Topic 4: Stone Soup and Boiled Frogs
 
 _The three soldiers returning home from war were hungry. When they saw
-the village ahead their spirits lifted—they were sure the
+the village ahead their spirits lifted, they were sure the
 villagers would give them a meal. But when they got there, they found
 the doors locked and the windows closed. After many years of war, the
 villagers were short of food, and hoarded what they had._
@@ -847,7 +904,7 @@ _Undeterred, the soldiers boiled a pot of water and carefully placed
 three stones into it. The amazed villagers came out to watch._
 
 _“This is stone soup,” the soldiers explained. “Is that all you put
-in it?” asked the villagers. “Absolutely—although some say it
+in it?” asked the villagers. “Absolutely, although some say it
 tastes even better with a few carrots…” A villager ran off,
 returning in no time with a basket of carrots from his hoard._
 
@@ -868,31 +925,32 @@ There are a couple of morals in the stone soup story. The villagers
 are tricked by the soldiers, who use the villagers’ curiosity to get food
 from them. But more importantly, the soldiers act as a catalyst,
 bringing the village together so they can jointly produce something
-that they couldn’t have done by themselves—a synergistic result.
+that they couldn’t have done by themselves, a synergistic result.
 Eventually everyone wins.
 
 Every now and then, you might want to emulate the soldiers.
 
 You may be in a situation where you know exactly what needs doing and
-how to do it. The entire system just appears before your eyes—you
+how to do it. The entire system just appears before your eyes, you
 know it’s right. But ask permission to tackle the whole thing and
 you’ll be met with delays and blank stares. People will form
 committees, budgets will need approval, and things will get
 complicated. Everyone will guard their own resources. Sometimes this
-is called “start-up fatigue.’’
+is called “start-up fatigue."
 
 It’s time to bring out the stones. Work out what you _can_
 reasonably ask for. Develop it well. Once you’ve got it, show people,
 and let them marvel. Then say “of course, it _would_ be better
-if we added…’’ Pretend it’s not important. Sit back and wait
+if we added…" Pretend it’s not important. Sit back and wait
 for them to start asking you to add the functionality you originally
 wanted. People find it easier to join an ongoing success. Show them a
 glimpse of the future and you’ll get them to rally
-around. [While doing this, you may be comforted by the line attributed to Rear Admiral Dr. Grace Hopper: “It’s easier to ask forgiveness than it is to get permission.’’]
+around. [While doing this, you may be comforted by the line attributed to Rear Admiral Dr. Grace Hopper: “It’s easier to ask forgiveness than it is to get permission."]
 
-| Tip 6 | Be a Catalyst for Change |
+> [!TIP]
+> **Tip 6: Be a Catalyst for Change**
 
-### The Villagers’ Side
+## The Villagers’ Side
 
 On the other hand, the stone soup story is also about gentle and gradual
 deception. It’s about focusing too tightly. The villagers think
@@ -907,9 +965,10 @@ patch gets added to a piece of code until there’s nothing of the
 original left. It’s often the accumulation of small things that
 breaks morale and teams.
 
-| Tip 7 | Remember the Big Picture |
+> [!TIP]
+> **Tip 7: Remember the Big Picture**
 
-We’ve never tried this—honest. But “they” say that if you take a frog
+We’ve never tried this, honest. But “they” say that if you take a frog
 and drop it into boiling water, it will jump straight back out again.
 However, if you place the frog in a pan of cold water, then gradually
 heat it, the frog won’t notice the slow increase in temperature and will
@@ -924,17 +983,19 @@ Don’t be like the fabled frog. Keep an eye on the big picture. Constantly
 review what’s happening around you, not just what you personally are
 doing.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 1, _It’s Your Life_
 - Topic 38, _Programming by Coincidence_
 
-### Challenges
+#### Challenges
 
 - While reviewing a draft of the first edition, John Lakos raised the following issue: The soldiers progressively deceive the villagers, but the change they catalyze does them all good. However, by progressively deceiving the frog, you’re doing it harm. Can you determine whether you’re making stone soup or frog soup when you try to catalyze change? Is the decision subjective or objective?
 - Quick, without looking, how many lights are in the ceiling above you? How many exits in the room? How many people? Is there anything out of context, anything that looks like it doesn’t belong? This is an exercise in _situational awareness_, a technique practiced by folks ranging from Boy and Girl Scouts to Navy SEALs. Get in the habit of really looking and noticing your surroundings. Then do the same for your project.
 
-| Topic 5 | Good-Enough Software |
+---
+
+### Topic 5: Good-Enough Software
 
 Striving to better, oft we mar what’s well.
 
@@ -945,7 +1006,7 @@ There’s an old(ish) joke about a company that places an order for
 specification was the defect rate: one chip in 10,000. A few weeks
 later the order arrived: one large box containing thousands of ICs,
 and a small one containing just ten. Attached to the small box was a
-label that read: “These are the faulty ones.’’
+label that read: “These are the faulty ones."
 
 If only we really had this kind of control over quality.
 But the real world just won’t let us produce much that’s truly
@@ -954,20 +1015,20 @@ temperament all conspire against us.
 
 However, this doesn’t have to be frustrating. As Ed Yourdon described in an article in _IEEE
 Software,_ _When good-enough software is best_ [You95], you can discipline yourself to write
-software that’s good enough—good enough for your users, for future
+software that’s good enough, good enough for your users, for future
 maintainers, for your own peace of mind. You’ll find that you are more
 productive
 and your users are happier. And you may well find that your
 programs are actually better for their shorter incubation.
 
 Before we go any further, we need to qualify what we’re about to say.
-The phrase “good enough’’ does not imply sloppy or poorly
+The phrase “good enough" does not imply sloppy or poorly
 produced code. All systems must meet their users’ requirements to be
 successful, and meet basic performance, privacy, and security standards. We are simply advocating that users be given an
 opportunity to participate in the process of deciding when what you’ve
 produced is good enough for their needs.
 
-### Involve Your Users in the Trade-Off
+## Involve Your Users in the Trade-Off
 
 Normally you’re writing software for other people. Often you’ll remember
 to find out what they want. [That was supposed to be a joke!] But do you ever ask them
@@ -989,7 +1050,8 @@ deadline.
 The scope and quality of the system you produce
 should be discussed as part of that system’s requirements.
 
-| Tip 8 | Make Quality a Requirements Issue |
+> [!TIP]
+> **Tip 8: Make Quality a Requirements Issue**
 
 Often you’ll be in situations where trade-offs are involved.
 Surprisingly, many users would rather use software with some rough
@@ -999,7 +1061,7 @@ often preferable to the fantasy of perfect software tomorrow. If you give your u
 something to play with early, their feedback will often lead you to a
 better eventual solution (see Topic 12, _Tracer Bullets_).
 
-### Know When to Stop
+## Know When to Stop
 
 In some ways, programming is like painting.
 You start with a blank
@@ -1020,26 +1082,28 @@ for a while. It may not be perfect. Don’t worry: it could never be
 perfect. (In Chapter 7, _While You Are Coding_, we’ll discuss philosophies for
 developing code in an imperfect world.)
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 45, _The Requirements Pit_
 - Topic 46, _Solving Impossible Puzzles_
 
-### Challenges
+#### Challenges
 
 - Look at the software tools and operating systems that you use regularly. Can you find any evidence that these organizations and/or developers are comfortable shipping software they know is not perfect? As a user, would you rather (1) wait for them to get all the bugs out, (2) have complex software and accept some bugs, or (3) opt for simpler software with fewer defects?
 - Consider the effect of modularization on the delivery of software. Will it take more or less time to get a tightly coupled monolithic block of software to the required quality compared with a system designed as very loosely coupled modules or microservices? What are the advantages or disadvantages of each approach?
 - Can you think of popular software that suffers from _feature bloat_? That is, software containing far more features than you would ever use, each feature introducing more opportunity for bugs and security vulnerabilities, and making the features you _do_ use harder to find and manage. Are you in danger of falling into this trap yourself?
 
-| Topic 6 | Your Knowledge Portfolio |
+---
+
+### Topic 6: Your Knowledge Portfolio
 
 An investment in knowledge always pays the best interest.
 
 Benjamin Franklin
 
-Ah, good old Ben Franklin—never at a loss for a pithy homily. Why,
+Ah, good old Ben Franklin, never at a loss for a pithy homily. Why,
 if we could just be early to bed and early to rise, we’d be great
-programmers—right? The early bird might get the worm, but what
+programmers, right? The early bird might get the worm, but what
 happens to the early worm?
 
 In this case, though, Ben really hit the nail on the head. Your
@@ -1057,14 +1121,14 @@ company or client. We want to prevent this from ever happening.
 Your ability to learn new things is your most important strategic asset.
 But how do you learn _how_ to learn, and how do you know _what_ to learn?
 
-### Your Knowledge Portfolio
+## Your Knowledge Portfolio
 
 We like to think of all the facts programmers know about computing,
 the application domains they work in, and all their experience as
 their _knowledge portfolios._ Managing a knowledge portfolio is
 very similar to managing a financial portfolio:
 
-1. Serious investors invest regularly—as a habit.
+1. Serious investors invest regularly, as a habit.
 2. Diversification is the key to long-term success.
 3. Smart investors balance their portfolios between conservative and high-risk, high-reward investments.
 4. Investors try to buy low and sell high for maximum return.
@@ -1074,12 +1138,12 @@ To be successful in your career, you must invest in your knowledge
 portfolio using these same guidelines.
 
 The good news is that managing this kind of investment is a skill just
-like any other—it can be learned. The trick is to make yourself do it
+like any other, it can be learned. The trick is to make yourself do it
 initially and form a habit. Develop a routine which you follow
 until your brain internalizes it. At that point, you’ll find yourself
 sucking up new knowledge automatically.
 
-### Building Your Portfolio
+## Building Your Portfolio
 
 Invest regularly
 
@@ -1093,7 +1157,7 @@ Diversify
 The more _different_ things you know, the more valuable you are.
 As a baseline, you need to know the ins and outs of the particular
 technology you are working with currently. But don’t stop there.
-The face of computing changes rapidly—hot technology today may
+The face of computing changes rapidly, hot technology today may
 well be close to useless (or at least not in demand) tomorrow.
 The more technologies you are comfortable with, the better you will
 be able to adjust to change. And don’t forget all the _other_ skills you need, including those in non-technical areas.
@@ -1127,9 +1191,10 @@ language….
 Of all these guidelines, the most important one is the
 simplest to do:
 
-| Tip 9 | Invest Regularly in Your Knowledge Portfolio |
+> [!TIP]
+> **Tip 9: Invest Regularly in Your Knowledge Portfolio**
 
-### Goals
+## Goals
 
 Now that you have some guidelines on what and when to add to
 your knowledge portfolio, what’s the best way to go about acquiring
@@ -1158,7 +1223,7 @@ branch out and study some that _don’t_ relate to your project.
 Read nontechnical books, too
 
 It is important to remember
-that computers are used by _people_—people whose needs
+that computers are used by _people_, people whose needs
 you are trying to satisfy. You work with people, are employed by people, and get hacked by people. Don’t forget the human side of the equation, as that requires
 an entirely different skill set (we ironically call these _soft_ skills, but they are actually quite hard to master).
 
@@ -1200,7 +1265,7 @@ project. Even if your project doesn’t use that technology, perhaps you
 can borrow some ideas. Get familiar with object orientation, for
 instance, and you’ll write procedural programs differently. Understand the functional programming paradigm and you’ll write object-oriented code differently, and so on.
 
-### Opportunities for Learning
+## Opportunities for Learning
 
 So you’re reading voraciously, you’re on top of all the latest
 breaking developments in your field (not an easy thing to do), and
@@ -1208,7 +1273,7 @@ somebody asks you a question. You don’t have the faintest idea what
 the answer is, and freely admit as much.
 
 _Don’t let it stop there._ Take it as a personal challenge to
-find the answer. Ask around. Search the web—the scholarly parts too, not just the consumer parts.
+find the answer. Ask around. Search the web, the scholarly parts too, not just the consumer parts.
 
 If you can’t find the answer yourself, find out who _can_.
 Don’t let it rest. Talking to other people will help build your
@@ -1220,17 +1285,17 @@ All of this reading and researching takes time, and time is already
 in short supply. So you need to
 plan ahead. Always have something to read in an otherwise dead
 moment. Time spent waiting for doctors and dentists can
-be a great opportunity to catch up on your reading—but be sure to
+be a great opportunity to catch up on your reading, but be sure to
 bring your own e-reader with you, or you might find yourself thumbing
 through a dog-eared 1973 article about Papua New Guinea.
 
-### Critical Thinking
+## Critical Thinking
 
 The last important point is to think _critically_ about what you
 read and hear. You need to ensure that the knowledge in your
 portfolio is accurate and unswayed by either
 vendor or media hype. Beware of the zealots who insist that their
-dogma provides the _only_ answer—it may or may not be
+dogma provides the _only_ answer, it may or may not be
 applicable to you and your project.
 
 Never underestimate the power of commercialism. Just because a web
@@ -1239,7 +1304,8 @@ the content provider can pay to get top billing. Just because a
 bookstore features a book prominently doesn’t mean it’s a good book,
 or even popular; they may have been paid to place it there.
 
-| Tip 10 | Critically Analyze What You Read and Hear |
+> [!TIP]
+> **Tip 10: Critically Analyze What You Read and Hear**
 
 Critical thinking is an entire discipline unto itself, and we encourage
 you to read and study all you can about it. In the meantime, here’s a head
@@ -1274,18 +1340,20 @@ your extensive portfolio, and by applying some critical analysis to the
 torrent of technical articles you will read, you can understand the
 _complex_ answers.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 1, _It’s Your Life_
 - Topic 22, _Engineering Daybooks_
 
-### Challenges
+#### Challenges
 
 - Start learning a new language this week. Always programmed in the same old language? Try Clojure, Elixir, Elm, F#, Go, Haskell, Python, R, ReasonML, Ruby, Rust, Scala, Swift, TypeScript, or anything else that appeals and/or looks as if you might like it. [Never heard of any of these languages? Remember, knowledge is an expiring asset, and so is popular technology. The list of hot new and experimental languages was very different for the first edition, and is probably different again by the time you read this. All the more reason to keep learning.]
 - Start reading a new book (but finish this one first!). If you are doing very detailed implementation and coding, read a book on design and architecture. If you are doing high-level design, read a book on coding techniques.
 - Get out and talk technology with people who aren’t involved in your current project, or who don’t work for the same company. Network in your company cafeteria, or maybe seek out fellow enthusiasts at a local meetup.
 
-| Topic 7 | Communicate! |
+---
+
+### Topic 7: Communicate!
 
 I believe that it is better to be looked over than it is to be overlooked.
 
@@ -1312,19 +1380,20 @@ programming language. Write natural language as you would write code:
 honor the DRY principle, ETC, automation, and so on. (We discuss the
 DRY and ETC design principles in the next chapter.)
 
-| Tip 11 | English is Just Another Programming Language |
+> [!TIP]
+> **Tip 11: English is Just Another Programming Language**
 
 We’ve put together a list of additional ideas that we find useful.
 
-### Know Your Audience
+## Know Your Audience
 
 You’re communicating only if you’re conveying what you mean to
-convey—just talking isn’t enough. To do that, you need to understand the
+convey, just talking isn’t enough. To do that, you need to understand the
 needs, interests, and capabilities of your audience. We’ve all sat in
 meetings where a development geek glazes over the eyes of the vice
 president of marketing with a long monologue on the merits of some
 arcane technology. This isn’t communicating: it’s just talking, and it’s
-annoying. [The word annoy comes from the Old French enui, which also means “to bore.’’]
+annoying. [The word annoy comes from the Old French enui, which also means “to bore."]
 
 Say you want to change your remote monitoring system to use a third-party message broker to disseminate status notifications. You can present this update in many different ways, depending on your audience. End users will appreciate that their systems can now interoperate with other services that use the broker. Your marketing department will be able to use this fact to boost sales. Development and operations managers will be happy because the care and maintenance of that part of the system is now someone else’s problem. Finally, developers may enjoy getting experience with new APIs, and may even be able to find new uses for the message broker. By making the appropriate pitch to each group, you’ll get them all excited about your project.
 
@@ -1335,7 +1404,7 @@ Programming presuppositions is “The meaning of your communication is the
 response you get.” Continuously improve your knowledge of your audience
 as you communicate.
 
-### Know What You Want to Say
+## Know What You Want to Say
 
 Probably the most difficult part of the more formal styles of
 communication used in business is working out exactly what it is you
@@ -1358,7 +1427,7 @@ strategies for getting them across.
 
 Now that you know what your audience wants, let’s deliver it.
 
-### Choose Your Moment
+## Choose Your Moment
 
 It’s six o’clock on Friday afternoon,
 following a week when the auditors have been in. Your boss’s youngest
@@ -1372,12 +1441,12 @@ given a hard time by her boss because some source code got lost, and
 you’ll have a more receptive listener to your ideas on source code
 repositories. Make what you’re saying relevant in time, as well as in
 content. Sometimes all it takes is the simple question, “Is this a
-good time to talk about…?’’
+good time to talk about…?"
 
-### Choose a Style
+## Choose a Style
 
 Adjust the style of your delivery to suit your
-audience. Some people want a formal “just the facts’’ briefing.
+audience. Some people want a formal “just the facts" briefing.
 Others like a long, wide-ranging chat before getting down to business. What is their skill level and experience in this area? Are they experts? Newbies? Do they need hand-holding or just a quick tl;dr? If in doubt, ask.
 
 Remember, however, that you are half of the communication transaction.
@@ -1385,7 +1454,7 @@ If someone says they need a paragraph describing something and you
 can’t see any way of doing it in less than several pages, tell them so.
 Remember, that kind of feedback is a form of communication, too.
 
-### Make It Look Good
+## Make It Look Good
 
 Your ideas are important. They deserve a
 good-looking vehicle to convey them to your audience.
@@ -1406,7 +1475,7 @@ ideas on style and layout. _Check the spelling,_ first automatically and
 then by hand. After awl, their are spelling miss steaks that the chequer
 can knot ketch.
 
-### Involve Your Audience
+## Involve Your Audience
 
 We often find that the documents we produce end up being less
 important than the process we go through to produce them. If possible,
@@ -1415,50 +1484,52 @@ feedback, and pick their brains. You’ll build a good working
 relationship, and you’ll probably produce a better document in the
 process.
 
-### Be a Listener
+## Be a Listener
 
 There’s one technique that you must use if you
 want people to listen to you: _listen to them._ Even if this is a
 situation where you have all the information, even if this is a formal
-meeting with you standing in front of 20 suits—if you don’t listen to
+meeting with you standing in front of 20 suits, if you don’t listen to
 them, they won’t listen to you.
 
 Encourage people to talk by asking questions, or ask them to restate the discussion in their own words. Turn the meeting into a dialog, and you’ll make
 your point more effectively. Who knows, you might even learn
 something.
 
-### Get Back to People
+## Get Back to People
 
 If you ask someone a question, you feel
 they’re impolite if they don’t respond. But how often do you fail to
 get back to people when they send you an email or a memo asking for
 information or requesting some action? In the rush of everyday life,
 it’s easy to forget. Always respond to emails and voicemails, even if
-the response is simply “I’ll get back to you later.’’ Keeping people
+the response is simply “I’ll get back to you later." Keeping people
 informed makes them far more forgiving of the occasional slip, and
 makes them feel that you haven’t forgotten them.
 
-| Tip 12 | It’s Both What You Say and the Way You Say It |
+> [!TIP]
+> **Tip 12: It’s Both What You Say and the Way You Say It**
 
 Unless you work in a vacuum, you need to be able to communicate. The
 more effective that communication, the more influential you become.
 
-### Documentation
+## Documentation
 
 Finally, there’s the matter of communicating via documentation. Typically, developers don’t give much thought to documentation. At best it is an unfortunate necessity; at worst it is treated as a low-priority task in the hope that management will forget about it at the end of the project.
 
-Pragmatic Programmers embrace documentation as an integral part of the overall development process. Writing documentation can be made easier by not duplicating effort or wasting time, and by keeping documentation close at hand—in the code itself. In fact, we want to apply _all_ of our pragmatic principles to documentation as well as to code.
+Pragmatic Programmers embrace documentation as an integral part of the overall development process. Writing documentation can be made easier by not duplicating effort or wasting time, and by keeping documentation close at hand, in the code itself. In fact, we want to apply _all_ of our pragmatic principles to documentation as well as to code.
 
-| Tip 13 | Build Documentation In, Don’t Bolt It On |
+> [!TIP]
+> **Tip 13: Build Documentation In, Don’t Bolt It On**
 
 It’s easy to produce good-looking documentation from the comments in source code, and we recommend adding comments to modules and exported functions to give other developers a leg up when they come to use it.
 
-However, this doesn’t mean we agree with the folks who say that _every_ function, data structure, type declaration, etc., needs its own comment. This kind of mechanical comment writing actually makes it more difficult to maintain code: now there are two things to update when you make a change. So restrict your non-API commenting to discussing _why_ something is done, its purpose and its goal. The code already shows _how_ it is done, so commenting on this is redundant—and is a violation of the DRY
+However, this doesn’t mean we agree with the folks who say that _every_ function, data structure, type declaration, etc., needs its own comment. This kind of mechanical comment writing actually makes it more difficult to maintain code: now there are two things to update when you make a change. So restrict your non-API commenting to discussing _why_ something is done, its purpose and its goal. The code already shows _how_ it is done, so commenting on this is redundant, and is a violation of the DRY
 principle.
 
 Commenting source code gives you the perfect opportunity to document those elusive bits of a project that can’t be documented anywhere else: engineering trade-offs, why decisions were made, what other alternatives were discarded, and so on.
 
-### Summary
+## Summary
 
 - Know what you want to say.
 - Know your audience.
@@ -1470,7 +1541,7 @@ Commenting source code gives you the perfect opportunity to document those elusi
 - Get back to people.
 - Keep code and documentation together.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 15, _Estimating_
 - Topic 18, _Power Editing_
@@ -1502,16 +1573,14 @@ email and social media posts are forever. Try to give the same
 attention and care to email as you would to any written memo or
 report.
 
-### Challenges
+#### Challenges
 
 - There are several good books that contain sections on communications within teams, including _The Mythical Man-Month: Essays on Software Engineering_ [Bro96] and _Peopleware: Productive Projects and Teams_ [DL13]. Make it a point to try to read these over the next 18 months. In addition, _Dinosaur Brains: Dealing with All Those Impossible People at Work_ [BR89] discusses the emotional baggage we all bring to the work environment.
 - The next time you have to give a presentation, or write a memo advocating some position, try working through the advice in this section before you start. Explicitly identify the audience and what you need to communicate. If appropriate, talk to your audience afterward and see how accurate your assessment of their needs was.
 
 Copyright © 2020 Pearson Education, Inc.
 
-# Chapter
-
-2A Pragmatic Approach
+## Chapter 2: A Pragmatic Approach
 
 There are certain tips and tricks that apply at all levels of software
 development, processes that are virtually universal, and ideas that are
@@ -1524,7 +1593,7 @@ The first and maybe most important topic gets to the heart of software
 development: Topic 8, _The Essence of Good Design_. Everything follows
 from this.
 
-The next two sections, Topic 9, _DRY—The Evils of Duplication_ and Topic 10, _Orthogonality_, are closely related. The
+The next two sections, Topic 9, _DRY, The Evils of Duplication_ and Topic 10, _Orthogonality_, are closely related. The
 first warns you not to duplicate knowledge throughout your systems, the
 second not to split any one piece of knowledge across multiple system
 components.
@@ -1556,7 +1625,9 @@ Keep these fundamental principles in mind during development, and you’ll
 write code that’s better, faster, and stronger. You can even make
 it look easy.
 
-| Topic 8 | The Essence of Good Design |
+---
+
+### Topic 8: The Essence of Good Design
 
 The world is full of gurus and pundits, all eager to pass on their
 hard-earned wisdom when it comes to How to Design Software. There are
@@ -1568,7 +1639,8 @@ And we, your gentle authors, are guilty of this too. But we’d like to
 make amends by explaining something that only became apparent to us
 fairly recently. First, the general statement:
 
-| Tip 14 | Good Design Is Easier to Change Than Bad Design |
+> [!TIP]
+> **Tip 14: Good Design Is Easier to Change Than Bad Design**
 
 A thing is well designed if it adapts to the people who use it. For
 code, that means it must adapt by changing.
@@ -1586,7 +1658,7 @@ requirements is mirrored by a change in just one module. ETC.
 Why is naming important? Because good names make code easier to read,
 and you have to read it to change it. ETC!
 
-### ETC Is a Value, Not a Rule
+## ETC Is a Value, Not a Rule
 
 Values are things that help you make decisions: should I do this, or
 that? When it comes to thinking about software, ETC is a guide, helping
@@ -1624,9 +1696,9 @@ help the next time you reach a similar fork in the road.
 The rest of the sections in this chapter have specific ideas on design,
 but all are motivated by this one principle.
 
-### Related Sections Include
+## Related Sections Include
 
-- Topic 9, _DRY—The Evils of Duplication_
+- Topic 9, _DRY, The Evils of Duplication_
 - Topic 10, _Orthogonality_
 - Topic 11, _Reversibility_
 - Topic 14, _Domain Languages_
@@ -1634,14 +1706,16 @@ but all are motivated by this one principle.
 - Topic 30, _Transforming Programming_
 - Topic 31, _Inheritance Tax_
 
-### Challenges
+#### Challenges
 
 - Think about a design principle you use regularly. Is it intended to make things easy-to-change?
 - Also think about languages and programming paradigms (OO, FP, Reactive, and so on). Do any have either big positives or big negatives when it comes to helping you write ETC code? Do any have both? When coding, what can you do to eliminate the negatives and accentuate the positives? [To paraphrase the old Arlen/Mercer song…]
 
 - Many editors have support (either built-in or via extensions) to run commands when you save a file. Get your editor to popup an _ETC?_ message every time you save [Or, perhaps, to keep your sanity, every 10th time…] and use it as a cue to think about the code you just wrote. Is it easy to change?
 
-| Topic 9 | DRY—The Evils of Duplication |
+---
+
+### Topic 9: DRY, The Evils of Duplication
 
 Giving a computer two contradictory pieces of knowledge was Captain
 James T. Kirk’s preferred way of disabling a marauding artificial
@@ -1652,7 +1726,7 @@ As programmers, we collect, organize, maintain, and harness knowledge.
 We document knowledge in specifications, we make it come alive in
 running code, and we use it to provide the checks needed during testing.
 
-Unfortunately, knowledge isn’t stable. It changes—often rapidly. Your
+Unfortunately, knowledge isn’t stable. It changes, often rapidly. Your
 understanding of a requirement may change following a meeting with the
 client. The government changes a regulation and some business logic gets
 outdated. Tests may show that the chosen algorithm won’t work. All this
@@ -1668,10 +1742,10 @@ the environment changes. Whatever the reason, maintenance is not a
 discrete activity, but a routine part of the entire development process.
 
 When we perform maintenance, we have to find and change the
-representations of things—those capsules of knowledge embedded in the
+representations of things, those capsules of knowledge embedded in the
 application. The problem is that it’s easy to duplicate knowledge in the
 specifications, processes, and programs that we develop, and when we do
-so, we invite a maintenance nightmare—one that starts well before the
+so, we invite a maintenance nightmare, one that starts well before the
 application ships.
 
 We feel that the only way to develop software reliably, and to make our
@@ -1683,7 +1757,8 @@ unambiguous, authoritative representation within a system._
 
 Why do we call it DRY?
 
-| Tip 15 | DRY—Don’t Repeat Yourself |
+> [!TIP]
+> **Tip 15: DRY, Don’t Repeat Yourself**
 
 The alternative is to have the same thing expressed in two or more
 places. If you change one, you have to remember to change the
@@ -1699,7 +1774,7 @@ Programmer’s tool box.
 In this section we’ll outline the problems of duplication and suggest
 general strategies for dealing with it.
 
-### DRY Is More Than Code
+## DRY Is More Than Code
 
 Let’s get something out of the way up-front. In the first edition of this book we did a poor job of explaining just what we meant by _Don’t Repeat Yourself_. Many people took it to refer to code only: they thought that DRY means “don’t copy-and-paste lines of source.”
 
@@ -1716,26 +1791,27 @@ documentation, or a database schema and a structure that holds it, or…? If so,
 
 So let’s look at some typical examples of duplication.
 
-### Duplication in Code
+## Duplication in Code
 
 It may be trivial, but code duplication is oh, so common. Here’s an example:
 
-|     | def print_balance(account)                    |
-| --- | --------------------------------------------- |
-|     | printf "Debits: %10.2f\n", account.debits     |
-|     | printf "Credits: %10.2f\n", account.credits   |
-|     | if account.fees < 0                           |
-|     | printf "Fees: %10.2f-\n", -account.fees       |
-|     | else                                          |
-|     | printf "Fees: %10.2f\n", account.fees         |
-|     | end                                           |
-|     | printf " ———-\n"                              |
-|     | if account.balance < 0                        |
-|     | printf "Balance: %10.2f-\n", -account.balance |
-|     | else                                          |
-|     | printf "Balance: %10.2f\n", account.balance   |
-|     | end                                           |
-|     | end                                           |
+```ruby
+def print_balance(account)
+  printf "Debits:  %10.2f\n", account.debits
+  printf "Credits: %10.2f\n", account.credits
+  if account.fees < 0
+    printf "Fees:    %10.2f-\n", -account.fees
+  else
+    printf "Fees:    %10.2f\n", account.fees
+  end
+  printf "         ———-\n"
+  if account.balance < 0
+    printf "Balance: %10.2f-\n", -account.balance
+  else
+    printf "Balance: %10.2f\n", account.balance
+  end
+end
+```
 
 For now ignore the implication that we’re committing the newbie mistake of storing currencies in floats. Instead see if you can spot duplications in this code. (We can see at least three things, but you might see more.)
 
@@ -1743,91 +1819,95 @@ What did you find? Here’s our list.
 
 First, there’s clearly a copy-and-paste duplication of handling the negative numbers. We can fix that by adding another function:
 
-|     | def format_amount(value)                               |
-| --- | ------------------------------------------------------ |
-|     | result = sprintf("%10.2f", value.abs)                  |
-|     | if value < 0                                           |
-|     | result + "-"                                           |
-|     | else                                                   |
-|     | result + " "                                           |
-|     | end                                                    |
-|     | end                                                    |
-|     |                                                        |
-|     | def print_balance(account)                             |
-|     | printf "Debits: %10.2f\n", account.debits              |
-|     | printf "Credits: %10.2f\n", account.credits            |
-|     | printf "Fees: %s\n", format_amount(account.fees)       |
-|     | printf " ———-\n"                                       |
-|     | printf "Balance: %s\n", format_amount(account.balance) |
-|     | end                                                    |
+```ruby
+def format_amount(value)
+  result = sprintf("%10.2f", value.abs)
+  if value < 0
+    result + "-"
+  else
+    result + " "
+  end
+end
+
+def print_balance(account)
+  printf "Debits:  %10.2f\n", account.debits
+  printf "Credits: %10.2f\n", account.credits
+  printf "Fees:    %s\n",     format_amount(account.fees)
+  printf "         ———-\n"
+  printf "Balance: %s\n",     format_amount(account.balance)
+end
+```
 
 Another duplication is the repetition of the field width in all the printf calls. We _could_ fix this by introducing a constant and passing it to each call, but why not just use the existing function?
 
-|     | def format_amount(value)                               |
-| --- | ------------------------------------------------------ |
-|     | result = sprintf("%10.2f", value.abs)                  |
-|     | if value < 0                                           |
-|     | result + "-"                                           |
-|     | else                                                   |
-|     | result + " "                                           |
-|     | end                                                    |
-|     | end                                                    |
-|     |                                                        |
-|     | def print_balance(account)                             |
-|     | printf "Debits: %s\n", format_amount(account.debits)   |
-|     | printf "Credits: %s\n", format_amount(account.credits) |
-|     | printf "Fees: %s\n", format_amount(account.fees)       |
-|     | printf " ———-\n"                                       |
-|     | printf "Balance: %s\n", format_amount(account.balance) |
-|     | end                                                    |
+```ruby
+def format_amount(value)
+  result = sprintf("%10.2f", value.abs)
+  if value < 0
+    result + "-"
+  else
+    result + " "
+  end
+end
+
+def print_balance(account)
+  printf "Debits:  %s\n", format_amount(account.debits)
+  printf "Credits: %s\n", format_amount(account.credits)
+  printf "Fees:    %s\n", format_amount(account.fees)
+  printf "         ———-\n"
+  printf "Balance: %s\n", format_amount(account.balance)
+end
+```
 
 Anything more? Well, what if the client asks for an extra space between the labels and the numbers? We’d have to change five lines. Let’s remove that duplication:
 
-|     | def format_amount(value)                       |
-| --- | ---------------------------------------------- |
-|     | result = sprintf("%10.2f", value.abs)          |
-|     | if value < 0                                   |
-|     | result + "-"                                   |
-|     | else                                           |
-|     | result + " "                                   |
-|     | end                                            |
-|     | end                                            |
-|     |                                                |
-|     | def print_line(label, value)                   |
-|     | printf "%-9s%s\n", label, value                |
-|     | end                                            |
-|     |                                                |
-|     | def report_line(label, amount)                 |
-|     | print_line(label + ":", format_amount(amount)) |
-|     | end                                            |
-|     |                                                |
-|     | def print_balance(account)                     |
-|     | report_line("Debits", account.debits)          |
-|     | report_line("Credits", account.credits)        |
-|     | report_line("Fees", account.fees)              |
-|     | print_line("", "———-")                         |
-|     | report_line("Balance", account.balance)        |
-|     | end                                            |
+```ruby
+def format_amount(value)
+  result = sprintf("%10.2f", value.abs)
+  if value < 0
+    result + "-"
+  else
+    result + " "
+  end
+end
+
+def print_line(label, value)
+  printf "%-9s%s\n", label, value
+end
+
+def report_line(label, amount)
+  print_line(label + ":", format_amount(amount))
+end
+
+def print_balance(account)
+  report_line("Debits",  account.debits)
+  report_line("Credits", account.credits)
+  report_line("Fees",    account.fees)
+  print_line("",         "———-")
+  report_line("Balance", account.balance)
+end
+```
 
 If we have to change the formatting of amounts, we change format_amount. If we want to change the label format, we change report_line.
 
 There’s still an implicit DRY violation: the number of hyphens in the separator line is related to the width of the amount field. But it isn’t an exact match: it’s currently one character shorter, so any trailing minus signs extend beyond the column. This is the customer’s intent, and it’s a different intent to the actual formatting of amounts.
 
-#### Not All Code Duplication Is Knowledge Duplication
+## Not All Code Duplication Is Knowledge Duplication
 
 As part of your online wine ordering application you’re capturing and
 validating your user’s age, along with the quantity they’re ordering.
 According to the site owner, they should both be numbers, and both
 greater than zero. So you code up the validations:
 
-|     | def validate_age(value):       |
-| --- | ------------------------------ |
-|     | validate_type(value, :integer) |
-|     | validate_min_integer(value, 0) |
-|     |                                |
-|     | def validate_quantity(value):  |
-|     | validate_type(value, :integer) |
-|     | validate_min_integer(value, 0) |
+```ruby
+def validate_age(value):
+    validate_type(value, :integer)
+    validate_min_integer(value, 0)
+
+def validate_quantity(value):
+    validate_type(value, :integer)
+    validate_min_integer(value, 0)
+```
 
 During code review, the resident know-it-all bounces this code, claiming
 it’s a DRY violation: both function bodies are the same.
@@ -1836,60 +1916,63 @@ They are wrong. The code is the same, but the knowledge they represent
 is different. The two functions validate two separate things that just
 happen to have the same rules. That’s a coincidence, not a duplication.
 
-### Duplication in Documentation
+## Duplication in Documentation
 
 Somehow the myth was born that you should comment all your functions.
 Those who believe in this insanity then produce something such as this:
 
-|     | # Calculate the fees for this account.                    |
-| --- | --------------------------------------------------------- |
-|     | #                                                         |
-|     | # * Each returned check costs $20                         |
-|     | # * If the account is in overdraft for more than 3 days,  |
-|     | # charge $10 for each day                                 |
-|     | # * If the average account balance is greater that $2,000 |
-|     | # reduce the fees by 50%                                  |
-|     |                                                           |
-|     | def fees(a)                                               |
-|     | f = 0                                                     |
-|     | if a.returned_check_count > 0                             |
-|     | f += 20 * a.returned_check_count                          |
-|     | end                                                       |
-|     | if a.overdraft_days > 3                                   |
-|     | f += 10*a.overdraft_days                                  |
-|     | end                                                       |
-|     | if a.average_balance > 2_000                              |
-|     | f /= 2                                                    |
-|     | end                                                       |
-|     | f                                                         |
-|     | end                                                       |
+```ruby
+# Calculate the fees for this account.
+#
+# * Each returned check costs $20
+# * If the account is in overdraft for more than 3 days,
+#   charge $10 for each day
+# * If the average account balance is greater that $2,000
+#   reduce the fees by 50%
+
+def fees(a)
+  f = 0
+  if a.returned_check_count > 0
+    f += 20 * a.returned_check_count
+  end
+  if a.overdraft_days > 3
+    f += 10*a.overdraft_days
+  end
+  if a.average_balance > 2_000
+    f /= 2
+  end
+  f
+end
+```
 
 The intent of this function is given twice: once in the comment and again in the code. The customer changes a fee, and we have to update both. Given time, we can pretty much guarantee the comment and the code will get out of step.
 
 Ask yourself what the comment adds to the code. From our point of view, it simply compensates for some bad naming and layout. How about just this:
 
-|     | def calculate_account_fees(account)                               |
-| --- | ----------------------------------------------------------------- |
-|     | fees = 20 * account.returned_check_count                          |
-|     | fees += 10 * account.overdraft_days if account.overdraft_days > 3 |
-|     | fees /= 2 if account.average_balance > 2_000                      |
-|     | fees                                                              |
-|     | end                                                               |
+```ruby
+def calculate_account_fees(account)
+  fees  = 20 * account.returned_check_count
+  fees += 10 * account.overdraft_days  if account.overdraft_days > 3
+  fees /= 2                            if account.average_balance > 2_000
+  fees
+end
+```
 
 The name says what it does, and if someone needs details, they’re laid out in the source. That’s DRY!
 
-#### DRY Violations in Data
+## DRY Violations in Data
 
 Our data structures represent knowledge, and they can fall afoul of
 the DRY principle. Let’s
 look at a class representing a line:
 
-|     | class Line {   |
-| --- | -------------- |
-|     | Point start;   |
-|     | Point end;     |
-|     | double length; |
-|     | };             |
+```c
+class Line {
+  Point  start;
+  Point  end;
+  double length;
+};
+```
 
 At first sight, this class might appear reasonable. A line clearly has a
 start and end, and will always have a length (even if it’s zero). But
@@ -1897,12 +1980,13 @@ we have duplication. The length is defined by the start and
 end points: change one of the points and the length changes.
 It’s better to make the length a calculated field:
 
-|     | class Line {                                      |
-| --- | ------------------------------------------------- |
-|     | Point start;                                      |
-|     | Point end;                                        |
-|     | double length() { return start.distanceTo(end); } |
-|     | };                                                |
+```c
+class Line {
+  Point  start;
+  Point  end;
+  double length() { return start.distanceTo(end); }
+};
+```
 
 Later on in the development process, you may choose to violate the DRY
 principle for performance reasons. Frequently this occurs when you need
@@ -1911,31 +1995,32 @@ localize the impact. The violation is not exposed to the outside world:
 only the methods within the class have to worry about keeping things
 straight:
 
-|     | class Line {                                                  |
-| --- | ------------------------------------------------------------- |
-|     | private double length;                                        |
-|     | private Point start;                                          |
-|     | private Point end;                                            |
-|     |                                                               |
-|     | public Line(Point start, Point end) {                         |
-|     | this.start = start;                                           |
-|     | this.end = end;                                               |
-|     | calculateLength();                                            |
-|     | }                                                             |
-|     |                                                               |
-|     | // public                                                     |
-|     | void setStart(Point p) { this.start = p; calculateLength(); } |
-|     | void setEnd(Point p) { this.end = p; calculateLength(); }     |
-|     |                                                               |
-|     | Point getStart() { return start; }                            |
-|     | Point getEnd() { return end; }                                |
-|     |                                                               |
-|     | double getLength() { return length; }                         |
-|     |                                                               |
-|     | private void calculateLength() {                              |
-|     | this.length = start.distanceTo(end);                          |
-|     | }                                                             |
-|     | };                                                            |
+```c
+class Line {
+  private double length;
+  private Point  start;
+  private Point  end;
+
+  public Line(Point start, Point end) {
+    this.start = start;
+    this.end   = end;
+    calculateLength();
+  }
+
+  // public
+  void setStart(Point p) { this.start = p; calculateLength(); }
+  void setEnd(Point p)   { this.end   = p; calculateLength(); }
+
+  Point getStart()       { return start; }
+  Point getEnd()         { return end;   }
+
+  double getLength()     { return length; }
+
+  private void calculateLength() {
+    this.length  = start.distanceTo(end);
+  }
+};
+```
 
 This example also illustrates an important issue: whenever a module exposes a data structure, you’re coupling all the code that uses that structure to the implementation of that module.
 Where possible, always use accessor functions to read and write the attributes of
@@ -1949,23 +2034,23 @@ _Uniform Access principle_, described in _Object-Oriented Software Construction_
 > whether they are implemented through storage or through
 > computation.
 
-### Representational Duplication
+## Representational Duplication
 
 Your code interfaces to the outside world: other libraries via APIs, other services via remote calls, data in external sources, and so on. And pretty much each time you do, you introduce some kind of DRY violation: your code has to have knowledge that is also present in the external _thing_. It needs to know the API, or the schema, or the meaning of error codes, or whatever. The duplication here is that two things (your code and the external entity) have to have knowledge of the representation of their interface. Change it at one end, and the other end breaks.
 
 This duplication is inevitable, but can be mitigated. Here are some strategies.
 
-#### Duplication Across Internal APIs
+## Duplication Across Internal APIs
 
 For internal APIs, look for tools that let you specify the API in some kind of neutral format. These tools will typically generate documentation, mock APIs, functional tests, and API clients, the latter in a number of different languages. Ideally the tool will store all your APIs in a central repository, allowing them to be shared across teams.
 
-#### Duplication Across External APIs
+## Duplication Across External APIs
 
-Increasingly, you’ll find that public APIs are documented formally using something like OpenAPI. [https://github.com/OAI/OpenAPI-Specification] This allows you to import the API spec into your local API tools and integrate more reliably with the service.
+Increasingly, you’ll find that public APIs are documented formally using something like OpenAPI. [https://github.com/OAI/OpenAPI-Specification](https://github.com/OAI/OpenAPI-Specification) This allows you to import the API spec into your local API tools and integrate more reliably with the service.
 
 If you can’t find such a specification, consider creating one and publishing it. Not only will others find it useful; you may even get help maintaining it.
 
-#### Duplication with Data Sources
+## Duplication with Data Sources
 
 Many data sources allow you to introspect on their data schema. This can be used to remove much of the duplication between them and your code. Rather than manually creating the code to contain this stored data, you can generate the containers directly from the schema. Many persistence frameworks will do this heavy lifting for you.
 
@@ -1974,7 +2059,7 @@ structure (your language might call it a map, hash, dictionary, or even object).
 
 On its own this is risky: you lose a lot of the security of knowing just what data you’re working with. So we recommend adding a second layer to this solution: a simple table-driven validation suite that verifies that the map you’ve created contains at least the data you need, in the format you need it. Your API documentation tool might be able to generate this.
 
-### Interdeveloper Duplication
+## Interdeveloper Duplication
 
 Perhaps the hardest type of duplication to detect and handle occurs
 between different developers on a project. Entire sets of functionality
@@ -1996,25 +2081,26 @@ frequent communication between developers.
 
 Maybe run a daily scrum standup meeting. Set up forums (such as Slack
 channels) to discuss common problems. This provides a nonintrusive way
-of communicating—even across multiple sites—while retaining a
+of communicating, even across multiple sites, while retaining a
 permanent history of everything said.
 
 Appoint a team member as the project librarian, whose job is to
 facilitate the exchange of knowledge. Have a central place in the source
 tree where utility routines and scripts can be deposited. And make a
 point of reading other people’s source code and documentation, either
-informally or during code reviews. You’re not snooping—you’re learning
-from them. And remember, the access is reciprocal—don’t get twisted
+informally or during code reviews. You’re not snooping, you’re learning
+from them. And remember, the access is reciprocal, don’t get twisted
 about other people poring (pawing?) through _your_ code, either.
 
-| Tip 16 | Make It Easy to Reuse |
+> [!TIP]
+> **Tip 16: Make It Easy to Reuse**
 
 What you’re trying to do is foster an environment where it’s easier to
 find and reuse existing stuff than to write it yourself. _If it isn’t
 easy, people won’t do it._ And if you fail to reuse, you risk
 duplicating knowledge.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 8, _The Essence of Good Design_
 - Topic 28, _Decoupling_
@@ -2022,7 +2108,9 @@ duplicating knowledge.
 - Topic 38, _Programming by Coincidence_
 - Topic 40, _Refactoring_
 
-| Topic 10 | Orthogonality |
+---
+
+### Topic 10: Orthogonality
 
 Orthogonality is a critical concept if you want to produce systems that
 are easy to design, build, test, and extend. However, the concept of
@@ -2031,13 +2119,13 @@ of various other methods and techniques you learn. This is a mistake.
 Once you learn to apply the principle of orthogonality directly, you’ll
 notice an immediate improvement in the quality of systems you produce.
 
-### What Is Orthogonality?
+## What Is Orthogonality?
 
 ```image-description
 A two-dimensional coordinate graph demonstrating orthogonal axes. The horizontal axis represents East and the vertical axis represents North, illustrating two perpendicular lines operating independently.
 ```
 
-“Orthogonality’’ is a term borrowed from geometry. Two lines are
+“Orthogonality" is a term borrowed from geometry. Two lines are
 orthogonal if they meet at right angles, such as the axes on a graph. In
 vector terms, the two lines are _independent_. As the number 1 on the diagram moves north, it doesn’t change how far east or west it is. The number 2 moves east, but not north or south.
 
@@ -2051,7 +2139,7 @@ the interface.
 Before we look at the benefits of orthogonal systems, let’s first look
 at a system that isn’t orthogonal.
 
-#### A Nonorthogonal System
+## A Nonorthogonal System
 
 You’re on a helicopter tour of the Grand Canyon when the pilot, who made
 the obvious mistake of eating fish for lunch, suddenly groans and
@@ -2080,14 +2168,15 @@ constantly moving, trying to balance all the interacting forces.
 
 Helicopter controls are decidedly not orthogonal.
 
-### Benefits of Orthogonality
+## Benefits of Orthogonality
 
 As the helicopter example illustrates, nonorthogonal systems are
 inherently more complex to change and control. When components of any
 system are highly interdependent, there is no such thing as a local
 fix.
 
-| Tip 17 | Eliminate Effects Between Unrelated Things |
+> [!TIP]
+> **Tip 17: Eliminate Effects Between Unrelated Things**
 
 We want to design components that are self-contained: independent, and
 with a single, well-defined purpose (what Yourdon and Constantine call
@@ -2101,13 +2190,13 @@ cause problems that ripple through the entire system.
 You get two major benefits if you write orthogonal systems:
 increased productivity and reduced risk.
 
-#### Gain Productivity
+## Gain Productivity
 
-- Changes are localized, so development time and testing time are reduced. It is easier to write relatively small, self-contained components than a single large block of code. Simple components can be designed, coded, tested, and then forgotten—there is no need to keep changing existing code as you add new code.
+- Changes are localized, so development time and testing time are reduced. It is easier to write relatively small, self-contained components than a single large block of code. Simple components can be designed, coded, tested, and then forgotten, there is no need to keep changing existing code as you add new code.
 - An orthogonal approach also promotes reuse. If components have specific, well-defined responsibilities, they can be combined with new components in ways that were not envisioned by their original implementors. The more loosely coupled your systems, the easier they are to reconfigure and reengineer.
-- There is a fairly subtle gain in productivity when you combine orthogonal components. Assume that one component does `M` distinct things and another does `N` things. If they are orthogonal and you combine them, the result does `M x N` things. However, if the two components are not orthogonal, there will be overlap, and the result will do less. You get more functionality per unit effort by combining orthogonal components.
+- There is a fairly subtle gain in productivity when you combine orthogonal components. Assume that one component does `M`distinct things and another does`N`things. If they are orthogonal and you combine them, the result does`M x N` things. However, if the two components are not orthogonal, there will be overlap, and the result will do less. You get more functionality per unit effort by combining orthogonal components.
 
-#### Reduce Risk
+## Reduce Risk
 
 An orthogonal approach reduces the risks inherent in any development.
 
@@ -2119,7 +2208,7 @@ An orthogonal approach reduces the risks inherent in any development.
 Let’s look at some of the ways you can apply the principle of
 orthogonality to your work.
 
-### Design
+## Design
 
 Most developers are familiar with the need to design orthogonal systems,
 although they may use words such as _modular_, _component-based_, and
@@ -2141,7 +2230,7 @@ There is an easy test for orthogonal design. Once you have your
 components mapped out, ask yourself: _If I dramatically change the
 requirements behind a particular function, how many modules are
 affected?_ In an orthogonal system, the answer should be
-“one.’’ [In reality, this is naive. Unless you are remarkably lucky, most
+“one." [In reality, this is naive. Unless you are remarkably lucky, most
 real-world requirements changes will affect multiple functions in the
 system. However, if you analyze the change in terms of functions, each
 functional change should still ideally affect just one module.] Moving a button on a GUI panel should not require a
@@ -2166,7 +2255,7 @@ external identifiers that you have no control over, and could change at
 any time for any reason. _Don’t rely on the properties of things you
 can’t control._
 
-### Toolkits and Libraries
+## Toolkits and Libraries
 
 Be careful to preserve the orthogonality of your system as you
 introduce third-party toolkits and libraries. Choose your technologies
@@ -2193,7 +2282,7 @@ can be used in just about every programming language, and doesn’t
 necessarily require a framework or library. It just takes a little
 discipline when programming.
 
-### Coding
+## Coding
 
 Every time you write code you run the risk of reducing the orthogonality
 of your application. Unless you constantly monitor not just what you are
@@ -2206,7 +2295,7 @@ orthogonality:
 
 Keep your code decoupled
 
-Write shy code—modules that don’t reveal anything unnecessary to
+Write shy code, modules that don’t reveal anything unnecessary to
 other modules and that don’t rely on other modules’ implementations.
 Try the Law of Demeter, which we discuss in Topic 28, _Decoupling_.
 If you need to change an object’s state, get the object to do it for
@@ -2231,12 +2320,12 @@ of ensuring that there is only one instance of an object of a
 particular class. Many people use these singleton objects as a kind
 of global variable (particularly in languages, such as Java, that
 otherwise do not support the concept of globals). Be careful with
-singletons—they can also lead to unnecessary linkage.
+singletons, they can also lead to unnecessary linkage.
 
 Avoid similar functions
 
 Often you’ll come across a set of functions that all look
-similar—maybe they share common code at the start and end, but each
+similar, maybe they share common code at the start and end, but each
 has a different central algorithm. Duplicate code is a symptom of
 structural problems. Have a look at the Strategy pattern in _Design
 Patterns_ for a better implementation.
@@ -2246,7 +2335,7 @@ any opportunities to reorganize it to improve its structure and
 orthogonality. This process is called _refactoring_, and it’s so
 important that we’ve dedicated a section to it (see Topic 40, _Refactoring_).
 
-### Testing
+## Testing
 
 An orthogonally designed and implemented system is easier to test.
 Because the interactions between the system’s components are formalized
@@ -2273,7 +2362,7 @@ system (and you will after reading Topic 19, _Version Control_), tag bug fixes w
 back in after testing. You can then run monthly reports analyzing trends
 in the number of source files affected by each bug fix.
 
-### Documentation
+## Documentation
 
 Perhaps surprisingly, orthogonality also applies to documentation. The
 axes are content and presentation. With truly orthogonal documentation,
@@ -2282,7 +2371,7 @@ changing the content. Word processors provide style sheets and
 macros that help. We personally prefer using a markup system such as Markdown: when writing we focus only on the content, and leave the presentation to whichever tool we use to render it. [In fact, this book is written in Markdown, and typeset
 directly from the Markdown source.]
 
-### Living with Orthogonality
+## Living with Orthogonality
 
 Orthogonality is closely related to the DRY principle. With
 DRY, you’re looking to minimize duplication within a system, whereas
@@ -2300,7 +2389,7 @@ to refactor.
 
 And, if you’re a helicopter pilot, don’t eat the fish….
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 3, _Software Entropy_
 - Topic 8, _The Essence of Good Design_
@@ -2322,26 +2411,30 @@ And, if you’re a helicopter pilot, don’t eat the fish….
 
 You’re asked to read a file a line at a time. For each line, you have to split it into fields. Which of the following sets of pseudo class definitions is likely to be more orthogonal?
 
-|     | class Split1 {                                      |
-| --- | --------------------------------------------------- |
-|     | constructor(fileName) # opens the file for reading  |
-|     | def readNextLine() # moves to the next line         |
-|     | def getField(n) # returns nth field in current line |
-|     | }                                                   |
+```ruby
+class Split1 {
+  constructor(fileName)    # opens the file for reading
+  def readNextLine()       # moves to the next line
+  def getField(n)          # returns nth field in current line
+}
+```
 
 or
 
-|     | class Split2 {                                      |
-| --- | --------------------------------------------------- |
-|     | constructor(line) # splits a line                   |
-|     | def getField(n) # returns nth field in current line |
-|     | }                                                   |
+```ruby
+class Split2 {
+  constructor(line)        # splits a line
+  def getField(n)          # returns nth field in current line
+}
+```
 
 **Exercise 2** (possible answer)
 
 What are the differences in orthogonality between object-oriented and functional languages? Are these differences inherent in the languages themselves, or just in the way people use them?
 
-| Topic 11 | Reversibility |
+---
+
+### Topic 11: Reversibility
 
 Nothing is more dangerous than an idea if it’s the only one you have.
 
@@ -2354,11 +2447,10 @@ the French Revolution. Management tends to agree with the engineers:
 singular, easy answers fit nicely on spreadsheets and project plans.
 
 If only the real world would cooperate! Unfortunately, while
-`x`
-is `2` today, it may need to
+`x`is`2` today, it may need to
 be `5`
 tomorrow,
-and `3` next week. Nothing is forever—and if you
+and `3` next week. Nothing is forever, and if you
 rely heavily on some fact, you can almost guarantee that it _will_
 change.
 
@@ -2371,14 +2463,14 @@ project teams have their eyes forcibly opened as the future unfolds:
 > “But you said we’d use database XYZ! We are 85% done coding the
 > project, we can’t change now!” the programmer
 > protested. “Sorry, but our company decided to standardize on
-> database PDQ instead—for all projects. It’s out of my hands.
+> database PDQ instead, for all projects. It’s out of my hands.
 > We’ll just have to recode. All of you will be working weekends
 > until further notice.”
 
 Changes don’t have to be that Draconian, or even that immediate. But
 as time goes by, and your project progresses, you may find yourself
 stuck in an untenable position. With every critical decision, the
-project team commits to a smaller target—a narrower version of
+project team commits to a smaller target, a narrower version of
 reality that has fewer options.
 
 By the time many critical decisions have been made, the target becomes
@@ -2396,11 +2488,11 @@ Once you decide to use this vendor’s database, or that architectural
 pattern, or a certain deployment model, you are committed to a course of
 action that cannot be undone, except at great expense.
 
-### Reversibility
+## Reversibility
 
 Many of the topics in this book are geared to producing flexible,
-adaptable software. By sticking to their recommendations—especially
-the DRY principle, decoupling, and use of external configuration—we don’t have to make as many
+adaptable software. By sticking to their recommendations, especially
+the DRY principle, decoupling, and use of external configuration, we don’t have to make as many
 critical, irreversible decisions. This is a good thing, because we don’t
 always make the best decisions the first time around. We commit to a
 certain technology only to discover we can’t hire enough people with the
@@ -2414,23 +2506,24 @@ the database is simply too slow, but that the document database from
 vendor B is faster. With most conventional projects, you’d be out of
 luck. Most of the time, calls to third-party products are entangled
 throughout the code. But if you _really_ abstracted the idea of a
-database out—to the point where it simply provides persistence as a
-service—then you have the flexibility to change horses in midstream.
+database out, to the point where it simply provides persistence as a
+service, then you have the flexibility to change horses in midstream.
 
 Similarly, suppose the project begins as a browser-based application,
 but then, late in the game, marketing decides that what they really want
 is a mobile app. How hard would that be for you? In an ideal world, it shouldn’t impact you too much, at least on the server side. You’d be stripping out some HTML rendering
 and replacing it with an API.
 
-The mistake lies in assuming that any decision is cast in stone—and
+The mistake lies in assuming that any decision is cast in stone, and
 in not preparing for the contingencies that might arise. Instead of
 carving decisions in stone, think of them more as being written in the
 sand at the beach. A big wave can come along and wipe them out at any
 time.
 
-| Tip 18 | There Are No Final Decisions |
+> [!TIP]
+> **Tip 18: There Are No Final Decisions**
 
-### Flexible Architecture
+## Flexible Architecture
 
 While many people try to keep their _code_ flexible, you also need to
 think about maintaining flexibility in the areas of architecture,
@@ -2460,13 +2553,14 @@ have the scars to prove it.)
 
 And, although this isn’t particularly a reversibility issue, one final piece of advice.
 
-| Tip 19 | Forgo Following Fads |
+> [!TIP]
+> **Tip 19: Forgo Following Fads**
 
 No one knows what the future may hold, especially not us! So enable
-your code to rock-n-roll: to “rock on’’ when it can, to roll with the
+your code to rock-n-roll: to “rock on" when it can, to roll with the
 punches when it must.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 8, _The Essence of Good Design_
 - Topic 10, _Orthogonality_
@@ -2475,11 +2569,13 @@ punches when it must.
 - Topic 45, _The Requirements Pit_
 - Topic 51, _Pragmatic Starter Kit_
 
-### Challenges
+#### Challenges
 
 - Time for a little quantum mechanics with Schrödinger’s cat. Suppose you have a cat in a closed box, along with a radioactive particle. The particle has exactly a 50% chance of fissioning into two. If it does, the cat will be killed. If it doesn’t, the cat will be okay. So, is the cat dead or alive? According to Schrödinger, the correct answer is _both_ (at least while the box remains closed). Every time a subnuclear reaction takes place that has two possible outcomes, the universe is cloned. In one, the event occurred, in the other it didn’t. The cat’s alive in one universe, dead in another. Only when you open the box do you know which universe _you_ are in. No wonder coding for the future is difficult. But think of code evolution along the same lines as a box full of Schrödinger’s cats: every decision results in a different version of the future. How many possible futures can your code support? Which ones are more likely? How hard will it be to support them when the time comes? Dare you open the box?
 
-| Topic 12 | Tracer Bullets |
+---
+
+### Topic 12: Tracer Bullets
 
 Ready, fire, aim…
 
@@ -2522,7 +2618,7 @@ big calculation up front, then shoot and hope.
 Pragmatic Programmers, however, tend to prefer using the software
 equivalent of tracer bullets.
 
-### Code That Glows in the Dark
+## Code That Glows in the Dark
 
 Tracer bullets work because they operate in the same environment and
 under the same constraints as the real bullets. They get to the target
@@ -2538,7 +2634,8 @@ system. Look for the areas where you have doubts, and where you see
 the biggest risks. Then prioritize your development so that these
 are the first areas you code.
 
-| Tip 20 | Use Tracer Bullets to Find the Target |
+> [!TIP]
+> **Tip 20: Use Tracer Bullets to Find the Target**
 
 In fact, given the complexity of today’s project setup, with swarms of
 external dependencies and tools, tracer bullets become even more
@@ -2647,7 +2744,7 @@ individual development is smaller, you avoid creating those
 monolithic blocks of code that are reported as 95% complete week
 after week.
 
-### Tracer Bullets Don’t Always Hit Their Target
+## Tracer Bullets Don’t Always Hit Their Target
 
 Tracer bullets show what you’re hitting. This may not always be the
 target. You then adjust your aim until they’re on target. That’s the
@@ -2656,18 +2753,18 @@ point.
 It’s the same with tracer code. You use the technique in situations
 where you’re not 100% certain of where you’re going. You shouldn’t be
 surprised if your first couple of attempts miss: the user says
-“that’s not what I meant,’’ or data you need isn’t available when you
+“that’s not what I meant," or data you need isn’t available when you
 need it, or performance problems seem likely. So change
 what you’ve got to bring it nearer the target, and be thankful that
 you’ve used a lean development methodology; a small body of code has
-low inertia—it is easy and quick to change. You’ll be able to
+low inertia, it is easy and quick to change. You’ll be able to
 gather feedback on your application and generate a new, more accurate
 version quickly and cheaply. And
 because every major application component is represented in your
 tracer code, your users can be confident that what they’re seeing is
 based on reality, not just a paper specification.
 
-### Tracer Code versus Prototyping
+## Tracer Code versus Prototyping
 
 You might think that this tracer code concept is nothing more than
 prototyping under an aggressive name. There is a difference. With a
@@ -2713,7 +2810,7 @@ forms part of the skeleton of the final system. Think of prototyping
 as the reconnaissance and intelligence gathering that takes place
 before a single tracer bullet is fired.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 13, _Prototypes and Post-it Notes_
 - Topic 27, _Don’t Outrun Your Headlights_
@@ -2723,12 +2820,14 @@ before a single tracer bullet is fired.
 - Topic 51, _Pragmatic Starter Kit_
 - Topic 52, _Delight Your Users_
 
-| Topic 13 | Prototypes and Post-it Notes |
+---
+
+### Topic 13: Prototypes and Post-it Notes
 
 Many industries use prototypes to try out specific ideas;
 prototyping is much cheaper than full-scale production. Car makers, for
 example, may build many different prototypes of a new car design. Each
-one is designed to test a specific aspect of the car—the aerodynamics,
+one is designed to test a specific aspect of the car, the aerodynamics,
 styling, structural characteristics, and so on. Old school folks might
 use a clay model for wind tunnel testing, maybe a balsa wood and duct
 tape model will do for the art department, and so on. The less romantic
@@ -2738,7 +2837,7 @@ this way, risky or uncertain elements can be tried out without
 committing to building the real item.
 
 We build software prototypes in the same fashion, and for the same
-reasons—to analyze and expose risk, and to offer chances for
+reasons, to analyze and expose risk, and to offer chances for
 correction at a greatly reduced cost. Like the car makers, we can target
 a prototype to test one or more specific aspects of a project.
 
@@ -2751,7 +2850,7 @@ program, or with an interface builder.
 
 Prototypes are designed to answer just a few questions, so they are much
 cheaper and faster to develop than applications that go into production.
-The code can ignore unimportant details—unimportant to you at the
+The code can ignore unimportant details, unimportant to you at the
 moment, but probably very important to the user later on. If you are
 prototyping a UI, for instance, you can get away with incorrect results
 or data. On the other hand, if you’re just investigating computational
@@ -2764,7 +2863,7 @@ if you are really building a prototype at all. Perhaps a tracer bullet
 style of development would be more appropriate in this case (see
 Topic 12, _Tracer Bullets_).
 
-### Things to Prototype
+## Things to Prototype
 
 What sorts of things might you choose to investigate with a prototype?
 Anything that carries risk. Anything that hasn’t been tried before, or
@@ -2782,9 +2881,10 @@ Prototyping is a learning experience. Its value lies not in the
 code produced, but in the lessons learned. That’s really the
 point of prototyping.
 
-| Tip 21 | Prototype to Learn |
+> [!TIP]
+> **Tip 21: Prototype to Learn**
 
-### How to Use Prototypes
+## How to Use Prototypes
 
 When building a prototype, what details can you ignore?
 
@@ -2815,7 +2915,7 @@ your experience with the prototype).
 
 Prototypes gloss over details, and focus in on specific
 aspects of the system being considered, so you may want to implement
-them using a high-level scripting language—higher than the rest
+them using a high-level scripting language, higher than the rest
 of the project (maybe a language such as Python or Ruby), as these
 languages can get out of your way. You may choose to continue to develop
 in the language used for the prototype, or you can switch; after all,
@@ -2825,18 +2925,18 @@ To prototype user interfaces, use
 a tool that lets you focus on the appearance and/or
 interactions without worrying about code or markup.
 
-Scripting languages also work well as the “glue’’ to combine low-level
+Scripting languages also work well as the “glue" to combine low-level
 pieces into new combinations. Using this approach, you can rapidly
 assemble existing components into new configurations to see how things
 work.
 
-### Prototyping Architecture
+## Prototyping Architecture
 
 Many prototypes are constructed to model the entire system under
 consideration. As opposed to tracer bullets, none of the individual
 modules in the prototype system need to be particularly functional. In
 fact, you may not even need to code in order to prototype
-architecture—you can prototype on a whiteboard, with Post-it notes or
+architecture, you can prototype on a whiteboard, with Post-it notes or
 index cards. What you are looking for is how the system hangs together
 as a whole, again deferring details. Here are some specific areas you
 may want to look for in the architectural prototype:
@@ -2851,7 +2951,7 @@ may want to look for in the architectural prototype:
 This last item tends to generate the most surprises and the most
 valuable results from the prototyping experience.
 
-### How Not to Use Prototypes
+## How Not to Use Prototypes
 
 Before you embark on any code-based prototyping, make sure that everyone
 understands that you are writing disposable code. Prototypes can be
@@ -2873,10 +2973,10 @@ framework on which to base future development.
 
 Properly used prototypes can save you huge amounts of time,
 money, and pain by identifying and correcting potential
-problem spots early in the development cycle—the time when fixing
+problem spots early in the development cycle, the time when fixing
 mistakes is both cheap and easy.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 12, _Tracer Bullets_
 - Topic 14, _Domain Languages_
@@ -2886,18 +2986,20 @@ mistakes is both cheap and easy.
 - Topic 45, _The Requirements Pit_
 - Topic 52, _Delight Your Users_
 
-### Exercises
+#### Exercises
 
 **Exercise 3** (possible answer)
 
 Marketing would like to sit down and brainstorm a few web page designs
 with you. They are thinking of clickable image maps to take you to
 other pages, and so on. But they can’t decide on a model for the
-image—maybe it’s a car, or a phone, or a house. You have a list of
+image, maybe it’s a car, or a phone, or a house. You have a list of
 target pages and content; they’d like to see a few prototypes. Oh, by
 the way, you have 15 minutes. What tools might you use?
 
-| Topic 14 | Domain Languages |
+---
+
+### Topic 14: Domain Languages
 
 The limits of language are the limits of one’s world.
 
@@ -2907,7 +3009,7 @@ Computer languages influence _how_ you think about a problem, and how
 you think about communicating. Every language comes with a list of
 features: buzzwords such as static versus dynamic typing, early versus
 late binding, functional versus OO, inheritance models, mixins,
-macros—all of which may suggest or obscure certain solutions. Designing
+macros, all of which may suggest or obscure certain solutions. Designing
 a solution with C++ in mind will produce different results than a
 solution based on Haskell-style thinking, and vice versa. Conversely,
 and we think more importantly, the language of the problem domain may
@@ -2916,49 +3018,52 @@ also suggest a programming solution.
 We always try to write code using the vocabulary of the application
 domain (see _Maintain a Glossary_). In some cases, Pragmatic Programmers can go to the next
 level and actually program using the vocabulary, syntax, and
-semantics—the language—of the domain.
+semantics, the language, of the domain.
 
-| Tip 22 | Program Close to the Problem Domain |
+> [!TIP]
+> **Tip 22: Program Close to the Problem Domain**
 
-### Some Real-World Domain Languages
+## Some Real-World Domain Languages
 
 Let’s look at a few examples where folks have done just that.
 
-#### RSpec
+## RSpec
 
-RSpec [https://rspec.info] is a testing library for Ruby. It inspired
+RSpec [https://rspec.info](https://rspec.info) is a testing library for Ruby. It inspired
 versions for most other modern languages. A test in RSpec is intended to
 reflect the behavior you expect from your code.
 
-|     | describe BowlingScore do                    |
-| --- | ------------------------------------------- |
-|     | it "totals 12 if you score 3 four times" do |
-|     | score = BowlingScore.new                    |
-|     | 4.times { score.add_pins(3) }               |
-|     | expect(score.total).to eq(12)               |
-|     | end                                         |
-|     | end                                         |
+```text
+describe BowlingScore do
+  it "totals 12 if you score 3 four times" do
+    score = BowlingScore.new
+    4.times { score.add_pins(3) }
+    expect(score.total).to eq(12)
+  end
+end
+```
 
-#### Cucumber
+## Cucumber
 
-Cucumber [https://cucumber.io/] is programming-language neutral way of
+Cucumber [https://cucumber.io/](https://cucumber.io/) is programming-language neutral way of
 specifying tests. You run the tests using a version of Cucumber
 appropriate to the language you’re using. In order to support the
 natural-language like syntax, you also have to write specific matchers
 that recognize phrases and extract parameters for the tests.
 
-|     | Feature: Scoring              |
-| --- | ----------------------------- |
-|     |                               |
-|     | Background:                   |
-|     | Given an empty scorecard      |
-|     |                               |
-|     | Scenario: bowling a lot of 3s |
-|     | Given I throw a 3             |
-|     | And I throw a 3               |
-|     | And I throw a 3               |
-|     | And I throw a 3               |
-|     | Then the score should be 12   |
+```text
+Feature: Scoring
+
+Background:
+  Given an empty scorecard
+
+Scenario: bowling a lot of 3s
+  Given I throw a 3
+  And I throw a 3
+  And I throw a 3
+  And I throw a 3
+  Then the score should be 12
+```
 
 Cucumber tests were intended to be read by the customers of the software
 (although that happens fairly rarely in practice; the following aside considers why that might be).
@@ -2981,19 +3086,20 @@ sign it off to get you out of their office.
 Give them code that runs, however, and they can play with it. That’s
 where their real needs will surface.
 
-#### Phoenix Routes
+## Phoenix Routes
 
 Many web frameworks have a routing facility, mapping incoming HTTP
 requests onto handler functions in the code. Here’s an example from
-Phoenix. [https://phoenixframework.org/]
+Phoenix. [https://phoenixframework.org/](https://phoenixframework.org/)
 
-|     | scope "/", HelloPhoenix do                            |
-| --- | ----------------------------------------------------- |
-|     | pipe_through :browser # Use the default browser stack |
-|     |                                                       |
-|     | get "/", PageController, :index                       |
-|     | resources "/users", UserController                    |
-|     | end                                                   |
+```text
+scope "/", HelloPhoenix do
+  pipe_through :browser # Use the default browser stack
+
+  get "/", PageController, :index
+  resources "/users", UserController
+end
+```
 
 This says that requests starting “/” will be run through a series of
 filters appropriate for browsers. A request to “/” itself will be
@@ -3001,33 +3107,34 @@ handled by the index function in the PageController module. The
 UsersController implements the functions needed to manage a resource
 accessible via the url /users.
 
-#### Ansible
+## Ansible
 
-Ansible [https://www.ansible.com/] is a tool that configures software,
+Ansible [https://www.ansible.com/](https://www.ansible.com/) is a tool that configures software,
 typically on a bunch of remote servers. It does this by reading a
 specification that you provide, then doing whatever is needed on the
 servers to make them mirror that spec. The specification can be written
-in YAML, [https://yaml.org/] a language that builds data structures
+in YAML, [https://yaml.org/](https://yaml.org/) a language that builds data structures
 from text descriptions:
 
-|     | ---                                                              |
-| --- | ---------------------------------------------------------------- |
-|     | - name: install nginx                                            |
-|     | apt: name=nginx state=latest                                     |
-|     |                                                                  |
-|     | - name: ensure nginx is running (and enable it at boot)          |
-|     | service: name=nginx state=started enabled=yes                    |
-|     |                                                                  |
-|     | - name: write the nginx config file                              |
-|     | template: src=templates/nginx.conf.j2 dest=/etc/nginx/nginx.conf |
-|     | notify:                                                          |
-|     | - restart nginx                                                  |
+```text
+---
+- name: install nginx
+  apt: name=nginx state=latest
+
+- name: ensure nginx is running (and enable it at boot)
+  service: name=nginx state=started enabled=yes
+
+- name: write the nginx config file
+  template: src=templates/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  notify:
+  - restart nginx
+```
 
 This example ensures that the latest version of nginx is installed on my
 servers, that it is started by default, and that it uses a configuration
 file that you’ve provided.
 
-### Characteristics of Domain Languages
+## Characteristics of Domain Languages
 
 Let’s look at these examples more closely.
 
@@ -3049,7 +3156,7 @@ use.
 We call RSpec and the router examples of _internal_ domain languages,
 while Cucumber and Ansible use _external_ languages.
 
-### Trade-Offs Between Internal and External Languages
+## Trade-Offs Between Internal and External Languages
 
 In general, an internal domain language can take advantage of the
 features of its host language: the domain language you create is more
@@ -3057,20 +3164,21 @@ powerful, and that power comes for free. For example, you could use some
 Ruby code to create a bunch of RSpec tests automatically. In this case
 we can test scores where there are no spares or strikes:
 
-|     | describe BowlingScore do                                      |
-| --- | ------------------------------------------------------------- |
-|     | (0..4).each do                                                | pins   |     |
-|     | (1..20).each do                                               | throws |     |
-|     | target = pins * throws                                        |
-|     |                                                               |
-|     | it "totals #{target} if you score #{pins} #{throws} times" do |
-|     | score = BowlingScore.new                                      |
-|     | throws.times { score.add_pins(pins) }                         |
-|     | expect(score.total).to eq(target)                             |
-|     | end                                                           |
-|     | end                                                           |
-|     | end                                                           |
-|     | end                                                           |
+```text
+describe BowlingScore do
+  (0..4).each do |pins|
+    (1..20).each do |throws|
+      target = pins * throws
+
+      it "totals #{target} if you score #{pins} #{throws} times" do
+        score = BowlingScore.new
+        throws.times { score.add_pins(pins) }
+        expect(score.total).to eq(target)
+      end
+    end
+  end
+end
+```
 
 That’s 100 tests you just wrote. Take the rest of the day off.
 
@@ -3101,34 +3209,35 @@ the long term).
 
 In general, use off-the-shelf external languages (such as YAML, JSON, or CSV) if you can. If not, look at internal languages. We’d recommend using external languages only in cases where your language will be written by the users of your application.
 
-### An Internal Domain Language on the Cheap
+## An Internal Domain Language on the Cheap
 
 Finally, there’s a cheat for creating internal domain languages if you don’t mind the host language syntax leaking through. Don’t do a bunch of metaprogramming. Instead, just write functions to do the work. In fact, this is pretty much what RSpec does:
 
-|     | describe BowlingScore do                    |
-| --- | ------------------------------------------- |
-|     | it "totals 12 if you score 3 four times" do |
-|     | score = BowlingScore.new                    |
-|     | 4.times { score.add_pins(3) }               |
-|     | expect(score.total).to eq(12)               |
-|     | end                                         |
-|     | end                                         |
+```text
+describe BowlingScore do
+  it "totals 12 if you score 3 four times" do
+    score = BowlingScore.new
+    4.times { score.add_pins(3) }
+    expect(score.total).to eq(12)
+  end
+end
+```
 
 In this code, describe, it, expect, to, and eq are just Ruby methods. There’s a little plumbing behind the scenes in terms of how objects are passed around, but it’s all just code.
 We’ll explore that a little in the exercises.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 8, _The Essence of Good Design_
 - Topic 13, _Prototypes and Post-it Notes_
 - Topic 32, _Configuration_
 
-### Challenges
+#### Challenges
 
 - Could some of the requirements of your current project be expressed in a domain-specific language? Would it be possible to write a compiler or translator that could generate most of the code required?
 - If you decide to adopt mini-languages as a way of programming closer to the problem domain, you’re accepting that some effort will be required to implement them. Can you see ways in which the framework you develop for one project can be reused in others?
 
-### Exercises
+#### Exercises
 
 **Exercise 4** (possible answer)
 
@@ -3136,28 +3245,31 @@ We want to implement a mini-language to control a simple turtle-graphics system.
 single-letter commands, some followed by a single number.
 For example, the following input would draw a rectangle:
 
-|     | P 2 # select pen 2    |
-| --- | --------------------- |
-|     | D # pen down          |
-|     | W 2 # draw west 2cm   |
-|     | N 1 # then north 1    |
-|     | E 2 # then east 2     |
-|     | S 1 # then back south |
-|     | U # pen up            |
+```text
+P 2  # select pen 2
+D    # pen down
+W 2  # draw west 2cm
+N 1  # then north 1
+E 2  # then east 2
+S 1  # then back south
+U    # pen up
+```
 
 Implement the code that parses this language. It should be designed so
 that it is simple to add new commands.
 
 **Exercise 5** (possible answer)
 
-In the previous exercise we implemented a parser for the drawing language—it was an external domain language. Now implement it again as an internal language. Don’t do anything clever: just write a function for each of the commands. You may have to change the names of the commands to lower case, and maybe to wrap them inside something to provide some context.
+In the previous exercise we implemented a parser for the drawing language, it was an external domain language. Now implement it again as an internal language. Don’t do anything clever: just write a function for each of the commands. You may have to change the names of the commands to lower case, and maybe to wrap them inside something to provide some context.
 
 **Exercise 6** (possible answer)
 
 Design a BNF grammar to parse a time specification. All
 of the following examples should be accepted:
 
-| | 4pm, 7:38pm, 23:42, 3:16, 3:16am |
+```text
+4pm, 7:38pm, 23:42, 3:16, 3:16am
+```
 
 **Exercise 7** (possible answer)
 
@@ -3169,7 +3281,9 @@ The output should be an integer containing the number of minutes past midnight.
 
 Implement the time parser using a scripting language and regular expressions.
 
-| Topic 15 | Estimating |
+---
+
+### Topic 15: Estimating
 
 The Library of Congress in Washington, DC, currently has about 75
 terabytes of digital information online. Quick! How long will it take to
@@ -3178,7 +3292,7 @@ you need for a million names and addresses? How long does it take to
 compress 100Mb of text? How many months will it take to deliver your
 project?
 
-At one level, these are all meaningless questions—they are all
+At one level, these are all meaningless questions, they are all
 missing information. And yet they can all be answered, as long as you
 are comfortable estimating. And, in the process of producing an
 estimate, you’ll come to understand more about the world your programs
@@ -3192,12 +3306,13 @@ S3,” you’ll be able to know intuitively whether this is practical. When
 you’re coding, you’ll be able to know which subsystems need optimizing
 and which ones can be left alone.
 
-| Tip 23 | Estimate to Avoid Surprises |
+> [!TIP]
+> **Tip 23: Estimate to Avoid Surprises**
 
 As a bonus, at the end of this section we’ll reveal the single correct
 answer to give whenever anyone asks you for an estimate.
 
-### How Accurate Is Accurate Enough?
+## How Accurate Is Accurate Enough?
 
 To some extent, all answers are estimates. It’s just that some are more
 accurate than others. So the first question you have to ask yourself
@@ -3228,7 +3343,7 @@ estimate of “about six months.”
 The same concepts apply to estimates of any quantity: choose the
 units of your answer to reflect the accuracy you intend to convey.
 
-### Where Do Estimates Come From?
+## Where Do Estimates Come From?
 
 All estimates are based on models of the problem. But before we get too
 deeply into the techniques of building models, we have to mention a
@@ -3239,7 +3354,7 @@ how their problem got solved. It’s unlikely you’ll ever find an exact
 match, but you’d be surprised how many times you can successfully draw
 on others’ experiences.
 
-#### Understand What’s Being Asked
+## Understand What’s Being Asked
 
 The first part of any estimation exercise is building an understanding
 of what’s being asked. As well as the accuracy issues discussed above,
@@ -3249,7 +3364,7 @@ the scope before starting to guess. Often, the scope you choose will
 form part of the answer you give: “Assuming there are no traffic
 accidents and there’s gas in the car, I should be there in 20 minutes.”
 
-#### Build a Model of the System
+## Build a Model of the System
 
 This is the fun part of estimating. From your understanding of the
 question being asked, build a rough-and-ready bare-bones mental model.
@@ -3271,7 +3386,7 @@ simplicity for accuracy. Doubling the effort on the model may give you
 only a slight increase in accuracy. Your experience will tell you when
 to stop refining.
 
-#### Break the Model into Components
+## Break the Model into Components
 
 Once you have a model, you can decompose it into components. You’ll
 need to discover the mathematical rules that describe how these
@@ -3284,7 +3399,7 @@ You’ll find that each component will typically have parameters that
 affect how it contributes to the overall model. At this stage, simply
 identify each parameter.
 
-#### Give Each Parameter a Value
+## Give Each Parameter a Value
 
 Once you have the parameters broken out, you can go through and assign
 each one a value. You expect to introduce some errors in this step. The
@@ -3304,7 +3419,7 @@ techniques described in this section. In fact, you’ll often find
 yourself basing an estimate on other subestimates. This is where your
 largest errors will creep in.
 
-#### Calculate the Answers
+## Calculate the Answers
 
 Only in the simplest of cases will an estimate have a single answer. You
 might be happy to say “I can walk five cross-town blocks in 15 minutes.”
@@ -3322,28 +3437,28 @@ strange. Don’t be too quick to dismiss them. If your arithmetic is
 correct, your understanding of the problem or your model is probably
 wrong. This is valuable information.
 
-#### Keep Track of Your Estimating Prowess
+## Keep Track of Your Estimating Prowess
 
 We think it’s a great idea to record your estimates so you can see how
 close you were. If an overall estimate involved calculating
 subestimates, keep track of these as well. Often you’ll find your
-estimates are pretty good—in fact, after a while, you’ll come to
+estimates are pretty good, in fact, after a while, you’ll come to
 expect this.
 
-When an estimate turns out wrong, don’t just shrug and walk away—find
+When an estimate turns out wrong, don’t just shrug and walk away, find
 out why. Maybe you chose some parameters
 that didn’t match the reality of the problem. Maybe your model was
 wrong. Whatever the reason, take some time to uncover what happened. If
 you do, your next estimate will be better.
 
-### Estimating Project Schedules
+## Estimating Project Schedules
 
 Normally you’ll be asked to estimate how long something will take. If
 that “something” is complex, the estimate can be very difficult to
 produce. In this section, we’ll look at two techniques for reducing that
 uncertainty.
 
-#### Painting the Missile
+## Painting the Missile
 
 _“How long will it take to paint the house?”_
 
@@ -3365,7 +3480,7 @@ Using a range of values like this is a great way to avoid one of the most common
 
 However, we’re not big fans of this. People tend to produce wall-sized charts of all the tasks in a project, and implicitly believe that, just because they used a _formula_, they have an accurate estimate. The chances are they don’t, because they have never done this before.
 
-#### Eating the Elephant
+## Eating the Elephant
 
 We find
 that often the only way to determine the timetable for a project is by
@@ -3394,7 +3509,8 @@ iterative cycle.
 
 That’s also how the old joke says to eat an elephant: one bite at a time.
 
-| Tip 24 | Iterate the Schedule with the Code |
+> [!TIP]
+> **Tip 24: Iterate the Schedule with the Code**
 
 This may not be popular with management, who typically want a single,
 hard-and-fast number before the project even starts. You’ll have to
@@ -3403,7 +3519,7 @@ environment will determine the schedule. By formalizing this, and
 refining the schedule as part of each iteration, you’ll be giving them
 the most accurate scheduling estimates you can.
 
-### What to Say When Asked for an Estimate
+## What to Say When Asked for an Estimate
 
 You say _“I’ll get back to you.”_
 
@@ -3412,22 +3528,22 @@ and spend some time going through the steps we describe in this section.
 Estimates given at the coffee machine will (like the coffee) come back
 to haunt you.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 7, _Communicate!_
 - Topic 39, _Algorithm Speed_
 
-### Challenges
+#### Challenges
 
 - Start keeping a log of your estimates. For each, track how accurate you turned out to be. If your error was greater than 50%, try to find out where your estimate went wrong.
 
-### Exercises
+#### Exercises
 
 **Exercise 9** (possible answer)
 
 You are asked “Which has a higher bandwidth: a 1Gbps
 net connection or a person walking between two computers with
-a full 1TB of storage device in their pocket?’’ What constraints will you
+a full 1TB of storage device in their pocket?" What constraints will you
 put on your answer to ensure that the scope of your response is correct? (For example, you might say that the time taken to access the storage device is
 ignored.)
 
@@ -3437,9 +3553,7 @@ So, which has the higher bandwidth?
 
 Copyright © 2020 Pearson Education, Inc.
 
-# Chapter
-
-3The Basic Tools
+## Chapter 3: The Basic Tools
 
 Every maker starts their journey with a basic set of good-quality
 tools. A woodworker might need rules, gauges, a couple of saws, some
@@ -3454,10 +3568,10 @@ Each must be sharpened in a unique way, or held just so. Over time, each
 will wear according to use, until the grip looks like a mold of the
 woodworker’s hands and the cutting surface aligns perfectly with the
 angle at which the tool is held. At this point, the tools become
-conduits from the maker’s brain to the finished product—they have
+conduits from the maker’s brain to the finished product, they have
 become extensions of their hands. Over time, the woodworker will
 add new tools, such as biscuit cutters, laser-guided miter saws,
-dovetail jigs—all wonderful pieces of technology. But you can bet that
+dovetail jigs, all wonderful pieces of technology. But you can bet that
 they’ll be happiest with one of those original tools in hand,
 feeling the plane sing as it slides through the wood.
 
@@ -3487,7 +3601,7 @@ your editor. In Topic 18, _Power Editing_, we’ll suggest
 ways of making you more efficient.
 
 To ensure that we never lose any of our precious work, we should always use
-a Topic 19, _Version Control_ system—even for personal things such as
+a Topic 19, _Version Control_ system, even for personal things such as
 recipes or notes. And, since Murphy was really
 an optimist after all, you can’t be a great programmer until you
 become highly skilled at Topic 20, _Debugging_.
@@ -3504,7 +3618,9 @@ surprised to discover your fingers moving over the keyboard,
 manipulating text without conscious thought. The tools will have become
 extensions of your hands.
 
-| Topic 16 | The Power of Plain Text |
+---
+
+### Topic 16: The Power of Plain Text
 
 As Pragmatic Programmers, our base material isn’t wood or iron, it’s
 knowledge. We gather requirements as knowledge, and then express that
@@ -3522,32 +3638,38 @@ application logic to parse it. With plain text, however, you can
 achieve a self-describing data stream that is independent of
 the application that created it.
 
-### What Is Plain Text?
+## What Is Plain Text?
 
 _Plain text_ is made up of printable characters in a form that conveys information. It can be as simple as a shopping list:
 
-|     | * milk    |
-| --- | --------- |
-|     | * lettuce |
-|     | * coffee  |
+```text
+* milk
+* lettuce
+* coffee
+```
 
 or as complex as the source of this book (yes, it’s in plain text, much to the chagrin of the publisher, who wanted us to use a word processor).
 
 The information part is important. The following is not useful plain text:
 
-| | hlj;uijn bfjxrrctvh jkni'pio6p7gu;vh bjxrdi5rgvhj |
+```text
+hlj;uijn bfjxrrctvh jkni'pio6p7gu;vh bjxrdi5rgvhj
+```
 
 Neither is this:
 
-| | Field19=467abe |
+```text
+Field19=467abe
+```
 
 The reader has no idea what the significance of 467abe
 may be. We like our plain text to be _understandable_
 to humans.
 
-| Tip 25 | Keep Knowledge in Plain Text |
+> [!TIP]
+> **Tip 25: Keep Knowledge in Plain Text**
 
-### The Power of Text
+## The Power of Text
 
 Plain text doesn’t mean that the text is unstructured; HTML, JSON, YAML,
 and so on are all plain text. So are the majority of the fundamental
@@ -3557,12 +3679,12 @@ protocols on the net, such as HTTP, SMTP, IMAP, and so on. And that’s for some
 - Leverage existing tools
 - Easier testing
 
-#### Insurance Against Obsolescence
+## Insurance Against Obsolescence
 
 Human-readable forms of data, and self-describing data, will outlive all
 other forms of data and the applications that created them. Period. As
 long as the data survives, you will have a chance to be able to use
-it—potentially long after the original application that wrote it is
+it, potentially long after the original application that wrote it is
 defunct.
 
 You can parse such a file with only partial knowledge of its format;
@@ -3575,25 +3697,27 @@ that’s important to you is that it maintained a list of clients’ Social
 Security numbers, which you need to find and extract. Among the data,
 you see
 
-|     | 123-45-6789 |
-| --- | ----------- |
-|     | ...         |
-|     | 567-89-0123 |
-|     | ...         |
-|     | 901-23-4567 |
+```text
+123-45-6789
+...
+567-89-0123
+...
+901-23-4567
+```
 
 Recognizing the format of a Social Security number, you
-can quickly write a small program to extract that data—even if
+can quickly write a small program to extract that data, even if
 you have no information on anything else in the file.
 
 But imagine if the file had been formatted this way instead:
 
-|     | AC27123456789B11P |
-| --- | ----------------- |
-|     | ...               |
-|     | XY43567890123QTYL |
-|     | ...               |
-|     | 6T2190123456788AM |
+```text
+AC27123456789B11P
+...
+XY43567890123QTYL
+...
+6T2190123456788AM
+```
 
 You may not have recognized the significance of the numbers quite as easily. This is the difference between _human readable_ and
 _human understandable_.
@@ -3601,12 +3725,14 @@ _human understandable_.
 While we’re at it, FIELD10 doesn’t help much either. Something
 like
 
-| | 123-45-6789 |
+```text
+123-45-6789
+```
 
-makes the exercise a no-brainer—and ensures that the data will outlive
+makes the exercise a no-brainer, and ensures that the data will outlive
 any project that created it.
 
-#### Leverage
+## Leverage
 
 Virtually every tool in the computing universe, from version control
 systems to editors to command-line tools, can operate on plain text.
@@ -3615,7 +3741,7 @@ The Unix Philosophy
 
 Unix is famous for being designed around the philosophy of small,
 sharp tools, each intended to do one thing well. This philosophy is
-enabled by using a common underlying format—the line-oriented,
+enabled by using a common underlying format, the line-oriented,
 plain-text file. Databases used for system administration (users
 and passwords, networking configuration, and so on) are all kept as
 plain-text files. (Some systems also maintain a
@@ -3637,14 +3763,14 @@ tools such as diff and fc allow you to see at a glance what changes
 have been made, while sum allows you to generate a checksum to monitor
 the file for accidental (or malicious) modification.
 
-#### Easier Testing
+## Easier Testing
 
 If you use plain text to create synthetic data to drive system tests,
 then it is a simple matter to add, update, or modify the test data
 _without having to create any special tools to do so._ Similarly, plain-text output from regression tests can be trivially analyzed with
 shell commands or a simple script.
 
-### Lowest Common Denominator
+## Lowest Common Denominator
 
 Even in the future of blockchain-based intelligent agents that travel
 the wild and dangerous internet autonomously, negotiating data
@@ -3654,17 +3780,19 @@ text can outweigh all of the drawbacks. You need to ensure that all
 parties can communicate using a common standard. Plain text is that
 standard.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 17, _Shell Games_
 - Topic 21, _Text Manipulation_
 - Topic 32, _Configuration_
 
-### Challenges
+#### Challenges
 
 - Design a small address book database (name, phone number, and so on) using a straightforward binary representation in your language of choice. Do this before reading the rest of this challenge. - Translate that format into a plain-text format using XML or JSON. - For each version, add a new, variable-length field called _directions_ in which you might enter directions to each person’s house. What issues come up regarding versioning and extensibility? Which form was easier to modify? What about converting existing data?
 
-| Topic 17 | Shell Games |
+---
+
+### Topic 17: Shell Games
 
 Every woodworker needs a good, solid, reliable workbench, somewhere to
 hold work pieces at a convenient height while they’re being shaped. The
@@ -3684,7 +3812,7 @@ For programmers raised on GUI interfaces and integrated development
 environments (IDEs), this might seem an extreme position. After all,
 can’t you do everything equally well by pointing and clicking?
 
-The simple answer is “no.’’ GUI interfaces are wonderful, and they can
+The simple answer is “no." GUI interfaces are wonderful, and they can
 be faster and more convenient for some simple operations. Moving files,
 reading and writing email, and building and deploying your project
 are all things that you might want to
@@ -3693,35 +3821,38 @@ you are missing out on the full capabilities of your environment. You
 won’t be able to automate common tasks, or use the full power of the
 tools available to you. And you won’t be able to combine your tools to
 create customized _macro tools_. A benefit of GUIs is
-WYSIWYG—what you see is what you get. The
-disadvantage is WYSIAYG—what you see is _all_ you
+WYSIWYG, what you see is what you get. The
+disadvantage is WYSIAYG, what you see is _all_ you
 get.
 
 GUI environments are normally limited to the capabilities that their
 designers intended. If you need to go beyond the model the designer
-provided, you are usually out of luck—and more often than not, you
+provided, you are usually out of luck, and more often than not, you
 _do_ need to go beyond the model. Pragmatic Programmers don’t just cut
 code, or develop object models, or write documentation, or automate the
-build process—we do _all_ of these things. The scope of any one tool
+build process, we do _all_ of these things. The scope of any one tool
 is usually limited to the tasks that the tool is expected to perform.
 For instance, suppose you need to integrate a code preprocessor (to
 implement design-by-contract, or multi-processing pragmas, or some such)
 into your IDE. Unless the designer of the IDE explicitly provided hooks
 for this capability, you can’t do it.
 
-| Tip 26 | Use the Power of Command Shells |
+> [!TIP]
+> **Tip 26: Use the Power of Command Shells**
 
 Gain familiarity with the shell, and you’ll find your productivity
 soaring. Need to create a list of all the unique package names
 explicitly imported by your Java code? The following stores it
-in a file called “list’’:
+in a file called “list":
 
 [sh/packages.sh](http://media.pragprog.com/titles/tpp20/code/sh/packages.sh)
 
-|     | grep '^import ' *.java              |     |
-| --- | ----------------------------------- | --- |
-|     | sed -e's/.*import _//' -e's/;._$//' |     |
-|     | sort -u >list                       |
+```bash
+// sh/packages.sh
+grep '^import ' *.java |
+  sed -e's/.*import  *//' -e's/;.*$//' |
+  sort -u >list
+```
 
 If you haven’t spent much time exploring the capabilities of the
 command shell on the systems you use, this might appear daunting.
@@ -3730,7 +3861,7 @@ things will soon start falling into place. Play around with your
 command shell, and you’ll be surprised at how much more productive it
 makes you.
 
-### A Shell of Your Own
+## A Shell of Your Own
 
 In the same way that a woodworker will customize their workspace, a developer should customize their shell. This typically also involves changing the configuration of the terminal program you use.
 
@@ -3738,12 +3869,12 @@ Common changes include:
 
 - _Setting color themes._ Many, many hours can be spent trying out _every single_ theme that’s available online for your particular shell.
 - _Configuring a prompt_. The prompt that tells you the shell is ready for you to type a command can be configured to display just about any information you might want (and a bunch of stuff you’d never want). Personal preferences are everything here: we tend to like simple prompts, with a shortened current directory name and version control status along with the time.
-- _Aliases and shell functions_. Simplify your workflow by turning commands you use a lot into simple aliases. Maybe you regularly update your Linux box, but can never remember whether you update and upgrade, or upgrade and update. Create an alias: | | alias apt-up='sudo apt-get update && sudo apt-get upgrade' | Maybe you’ve accidentally deleted files with the rm command just one time too often. Write an alias so that it will always prompt in future: | | alias rm ='rm -iv' |
+- _Aliases and shell functions_. Simplify your workflow by turning commands you use a lot into simple aliases. Maybe you regularly update your Linux box, but can never remember whether you update and upgrade, or upgrade and update. Create an alias: `text alias apt-up='sudo apt-get update && sudo apt-get upgrade' ` Maybe you’ve accidentally deleted files with the rm command just one time too often. Write an alias so that it will always prompt in future: `text alias rm ='rm -iv' `
 - _Command completion_. Most shells will complete the names of commands and files: type the first few characters, hit tab, and it’ll fill in what it can. But you can take this a lot further, configuring the shell to recognize the command you’re entering and offer context-specific completions. Some even customize the completion depending on the current directory.
 
 You’ll spend a lot of time living in one of these shells. Be like a hermit crab and make it your own home.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 13, _Prototypes and Post-it Notes_
 - Topic 16, _The Power of Plain Text_
@@ -3751,13 +3882,15 @@ You’ll spend a lot of time living in one of these shells. Be like a hermit cra
 - Topic 30, _Transforming Programming_
 - Topic 51, _Pragmatic Starter Kit_
 
-### Challenges
+#### Challenges
 
 - Are there things that you’re currently doing manually in a GUI? Do you ever pass instructions to colleagues that involve a number of individual “click this button,” “select this item” steps? Could these be automated?
 - Whenever you move to a new environment, make a point of finding out what shells are available. See if you can bring your current shell with you.
 - Investigate alternatives to your current shell. If you come across a problem your shell can’t address, see if an alternative shell would cope better.
 
-| Topic 18 | Power Editing |
+---
+
+### Topic 18: Power Editing
 
 We’ve talked before about tools being an extension of your hand. Well,
 this applies to editors more than to any other software tool. You need
@@ -3769,7 +3902,8 @@ for everything: code, documentation, memos, system administration, and
 so on. We’ve softened that position a little. We’re happy for you to use
 as many editors as you want. We’d just like you to be working toward fluency in each.
 
-| Tip 27 | Achieve Editor Fluency |
+> [!TIP]
+> **Tip 27: Achieve Editor Fluency**
 
 Why is this a big deal? Are we saying you’ll save lots of time? Actually
 yes: over the course of a year, you might actually gain an additional
@@ -3784,7 +3918,7 @@ benefit. (If you’ve ever taught someone to drive, then you’ll
 understand the difference between someone who has to think about every
 action they take and a more experienced driver who controls the car instinctively.)
 
-### What Does “Fluent” Mean?
+## What Does “Fluent” Mean?
 
 What counts as being fluent? Here’s the challenge list:
 
@@ -3805,7 +3939,7 @@ Can you do all this without using a mouse/trackpad?
 
 You might say that your current editor can’t do some of these things. Maybe it’s time to switch?
 
-### Moving Toward Fluency
+## Moving Toward Fluency
 
 We doubt there are more than a handful of people who know _all_ the commands in any particular powerful editor. We don’t expect you to, either. Instead, we suggest a more pragmatic approach: learn the commands that make your life easier.
 
@@ -3815,7 +3949,7 @@ First, look at yourself while you’re editing. Every time you find yourself doi
 
 Once you’ve discovered a new, useful feature, you now need to get it installed into your muscle memory, so you can use it without thinking. The only way we know to do that is through repetition. Consciously look for opportunities to use your new superpower, ideally many times a day. After a week or so, you’ll find you use it without thinking.
 
-#### Growing Your Editor
+## Growing Your Editor
 
 Most of the powerful code editors are built around a basic core that is then augmented through extensions. Many are supplied with the editor, and others can be added later.
 
@@ -3825,18 +3959,20 @@ Take this a step further. Dig into your editor’s extension language. Work out 
 
 Sometimes you might take it further still, and you’ll find yourself writing a full-blown extension. If so, publish it: if you had a need for it, other people will, too.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 7, _Communicate!_
 
-### Challenges
+#### Challenges
 
 - No more autorepeat. Everyone does it: you need to delete the last word you typed, so you press down on backspace and wait for autorepeat to kick in. In fact, we bet that your brain has done this so much that you can judge pretty much exactly when to release the key. So turn off autorepeat, and instead learn the key sequences to move, select, and delete by characters, words, lines, and blocks.
 - This one is going to hurt. Lose the mouse/trackpad. For one whole week, edit using just the keyboard. You’ll discover a bunch of stuff that you can’t do without pointing and clicking, so now’s the time to learn. Keep notes (we recommend going old-school and using pencil and paper) of the key sequences you learn. You’ll take a productivity hit for a few days. But, as you learn to do stuff without moving your hands away from the home position, you’ll find that your editing becomes faster and more fluent than it ever was in the past.
 - Look for integrations. While writing this chapter, Dave wondered if he could preview the final layout (a PDF file) in an editor buffer. One download later, the layout is sitting alongside the original text, all in the editor. Keep a list of things you’d like to bring into your editor, then look for them.
 - Somewhat more ambitiously, if you can’t find a plugin or extension that does what you want, write one. Andy is fond of making custom, local file-based Wiki plugins for his favorite editors. If you can’t find it, build it!
 
-| Topic 19 | Version Control |
+---
+
+### Topic 19: Version Control
 
 Progress, far from consisting in change, depends on retentiveness.
 Those who cannot remember the past are condemned to repeat it.
@@ -3887,7 +4023,7 @@ directories. If two instances simultaneously make changes, the overall state can
 telling how much damage will be done. And no one likes seeing developers
 cry.
 
-### It Starts at the Source
+## It Starts at the Source
 
 Version control systems keep track of every change you make in your
 source code and documentation. With a properly configured source
@@ -3915,7 +4051,8 @@ in the same file. The system then manages the merging of these changes
 when the files are sent back to the repository. Although seemingly
 risky, such systems work well in practice on projects of all sizes.
 
-| Tip 28 | Always Use Version Control |
+> [!TIP]
+> **Tip 28: Always Use Version Control**
 
 Always. Even if you are a single-person team on a one-week project.
 Even if it’s a “throw-away’’ prototype. Even if the stuff you’re
@@ -3927,7 +4064,7 @@ version control on just about everything we type (including the text of
 this book). Even if we’re not working on a project, our day-to-day
 work is secured in a repository.
 
-### Branching Out
+## Branching Out
 
 Version control systems don’t just keep a single history of your project.
 One of their most powerful and useful features is the way they let you
@@ -3974,7 +4111,7 @@ Just about everything that defined the configuration and usage of the original m
 
 The machine was restored by the end of the afternoon.
 
-### Version Control as a Project Hub
+## Version Control as a Project Hub
 
 Although version control is incredibly useful on personal projects, it
 really comes into its own when working with a team. And much of this
@@ -4006,20 +4143,22 @@ successful deploy the new code into production.
 Sound scary? Not when you realize you’re using version control. You can
 always roll it back.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 11, _Reversibility_
 - Topic 49, _Pragmatic Teams_
 - Topic 51, _Pragmatic Starter Kit_
 
-### Challenges
+#### Challenges
 
 - Knowing you can roll back to any previous state using the VCS is one thing, but can you actually do it? Do you know the commands to do it properly? Learn them now, not when disaster strikes and you’re under pressure.
 - Spend some time thinking about recovering your own laptop environment in case of a disaster. What would you need to recover? Many of the things you need are just text files. If they’re not in a VCS (hosted off your laptop), find a way to add them. Then think about the other stuff: installed applications, system configuration, and so on. How can you express all that stuff in text files so it, too, can be saved? An interesting experiment, once you’ve made some progress, is to find an old computer you no longer use and see if your new system can be used to set it up.
 - Consciously explore the features of your current VCS and hosting provider that you’re not using. If your team isn’t using feature branches, experiment with introducing them. The same with pull/merge requests. Continuous integration. Build pipelines. Even continuous deployment. Look into the team communication tools, too: wikis, Kanban boards, and the like. You don’t have to use any of it. But you do need to know what it does so you can make that decision.
 - Use version control for nonproject things, too.
 
-| Topic 20 | Debugging |
+---
+
+### Topic 20: Debugging
 
 It is a painful thing
 To look at your own trouble and know
@@ -4049,7 +4188,7 @@ up a major portion of your day. Let’s look at some of the issues
 involved in debugging and some general strategies for finding elusive
 bugs.
 
-### Psychology of Debugging
+## Psychology of Debugging
 
 Debugging is a sensitive, emotional subject for many developers. Instead
 of attacking it as a puzzle to be solved, you may encounter denial,
@@ -4063,12 +4202,13 @@ blame on the filthy culprit who created it. In some workplaces this is
 part of the culture, and may be cathartic. However, in the technical
 arena, you want to concentrate on fixing the _problem_, not the blame.
 
-| Tip 29 | Fix the Problem, Not the Blame |
+> [!TIP]
+> **Tip 29: Fix the Problem, Not the Blame**
 
 It doesn’t really matter whether the bug is your fault or someone
 else’s. It is still your problem.
 
-### A Debugging Mindset
+## A Debugging Mindset
 
 Before you start debugging, it’s important to adopt the right mindset.
 You need to turn off many of the defenses you use each day to protect
@@ -4076,7 +4216,8 @@ your ego, tune out any project pressures you may be under, and get
 yourself comfortable. Above all, remember the first rule of
 debugging:
 
-| Tip 30 | Don’t Panic |
+> [!TIP]
+> **Tip 30: Don’t Panic**
 
 It’s easy to get into a panic, especially if you are facing a
 deadline, or have a nervous boss or client breathing down your neck
@@ -4095,7 +4236,7 @@ steps removed from what you are observing, and may involve a number of
 other related things. Always try to discover the root cause of a
 problem, not just this particular appearance of it.
 
-### Where to Start
+## Where to Start
 
 Before you _start_ to look at the bug, make sure that you are working on
 code that built cleanly—without warnings. We routinely set compiler
@@ -4131,12 +4272,12 @@ There are two points to this story:
 - You may need to interview the user who reported the bug in order to gather more data than you were initially given.
 - Artificial tests (such as the programmer’s single brush stroke from bottom to top) don’t exercise enough of an application. You must brutally test both boundary conditions and realistic end-user usage patterns. You need to do this systematically (see _Ruthless and Continuous Testing_).
 
-### Debugging Strategies
+## Debugging Strategies
 
 Once _you_ think you know what is going on, it’s time to find out what
 the _program_ thinks is going on.
 
-#### Reproducing Bugs
+## Reproducing Bugs
 
 No, our bugs aren’t really multiplying (although some of them are
 probably old enough to do it legally). We’re talking about a
@@ -4153,13 +4294,14 @@ up.
 
 So here’s the most important rule of debugging:
 
-| Tip 31 | Failing Test Before Fixing Code |
+> [!TIP]
+> **Tip 31: Failing Test Before Fixing Code**
 
 Sometimes by forcing yourself to isolate the circumstances that
 display the bug, you’ll even gain an insight on how to fix it. The act
 of writing the test informs the solution.
 
-### Coder in a Strange Land
+## Coder in a Strange Land
 
 All this talk about isolating the bug is fine, when faced with 50,000
 lines of code and a ticking clock, what’s a poor coder to do?
@@ -4168,11 +4310,12 @@ First, look at the problem. Is it a crash? It’s always surprising when
 we teach courses that involve programming how many developers see an
 exception pop up in red and immediately tab across to the code.
 
-| Tip 32 | Read the Damn Error Message |
+> [!TIP]
+> **Tip 32: Read the Damn Error Message**
 
 ’nuf said.
 
-#### Bad Results
+## Bad Results
 
 What if it’s not a crash? What if it’s just a bad result?
 
@@ -4197,7 +4340,7 @@ forever. In this case, there’s often a quicker way to find the problem
 than examining each and every stack frame: use a _binary chop_. But
 before we discuss that, let’s look at two other common bug scenarios.
 
-#### Sensitivity to Input Values
+## Sensitivity to Input Values
 
 You’ve been there. Your program works fine with all the test data, and
 survives its first week in production with honor. Then it suddenly
@@ -4209,14 +4352,14 @@ and feed it through a locally running copy of the app, making sure it
 still crashes. Then binary chop the data until you isolate exactly which
 input values are leading to the crash.
 
-#### Regressions Across Releases
+## Regressions Across Releases
 
 You’re on a good team, and you release your software into production. At
 some point a bug pops up in code that worked OK a week ago. Wouldn’t it
 be nice if you could identify the specific change that introduced it?
 Guess what? Binary chop time.
 
-### The Binary Chop
+## The Binary Chop
 
 Every CS undergraduate has been forced to code a binary chop (sometimes
 called a binary search). The idea is simple. You’re looking for a
@@ -4259,7 +4402,7 @@ good version control in your projects. Indeed, many version control
 systems will take this further and will automate the process, picking
 releases for you depending on the result of the test.
 
-#### Logging and/or Tracing
+## Logging and/or Tracing
 
 Debuggers generally focus on the state of the program
 _now_. Sometimes you need more—you need to watch the state of
@@ -4286,7 +4429,7 @@ each open and each close in a log file. By processing the log file
 with text processing tools or shell commands, you can easily identify
 where the offending open was occurring.
 
-#### Rubber Ducking
+## Rubber Ducking
 
 A very simple but particularly useful technique for finding the cause of
 a problem is simply to explain it to someone else. The other person
@@ -4308,7 +4451,7 @@ the problem. And if you don’t have a person, a rubber duck, or teddy
 bear, or potted plant will do. [Earlier versions of the book talked about talking to your pot
 plant. It was a typo. Honest.]
 
-#### Process of Elimination
+## Process of Elimination
 
 In most projects, the code you are debugging may be a mixture of
 application code written by you and others on your project team,
@@ -4336,7 +4479,8 @@ a matter of minutes. We now use the phrase “select is broken’’ as a
 gentle reminder whenever one of us starts blaming the system for a fault
 that is likely to be our own.
 
-| Tip 33 | “select” Isn’t Broken |
+> [!TIP]
+> **Tip 33: “select” Isn’t Broken**
 
 Remember, if you see hoof prints, think horses—not zebras. The OS
 is probably not broken. And select is probably just fine.
@@ -4353,7 +4497,7 @@ the system under these new conditions. So keep a close eye on the
 schedule when considering an upgrade; you may want to wait until
 _after_ the next release.
 
-### The Element of Surprise
+## The Element of Surprise
 
 When you find yourself surprised by a bug (perhaps even muttering
 “that’s impossible” under your breath where we can’t hear you), you must
@@ -4372,7 +4516,8 @@ involved in the bug because you “know” it works. Prove it. Prove it
 in _this_ context, with _this_ data, with _these_ boundary
 conditions.
 
-| Tip 34 | Don’t Assume It—Prove It |
+> [!TIP]
+> **Tip 34: Don’t Assume It—Prove It**
 
 When you come across a surprise bug, beyond merely fixing it, you need
 to determine why this failure wasn’t caught earlier. Consider
@@ -4401,7 +4546,7 @@ then it’s possible many people do.
 
 Do all this, and hopefully you won’t be surprised next time.
 
-### Debugging Checklist
+## Debugging Checklist
 
 - Is the problem being reported a direct result of the underlying bug, or merely a symptom?
 - Is the bug _really_ in the framework you’re using? Is it in the OS? Or is it in your code?
@@ -4409,15 +4554,17 @@ Do all this, and hopefully you won’t be surprised next time.
 - If the suspect code passes its unit tests, are the tests complete enough? What happens if you run the tests with _this_ data?
 - Do the conditions that caused this bug exist anywhere else in the system? Are there other bugs still in the larval stage, just waiting to hatch?
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 24, _Dead Programs Tell No Lies_
 
-### Challenges
+#### Challenges
 
 - Debugging is challenge enough.
 
-| Topic 21 | Text Manipulation |
+---
+
+### Topic 21: Text Manipulation
 
 Pragmatic Programmers manipulate text the same way woodworkers shape
 wood. In previous sections we discussed some specific tools—shells,
@@ -4458,7 +4605,8 @@ manipulate text, interact with programs, talk over networks, drive web
 pages, perform arbitrary precision arithmetic, and write programs that
 look like Snoopy swearing.
 
-| Tip 35 | Learn a Text Manipulation Language |
+> [!TIP]
+> **Tip 35: Learn a Text Manipulation Language**
 
 To show the wide-ranging applicability of text manipulation languages,
 here’s a sample of some stuff we’ve done with Ruby and Python just
@@ -4509,12 +4657,12 @@ text manipulation. And if you follow our advice to keep things in plain
 text, then using these languages to manipulate that text will bring a
 whole host of benefits.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 16, _The Power of Plain Text_
 - Topic 17, _Shell Games_
 
-### Exercises
+#### Exercises
 
 **Exercise 11**
 
@@ -4538,7 +4686,9 @@ Following on from the previous exercise, add the ability to change those
 variable names automatically in one or more files. Remember to keep a
 backup of the originals in case something goes horribly, horribly wrong.
 
-| Topic 22 | Engineering Daybooks |
+---
+
+### Topic 22: Engineering Daybooks
 
 Dave once worked for a small computer manufacturer, which meant working
 alongside electronic and sometimes mechanical engineers.
@@ -4579,18 +4729,17 @@ Give it a month, and see if you’re getting any benefits.
 If nothing else, it’ll make writing your memoir easier when you’re rich
 and famous.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 6, _Your Knowledge Portfolio_
 - Topic 37, _Listen to Your Lizard Brain_
 
 Copyright © 2020 Pearson Education, Inc.
 
-# Chapter
+## Chapter 4: Pragmatic Paranoia
 
-4Pragmatic Paranoia
-
-| Tip 36 | You Can’t Write Perfect Software |
+> [!TIP]
+> **Tip 36: You Can’t Write Perfect Software**
 
 Did that hurt? It shouldn’t. Accept it as an axiom of life. Embrace
 it. Celebrate it. Because perfect software doesn’t exist. No one in
@@ -4641,7 +4790,9 @@ In a world of imperfect systems, ridiculous time scales, laughable
 tools, and impossible requirements, let’s play it safe. As Woody Allen said, “When everybody actually _is_ out to get you, paranoia is just
 good thinking.”
 
-| Topic 23 | Design by Contract |
+---
+
+### Topic 23: Design by Contract
 
 Nothing astonishes men so much as common sense and plain dealing.
 
@@ -4668,7 +4819,7 @@ It’s an idea used the world over—both formally and informally—to
 help humans interact. Can we use the same concept to help software
 modules interact? The answer is “yes.’’
 
-### DBC
+## DBC
 
 Bertrand Meyer
 (_Object-Oriented Software Construction_ [Mey97]) developed the concept of
@@ -4727,53 +4878,60 @@ to perform things such as user-input validation.
 
 Some languages have better support for these concepts than others. Clojure, for example, supports pre- and post-conditions as well as the more comprehensive instrumentation provided by _specs_. Here’s an example of a banking function to make a deposit using simple pre- and post-conditions:
 
-|     | (defn accept-deposit [account-id amount]                    |
-| --- | ----------------------------------------------------------- |
-|     | { :pre [ (> amount 0.00)                                    |
-|     | (account-open? account-id) ]                                |
-|     | :post [ (contains? (account-transactions account-id) %) ] } |
-|     | "Accept a deposit and return the new transaction id"        |
-|     | ;; Some other processing goes here...                       |
-|     | ;; Return the newly created transaction:                    |
-|     | (create-transaction account-id :deposit amount))            |
+```text
+(defn accept-deposit [account-id amount]
+   { :pre [  (> amount 0.00)
+             (account-open? account-id) ]
+     :post [ (contains? (account-transactions account-id) %) ] }
+   "Accept a deposit and return the new transaction id"
+   ;; Some other processing goes here...
+   ;; Return the newly created transaction:
+   (create-transaction account-id :deposit amount))
+```
 
 There are two preconditions for the accept-deposit function. The first is that the amount is greater than zero, and the second is that the account is open and valid, as determined by some function named account-open?. There is also a postcondition: the function guarantees that the new transaction (the return value of this function, represented here by ‘%’) can be found among the transactions for this account.
 
 If you call accept-deposit with a positive amount for the deposit and a valid account, it will proceed to create a transaction of the appropriate type and do whatever other processing it does. However, if there’s a bug in the program and you somehow passed in a negative amount for the deposit, you’ll get a runtime exception:
 
-|     | Exception in thread "main"...                                      |
-| --- | ------------------------------------------------------------------ |
-|     | Caused by: java.lang.AssertionError: Assert failed: (> amount 0.0) |
+```text
+Exception in thread "main"...
+Caused by: java.lang.AssertionError: Assert failed: (> amount 0.0)
+```
 
 Similarly, this function requires that the specified account is open and valid. If it’s not, you’ll see that exception instead:
 
-|     | Exception in thread "main"...                                                  |
-| --- | ------------------------------------------------------------------------------ |
-|     | Caused by: java.lang.AssertionError: Assert failed: (account-open? account-id) |
+```text
+Exception in thread "main"...
+Caused by: java.lang.AssertionError: Assert failed: (account-open? account-id)
+```
 
 Other languages have features that, while not DBC-specific, can still be used to good effect. For example, Elixir uses _guard clauses_ to dispatch function calls against several available bodies:
 
-|     | defmodule Deposits do                                            |
-| --- | ---------------------------------------------------------------- |
-|     | def accept_deposit(account_id, amount) when (amount > 100000) do |
-|     | # Call the manager!                                              |
-|     | end                                                              |
-|     | def accept_deposit(account_id, amount) when (amount > 10000) do  |
-|     | # Extra Federal requirements for reporting                       |
-|     | # Some processing...                                             |
-|     | end                                                              |
-|     | def accept_deposit(account_id, amount) when (amount > 0) do      |
-|     | # Some processing...                                             |
-|     | end                                                              |
-|     | end                                                              |
+```elixir
+defmodule Deposits do
+  def accept_deposit(account_id, amount) when (amount > 100000) do
+    # Call the manager!
+  end
+  def accept_deposit(account_id, amount) when (amount > 10000) do
+    # Extra Federal requirements for reporting
+    # Some processing...
+  end
+  def accept_deposit(account_id, amount) when (amount > 0) do
+    # Some processing...
+  end
+end
+```
 
 In this case, calling accept_deposit with a large enough amount may trigger additional steps and processing. Try to call it with an amount less than or equal to zero, however, and you’ll get an exception informing you that you can’t:
 
-| | ** (FunctionClauseError) no function clause matching in Deposits.accept_deposit/2 |
+```javascript
+** (FunctionClauseError) no function clause matching in Deposits.accept_deposit/2
+```
 
 This is a better approach than simply checking your inputs; in this case, you simply _can not_ call this function if your arguments are out of range.
 
-| Tip 37 | Design with Contracts |
+> [!TIP]
+> **Tip 37: Design with Contracts**
 
 In Topic 10, _Orthogonality_, we recommended writing “shy” code. Here,
 the emphasis is on “lazy” code:
@@ -4802,7 +4960,7 @@ DBC offers several advantages over specific testing approaches:
 
 TDD is a great technique, but as with many techniques, it might invite you to concentrate on the “happy path,” and not the real world full of bad data, bad actors, bad versions, and bad specifications.
 
-#### Class Invariants and Functional Languages
+## Class Invariants and Functional Languages
 
 It’s a naming thing. Eiffel is an object-oriented language, so Meyer named this idea “class
 invariant.” But, really, it’s more general than that. What this idea really
@@ -4813,7 +4971,7 @@ In a functional language, you typically pass state to functions and
 receive updated state as a result. The concepts of invariants is just as
 useful in these circumstances.
 
-### Implementing DBC
+## Implementing DBC
 
 Simply enumerating what the input domain range is, what the boundary
 conditions are, and what the routine promises to deliver—or, more
@@ -4824,7 +4982,7 @@ fail.
 
 In languages that do not support DBC in the code, this might be as far as you can go—and that’s not too bad. DBC is, after all, a _design_ technique. Even without automatic checking, you can put the contract in the code as comments or in the unit tests and still get a very real benefit.
 
-#### Assertions
+## Assertions
 
 While documenting these assumptions is a great start, you can get much
 greater benefit by having the compiler check your contract for you.
@@ -4880,7 +5038,7 @@ correctness to the caller—where it belongs. You can then design
 the sqrt routine secure in the knowledge that its input
 will be in range.
 
-### DBC and Crashing Early
+## DBC and Crashing Early
 
 DBC fits in nicely with our concept of crashing early (see
 Topic 24, _Dead Programs Tell No Lies_). By using an assert or DBC mechanism to validate the preconditions, postconditions, and invariants, you can crash early and report more accurate information about the problem.
@@ -4894,7 +5052,7 @@ where passing a negative number to sqrt returns the special value NaN (Not a Num
 It’s much easier to find and diagnose the problem by crashing
 early, at the site of the problem.
 
-### Semantic Invariants
+## Semantic Invariants
 
 You can use _semantic invariants_ to express inviolate
 requirements, a kind of “philosophical contract.’’
@@ -4931,7 +5089,7 @@ This is a clear, concise, unambiguous statement that’s applicable in
 many different areas of the system. It is our contract with all users
 of the system, our guarantee of behavior.
 
-### Dynamic Contracts and Agents
+## Dynamic Contracts and Agents
 
 Until now, we have talked about contracts as fixed, immutable
 specifications. But in the landscape of autonomous agents, this
@@ -4952,7 +5110,7 @@ But if we can’t use contracts by hand, we won’t be able to use them
 automatically. So next time you design a piece of software, design its
 contract as well.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 24, _Dead Programs Tell No Lies_
 - Topic 25, _Assertive Programming_
@@ -4961,11 +5119,11 @@ contract as well.
 - Topic 43, _Stay Safe Out There_
 - Topic 45, _The Requirements Pit_
 
-### Challenges
+#### Challenges
 
 - Points to ponder: If DBC is so powerful, why isn’t it used more widely? Is it hard to come up with the contract? Does it make you think about issues you’d rather ignore for now? Does it force you to _THINK!_? Clearly, this is a dangerous tool!
 
-### Exercises
+#### Exercises
 
 **Exercise 14** (possible answer)
 
@@ -4979,18 +5137,21 @@ and you can change the speed only one unit at a time (that is, from
 Here are the methods. Add appropriate pre- and postconditions and an
 invariant.
 
-|     | int getSpeed()       |
-| --- | -------------------- |
-|     | void setSpeed(int x) |
-|     | boolean isFull()     |
-|     | void fill()          |
-|     | void empty()         |
+```text
+int getSpeed()
+void setSpeed(int x)
+boolean isFull()
+void fill()
+void empty()
+```
 
 **Exercise 15** (possible answer)
 
 How many numbers are in the series 0, 5, 10, 15, …, 100?
 
-| Topic 24 | Dead Programs Tell No Lies |
+---
+
+### Topic 24: Dead Programs Tell No Lies
 
 Have you noticed that sometimes other people can detect that things
 aren’t well with you before you’re aware of the problem yourself? It’s
@@ -5020,29 +5181,32 @@ error can’t happen, and choose to ignore it. Instead, Pragmatic Programmers te
 themselves that if there is an error, something very, very bad has
 happened. Don’t forget to Read the Damn Error Message (see _Coder in a Strange Land_).
 
-### Catch and Release Is for Fish
+## Catch and Release Is for Fish
 
 Some developers feel that is it good style to catch or rescue all
 exceptions, re-raising them after writing some kind of message. Their
 code is full of things like this (where a bare raise statement reraises the current exception):
 
-|     | try do                                                       |
-| --- | ------------------------------------------------------------ |
-|     | add_score_to_board(score);                                   |
-|     | rescue InvalidScore                                          |
-|     | Logger.error("Can't add invalid score. Exiting");            |
-|     | raise                                                        |
-|     | rescue BoardServerDown                                       |
-|     | Logger.error("Can't add score: board is down. Exiting");     |
-|     | raise                                                        |
-|     | rescue StaleTransaction                                      |
-|     | Logger.error("Can't add score: stale transaction. Exiting"); |
-|     | raise                                                        |
-|     | end                                                          |
+```text
+try do
+   add_score_to_board(score);
+rescue InvalidScore
+   Logger.error("Can't add invalid score. Exiting");
+   raise
+rescue BoardServerDown
+   Logger.error("Can't add score: board is down. Exiting");
+   raise
+rescue StaleTransaction
+   Logger.error("Can't add score: stale transaction. Exiting");
+   raise
+end
+```
 
 Here’s how Pragmatic Programmers would write this:
 
-| | add_score_to_board(score); |
+```text
+add_score_to_board(score);
+```
 
 We prefer it for two reasons. First, the application code isn’t eclipsed
 by the error handling. Second, and perhaps more important, the code is
@@ -5052,9 +5216,10 @@ method adds another exception, our code is subtly out of date. In the
 more pragmatic second version, the new exception is automatically
 propagated.
 
-| Tip 38 | Crash Early |
+> [!TIP]
+> **Tip 38: Crash Early**
 
-### Crash, Don’t Trash
+## Crash, Don’t Trash
 
 One of the benefits of detecting problems as soon as you can is that
 you can crash earlier, and crashing is often the
@@ -5088,7 +5253,7 @@ it as soon as possible.
 A dead program
 normally does a lot less damage than a crippled one.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 20, _Debugging_
 - Topic 23, _Design by Contract_
@@ -5096,7 +5261,9 @@ normally does a lot less damage than a crippled one.
 - Topic 26, _How to Balance Resources_
 - Topic 43, _Stay Safe Out There_
 
-| Topic 25 | Assertive Programming |
+---
+
+### Topic 25: Assertive Programming
 
 There is a luxury in self-reproach. When we blame ourselves we feel
 no one else has a right to blame us.
@@ -5117,33 +5284,40 @@ can’t fail.”
 Let’s not practice this kind of self-deception, particularly when
 coding.
 
-| Tip 39 | Use Assertions to Prevent the Impossible |
+> [!TIP]
+> **Tip 39: Use Assertions to Prevent the Impossible**
 
 Whenever you find yourself thinking “but of course that could never happen,” add code to check it. The easiest way to do this is with assertions. In many language implementations, you’ll find some form of assert that checks a Boolean condition. [In C and C++ these are usually implemented as macros. In Java,
 assertions are disabled by default. Invoke the Java VM with the
 –enableassertions flag to enable them, and leave them enabled.] These checks can be invaluable. If a parameter or a result should never be null, then check for it explicitly:
 
-| | assert (result != null); |
+```text
+assert (result != null);
+```
 
 In the Java implementation, you can (and should) add a descriptive string:
 
-| | assert result != null && result.size() > 0 : "Empty result from XYZ"; |
+```text
+assert result != null && result.size() > 0 : "Empty result from XYZ";
+```
 
 Assertions are also useful checks on an algorithm’s operation. Maybe
 you’ve written a clever sort algorithm, named my_sort. Check that it works:
 
-|     | books = my_sort(find("scifi")) |
-| --- | ------------------------------ |
-|     | assert(is_sorted?(books))      |
+```text
+books = my_sort(find("scifi"))
+assert(is_sorted?(books))
+```
 
 Don’t use assertions in place of real error handling. Assertions
 check for things that should never happen: you don’t want to be
 writing code such as the following:
 
-|     | puts("Enter 'Y' or 'N': ")                       |
-| --- | ------------------------------------------------ |
-|     | ans = gets[0] # Grab first character of response |
-|     | assert((ch == 'Y')                               |     | (ch == 'N')) # Very bad idea! |
+```text
+puts("Enter 'Y' or 'N': ")
+ans = gets[0] # Grab first character of response
+assert((ch == 'Y') || (ch == 'N'))    # Very bad idea!
+```
 
 And just because most assert implementations will terminate the
 process when an assertion fails, there’s no reason why versions you
@@ -5152,31 +5326,33 @@ exception or trap the exit, and run your own error handler. Just make
 sure the code you execute in those dying milliseconds doesn’t rely on
 the information that triggered the assertion failure in the first place.
 
-### Assertions and Side Effects
+## Assertions and Side Effects
 
 It’s embarrassing when the code we add to detect errors actually ends
 up creating new errors. This can happen with assertions if evaluating
 the condition has side effects. For example, it would be a
 bad idea to code something such as
 
-|     | while (iter.hasMoreElements()) {    |
-| --- | ----------------------------------- |
-|     | assert(iter.nextElement() != null); |
-|     | Object obj = iter.nextElement();    |
-|     | // ....                             |
-|     | }                                   |
+```text
+while (iter.hasMoreElements()) {
+  assert(iter.nextElement() != null);
+  Object obj = iter.nextElement();
+  // ....
+}
+```
 
 The .nextElement() call in the assertion has the side effect of
 moving the iterator past the element being fetched, and so the loop
 will process only half the elements in the collection. It would be
 better to write
 
-|     | while (iter.hasMoreElements()) { |
-| --- | -------------------------------- |
-|     | Object obj = iter.nextElement(); |
-|     | assert(obj != null);             |
-|     | // ....                          |
-|     | }                                |
+```text
+while (iter.hasMoreElements()) {
+  Object obj = iter.nextElement();
+  assert(obj != null);
+  // ....
+}
+```
 
 This problem is a kind of
 Heisenbug [http://www.eps.mcgill.ca/jargon/jargon.html#heisenbug] —debugging
@@ -5185,7 +5361,7 @@ behavior of the system being debugged.
 
 (We also believe that nowadays, when most languages have decent support for iterating functions over collections, this kind of explicit loop is unnecessary and bad form.)
 
-### Leave Assertions Turned On
+## Leave Assertions Turned On
 
 There is a common misunderstanding about assertions. It goes
 something like this:
@@ -5238,14 +5414,16 @@ happen?
 - A minute that doesn’t have 60 seconds
 - (a + 1) <= a
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 23, _Design by Contract_
 - Topic 24, _Dead Programs Tell No Lies_
 - Topic 42, _Property-Based Testing_
 - Topic 43, _Stay Safe Out There_
 
-| Topic 26 | How to Balance Resources |
+---
+
+### Topic 26: How to Balance Resources
 
 To light a candle is to cast a shadow...
 
@@ -5259,7 +5437,8 @@ pattern: you allocate the resource, use it, and then deallocate it.
 However, many developers have no consistent plan for dealing with
 resource allocation and deallocation. So let us suggest a simple tip:
 
-| Tip 40 | Finish What You Start |
+> [!TIP]
+> **Tip 40: Finish What You Start**
 
 This tip is easy to apply in most circumstances. It simply means that
 the function or object that allocates a resource should be responsible
@@ -5268,23 +5447,24 @@ of some bad code—part of a Ruby program that opens a file, reads
 customer information from it, updates a field, and writes the result
 back. We’ve eliminated error handling to make the example clearer:
 
-|     | def read_customer                                |
-| --- | ------------------------------------------------ |
-|     | @customer_file = File.open(@name + ".rec", "r+") |
-|     | @balance = BigDecimal(@customer_file.gets)       |
-|     | end                                              |
-|     |                                                  |
-|     | def write_customer                               |
-|     | @customer_file.rewind                            |
-|     | @customer_file.puts @balance.to_s                |
-|     | @customer_file.close                             |
-|     | end                                              |
-|     |                                                  |
-|     | def update_customer(transaction_amount)          |
-|     | read_customer                                    |
-|     | @balance = @balance.add(transaction_amount,2)    |
-|     | write_customer                                   |
-|     | end                                              |
+```ruby
+def read_customer
+  @customer_file = File.open(@name + ".rec", "r+")
+  @balance       = BigDecimal(@customer_file.gets)
+end
+
+def write_customer
+  @customer_file.rewind
+  @customer_file.puts @balance.to_s
+  @customer_file.close
+end
+
+def update_customer(transaction_amount)
+  read_customer
+  @balance = @balance.add(transaction_amount,2)
+  write_customer
+end
+```
 
 At first sight, the routine update_customer looks reasonable. It
 seems to implement the logic we require—reading a record, updating
@@ -5303,14 +5483,15 @@ who is told that the specification has changed—the balance should
 be updated only if the new value is not negative. They go into
 the source and change update_customer:
 
-|     | def update_customer(transaction_amount)       |
-| --- | --------------------------------------------- |
-|     | read_customer                                 |
-|     | if (transaction_amount >= 0.00)               |
-|     | @balance = @balance.add(transaction_amount,2) |
-|     | write_customer                                |
-|     | end                                           |
-|     | end                                           |
+```ruby
+def update_customer(transaction_amount)
+  read_customer
+  if (transaction_amount >= 0.00)
+    @balance = @balance.add(transaction_amount,2)
+    write_customer
+  end
+end
+```
 
 All seems fine during testing. However, when the code goes into
 production, it collapses after several hours, complaining of _too many
@@ -5320,16 +5501,17 @@ some circumstances. When that happens, the file is not getting closed.
 A very _bad_ solution to this problem would be to deal with the special
 case in update_customer:.
 
-|     | def update_customer(transaction_amount)       |
-| --- | --------------------------------------------- |
-|     | read_customer                                 |
-|     | if (transaction_amount >= 0.00)               |
-|     | @balance += BigDecimal(transaction_amount, 2) |
-|     | write_customer                                |
-|     | else                                          |
-|     | @customer_file.close # Bad idea!              |
-|     | end                                           |
-|     | end                                           |
+```ruby
+def update_customer(transaction_amount)
+  read_customer
+  if (transaction_amount >= 0.00)
+    @balance += BigDecimal(transaction_amount, 2)
+    write_customer
+  else
+    @customer_file.close # Bad idea!
+  end
+end
+```
 
 This will fix the problem—the file will now get closed regardless of
 the new balance—but the fix now means that _three_ routines are
@@ -5341,22 +5523,23 @@ The _finish what you start_ tip tells us that, ideally, the
 routine that allocates a resource should also free it. We can apply it
 here by refactoring the code slightly:
 
-|     | def read_customer(file)                         |
-| --- | ----------------------------------------------- |
-|     | @balance=BigDecimal(file.gets)                  |
-|     | end                                             |
-|     |                                                 |
-|     | def write_customer(file)                        |
-|     | file.rewind                                     |
-|     | file.puts @balance.to_s                         |
-|     | end                                             |
-|     |                                                 |
-|     | def update_customer(transaction_amount)         |
-|     | file=File.open(@name + ".rec", "r+") # >--      |
-|     | read_customer(file) #                           |     |
-|     | @balance = @balance.add(transaction_amount,2) # |     |
-|     | file.close # <--                                |
-|     | end                                             |
+```ruby
+def read_customer(file)
+  @balance=BigDecimal(file.gets)
+end
+
+def write_customer(file)
+  file.rewind
+  file.puts @balance.to_s
+end
+
+def update_customer(transaction_amount)
+  file=File.open(@name + ".rec", "r+")          # >--
+  read_customer(file)                           #    |
+  @balance = @balance.add(transaction_amount,2) #    |
+  file.close                                    # <--
+end
+```
 
 Instead of holding on to the file reference, we’ve changed the code to pass it as a parameter. [See the tip here.] Now all the responsibility for the file is in the
 update_customer routine. It opens the file and (finishing what
@@ -5367,14 +5550,15 @@ refactoring also removes an ugly shared variable.
 
 There’s another small but important improvement we can make. In many modern languages, you can scope the lifetime of a resource to an enclosed block of some sort. In Ruby, there’s a variation of the file open that passes in the open file reference to a block, shown here between the do and the end:
 
-|     | def update_customer(transaction_amount)         |
-| --- | ----------------------------------------------- |
-|     | File.open(@name + ".rec", "r+") do              | file | # >-- |
-|     | read_customer(file) #                           |      |
-|     | @balance = @balance.add(transaction_amount,2) # |      |
-|     | write_customer(file) #                          |      |
-|     | end # <--                                       |
-|     | end                                             |
+```ruby
+def update_customer(transaction_amount)
+  File.open(@name + ".rec", "r+") do |file|       # >--
+    read_customer(file)                           #    |
+    @balance = @balance.add(transaction_amount,2) #    |
+    write_customer(file)                          #    |
+  end                                             # <--
+end
+```
 
 In this case, at the end of the block the file variable goes out of
 scope and the external file is closed. Period. No need to remember to
@@ -5383,7 +5567,8 @@ you.
 
 When in doubt, it always pays to reduce scope.
 
-| Tip 41 | Act Locally |
+> [!TIP]
+> **Tip 41: Act Locally**
 
 Balancing Over Time
 
@@ -5393,7 +5578,7 @@ For instance, how are your logging files handled? You are creating data and usin
 
 What else are you leaving behind?
 
-### Nest Allocations
+## Nest Allocations
 
 The basic pattern for resource allocation can be extended for
 routines that need more than one resource at a time. There are just
@@ -5408,7 +5593,7 @@ applies: whoever allocates a resource should be responsible for
 deallocating it. However, in some languages we can develop the concept
 further.
 
-### Objects and Exceptions
+## Objects and Exceptions
 
 The equilibrium between allocations and deallocations is reminiscent
 of an object-oriented class’s constructor
@@ -5428,7 +5613,7 @@ This approach has particular benefits when you’re working with
 languages where exceptions can interfere with
 resource deallocation.
 
-### Balancing and Exceptions
+## Balancing and Exceptions
 
 Languages that support exceptions can make resource deallocation
 tricky. If an exception is thrown, how do you guarantee that
@@ -5440,39 +5625,42 @@ depends to some extent on the language support. You generally have two choices:
 
 With usual scoping rules in languages such as C++ or Rust, the variable’s memory will be reclaimed when the variable goes out of scope via a return, block exit, or exception. But you can also hook in to the variable’s destructor to cleanup any external resources. In this example, the Rust variable named accounts will automatically close the associated file when it goes out of scope:
 
-|     | {                                                    |
-| --- | ---------------------------------------------------- |
-|     | let mut accounts = File::open("mydata.txt")?; // >-- |
-|     | // use 'accounts' //                                 |     |
-|     | ... //                                               |     |
-|     | } // <--                                             |
-|     | // 'accounts' is now out of scope, and the file is   |
-|     | // automatically closed                              |
+```javascript
+{
+  let mut accounts = File::open("mydata.txt")?; // >--
+  // use 'accounts'                             //    |
+  ...                                           //    |
+}                                               // <--
+// 'accounts' is now out of scope, and the file is
+// automatically closed
+```
 
 The other option, if the language supports it, is the finally clause.
 A finally clause will ensure that the specified code will run whether or not an exception was raised in the try…catch block:
 
-|     | try                        |
-| --- | -------------------------- |
-|     | // some dodgy stuff        |
-|     | catch                      |
-|     | // exception was raised    |
-|     | finally                    |
-|     | // clean up in either case |
+```text
+try
+  // some dodgy stuff
+catch
+  // exception was raised
+finally
+  // clean up in either case
+```
 
 However, there is a catch.
 
-#### An Exception Antipattern
+## An Exception Antipattern
 
 We commonly see folks writing something like this:
 
-|     | begin                       |
-| --- | --------------------------- |
-|     | thing = allocate_resource() |
-|     | process(thing)              |
-|     | finally                     |
-|     | deallocate(thing)           |
-|     | end                         |
+```text
+begin
+   thing = allocate_resource()
+   process(thing)
+finally
+   deallocate(thing)
+end
+```
 
 Can you see what’s wrong?
 
@@ -5483,15 +5671,16 @@ that was never allocated.
 The correct pattern for handling resource deallocation in an environment
 with exceptions is
 
-|     | thing = allocate_resource() |
-| --- | --------------------------- |
-|     | begin                       |
-|     | process(thing)              |
-|     | finally                     |
-|     | deallocate(thing)           |
-|     | end                         |
+```text
+thing = allocate_resource()
+begin
+   process(thing)
+finally
+   deallocate(thing)
+end
+```
 
-### When You Can’t Balance Resources
+## When You Can’t Balance Resources
 
 There are times when the basic resource allocation pattern just isn’t
 appropriate. Commonly this is found in programs that use dynamic data
@@ -5521,7 +5710,7 @@ provides standard allocation and deallocation facilities for that
 structure. (This module can also provide facilities such as debug
 printing, serialization, deserialization, and traversal hooks.)
 
-### Checking the Balance
+## Checking the Balance
 
 Because Pragmatic Programmers trust no one, including ourselves, we feel that it is
 always a good idea to build code that actually checks that resources
@@ -5540,13 +5729,13 @@ of the loop.
 At a lower, but no less useful level, you can invest in tools that
 (among other things) check your running programs for memory leaks.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 24, _Dead Programs Tell No Lies_
 - Topic 30, _Transforming Programming_
 - Topic 33, _Breaking Temporal Coupling_
 
-### Challenges
+#### Challenges
 
 - Although there are no guaranteed ways of ensuring that you always free resources, certain design techniques, when applied consistently, will help. In the text we discussed how establishing a semantic invariant for major data structures could direct memory deallocation decisions. Consider how Topic 23, _Design by Contract_, could help refine this idea.
 
@@ -5562,7 +5751,9 @@ Some Java developers make a point of setting an object variable to
 NULL after they have finished using the object. Why is this a
 good idea?
 
-| Topic 27 | Don’t Outrun Your Headlights |
+---
+
+### Topic 27: Don’t Outrun Your Headlights
 
 It’s tough to make predictions, especially about the future.
 
@@ -5588,7 +5779,8 @@ actually pretty easy to outrun your headlights.
 
 In software development, our “headlights” are similarly limited. We can’t see too far ahead into the future, and the further off-axis you look, the darker it gets. So Pragmatic Programmers have a firm rule:
 
-| Tip 42 | Take Small Steps—Always |
+> [!TIP]
+> **Tip 42: Take Small Steps—Always**
 
 Always take small, deliberate steps, checking for feedback and adjusting before proceeding. Consider that the rate of feedback is your speed limit. You never take on a step or a task that’s “too big.”
 
@@ -5609,7 +5801,7 @@ But, we hear you cry, aren’t we supposed to design for future maintenance? Yes
 
 Even though you may feel confident of the future, there’s always the chance of a black swan around the corner.
 
-### Black Swans
+## Black Swans
 
 In his book, _The Black Swan: The Impact of the Highly Improbable_ [Tal10], Nassim Nicholas Taleb posits that all significant events in history have come from high-profile, hard-to-predict, and rare events that are beyond the realm of normal expectations. These outliers, while statistically rare, have disproportionate effects. In addition, our own cognitive biases tend to blind us to changes creeping up on the edges of our work (see Topic 4, _Stone Soup and Boiled Frogs_).
 
@@ -5621,11 +5813,12 @@ standards for X-Window based Unix workstations.] It was the wrong question. Odds
 heard of these technologies as neither “won” and the browser-centric
 web quickly dominated the landscape.
 
-| Tip 43 | Avoid Fortune-Telling |
+> [!TIP]
+> **Tip 43: Avoid Fortune-Telling**
 
 Much of the time, tomorrow looks a lot like today. But don’t count on it.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 12, _Tracer Bullets_
 - Topic 13, _Prototypes and Post-it Notes_
@@ -5636,9 +5829,7 @@ Much of the time, tomorrow looks a lot like today. But don’t count on it.
 
 Copyright © 2020 Pearson Education, Inc.
 
-# Chapter
-
-5Bend, or Break
+## Chapter 5: Bend, or Break
 
 Life doesn’t stand still.
 Neither can the code that we write. In order to keep up with today’s
@@ -5668,7 +5859,9 @@ completely, where they can be changed more safely and easily.
 
 All these techniques will help you write code that bends and doesn’t break.
 
-| Topic 28 | Decoupling |
+---
+
+### Topic 28: Decoupling
 
 When we try to pick out anything by itself, we find it hitched to
 everything else in the Universe.
@@ -5706,7 +5899,8 @@ And, to make matters worse, coupling is transitive: if A is coupled to B and C, 
 
 This means there’s a simple principle you should follow:
 
-| Tip 44 | Decoupled Code Is Easier to Change |
+> [!TIP]
+> **Tip 44: Decoupled Code Is Easier to Change**
 
 Given that we don’t normally code using steel beams and rivets, just what does it mean to decouple code? In this section we’ll talk about:
 
@@ -5724,19 +5918,20 @@ _your_ code. And keep a lookout for some of the symptoms of coupling:
 - Developers who are afraid to change code because they aren’t sure what might be affected.
 - Meetings where everyone has to attend because no one is sure who will be affected by a change.
 
-### Train Wrecks
+## Train Wrecks
 
 We’ve all seen (and probably written) code like this:
 
-|     | public void applyDiscount(customer, order_id, discount) { |
-| --- | --------------------------------------------------------- |
-|     | totals = customer                                         |
-|     | .orders                                                   |
-|     | .find(order_id)                                           |
-|     | .getTotals();                                             |
-|     | totals.grandTotal = totals.grandTotal - discount;         |
-|     | totals.discount = discount;                               |
-|     | }                                                         |
+```text
+public void applyDiscount(customer, order_id, discount) {
+  totals = customer
+           .orders
+           .find(order_id)
+           .getTotals();
+  totals.grandTotal = totals.grandTotal - discount;
+  totals.discount   = discount;
+}
+```
 
 We’re getting a reference to some orders from a customer object, using
 that to find a particular order, and then getting the set of totals for
@@ -5770,7 +5965,8 @@ fields that anyone can query and update.
 
 The fix for that is to apply something we call:
 
-| Tip 45 | Tell, Don’t Ask |
+> [!TIP]
+> **Tip 45: Tell, Don’t Ask**
 
 This principle says that you shouldn’t make decisions based on the
 internal state of an object and then update that object. Doing so
@@ -5778,37 +5974,40 @@ totally destroys the benefits of encapsulation and, in doing so, spreads
 the knowledge of the implementation throughout the code. So the first fix for our train wreck is to delegate the discounting to
 the total object:
 
-|     | public void applyDiscount(customer, order_id, discount) { |
-| --- | --------------------------------------------------------- |
-|     | customer                                                  |
-|     | .orders                                                   |
-|     | .find(order_id)                                           |
-|     | .getTotals()                                              |
-|     | .applyDiscount(discount);                                 |
-|     | }                                                         |
+```text
+public void applyDiscount(customer, order_id, discount) {
+  customer
+    .orders
+    .find(order_id)
+    .getTotals()
+    .applyDiscount(discount);
+}
+```
 
 We have the same kind of _tell-don’t-ask_ (TDA) issue with the customer object
 and its orders: we shouldn’t fetch its list of orders and search them.
 We should instead get the order we want directly from the customer:
 
-|     | public void applyDiscount(customer, order_id, discount) { |
-| --- | --------------------------------------------------------- |
-|     | customer                                                  |
-|     | .findOrder(order_id)                                      |
-|     | .getTotals()                                              |
-|     | .applyDiscount(discount);                                 |
-|     | }                                                         |
+```text
+public void applyDiscount(customer, order_id, discount) {
+  customer
+    .findOrder(order_id)
+    .getTotals()
+    .applyDiscount(discount);
+}
+```
 
 The same thing applies to our order object and its totals. Why should
 the outside world have to know that the implementation of an order uses
 a separate object to store its totals?
 
-|     | public void applyDiscount(customer, order_id, discount) { |
-| --- | --------------------------------------------------------- |
-|     | customer                                                  |
-|     | .findOrder(order_id)                                      |
-|     | .applyDiscount(discount);                                 |
-|     | }                                                         |
+```text
+public void applyDiscount(customer, order_id, discount) {
+  customer
+    .findOrder(order_id)
+    .applyDiscount(discount);
+}
+```
 
 And this is where we’d probably stop.
 
@@ -5827,7 +6026,7 @@ _orders_. It makes no sense to hide orders totally inside customer
 objects: they have an existence of their own. So we have no problem
 creating APIs that expose order objects.
 
-#### The Law of Demeter
+## The Law of Demeter
 
 People often talk about something called the _Law of Demeter_, or LoD,
 in relation to coupling. The LoD is a set of guidelines [So it’s not really a law. It’s more like The Jolly Good Idea
@@ -5852,21 +6051,23 @@ legal document whenever you call a method.
 However, the principle is still sound. We just recommend a somewhat
 simpler way of expressing almost the same thing:
 
-| Tip 46 | Don’t Chain Method Calls |
+> [!TIP]
+> **Tip 46: Don’t Chain Method Calls**
 
 Try not to have more than one “.” when you access something. And _access
 something_ also covers cases where you use intermediate variables, as in
 the following code:
 
-|     | # This is pretty poor style                      |
-| --- | ------------------------------------------------ |
-|     | amount = customer.orders.last().totals().amount; |
-|     |                                                  |
-|     | # and so is this…                                |
-|     | orders = customer.orders;                        |
-|     | last = orders.last();                            |
-|     | totals = last.totals();                          |
-|     | amount = totals.amount;                          |
+```text
+# This is pretty poor style
+amount = customer.orders.last().totals().amount;
+
+# and so is this…
+orders = customer.orders;
+last   = orders.last();
+totals = last.totals();
+amount = totals.amount;
+```
 
 There’s a big exception to the one-dot rule: the rule doesn’t apply if
 the things you’re chaining are really, really unlikely to change. In
@@ -5876,17 +6077,18 @@ particularly if the maintainers of that library are known to change APIs
 between releases. Libraries that come with the language, however, are
 probably pretty stable, and so we’d be happy with code such as:
 
-|     | people     |
-| --- | ---------- |
-|     | .sort_by { | person | person.age }  |
-|     | .first(10) |
-|     | .map {     | person | person.name } |
+```text
+people
+.sort_by {|person| person.age }
+.first(10)
+.map {| person | person.name }
+```
 
 That Ruby code worked when we wrote the first edition, 20 years ago, and
 will likely still work when we enter the home for old programmers (any
 day now…).
 
-#### Chains and Pipelines
+## Chains and Pipelines
 
 In Topic 30, _Transforming Programming_ we talk about composing functions
 into pipelines. These pipelines transform data, passing it from one
@@ -5900,7 +6102,7 @@ be compatible with the format accepted by the next.
 Our experience is that this form of coupling is far less a barrier to
 changing the code than the form introduced by train wrecks.
 
-### The Evils of Globalization
+## The Evils of Globalization
 
 Globally accessible data is an insidious source of coupling between
 application components. Each piece of global data acts as if every
@@ -5928,9 +6130,10 @@ You’ll see this problem when you’re writing unit tests for code that
 uses global data. You’ll find yourself writing a bunch of setup code to
 create a global environment just to allow your test to run.
 
-| Tip 47 | Avoid Global Data |
+> [!TIP]
+> **Tip 47: Avoid Global Data**
 
-#### Global Data Includes Singletons
+## Global Data Includes Singletons
 
 In the previous section we were careful to talk about _global data_ and
 not _global variables_. That’s because people often tell us “Look! No
@@ -5949,22 +6152,23 @@ the representation of log levels, you can maintain compatibility by
 mapping between the new and old in the Config API. But you still
 have only the one set of configuration data.
 
-#### Global Data Includes External Resources
+## Global Data Includes External Resources
 
 Any mutable external resource is global data. If your application uses a database, datastore, file system,
 service API, and so on, it risks falling into the globalization trap.
 Again, the solution is to make sure you always wrap these resources
 behind code that you control.
 
-| Tip 48 | If It’s Important Enough to Be Global, Wrap It in an API |
+> [!TIP]
+> **Tip 48: If It’s Important Enough to Be Global, Wrap It in an API**
 
-### Inheritance Adds Coupling
+## Inheritance Adds Coupling
 
 The misuse of subclassing, where a class inherits state and behavior
 from another class, is so important that we discuss it in its own
 section, Topic 31, _Inheritance Tax_.
 
-### Again, It’s All About Change
+## Again, It’s All About Change
 
 Coupled code is hard to change: alterations in one place can have
 secondary effects elsewhere in the code, and often in hard-to-find
@@ -5974,7 +6178,7 @@ Keeping your code shy: having it only deal with things it directly knows
 about, will help keep your applications decoupled, and that will make
 them more amenable to change.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 8, _The Essence of Good Design_
 - Topic 9, _DRY—The Evils of Duplication_
@@ -5990,7 +6194,9 @@ them more amenable to change.
 - Topic 36, _Blackboards_
 - We discuss _Tell, Don’t Ask_ in our 2003 Software Construction article _The Art of Enbugging_. [https://media.pragprog.com/articles/jan_03_enbug.pdf]
 
-| Topic 29 | Juggling the Real World |
+---
+
+### Topic 29: Juggling the Real World
 
 Things don’t just happen; they are made to happen.
 
@@ -6009,7 +6215,7 @@ This section is all about writing these responsive applications.
 
 We’ll start off with the concept of an _event_.
 
-### Events
+## Events
 
 An _event_ represents the availability of information. It might come from the
 outside world: a user clicking a button, or a stock quote update. It
@@ -6034,7 +6240,7 @@ Let’s look at four strategies that help.
 3. Publish/Subscribe
 4. Reactive Programming and Streams
 
-### Finite State Machines
+## Finite State Machines
 
 Dave finds that he writes code using a Finite State Machine (FSM) just
 about every week. Quite often, the FSM implementation will be just a
@@ -6046,7 +6252,7 @@ them. There seems to be a belief that they are difficult, or that they
 only apply if you’re working with hardware, or that you
 need to use some hard-to-understand library. None of these are true.
 
-#### The Anatomy of a Pragmatic FSM
+## The Anatomy of a Pragmatic FSM
 
 A state machine is basically just a specification of how to handle
 events. It consists of a set of states, one of which is the _current
@@ -6088,25 +6294,27 @@ The code that handles it is equally simple:
 
 [event/simple_fsm.rb](http://media.pragprog.com/titles/tpp20/code/event/simple_fsm.rb)
 
-| 1:  | TRANSITIONS = {                            |
-| --- | ------------------------------------------ |
-| -   | initial: {header: :reading},               |
-| -   | reading: {data: :reading, trailer: :done}, |
-| -   | }                                          |
-| 5:  |                                            |
-| -   | state = :initial                           |
-| -   |                                            |
-| -   | while state != :done && state != :error    |
-| -   | msg = get_next_message()                   |
-| 10: | state = TRANSITIONS[state][msg.msg_type]   |     | :error |
-| -   | end                                        |
+```ruby
+// event/simple_fsm.rb
+TRANSITIONS = {
+  initial: {header: :reading},
+  reading: {data: :reading, trailer: :done},
+}
+
+state = :initial
+
+while state != :done && state != :error
+  msg = get_next_message()
+  state = TRANSITIONS[state][msg.msg_type] || :error
+end
+```
 
 The code that implements the transitions between states is on line 10. It indexes the transition table using the
 current state, and then indexes the transitions for that state using the
 message type. If there is no matching new state, it sets the state to
 :error.
 
-#### Adding Actions
+## Adding Actions
 
 A pure FSM, such as the one we were just looking at, is an event stream parser. Its only
 output is the final state. We can beef it up by adding actions that are
@@ -6131,27 +6339,29 @@ state and the name of an action:
 
 [event/strings_fsm.rb](http://media.pragprog.com/titles/tpp20/code/event/strings_fsm.rb)
 
-|     | TRANSITIONS = {                                            |
-| --- | ---------------------------------------------------------- |
-|     |                                                            |
-|     | # current new state action to take                         |
-|     | #--------------------------------------------------------- |
-|     |                                                            |
-|     | look_for_string: {                                         |
-|     | '"' => [ :in_string, :start_new_string ],                  |
-|     | :default => [ :look_for_string, :ignore ],                 |
-|     | },                                                         |
-|     |                                                            |
-|     | in_string: {                                               |
-|     | '"' => [ :look_for_string, :finish_current_string ],       |
-|     | '\\' => [ :copy_next_char, :add_current_to_string ],       |
-|     | :default => [ :in_string, :add_current_to_string ],        |
-|     | },                                                         |
-|     |                                                            |
-|     | copy_next_char: {                                          |
-|     | :default => [ :in_string, :add_current_to_string ],        |
-|     | },                                                         |
-|     | }                                                          |
+```ruby
+// event/strings_fsm.rb
+TRANSITIONS = {
+
+  # current        new state        action to take
+  #---------------------------------------------------------
+
+  look_for_string: {
+    '"'      => [ :in_string,       :start_new_string ],
+    :default => [ :look_for_string, :ignore ],
+  },
+
+  in_string: {
+    '"'      => [ :look_for_string, :finish_current_string ],
+    '\\'     => [ :copy_next_char,  :add_current_to_string ],
+    :default => [ :in_string,       :add_current_to_string ],
+  },
+
+  copy_next_char: {
+    :default => [ :in_string,       :add_current_to_string ],
+  },
+}
+```
 
 We’ve also added the ability to specify a default transition, taken if
 the event doesn’t match any of the other transitions for this state.
@@ -6160,22 +6370,24 @@ Now let’s look at the code:
 
 [event/strings_fsm.rb](http://media.pragprog.com/titles/tpp20/code/event/strings_fsm.rb)
 
-|     | state = :look_for_string               |
-| --- | -------------------------------------- |
-|     | result = []                            |
-|     |                                        |
-|     | while ch = STDIN.getc                  |
-|     | state, action = TRANSITIONS[state][ch] |     | TRANSITIONS[state][:default] |
-|     | case action                            |
-|     | when :ignore                           |
-|     | when :start_new_string                 |
-|     | result = []                            |
-|     | when :add_current_to_string            |
-|     | result << ch                           |
-|     | when :finish_current_string            |
-|     | puts result.join                       |
-|     | end                                    |
-|     | end                                    |
+```ruby
+// event/strings_fsm.rb
+state = :look_for_string
+result = []
+
+while ch = STDIN.getc
+  state, action = TRANSITIONS[state][ch] || TRANSITIONS[state][:default]
+  case action
+  when :ignore
+  when :start_new_string
+    result = []
+  when :add_current_to_string
+    result << ch
+  when :finish_current_string
+    puts result.join
+  end
+end
+```
 
 This is similar to the previous example, in that we loop through the
 events (the characters in the input), triggering transitions. But it
@@ -6196,14 +6408,14 @@ different legislated warnings that online apps must now give, and so on.
 Keeping the state in external storage, and using it to drive a state
 machine, is a great way to handle these kind of workflow requirements.
 
-#### State Machines Are a Start
+## State Machines Are a Start
 
 State machines are underused by developers, and we’d like to encourage
 you to look for opportunities to apply them. But they don’t solve all
 the problems associated with events. So let’s move on to some other ways
 of looking at the problems of juggling events.
 
-### The Observer Pattern
+## The Observer Pattern
 
 In the _observer pattern_ we have a source of events, called the
 _observable_ and a list of clients, the _observers_, who are interested
@@ -6223,29 +6435,33 @@ notification to tidy up temporary resources, commit data, and so on:
 
 [event/observer.rb](http://media.pragprog.com/titles/tpp20/code/event/observer.rb)
 
-|     | module Terminator                                                     |
-| --- | --------------------------------------------------------------------- |
-|     | CALLBACKS = []                                                        |
-|     |                                                                       |
-|     | def self.register(callback)                                           |
-|     | CALLBACKS << callback                                                 |
-|     | end                                                                   |
-|     |                                                                       |
-|     | def self.exit(exit_status)                                            |
-|     | CALLBACKS.each {                                                      | callback | callback.(exit_status) } |
-|     | exit!(exit_status)                                                    |
-|     | end                                                                   |
-|     | end                                                                   |
-|     |                                                                       |
-|     | Terminator.register(-> (status) { puts "callback 1 sees #{status}" }) |
-|     | Terminator.register(-> (status) { puts "callback 2 sees #{status}" }) |
-|     |                                                                       |
-|     | Terminator.exit(99)                                                   |
+```ruby
+// event/observer.rb
+module Terminator
+  CALLBACKS = []
 
-|     | $ ruby event/observer.rb |
-| --- | ------------------------ |
-|     | callback 1 sees 99       |
-|     | callback 2 sees 99       |
+  def self.register(callback)
+    CALLBACKS << callback
+  end
+
+  def self.exit(exit_status)
+    CALLBACKS.each { |callback| callback.(exit_status) }
+    exit!(exit_status)
+  end
+end
+
+Terminator.register(-> (status) { puts "callback 1 sees #{status}" })
+Terminator.register(-> (status) { puts "callback 2 sees #{status}" })
+
+Terminator.exit(99)
+```
+
+```ruby
+// event/observer.rb
+$ ruby event/observer.rb
+callback 1 sees 99
+callback 2 sees 99
+```
 
 There’s not much code involved in creating an observable: you push a
 function reference onto a list, and then call those functions when the
@@ -6264,7 +6480,7 @@ performance bottlenecks.
 
 This is solved by the next strategy, Publish/Subscribe.
 
-### Publish/Subscribe
+## Publish/Subscribe
 
 Publish/Subscribe (pubsub) generalizes the observer pattern, at the same
 time solving the problems of coupling and performance.
@@ -6298,7 +6514,7 @@ However, it is still basically just a message passing system. Creating
 systems that respond to combinations of events will need more than this,
 so let’s look at ways we can add a time dimension to event processing.
 
-### Reactive Programming, Streams, and Events
+## Reactive Programming, Streams, and Events
 
 If you’ve ever used a spreadsheet, then you’ll be familiar with
 _reactive programming_. If a cell contains a formula which refers to a
@@ -6338,16 +6554,18 @@ only emits a value every half second:
 
 [event/rx0/index.js](http://media.pragprog.com/titles/tpp20/code/event/rx0/index.js)
 
-|     | import * as Observable from 'rxjs'                             |
-| --- | -------------------------------------------------------------- |
-|     | import { logValues } from "../rxcommon/logger.js"              |
-|     |                                                                |
-|     | let animals = Observable.of("ant", "bee", "cat", "dog", "elk") |
-|     | let ticker = Observable.interval(500)                          |
-|     |                                                                |
-|     | let combined = Observable.zip(animals, ticker)                 |
-|     |                                                                |
-|     | combined.subscribe(next => logValues(JSON.stringify(next)))    |
+```javascript
+// event/rx0/index.js
+import * as Observable from "rxjs";
+import { logValues } from "../rxcommon/logger.js";
+
+let animals = Observable.of("ant", "bee", "cat", "dog", "elk");
+let ticker = Observable.interval(500);
+
+let combined = Observable.zip(animals, ticker);
+
+combined.subscribe((next) => logValues(JSON.stringify(next)));
+```
 
 This code uses a
 simple logging function [https://media.pragprog.com/titles/tpp20/code/event/rxcommon/logger.js]
@@ -6375,22 +6593,22 @@ code fetches the users with the IDs 3, 2, and 1:
 
 [event/rx1/index.js](http://media.pragprog.com/titles/tpp20/code/event/rx1/index.js)
 
-|     | import * as Observable from 'rxjs'                                      |
-| --- | ----------------------------------------------------------------------- |
-|     | import { mergeMap } from 'rxjs/operators'                               |
-|     | import { ajax } from 'rxjs/ajax'                                        |
-|     | import { logValues } from "../rxcommon/logger.js"                       |
-|     |                                                                         |
-|     | let users = Observable.of(3, 2, 1)                                      |
-|     |                                                                         |
-|     | let result = users.pipe(                                                |
-|     | mergeMap((user) => ajax.getJSON(`https://reqres.in/api/users/${user}`)) |
-|     | )                                                                       |
-|     |                                                                         |
-|     | result.subscribe(                                                       |
-|     | resp => logValues(JSON.stringify(resp.data)),                           |
-|     | err => console.error(JSON.stringify(err))                               |
-|     | )                                                                       |
+```javascript
+// event/rx1/index.js
+import * as Observable from "rxjs";
+import { mergeMap } from "rxjs/operators";
+import { ajax } from "rxjs/ajax";
+import { logValues } from "../rxcommon/logger.js";
+
+let users = Observable.of(3, 2, 1);
+
+let result = users.pipe(mergeMap((user) => ajax.getJSON(`https://reqres.in/api/users/${user}`)));
+
+result.subscribe(
+  (resp) => logValues(JSON.stringify(resp.data)),
+  (err) => console.error(JSON.stringify(err)),
+);
+```
 
 The internal details of the code are not too important. What’s exciting
 is the result, shown in the following screenshot:
@@ -6403,7 +6621,7 @@ Look at the timestamps: the three requests, or three separate streams,
 were processed in parallel, The first to come back, for id 2, took 82ms,
 and the next two came back 50 and 51ms later.
 
-#### Streams of Events Are Asynchronous Collections
+## Streams of Events Are Asynchronous Collections
 
 In the previous example, our list of user IDs (in the observable
 users) was static. But it doesn’t have to be. Perhaps we want to
@@ -6417,7 +6635,7 @@ This is a very powerful abstraction: we no longer need to think about
 time as being something we have to manage. Event streams unify
 synchronous and asynchronous processing behind a common, convenient API.
 
-### Events Are Ubiquitous
+## Events Are Ubiquitous
 
 Events are everywhere. Some are obvious: a button click, a timer
 expiring. Other are less so: someone logging in, a line in a file
@@ -6425,12 +6643,12 @@ matching a pattern. But whatever their source, code that’s crafted
 around events can be more responsive and better decoupled than its more
 linear counterpart.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 28, _Decoupling_
 - Topic 36, _Blackboards_
 
-### Exercises
+#### Exercises
 
 **Exercise 19** (possible answer)
 
@@ -6450,7 +6668,9 @@ for the following situations:
 - You want to notify various reporting systems that an order was completed.
 - In order to determine whether a customer qualifies for a car loan, the application needs to send requests to three backend services and wait for the responses.
 
-| Topic 30 | Transforming Programming |
+---
+
+### Topic 30: Transforming Programming
 
 If you can’t describe what you are doing as a process, you don’t know
 what you’re doing.
@@ -6478,7 +6698,9 @@ they wouldn’t, because they are thinking about this in terms of what we
 have (a directory tree) and what we want (a list of files). Then they’d
 go to a terminal and type something like:
 
-| | $ find . -type f | xargs wc -l | sort -n | tail -5 |
+```bash
+$ find . -type f | xargs wc -l | sort -n | tail -5
+```
 
 This is a series of transformations:
 
@@ -6507,24 +6729,26 @@ output.
 
 Run this in our book’s directory and we get
 
-|     | 470 ./test_to_build.pml    |
-| --- | -------------------------- |
-|     | 487 ./dbc.pml              |
-|     | 719 ./domain_languages.pml |
-|     | 727 ./dry.pml              |
-|     | 9561 total                 |
+```text
+ 470 ./test_to_build.pml
+ 487 ./dbc.pml
+ 719 ./domain_languages.pml
+ 727 ./dry.pml
+9561 total
+```
 
 That last line is the total number of lines in all the files (not just
 those shown), because that’s what wc does. We can strip it off by
 requesting one more line from tail, and then ignoring the last line:
 
-|     | $ find . -type f           | xargs wc -l | sort -n | tail -6 | head -5 |
-| --- | -------------------------- | ----------- | ------- | ------- | ------- |
-|     | 470 ./debug.pml            |
-|     | 470 ./test_to_build.pml    |
-|     | 487 ./dbc.pml              |
-|     | 719 ./domain_languages.pml |
-|     | 727 ./dry.pml              |
+```bash
+$ find . -type f | xargs wc -l | sort -n | tail -6 | head -5
+     470 ./debug.pml
+     470 ./test_to_build.pml
+     487 ./dbc.pml
+     719 ./domain_languages.pml
+     727 ./dry.pml
+```
 
 ```image-description
 A data processing pipeline diagram showing Unix command transformations. Data flows sequentially through find, grep, and word count processes linked by Unix pipes.
@@ -6547,9 +6771,10 @@ and the finished product (information) comes out the other.
 
 And we like to think about all code this way.
 
-| Tip 49 | Programming Is About Code, But Programs Are About Data |
+> [!TIP]
+> **Tip 49: Programming Is About Code, But Programs Are About Data**
 
-### Finding Transformations
+## Finding Transformations
 
 Sometimes the easiest way to find the transformations is to start with
 the requirement and determine its inputs and outputs. Now you’ve
@@ -6592,7 +6817,7 @@ transformations:
 | 4 => inly, liny, viny                           |
 | 5 => vinyl                                      |
 
-#### Transformations All the Way Down
+## Transformations All the Way Down
 
 Let’s start by looking at step 1, which takes a word and creates a list
 of all combinations of three or more letters. This step can itself be
@@ -6628,16 +6853,18 @@ transformation in code (using Elixir in this case):
 
 [function-pipelines/anagrams/lib/anagrams.ex](http://media.pragprog.com/titles/tpp20/code/function-pipelines/anagrams/lib/anagrams.ex)
 
-|     | defp all_subsets_longer_than_three_characters(word) do |
-| --- | ------------------------------------------------------ |
-|     | word                                                   |
-|     |                                                        | > String.codepoints()                                 |
-|     |                                                        | > Comb.subsets()                                      |
-|     |                                                        | > Stream.filter(fn subset -> length(subset) >= 3 end) |
-|     |                                                        | > Stream.map(&List.to_string(&1))                     |
-|     | end                                                    |
+```elixir
+// function-pipelines/anagrams/lib/anagrams.ex
+defp all_subsets_longer_than_three_characters(word) do
+  word
+  |> String.codepoints()
+  |> Comb.subsets()
+  |> Stream.filter(fn subset -> length(subset) >= 3 end)
+  |> Stream.map(&List.to_string(&1))
+end
+```
 
-#### What’s with the |> Operator?
+## What’s with the |> Operator?
 
 Elixir, along with many other functional languages, has a pipeline
 operator, sometimes called a _forward pipe_ or just
@@ -6648,11 +6875,17 @@ https://blogs.msdn.microsoft.com/dsyme/2011/05/17/archeological-semiotics-the-bi
 left and insert it as the
 first parameter of the function on its right, so
 
-| | "vinyl" |> String.codepoints |> Comb.subsets() |
+```elixir
+// function-pipelines/anagrams/lib/anagrams.ex
+"vinyl" |> String.codepoints |> Comb.subsets()
+```
 
 is the same as writing
 
-| | Comb.subsets(String.codepoints("vinyl")) |
+```elixir
+// function-pipelines/anagrams/lib/anagrams.ex
+Comb.subsets(String.codepoints("vinyl"))
+```
 
 (Other languages may inject this piped value as the _last_ parameter of
 the next function—it largely depends on the style of the built-in
@@ -6672,7 +6905,7 @@ it doesn’t, see _Language X Doesn’t Have Pipelines_.
 
 Anyway, back to the code.
 
-#### Keep on Transforming…
+## Keep on Transforming…
 
 Now look at _Step 2_ of the main program, where we convert the subsets
 into signatures. Again, it’s a simple transformation—a list of subsets
@@ -6687,11 +6920,13 @@ The Elixir code in the following listing is just as simple:
 
 [function-pipelines/anagrams/lib/anagrams.ex](http://media.pragprog.com/titles/tpp20/code/function-pipelines/anagrams/lib/anagrams.ex)
 
-|     | defp as_unique_signatures(subsets) do |
-| --- | ------------------------------------- |
-|     | subsets                               |
-|     |                                       | > Stream.map(&Dictionary.signature_of/1) |
-|     | end                                   |
+```elixir
+// function-pipelines/anagrams/lib/anagrams.ex
+defp as_unique_signatures(subsets) do
+  subsets
+  |> Stream.map(&Dictionary.signature_of/1)
+end
+```
 
 Now we transform that list of signatures: each signature gets mapped to
 the list of known words with the same signature, or nil if there are
@@ -6700,13 +6935,15 @@ lists into a single level:
 
 [function-pipelines/anagrams/lib/anagrams.ex](http://media.pragprog.com/titles/tpp20/code/function-pipelines/anagrams/lib/anagrams.ex)
 
-|     | defp find_in_dictionary(signatures) do |
-| --- | -------------------------------------- |
-|     | signatures                             |
-|     |                                        | > Stream.map(&Dictionary.lookup_by_signature/1) |
-|     |                                        | > Stream.reject(&is_nil/1)                      |
-|     |                                        | > Stream.concat(&(&1))                          |
-|     | end                                    |
+```elixir
+// function-pipelines/anagrams/lib/anagrams.ex
+defp find_in_dictionary(signatures) do
+  signatures
+  |> Stream.map(&Dictionary.lookup_by_signature/1)
+  |> Stream.reject(&is_nil/1)
+  |> Stream.concat(&(&1))
+end
+```
 
 Step 4, grouping the words by length, is another simple transformation,
 converting our list into a map where the keys are the lengths, and the
@@ -6714,12 +6951,14 @@ values are all words with that length:
 
 [function-pipelines/anagrams/lib/anagrams.ex](http://media.pragprog.com/titles/tpp20/code/function-pipelines/anagrams/lib/anagrams.ex)
 
-|     | defp group_by_length(words) do |
-| --- | ------------------------------ |
-|     | words                          |
-|     |                                | > Enum.sort()                     |
-|     |                                | > Enum.group_by(&String.length/1) |
-|     | end                            |
+```elixir
+// function-pipelines/anagrams/lib/anagrams.ex
+defp group_by_length(words) do
+  words
+  |> Enum.sort()
+  |> Enum.group_by(&String.length/1)
+end
+```
 
 Language X Doesn't Have Pipelines
 
@@ -6727,49 +6966,56 @@ Pipelines have been around for a long time, but only in niche languages. They’
 
 The good news is that thinking in transformations doesn’t require a particular language syntax: it’s more a philosophy of design. You still construct your code as transformations, but you write them as a series of assignments:
 
-|     | const content = File.read(file_name);               |
-| --- | --------------------------------------------------- |
-|     | const lines = find_matching_lines(content, pattern) |
-|     | const result = truncate_lines(lines)                |
+```javascript
+const content = File.read(file_name);
+const lines = find_matching_lines(content, pattern);
+const result = truncate_lines(lines);
+```
 
 It’s a little more tedious, but it gets the job done.
 
-#### Putting It All Together
+## Putting It All Together
 
 We’ve written each of the individual transformations. Now it’s time to
 string them all together into our main function:
 
 [function-pipelines/anagrams/lib/anagrams.ex](http://media.pragprog.com/titles/tpp20/code/function-pipelines/anagrams/lib/anagrams.ex)
 
-|     | def anagrams_in(word) do |
-| --- | ------------------------ |
-|     | word                     |
-|     |                          | > all_subsets_longer_than_three_characters() |
-|     |                          | > as_unique_signatures()                     |
-|     |                          | > find_in_dictionary()                       |
-|     |                          | > group_by_length()                          |
-|     | end                      |
+```elixir
+// function-pipelines/anagrams/lib/anagrams.ex
+  def anagrams_in(word) do
+    word
+    |> all_subsets_longer_than_three_characters()
+    |> as_unique_signatures()
+    |> find_in_dictionary()
+    |> group_by_length()
+end
+```
 
 Does it work? Let’s try it:
 
-|     | iex(1)> Anagrams.anagrams_in "lyvin" |
-| --- | ------------------------------------ |
-|     | %{                                   |
-|     | 3 => ["ivy", "lin", "nil", "yin"],   |
-|     | 4 => ["inly", "liny", "viny"],       |
-|     | 5 => ["vinyl"]                       |
-|     | }                                    |
+```elixir
+// function-pipelines/anagrams/lib/anagrams.ex
+iex(1)> Anagrams.anagrams_in "lyvin"
+%{
+  3 => ["ivy", "lin", "nil", "yin"],
+  4 => ["inly", "liny", "viny"],
+  5 => ["vinyl"]
+}
+```
 
-### Why Is This So Great?
+## Why Is This So Great?
 
 Let’s look at the body of the main function again:
 
-|     | word |
-| --- | ---- |
-|     |      | > all_subsets_longer_than_three_characters() |
-|     |      | > as_unique_signatures()                     |
-|     |      | > find_in_dictionary()                       |
-|     |      | > group_by_length()                          |
+```elixir
+// function-pipelines/anagrams/lib/anagrams.ex
+word
+|> all_subsets_longer_than_three_characters()
+|> as_unique_signatures()
+|> find_in_dictionary()
+|> group_by_length()
+```
 
 It’s simply a chain of the transformations needed to meet our
 requirement, each taking input from the previous transformation and
@@ -6782,7 +7028,8 @@ it inside objects. These objects then chatter back and forth, changing
 each other’s state. This introduces a lot of coupling, and it is a big
 reason that OO systems can be hard to change.
 
-| Tip 50 | Don’t Hoard State; Pass It Around |
+> [!TIP]
+> **Tip 50: Don’t Hoard State; Pass It Around**
 
 In the transformational model, we turn that on its head. Instead of little pools of data spread all over the system, think of data as a mighty river, a _flow_. Data becomes a
 peer to functionality: a pipeline is a sequence of code → data →
@@ -6798,7 +7045,7 @@ more manageable than the OO-style of command and control. And, if you’re
 using a language with type checking, you’ll get compile-time warnings
 when you try to connect two incompatible things.
 
-### What About Error Handling?
+## What About Error Handling?
 
 So far our transforms have worked in a world where nothing goes wrong.
 How can we use them in the real world, though? If we can only build
@@ -6820,7 +7067,7 @@ our purposes this is a good thing, as we get to show an implementation
 from the ground up. Something similar should work in most other
 languages.
 
-#### First, Choose a Representation
+## First, Choose a Representation
 
 We need a representation for our wrapper (the data structure that
 carries around a value or an error indication). You can use structures
@@ -6829,16 +7076,18 @@ tend to return a tuple containing either {:ok, value} or {:error,
 reason}. For example, File.open returns either :ok and an IO
 process or :error and a reason code:
 
-|     | iex(1)> File.open("/etc/passwd") |
-| --- | -------------------------------- |
-|     | {:ok, #PID<0.109.0>}             |
-|     | iex(2)> File.open("/etc/wombat") |
-|     | {:error, :enoent}                |
+```elixir
+// function-pipelines/anagrams/lib/anagrams.ex
+iex(1)> File.open("/etc/passwd")
+{:ok, #PID<0.109.0>}
+iex(2)> File.open("/etc/wombat")
+{:error, :enoent}
+```
 
 We’ll use the :ok/:error tuple as our wrapper when passing things
 through a pipeline.
 
-#### Then Handle It Inside Each Transformation
+## Then Handle It Inside Each Transformation
 
 Let’s write a function that returns all the lines in a file that contain
 a given string, truncated to the first 20 characters. We want to write
@@ -6849,12 +7098,14 @@ should look something like this:
 
 [function-pipelines/anagrams/lib/grep.ex](http://media.pragprog.com/titles/tpp20/code/function-pipelines/anagrams/lib/grep.ex)
 
-|     | def find_all(file_name, pattern) do |
-| --- | ----------------------------------- |
-|     | File.read(file_name)                |
-|     |                                     | > find_matching_lines(pattern) |
-|     |                                     | > truncate_lines()             |
-|     | end                                 |
+```elixir
+// function-pipelines/anagrams/lib/grep.ex
+def find_all(file_name, pattern) do
+  File.read(file_name)
+  |> find_matching_lines(pattern)
+  |> truncate_lines()
+end
+```
 
 There’s no explicit error checking here, but if any step in the pipeline
 returns an error tuple then the pipeline will return that error without
@@ -6864,33 +7115,35 @@ pattern matching:
 
 [function-pipelines/anagrams/lib/grep.ex](http://media.pragprog.com/titles/tpp20/code/function-pipelines/anagrams/lib/grep.ex)
 
-|     | defp find_matching_lines({:ok, content}, pattern) do |
-| --- | ---------------------------------------------------- |
-|     | content                                              |
-|     |                                                      | > String.split(~r/\n/)                     |
-|     |                                                      | > Enum.filter(&String.match?(&1, pattern)) |
-|     |                                                      | > ok_unless_empty()                        |
-|     | end                                                  |
-|     |                                                      |
-|     | defp find_matching_lines(error, _), do: error        |
-|     |                                                      |
-|     | # ----------                                         |
-|     |                                                      |
-|     | defp truncate_lines({ :ok, lines }) do               |
-|     | lines                                                |
-|     |                                                      | > Enum.map(&String.slice(&1, 0, 20))       |
-|     |                                                      | > ok()                                     |
-|     | end                                                  |
-|     |                                                      |
-|     | defp truncate_lines(error), do: error                |
-|     |                                                      |
-|     | # ----------                                         |
-|     |                                                      |
-|     | defp ok_unless_empty([]), do: error("nothing found") |
-|     | defp ok_unless_empty(result), do: ok(result)         |
-|     |                                                      |
-|     | defp ok(result), do: { :ok, result }                 |
-|     | defp error(reason), do: { :error, reason }           |
+```elixir
+// function-pipelines/anagrams/lib/grep.ex
+defp find_matching_lines({:ok, content}, pattern) do
+  content
+  |> String.split(~r/\n/)
+  |> Enum.filter(&String.match?(&1, pattern))
+  |> ok_unless_empty()
+end
+
+defp find_matching_lines(error, _), do: error
+
+# ----------
+
+defp truncate_lines({ :ok, lines }) do
+  lines
+  |> Enum.map(&String.slice(&1, 0, 20))
+  |> ok()
+end
+
+defp truncate_lines(error), do: error
+
+# ----------
+
+defp ok_unless_empty([]),     do: error("nothing found")
+defp ok_unless_empty(result), do: ok(result)
+
+defp ok(result),    do: { :ok,    result }
+defp error(reason), do: { :error, reason }
+```
 
 Have a look at the function find_matching_lines. If its first
 parameter is an :ok tuple, it uses the content in that tuple to find
@@ -6901,20 +7154,24 @@ pipeline. The same thing applies to truncate_lines.
 
 We can play with this at the console:
 
-|     | iex> Grep.find_all "/etc/passwd", ~r/www/                |
-| --- | -------------------------------------------------------- |
-|     | {:ok, ["_www:_:70:70:World W", "\_wwwproxy:_:252:252:"]} |
+```elixir
+// function-pipelines/anagrams/lib/grep.ex
+iex> Grep.find_all "/etc/passwd", ~r/www/
+{:ok, ["_www:*:70:70:World W", "_wwwproxy:*:252:252:"]}
+```
 
-|     | iex> Grep.find_all "/etc/passwd", ~r/wombat/ |
-| --- | -------------------------------------------- |
-|     | {:error, "nothing found"}                    |
-|     | iex> Grep.find_all "/etc/koala", ~r/www/     |
-|     | {:error, :enoent}                            |
+```elixir
+// function-pipelines/anagrams/lib/grep.ex
+iex> Grep.find_all "/etc/passwd", ~r/wombat/
+{:error, "nothing found"}
+iex> Grep.find_all "/etc/koala", ~r/www/
+{:error, :enoent}
+```
 
 You can see that an error anywhere in the pipeline immediately becomes
 the value of the pipeline.
 
-#### Or Handle It in the Pipeline
+## Or Handle It in the Pipeline
 
 You might be looking at the find_matching_lines and truncate_lines
 functions thinking that we’ve moved the burden of error handling into
@@ -6942,38 +7199,39 @@ implementation:
 
 [function-pipelines/anagrams/lib/grep1.ex](http://media.pragprog.com/titles/tpp20/code/function-pipelines/anagrams/lib/grep1.ex)
 
-|     | defmodule Grep1 do                                    |
-| --- | ----------------------------------------------------- |
-|     |                                                       |
-|     | def and_then({ :ok, value }, func), do: func.(value)  |
-|     | def and_then(anything_else, _func), do: anything_else |
-|     |                                                       |
-|     | def find_all(file_name, pattern) do                   |
-|     | File.read(file_name)                                  |
-|     |                                                       | > and_then(&find_matching_lines(&1, pattern)) |
-|     |                                                       | > and_then(&truncate_lines(&1))               |
-|     | end                                                   |
-|     |                                                       |
-|     | defp find_matching_lines(content, pattern) do         |
-|     | content                                               |
-|     |                                                       | > String.split(~r/\n/)                        |
-|     |                                                       | > Enum.filter(&String.match?(&1, pattern))    |
-|     |                                                       | > ok_unless_empty()                           |
-|     | end                                                   |
-|     |                                                       |
-|     | defp truncate_lines(lines) do                         |
-|     | lines                                                 |
-|     |                                                       | > Enum.map(&String.slice(&1, 0, 20))          |
-|     |                                                       | > ok()                                        |
-|     | end                                                   |
-|     |                                                       |
-|     |                                                       |
-|     | defp ok_unless_empty([]), do: error("nothing found")  |
-|     | defp ok_unless_empty(result), do: ok(result)          |
-|     |                                                       |
-|     | defp ok(result), do: { :ok, result }                  |
-|     | defp error(reason), do: { :error, reason }            |
-|     | end                                                   |
+```elixir
+// function-pipelines/anagrams/lib/grep1.ex
+defmodule Grep1 do
+
+  def and_then({ :ok, value }, func), do: func.(value)
+  def and_then(anything_else, _func), do: anything_else
+
+  def find_all(file_name, pattern) do
+    File.read(file_name)
+    |> and_then(&find_matching_lines(&1, pattern))
+    |> and_then(&truncate_lines(&1))
+  end
+
+  defp find_matching_lines(content, pattern) do
+    content
+    |> String.split(~r/\n/)
+    |> Enum.filter(&String.match?(&1, pattern))
+    |> ok_unless_empty()
+  end
+
+  defp truncate_lines(lines) do
+    lines
+    |> Enum.map(&String.slice(&1, 0, 20))
+    |> ok()
+  end
+
+  defp ok_unless_empty([]),     do: error("nothing found")
+  defp ok_unless_empty(result), do: ok(result)
+
+  defp ok(result),    do: { :ok, result }
+  defp error(reason), do: { :error, reason }
+end
+```
 
 The and_then function is an example of a _bind_ function: it takes a
 value wrapped in something, then applies a function to that value,
@@ -6984,7 +7242,7 @@ effort is offset by the fact that the transforming functions become
 simple: each just takes a value (and any extra parameters) and returns
 {:ok, new_value} or {:error, reason}.
 
-### Transformations Transform Programming
+## Transformations Transform Programming
 
 Thinking of code as a series of (nested) transformations can be a
 liberating approach to programming. It takes a while to get used to, but
@@ -6993,7 +7251,7 @@ your functions shorter, and your designs flatter.
 
 Give it a try.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 8, _The Essence of Good Design_
 - Topic 17, _Shell Games_
@@ -7001,7 +7259,7 @@ Give it a try.
 - Topic 28, _Decoupling_
 - Topic 35, _Actors and Processes_
 
-### Exercises
+#### Exercises
 
 **Exercise 21** (possible answer)
 
@@ -7017,10 +7275,12 @@ transformation? That is, for each, identify the input and the output.
 You’ve identified the need to validate and convert an input field from a
 string into an integer between 18 and 150. The overall transformation is described by
 
-|     | field contents as string |
-| --- | ------------------------ |
-|     | → [validate & convert]   |
-|     | → {:ok, value}           | {:error, reason} |
+```elixir
+// function-pipelines/anagrams/lib/grep1.ex
+field contents as string
+    → [validate & convert]
+        → {:ok, value} | {:error, reason}
+```
 
 Write the individual transformations that make up _validate & convert_.
 
@@ -7028,23 +7288,29 @@ Write the individual transformations that make up _validate & convert_.
 
 In _Language X Doesn’t Have Pipelines_ we wrote:
 
-|     | const content = File.read(file_name);               |
-| --- | --------------------------------------------------- |
-|     | const lines = find_matching_lines(content, pattern) |
-|     | const result = truncate_lines(lines)                |
+```elixir
+// function-pipelines/anagrams/lib/grep1.ex
+const content = File.read(file_name);
+const lines   = find_matching_lines(content, pattern)
+const result  = truncate_lines(lines)
+```
 
 Many people write OO code by chaining together method calls, and might
 be tempted to write this as something like:
 
-|     | const result = content_of(file_name) |
-| --- | ------------------------------------ |
-|     | .find_matching_lines(pattern)        |
-|     | .truncate_lines()                    |
+```elixir
+// function-pipelines/anagrams/lib/grep1.ex
+const result = content_of(file_name)
+               .find_matching_lines(pattern)
+               .truncate_lines()
+```
 
 What’s the difference between these two pieces of code? Which do you
 think we prefer?
 
-| Topic 31 | Inheritance Tax |
+---
+
+### Topic 31: Inheritance Tax
 
 You wanted a banana but what you got was a gorilla holding the banana
 and the entire jungle.
@@ -7057,19 +7323,20 @@ If so, stop! It probably isn’t what you want to do.
 
 Let’s see why.
 
-### Some Background
+## Some Background
 
 Inheritance first appeared in Simula 67 in 1969. It was an elegant
 solution to the problem of queuing multiple types of events on the same
 list. The Simula approach was to use something called _prefix classes_.
 You could write something like this:
 
-|     | link CLASS car;               |
-| --- | ----------------------------- |
-|     | ... implementation of car     |
-|     |                               |
-|     | link CLASS bicycle;           |
-|     | ... implementation of bicycle |
+```text
+link CLASS car;
+  ... implementation of car
+
+link CLASS bicycle;
+  ... implementation of bicycle
+```
 
 The link is a prefix class that adds the functionality of linked
 lists. This lets you add both cars and bicycles to the list of things
@@ -7115,34 +7382,35 @@ classes: a Car is-a-kind-of Vehicle.
 
 Unfortunately both kinds of inheritance have problems.
 
-### Problems Using Inheritance to Share Code
+## Problems Using Inheritance to Share Code
 
 Inheritance _is_ coupling. Not only is the child class coupled to
 the parent, the parent’s parent, and so on, but the code that _uses_ the
 child is also coupled to all the ancestors. Here’s an example:
 
-|     | class Vehicle                  |
-| --- | ------------------------------ |
-|     | def initialize                 |
-|     | @speed = 0                     |
-|     | end                            |
-|     | def stop                       |
-|     | @speed = 0                     |
-|     | end                            |
-|     | def move_at(speed)             |
-|     | @speed = speed                 |
-|     | end                            |
-|     | end                            |
-|     |                                |
-|     | class Car < Vehicle            |
-|     | def info                       |
-|     | "I'm car driving at #{@speed}" |
-|     | end                            |
-|     | end                            |
-|     |                                |
-|     | # top-level code               |
-|     | my_ride = Car.new              |
-|     | my_ride.move_at(30)            |
+```ruby
+class Vehicle
+  def initialize
+    @speed = 0
+  end
+  def stop
+    @speed = 0
+  end
+  def move_at(speed)
+    @speed = speed
+  end
+end
+
+class Car < Vehicle
+  def info
+    "I'm car driving at #{@speed}"
+  end
+end
+
+# top-level code
+my_ride = Car.new
+my_ride.move_at(30)
+```
 
 When the top-level calls my_car.move_at, the method being invoked is
 in Vehicle, the parent of Car.
@@ -7162,7 +7430,7 @@ breaks Car.
 
 So much coupling.
 
-#### Problems Using Inheritance to Build Types
+## Problems Using Inheritance to Build Types
 
 ```image-description
 A basic class inheritance diagram. Both Car and Bicycle classes inherit shared attributes from a common Vehicle superclass.
@@ -7190,9 +7458,10 @@ questionable disambiguation semantics. As a result, many current OO
 languages don’t offer it. So, even if you’re happy with complex type
 trees, you won’t be able to model your domain accurately anyway.
 
-| Tip 51 | Don’t Pay Inheritance Tax |
+> [!TIP]
+> **Tip 51: Don’t Pay Inheritance Tax**
 
-### The Alternatives Are Better
+## The Alternatives Are Better
 
 Let us suggest three techniques that mean you should never need to use
 inheritance again:
@@ -7201,21 +7470,22 @@ inheritance again:
 - Delegation
 - Mixins and traits
 
-#### Interfaces and Protocols
+## Interfaces and Protocols
 
 Most OO languages allow you to specify that a class implements one
 or more sets of behaviors. You could say, for example, that a Car
 class implements the Drivable behavior and the Locatable behavior.
 The syntax used for doing this varies: in Java, it might look like this:
 
-|     | public class Car implements Drivable, Locatable { |
-| --- | ------------------------------------------------- |
-|     |                                                   |
-|     | // Code for class Car. This code must include     |
-|     | // the functionality of both Drivable             |
-|     | // and Locatable                                  |
-|     |                                                   |
-|     | }                                                 |
+```text
+public class Car implements Drivable, Locatable {
+
+  // Code for class Car. This code must include
+  // the functionality of both Drivable
+  // and Locatable
+
+}
+```
 
 Drivable and Locatable are what Java calls _interfaces_; other
 languages call them _protocols_, and some call them _traits_ (although
@@ -7224,16 +7494,17 @@ later).
 
 Interfaces are defined like this:
 
-|     | public interface Drivable {    |
-| --- | ------------------------------ |
-|     | double getSpeed();             |
-|     | void stop();                   |
-|     | }                              |
-|     |                                |
-|     | public interface Locatable() { |
-|     | Coordinate getLocation();      |
-|     | boolean locationIsValid();     |
-|     | }                              |
+```text
+public interface Drivable {
+  double getSpeed();
+  void   stop();
+}
+
+public interface Locatable() {
+  Coordinate getLocation();
+  boolean    locationIsValid();
+}
+```
 
 These declarations create no code: they simply say that any class that
 implements Drivable must implement the two methods getSpeed and
@@ -7246,32 +7517,35 @@ as types, and any class that implements the appropriate interface will
 be compatible with that type. If Car and Phone both implement
 Locatable, we could store both in a list of locatable items:
 
-|     | List items = new ArrayList<>(); |
-| --- | ------------------------------- |
-|     |                                 |
-|     | items.add(new Car(...));        |
-|     | items.add(new Phone(...));      |
-|     | items.add(new Car(...));        |
-|     | // ...                          |
+```text
+List items = new ArrayList<>();
+
+items.add(new Car(...));
+items.add(new Phone(...));
+items.add(new Car(...));
+// ...
+```
 
 We can then process that list, safe in the knowledge that every item has
 getLocation and locationIsValid:
 
-|     | void printLocation(Locatable item) {  |
-| --- | ------------------------------------- |
-|     | if (item.locationIsValid() {          |
-|     | print(item.getLocation().asString()); |
-|     | }                                     |
-|     |                                       |
-|     | // ...                                |
-|     |                                       |
-|     | items.forEach(printLocation);         |
+```text
+void printLocation(Locatable item) {
+  if (item.locationIsValid() {
+    print(item.getLocation().asString());
+}
 
-| Tip 52 | Prefer Interfaces to Express Polymorphism |
+// ...
+
+items.forEach(printLocation);
+```
+
+> [!TIP]
+> **Tip 52: Prefer Interfaces to Express Polymorphism**
 
 Interfaces and protocols give us polymorphism without inheritance.
 
-#### Delegation
+## Delegation
 
 Inheritance encourages developers to create classes whose objects have
 large numbers of methods. If a parent class has 20 methods, and the
@@ -7281,23 +7555,25 @@ control of its interface. This is a common problem—many persistence and
 UI frameworks insist that application components subclass some supplied
 base class:
 
-|     | class Account < PersistenceBaseClass |
-| --- | ------------------------------------ |
-|     | end                                  |
+```text
+class Account < PersistenceBaseClass
+end
+```
 
 The Account class now carries all of the persistence class’s API
 around with it. Instead, imagine an alternative using delegation, as in the following example:
 
-|     | class Account               |
-| --- | --------------------------- |
-|     | def initialize(. . .)       |
-|     | @repo = Persister.for(self) |
-|     | end                         |
-|     |                             |
-|     | def save                    |
-|     | @repo.save()                |
-|     | end                         |
-|     | end                         |
+```ruby
+class Account
+  def initialize(. . .)
+    @repo = Persister.for(self)
+  end
+
+  def save
+    @repo.save()
+  end
+end
+```
 
 We now expose _none_ of the framework API to the clients of our
 Account class: that coupling is now broken. But there’s more. Now
@@ -7307,21 +7583,23 @@ before, but we always ran the risk that the interface _we_ wrote can be
 bypassed, and the persistence API used instead. Now we control
 everything.
 
-| Tip 53 | Delegate to Services: Has-A Trumps Is-A |
+> [!TIP]
+> **Tip 53: Delegate to Services: Has-A Trumps Is-A**
 
 In fact, we can take this a step further. Why should an Account have
 to know how to persist itself? Isn’t its job to know and enforce the
 account business rules?
 
-|     | class Account                       |
-| --- | ----------------------------------- |
-|     | # nothing but account stuff         |
-|     | end                                 |
-|     |                                     |
-|     | class AccountRecord                 |
-|     | # wraps an account with the ability |
-|     | # to be fetched and stored          |
-|     | end                                 |
+```text
+class Account
+  # nothing but account stuff
+end
+
+class AccountRecord
+  # wraps an account with the ability
+  # to be fetched and stored
+end
+```
 
 Now we’re really decoupled, but it has come at a cost. We’re having to
 write more code, and typically some of it will be boilerplate: it’s
@@ -7330,7 +7608,7 @@ example.
 
 Fortunately, that’s what mixins and traits do for us.
 
-#### Mixins, Traits, Categories, Protocol Extensions, …
+## Mixins, Traits, Categories, Protocol Extensions, …
 
 As an industry, we love to give things names. Quite often we’ll give the
 same thing many names. More is better, right?
@@ -7360,14 +7638,15 @@ implements (for example) two of three of the standard finder methods. We
 could then add them into AccountRecord as a mixin. And, as we write
 new classes for persisted things, we can add the mixin to them, too:
 
-|     | mixin CommonFinders {                                      |
-| --- | ---------------------------------------------------------- |
-|     | def find(id) { ... }                                       |
-|     | def findAll() { ... }                                      |
-|     | end                                                        |
-|     |                                                            |
-|     | class AccountRecord extends BasicRecord with CommonFinders |
-|     | class OrderRecord extends BasicRecord with CommonFinders   |
+```ruby
+mixin CommonFinders {
+  def find(id) { ... }
+  def findAll() { ... }
+end
+
+class AccountRecord extends BasicRecord with CommonFinders
+class OrderRecord   extends BasicRecord with CommonFinders
+```
 
 We can take this a lot further. For example, we all know our business
 objects need validation code to prevent bad data from infiltrating our
@@ -7389,12 +7668,13 @@ and then add flags to control which fire in which circumstances.
 We think a better way is to use mixins to create specialized classes for
 appropriate situations:
 
-|     | class AccountForCustomer extends Account           |
-| --- | -------------------------------------------------- |
-|     | with AccountValidations,AccountCustomerValidations |
-|     |                                                    |
-|     | class AccountForAdmin extends Account              |
-|     | with AccountValidations,AccountAdminValidations    |
+```text
+class AccountForCustomer extends Account
+     with AccountValidations,AccountCustomerValidations
+
+class AccountForAdmin extends Account
+     with AccountValidations,AccountAdminValidations
+```
 
 Here, both derived classes include validations common to all account
 objects. The customer variant also includes validations appropriate for
@@ -7405,9 +7685,10 @@ Now, by passing instances of AccountForCustomer or AccountForAdmin
 back and forth, our code _automatically_ ensures the correct validation
 is applied.
 
-| Tip 54 | Use Mixins to Share Functionality |
+> [!TIP]
+> **Tip 54: Use Mixins to Share Functionality**
 
-### Inheritance Is Rarely the Answer
+## Inheritance Is Rarely the Answer
 
 We’ve had a quick look at three alternatives to traditional class
 inheritance:
@@ -7420,17 +7701,19 @@ Each of these methods may be better for you in different circumstances, dependin
 
 And try not to drag the whole jungle along for the ride.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 8, _The Essence of Good Design_
 - Topic 10, _Orthogonality_
 - Topic 28, _Decoupling_
 
-### Challenges
+#### Challenges
 
 - The next time you find yourself subclassing, take a minute to examine the options. Can you achieve what you want with interfaces, delegation, and/or mixins? Can you reduce coupling by doing so?
 
-| Topic 32 | Configuration |
+---
+
+### Topic 32: Configuration
 
 Let all your things have their places; let each part of your
 business have its time.
@@ -7444,7 +7727,8 @@ different customers, keep the environment- and customer-specific values
 outside the app. In this way, you’re parameterizing your application;
 the code adapts to the places it runs.
 
-| Tip 55 | Parameterize Your App Using External Configuration |
+> [!TIP]
+> **Tip 55: Parameterize Your App Using External Configuration**
 
 Common things you will probably want to put in configuration data
 include:
@@ -7461,7 +7745,7 @@ Basically, look for anything that you know will have to change that you
 can express outside your main body of code, and slap it into some
 configuration bucket.
 
-### Static Configuration
+## Static Configuration
 
 Many frameworks, and quite a few custom applications, keep configuration
 in either flat files or database tables. If the information is in flat
@@ -7483,7 +7767,7 @@ We prefer that you don’t do that. Instead, wrap the configuration
 information behind a (thin) API. This decouples your code from the
 details of the representation of configuration.
 
-### Configuration-As-A-Service
+## Configuration-As-A-Service
 
 While static configuration is common, we currently favor a different
 approach. We still want configuration data kept external to the
@@ -7507,7 +7791,7 @@ Whatever form it takes, configuration data drives the runtime behavior
 of an application. When configuration values change, there’s no need to
 rebuild the code.
 
-### Don’t Write Dodo-Code
+## Don’t Write Dodo-Code
 
 Without external configuration, your code is not as adaptable or
 flexible as it could be. Is this a bad thing? Well, out here in the
@@ -7524,7 +7808,7 @@ Don’t let your project (or your career) go the way of the dodo.
 An illustration of an extinct dodo bird. The sketch accompanies text describing fragile software designs unable to adapt to environmental changes.
 ```
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 9, _DRY—The Evils of Duplication_
 - Topic 14, _Domain Languages_
@@ -7544,9 +7828,7 @@ feedback on whether the decision was a good one.
 
 Copyright © 2020 Pearson Education, Inc.
 
-# Chapter
-
-6Concurrency
+## Chapter 6: Concurrency
 
 Just so we’re all on the same page, let’s start with some definitions:
 
@@ -7613,7 +7895,9 @@ systems offer a serious amount of decoupling.
 
 Concurrent and parallel code used to be exotic. Now it is required.
 
-| Topic 33 | Breaking Temporal Coupling |
+---
+
+### Topic 33: Breaking Temporal Coupling
 
 “What is _temporal coupling_ all about?”, you may ask. It’s
 about time.
@@ -7644,7 +7928,7 @@ analysis, architecture, design, and deployment. The result will be
 systems that are easier to reason about, that potentially respond
 faster and more reliably.
 
-### Looking for Concurrency
+## Looking for Concurrency
 
 On many projects, we need to model and analyze the application workflows
 as part of the design. We’d like to find out what _can_ happen at the
@@ -7656,7 +7940,8 @@ activity diagram.
 For more information on all of
 the UML diagram types, see UML Distilled: A Brief Guide to the Standard Object Modeling Language [Fow04].]
 
-| Tip 56 | Analyze Workflow to Improve Concurrency |
+> [!TIP]
+> **Tip 56: Analyze Workflow to Improve Concurrency**
 
 An activity diagram consists of a set of actions drawn as rounded boxes.
 The arrow leaving an action leads to either another action (which can
@@ -7716,7 +8001,7 @@ As a result, the book builds much, much faster on multicore machines.
 (And, yes, we did indeed discover a number of concurrency errors in our pipeline
 along the way….)
 
-### Opportunities for Concurrency
+## Opportunities for Concurrency
 
 Activity diagrams show the potential areas of concurrency, but have
 nothing to say about whether these areas are worth exploiting. For
@@ -7736,7 +8021,7 @@ user input: all these things would normally stall our program until they
 complete. And these are all opportunities to do something more
 productive than the CPU equivalent of twiddling one’s thumbs.
 
-### Opportunities for Parallelism
+## Opportunities for Parallelism
 
 Remember the distinction: concurrency is a software mechanism, and
 parallelism is a hardware concern. If we have multiple processors,
@@ -7758,24 +8043,26 @@ module completes, it means that all dependencies have been compiled. The
 result is a speedy compilation that takes advantage of all the cores
 available.
 
-### Identifying Opportunities Is the Easy Part
+## Identifying Opportunities Is the Easy Part
 
 Back to your applications. We’ve identified places where it will benefit
 from concurrency and parallelism. Now for the tricky part: how can we
 implement it safely. That’s the topic of the rest of the chapter.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 10, _Orthogonality_
 - Topic 26, _How to Balance Resources_
 - Topic 28, _Decoupling_
 - Topic 36, _Blackboards_
 
-### Challenges
+#### Challenges
 
 - How many tasks do you perform in parallel when you get ready for work in the morning? Could you express this in a UML activity diagram? Can you find some way to get ready more quickly by increasing concurrency?
 
-| Topic 34 | Shared State Is Incorrect State |
+---
+
+### Topic 34: Shared State Is Incorrect State
 
 You’re in your favorite diner. You finish your main course, and ask your
 server if there’s any apple pie left. He looks over his shoulder, sees
@@ -7793,13 +8080,14 @@ into point-of-sale devices. You and your partner both decide to buy a
 new phone at the same time, but there’s only enough in the account for
 one. Someone—the bank, the store, or you—is going to be very unhappy.
 
-| Tip 57 | Shared State Is Incorrect State |
+> [!TIP]
+> **Tip 57: Shared State Is Incorrect State**
 
 The problem is the shared state. Each server in the restaurant looked
 into the display case without regard for the other. Each point-of-sale
 device looked at an account balance without regard for the other.
 
-### Nonatomic Updates
+## Nonatomic Updates
 
 Let’s look at our diner example as if it were code:
 
@@ -7810,12 +8098,13 @@ A UML class diagram illustrating a Display Case class containing a pie attribute
 The two waiters operate concurrently (and, in real life, in parallel).
 Let’s look at their code:
 
-|     | if display_case.pie_count > 0 |
-| --- | ----------------------------- |
-|     | promise_pie_to_customer()     |
-|     | display_case.take_pie()       |
-|     | give_pie_to_customer()        |
-|     | end                           |
+```text
+if display_case.pie_count > 0
+  promise_pie_to_customer()
+  display_case.take_pie()
+  give_pie_to_customer()
+end
+```
 
 Waiter 1 gets the current pie count, and finds that it is one. He
 promises the pie to the customer. But at that point, waiter 2 runs. She
@@ -7835,7 +8124,7 @@ an atomic operation: the underlying value can change in the middle.
 
 So how can we make it atomic?
 
-#### Semaphores and Other Forms of Mutual Exclusion
+## Semaphores and Other Forms of Mutual Exclusion
 
 A semaphore is simply a _thing_ that only one person can own at a time.
 You can create a semaphore and then use it to control access to some
@@ -7860,16 +8149,17 @@ passering and prolaag for P, and vrijgave and possibly
 verhogen for V.] Today we use terms such as _lock/unlock_, _claim/release_,
 and so on.
 
-|     | case_semaphore.lock()         |
-| --- | ----------------------------- |
-|     |                               |
-|     | if display_case.pie_count > 0 |
-|     | promise_pie_to_customer()     |
-|     | display_case.take_pie()       |
-|     | give_pie_to_customer()        |
-|     | end                           |
-|     |                               |
-|     | case_semaphore.unlock()       |
+```text
+case_semaphore.lock()
+
+if display_case.pie_count > 0
+  promise_pie_to_customer()
+  display_case.take_pie()
+  give_pie_to_customer()
+end
+
+case_semaphore.unlock()
+```
 
 This code assumes that a semaphore has already been created and stored
 in the variable case_semaphore.
@@ -7888,7 +8178,7 @@ case agrees on the convention of using the semaphore. If someone forgets
 (that is, some developer writes code that doesn’t follow the convention)
 then we’re back in chaos.
 
-#### Make the Resource Transactional
+## Make the Resource Transactional
 
 The current design is poor because it delegates responsibility for
 protecting access to the pie case to the people who use it. Let’s change
@@ -7896,81 +8186,86 @@ it to centralize that control. To do this, we have to change the API so
 that waiters can check the count and also take a slice of pie in a
 single call:
 
-|     | slice = display_case.get_pie_if_available() |
-| --- | ------------------------------------------- |
-|     | if slice                                    |
-|     | give_pie_to_customer()                      |
-|     | end                                         |
+```text
+slice = display_case.get_pie_if_available()
+if slice
+  give_pie_to_customer()
+end
+```
 
 To make this work, we need to write a method that runs as part of the
 display case itself:
 
-|     | def get_pie_if_available() #### |
-| --- | ------------------------------- |
-|     | if @slices.size > 0 #           |
-|     | update_sales_data(:pie) #       |
-|     | return @slices.shift #          |
-|     | else # incorrect code!          |
-|     | false #                         |
-|     | end #                           |
-|     | end ####                        |
+```ruby
+def get_pie_if_available()     ####
+  if @slices.size > 0             #
+    update_sales_data(:pie)       #
+    return @slices.shift          #
+  else                            #  incorrect code!
+    false                         #
+  end                             #
+end                            ####
+```
 
 This code illustrates a common misconception. We’ve moved the resource
 access into a central place, but our method can still be called from
 multiple concurrent threads, so we still need to protect it with a
 semaphore:
 
-|     | def get_pie_if_available() |
-| --- | -------------------------- |
-|     | @case_semaphore.lock()     |
-|     |                            |
-|     | if @slices.size > 0        |
-|     | update_sales_data(:pie)    |
-|     | return @slices.shift       |
-|     | else                       |
-|     | false                      |
-|     | end                        |
-|     |                            |
-|     | @case_semaphore.unlock()   |
-|     | end                        |
+```ruby
+def get_pie_if_available()
+  @case_semaphore.lock()
+
+  if @slices.size > 0
+    update_sales_data(:pie)
+    return @slices.shift
+  else
+    false
+  end
+
+  @case_semaphore.unlock()
+end
+```
 
 Even this code might not be correct. If update_sales_data raises an
 exception, the semaphore will never get unlocked, and all future access
 to the pie case will hang indefinitely. We need to handle this:
 
-|     | def get_pie_if_available() |
-| --- | -------------------------- |
-|     | @case_semaphore.lock()     |
-|     |                            |
-|     | try {                      |
-|     | if @slices.size > 0        |
-|     | update_sales_data(:pie)    |
-|     | return @slices.shift       |
-|     | else                       |
-|     | false                      |
-|     | end                        |
-|     | }                          |
-|     | ensure {                   |
-|     | @case_semaphore.unlock()   |
-|     | }                          |
-|     | end                        |
+```ruby
+def get_pie_if_available()
+  @case_semaphore.lock()
+
+  try {
+    if @slices.size > 0
+      update_sales_data(:pie)
+      return @slices.shift
+    else
+      false
+    end
+  }
+  ensure {
+    @case_semaphore.unlock()
+  }
+end
+```
 
 Because this is such a common mistake, many languages provide libraries
 that handle this for you:
 
-|     | def get_pie_if_available()  |
-| --- | --------------------------- |
-|     | @case_semaphore.protect() { |
-|     | if @slices.size > 0         |
-|     | update_sales_data(:pie)     |
-|     | return @slices.shift        |
-|     | else                        |
-|     | false                       |
-|     | end                         |
-|     | }                           |
-|     | end                         |
+```ruby
+def get_pie_if_available()
+  @case_semaphore.protect() {
+    if @slices.size > 0
+      update_sales_data(:pie)
+      return @slices.shift
+    else
+      false
+    end
+  }
+end
+```
 
-### Multiple Resource Transactions
+## Multiple Resource Transactions
 
 Our diner just installed an ice cream freezer. If a customer orders pie
 _à la mode_, the waiter will need to check that both pie _and_
@@ -7978,13 +8273,14 @@ ice cream are available.
 
 We could change the waiter code to something like:
 
-|     | slice = display_case.get_pie_if_available()  |
-| --- | -------------------------------------------- |
-|     | scoop = freezer.get_ice_cream_if_available() |
-|     |                                              |
-|     | if slice && scoop                            |
-|     | give_order_to_customer()                     |
-|     | end                                          |
+```text
+slice = display_case.get_pie_if_available()
+scoop = freezer.get_ice_cream_if_available()
+
+if slice && scoop
+  give_order_to_customer()
+end
+```
 
 This won’t work, though. What happens if we claim a slice of pie, but
 when we try to get a scoop of ice cream we find out there isn’t any?
@@ -7997,25 +8293,26 @@ We could fix this by adding a method to the case that lets us return a
 slice of pie. We’ll need to add exception handling to ensure we don’t
 keep resources if something fails:
 
-|     | slice = display_case.get_pie_if_available()  |
-| --- | -------------------------------------------- |
-|     |                                              |
-|     | if slice                                     |
-|     | try {                                        |
-|     | scoop = freezer.get_ice_cream_if_available() |
-|     | if scoop                                     |
-|     | try {                                        |
-|     | give_order_to_customer()                     |
-|     | }                                            |
-|     | rescue {                                     |
-|     | freezer.give_back(scoop)                     |
-|     | }                                            |
-|     | end                                          |
-|     | }                                            |
-|     | rescue {                                     |
-|     | display_case.give_back(slice)                |
-|     | }                                            |
-|     | end                                          |
+```text
+slice = display_case.get_pie_if_available()
+
+if slice
+  try {
+      scoop = freezer.get_ice_cream_if_available()
+      if scoop
+      try {
+        give_order_to_customer()
+      }
+      rescue {
+        freezer.give_back(scoop)
+      }
+      end
+  }
+  rescue {
+    display_case.give_back(slice)
+  }
+end
+```
 
 Again, this is less than ideal. The code is now really ugly:
 working out what it actually does is difficult: the business logic is
@@ -8036,7 +8333,7 @@ Instead, you’d probably want some kind of menu item which contained
 references to its components, and then have a generic get_menu_item
 method that does the resource dance with each.
 
-### Non-Transactional Updates
+## Non-Transactional Updates
 
 A lot of attention is given to shared memory as a source of concurrency
 problems, but in fact the problems can pop up _anywhere_ where your
@@ -8062,9 +8359,10 @@ directory is shared between threads, that wasn’t the case.
 
 The nature of this problem prompts another tip:
 
-| Tip 58 | Random Failures Are Often Concurrency Issues |
+> [!TIP]
+> **Tip 58: Random Failures Are Often Concurrency Issues**
 
-### Other Kinds of Exclusive Access
+## Other Kinds of Exclusive Access
 
 Most languages have library support for some kind of exclusive access to
 shared resources. They may call it mutexes (for
@@ -8081,7 +8379,7 @@ make all data immutable, make concurrency simpler. However, they still
 face the same challenges, because at some point they are forced to step
 into the real, mutable world.
 
-### Doctor, It Hurts…
+## Doctor, It Hurts…
 
 If you take nothing else away from this section, take this: concurrency
 in a shared resource environment is difficult, and managing it yourself
@@ -8096,13 +8394,15 @@ Which is why we’re recommending the punchline to the old joke:
 The next couple of sections suggest alternative ways of getting the
 benefits of concurrency without the pain.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 10, _Orthogonality_
 - Topic 28, _Decoupling_
 - Topic 38, _Programming by Coincidence_
 
-| Topic 35 | Actors and Processes |
+---
+
+### Topic 35: Actors and Processes
 
 Without writers, stories would not be written,
 Without actors, stories could not be brought to life.
@@ -8119,7 +8419,7 @@ all in a short while.
 - An _actor_ is an independent virtual processor with its own local (and private) state. Each actor has a mailbox. When a message appears in the mailbox and the actor is idle, it kicks into life and processes the message. When it finishes processing, it processes another message in the mailbox, or, if the mailbox is empty, it goes back to sleep. When processing a message, an actor can create other actors, send messages to other actors that it knows about, and create a new state that will become the current state when the next message is processed.
 - A _process_ is typically a more general-purpose virtual processor, often implemented by the operating system to facilitate concurrency. Processes can be constrained (by convention) to behave like actors, and that’s the type of process we mean here.
 
-### Actors Can Only Be Concurrent
+## Actors Can Only Be Concurrent
 
 There are a few things that you _won’t_ find in the definition of
 actors:
@@ -8135,9 +8435,10 @@ on each. If you have a single processor, then some runtime can handle
 the switching of context between them. Either way, the code running in
 the actors is the same.
 
-| Tip 59 | Use Actors For Concurrency Without Shared State |
+> [!TIP]
+> **Tip 59: Use Actors For Concurrency Without Shared State**
 
-### A Simple Actor
+## A Simple Actor
 
 Let’s implement our diner using actors. In this case, we’ll have three
 (the customer, the waiter, and the pie case).
@@ -8167,19 +8468,19 @@ Here’s the code:
 
 [concurrency/actors/index.js](http://media.pragprog.com/titles/tpp20/code/concurrency/actors/index.js)
 
-|     | const customerActor = {                                                 |
-| --- | ----------------------------------------------------------------------- |
-|     | 'hungry for pie': (msg, ctx, state) => {                                |
-|     | return dispatch(state.waiter,                                           |
-|     | { type: "order", customer: ctx.self, wants: 'pie' })                    |
-|     | },                                                                      |
-|     |                                                                         |
-|     | 'put on table': (msg, ctx, _state) =>                                   |
-|     | console.log(`${ctx.self.name} sees "${msg.food}" appear on the table`), |
-|     |                                                                         |
-|     | 'no pie left': (_msg, ctx, _state) =>                                   |
-|     | console.log(`${ctx.self.name} sulks…`)                                  |
-|     | }                                                                       |
+```javascript
+// concurrency/actors/index.js
+const customerActor = {
+  "hungry for pie": (msg, ctx, state) => {
+    return dispatch(state.waiter, { type: "order", customer: ctx.self, wants: "pie" });
+  },
+
+  "put on table": (msg, ctx, _state) =>
+    console.log(`${ctx.self.name} sees "${msg.food}" appear on the table`),
+
+  "no pie left": (_msg, ctx, _state) => console.log(`${ctx.self.name} sulks…`),
+};
+```
 
 The interesting case is when we receive a ‘‘hungry for pie’” message,
 where we then send a message off to the waiter. (We’ll see how the
@@ -8189,27 +8490,26 @@ Here’s the waiter’s code:
 
 [concurrency/actors/index.js](http://media.pragprog.com/titles/tpp20/code/concurrency/actors/index.js)
 
-|     | const waiterActor = {                                                      |
-| --- | -------------------------------------------------------------------------- |
-|     | "order": (msg, ctx, state) => {                                            |
-|     | if (msg.wants == "pie") {                                                  |
-|     | dispatch(state.pieCase,                                                    |
-|     | { type: "get slice", customer: msg.customer, waiter: ctx.self })           |
-|     | }                                                                          |
-|     | else {                                                                     |
-|     | console.dir(`Don't know how to order ${msg.wants}`);                       |
-|     | }                                                                          |
-|     | },                                                                         |
-|     |                                                                            |
-|     | "add to order": (msg, ctx) =>                                              |
-|     | console.log(`Waiter adds ${msg.food} to ${msg.customer.name}'s order`),    |
-|     |                                                                            |
-|     | "error": (msg, ctx) => {                                                   |
-|     | dispatch(msg.customer, { type: 'no pie left', msg: msg.msg });             |
-|     | console.log(`\nThe waiter apologizes to ${msg.customer.name}: ${msg.msg}`) |
-|     | }                                                                          |
-|     |                                                                            |
-|     | };                                                                         |
+```javascript
+// concurrency/actors/index.js
+const waiterActor = {
+  order: (msg, ctx, state) => {
+    if (msg.wants == "pie") {
+      dispatch(state.pieCase, { type: "get slice", customer: msg.customer, waiter: ctx.self });
+    } else {
+      console.dir(`Don't know how to order ${msg.wants}`);
+    }
+  },
+
+  "add to order": (msg, ctx) =>
+    console.log(`Waiter adds ${msg.food} to ${msg.customer.name}'s order`),
+
+  error: (msg, ctx) => {
+    dispatch(msg.customer, { type: "no pie left", msg: msg.msg });
+    console.log(`\nThe waiter apologizes to ${msg.customer.name}: ${msg.msg}`);
+  },
+};
+```
 
 When it receives the ’order’ message from the customer, it checks to
 see if the request is for pie. If so, it sends a request to the pie
@@ -8224,24 +8524,22 @@ slice. Here’s the code:
 
 [concurrency/actors/index.js](http://media.pragprog.com/titles/tpp20/code/concurrency/actors/index.js)
 
-|     | const pieCaseActor = {                                          |
-| --- | --------------------------------------------------------------- |
-|     | 'get slice': (msg, context, state) => {                         |
-|     | if (state.slices.length == 0) {                                 |
-|     | dispatch(msg.waiter,                                            |
-|     | { type: 'error', msg: "no pie left", customer: msg.customer })  |
-|     | return state                                                    |
-|     | }                                                               |
-|     | else {                                                          |
-|     | var slice = state.slices.shift() + " pie slice";                |
-|     | dispatch(msg.customer,                                          |
-|     | { type: 'put on table', food: slice });                         |
-|     | dispatch(msg.waiter,                                            |
-|     | { type: 'add to order', food: slice, customer: msg.customer }); |
-|     | return state;                                                   |
-|     | }                                                               |
-|     | }                                                               |
-|     | }                                                               |
+```javascript
+// concurrency/actors/index.js
+const pieCaseActor = {
+  "get slice": (msg, context, state) => {
+    if (state.slices.length == 0) {
+      dispatch(msg.waiter, { type: "error", msg: "no pie left", customer: msg.customer });
+      return state;
+    } else {
+      var slice = state.slices.shift() + " pie slice";
+      dispatch(msg.customer, { type: "put on table", food: slice });
+      dispatch(msg.waiter, { type: "add to order", food: slice, customer: msg.customer });
+      return state;
+    }
+  },
+};
+```
 
 Although you’ll often find that actors are started dynamically by other
 actors, in our case we’ll keep it simple and start our actors manually.
@@ -8253,64 +8551,63 @@ We will also pass each some initial state:
 
 [concurrency/actors/index.js](http://media.pragprog.com/titles/tpp20/code/concurrency/actors/index.js)
 
-|     | const actorSystem = start();               |
-| --- | ------------------------------------------ |
-|     |                                            |
-|     | let pieCase = start_actor(                 |
-|     | actorSystem,                               |
-|     | 'pie-case',                                |
-|     | pieCaseActor,                              |
-|     | { slices: ["apple", "peach", "cherry"] }); |
-|     |                                            |
-|     | let waiter = start_actor(                  |
-|     | actorSystem,                               |
-|     | 'waiter',                                  |
-|     | waiterActor,                               |
-|     | { pieCase: pieCase });                     |
+```javascript
+// concurrency/actors/index.js
+const actorSystem = start();
 
-|     | let c1 = start_actor(actorSystem, 'customer1', |
-| --- | ---------------------------------------------- |
-|     | customerActor, { waiter: waiter });            |
-|     | let c2 = start_actor(actorSystem, 'customer2', |
-|     | customerActor, { waiter: waiter });            |
+let pieCase = start_actor(actorSystem, "pie-case", pieCaseActor, {
+  slices: ["apple", "peach", "cherry"],
+});
+
+let waiter = start_actor(actorSystem, "waiter", waiterActor, { pieCase: pieCase });
+```
+
+```javascript
+// concurrency/actors/index.js
+let c1 = start_actor(actorSystem, "customer1", customerActor, { waiter: waiter });
+let c2 = start_actor(actorSystem, "customer2", customerActor, { waiter: waiter });
+```
 
 And finally we kick it off. Our customers are greedy. Customer 1 asks
 for three slices of pie, and customer 2 asks for two:
 
 [concurrency/actors/index.js](http://media.pragprog.com/titles/tpp20/code/concurrency/actors/index.js)
 
-|     | dispatch(c1, { type: 'hungry for pie', waiter: waiter }); |
-| --- | --------------------------------------------------------- |
-|     | dispatch(c2, { type: 'hungry for pie', waiter: waiter }); |
-|     | dispatch(c1, { type: 'hungry for pie', waiter: waiter }); |
-|     | dispatch(c2, { type: 'hungry for pie', waiter: waiter }); |
-|     | dispatch(c1, { type: 'hungry for pie', waiter: waiter }); |
-|     | sleep(500)                                                |
-|     | .then(() => {                                             |
-|     | stop(actorSystem);                                        |
-|     | })                                                        |
+```javascript
+// concurrency/actors/index.js
+dispatch(c1, { type: "hungry for pie", waiter: waiter });
+dispatch(c2, { type: "hungry for pie", waiter: waiter });
+dispatch(c1, { type: "hungry for pie", waiter: waiter });
+dispatch(c2, { type: "hungry for pie", waiter: waiter });
+dispatch(c1, { type: "hungry for pie", waiter: waiter });
+sleep(500).then(() => {
+  stop(actorSystem);
+});
+```
 
 When we run it, we can see the actors communicating. [In order to run this code you’ll also need our wrapper functions,
 which are not shown here. You can download them from
 https://media.pragprog.com/titles/tpp20/code/concurrency/actors/index.js] The order
 you see may well be different:
 
-|     | $ node index.js                                       |
-| --- | ----------------------------------------------------- |
-|     | customer1 sees "apple pie slice" appear on the table  |
-|     | customer2 sees "peach pie slice" appear on the table  |
-|     | Waiter adds apple pie slice to customer1's order      |
-|     | Waiter adds peach pie slice to customer2's order      |
-|     | customer1 sees "cherry pie slice" appear on the table |
-|     | Waiter adds cherry pie slice to customer1's order     |
-|     |                                                       |
-|     | The waiter apologizes to customer1: no pie left       |
-|     | customer1 sulks…                                      |
-|     |                                                       |
-|     | The waiter apologizes to customer2: no pie left       |
-|     | customer2 sulks…                                      |
+```javascript
+// concurrency/actors/index.js
+$ node index.js
+customer1 sees "apple pie slice" appear on the table
+customer2 sees "peach pie slice" appear on the table
+Waiter adds apple pie slice to customer1's order
+Waiter adds peach pie slice to customer2's order
+customer1 sees "cherry pie slice" appear on the table
+Waiter adds cherry pie slice to customer1's order
 
-### No Explicit Concurrency
+The waiter apologizes to customer1: no pie left
+customer1 sulks…
+
+The waiter apologizes to customer2: no pie left
+customer2 sulks…
+```
+
+## No Explicit Concurrency
 
 In the actor model, there’s no need to write any code to handle
 concurrency, as there is no shared state. There’s also no need to code
@@ -8321,7 +8618,7 @@ There’s also no mention of the underlying architecture. This set of
 components work equally well on a single processor, on multiple cores,
 or on multiple networked machines.
 
-### Erlang Sets the Stage
+## Erlang Sets the Stage
 
 The Erlang language and runtime are great examples of an actor
 implementation (even though the inventors of Erlang hadn’t read the
@@ -8343,18 +8640,20 @@ But Erlang (and it’s progeny Elixir) aren’t unique—there are actor
 implementations for most languages. Consider using them for your
 concurrent implementations.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 28, _Decoupling_
 - Topic 30, _Transforming Programming_
 - Topic 36, _Blackboards_
 
-### Challenges
+#### Challenges
 
 - Do you currently have code that uses mutual exclusion to protect shared data. Why not try a prototype of the same code written using actors?
 - The actor code for the diner only supports ordering slices of pie. Extend it to let customers order pie à la mode, with separate agents managing the pie slices and the scoops of ice cream. Arrange things so that it handles the situation where one or the other runs out.
 
-| Topic 36 | Blackboards |
+---
+
+### Topic 36: Blackboards
 
 The writing is on the wall…
 
@@ -8418,7 +8717,7 @@ These systems never really took off, we believe, in part, because the
 need for the kind of concurrent cooperative processing hadn’t yet
 developed.
 
-### A Blackboard in Action
+## A Blackboard in Action
 
 Suppose we are writing a program to accept and process mortgage or
 loan applications. The laws that govern this area are odiously
@@ -8450,9 +8749,10 @@ trigger the appropriate rules. Feedback is easily handled as well: the
 output of any set of rules can post to the blackboard and cause the
 triggering of yet more applicable rules.
 
-| Tip 60 | Use Blackboards to Coordinate Workflow |
+> [!TIP]
+> **Tip 60: Use Blackboards to Coordinate Workflow**
 
-### Messaging Systems Can Be Like Blackboards
+## Messaging Systems Can Be Like Blackboards
 
 As we’re writing this second edition, many applications are constructed
 using small, decoupled services, all communicating via some form of
@@ -8463,7 +8763,7 @@ messages through a form of pattern matching. This means you can use them
 both as a blackboard system and/or as a platform on which you can run a
 bunch of actors.
 
-### But It’s Not That Simple…
+## But It’s Not That Simple…
 
 The actor and/or blackboard and/or microservice approach to architecture
 removes a whole class of potential concurrency problems from your
@@ -8482,14 +8782,14 @@ manage, as there are more moving parts. To some extent this is offset by
 the fact that the system is more granular, and can be updated by
 replacing individual actors, and not the whole system.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 28, _Decoupling_
 - Topic 29, _Juggling the Real World_
 - Topic 33, _Breaking Temporal Coupling_
 - Topic 35, _Actors and Processes_
 
-### Exercises
+#### Exercises
 
 **Exercise 24** (possible answer)
 
@@ -8510,15 +8810,13 @@ _Network monitoring tool._
 The system gathers performance
 statistics and collects trouble reports, which agents use to look for trouble in the system.
 
-### Challenges
+#### Challenges
 
 - Do you use blackboard systems in the real world—the message board by the refrigerator, or the big whiteboard at work? What makes them effective? Are messages ever posted with a consistent format? Does it matter?
 
 Copyright © 2020 Pearson Education, Inc.
 
-# Chapter
-
-7While You Are Coding
+## Chapter 7: While You Are Coding
 
 Conventional wisdom says that once a project is in the coding phase, the
 work is mostly mechanical, transcribing the design into executable
@@ -8568,7 +8866,9 @@ putting themselves into good positions in case the unexpected happens.
 The same is true of coding—it may be largely routine, but keeping your
 wits about you could well prevent a disaster.
 
-| Topic 37 | Listen to Your Lizard Brain |
+---
+
+### Topic 37: Listen to Your Lizard Brain
 
 Only human beings can look directly at something, have all the
 information they need to make an accurate prediction, perhaps
@@ -8606,7 +8906,7 @@ Let’s look first at a couple of common situations in which your inner
 lizard is trying to tell you something. Then we’ll discuss how you can
 let that instinctive brain out of its protective wrapper.
 
-### Fear of the Blank Page
+## Fear of the Blank Page
 
 Everyone fears the empty screen, the lonely blinking cursor surrounded
 by a whole bunch of nothing. Starting a new project (or even a new
@@ -8638,7 +8938,7 @@ may think that this project is beyond us. We can’t see our way through
 to the end; we’ll get so far and then be forced to admit that we’re
 lost.
 
-### Fighting Yourself
+## Fighting Yourself
 
 Sometimes code just flies from your brain into the editor: ideas become
 bits with seemingly no effort.
@@ -8657,12 +8957,13 @@ farm’s worth of bugs. Whatever the reason, your lizard brain is
 sensing feedback from the code, and it’s desperately trying to get you
 to listen.
 
-### How to Talk Lizard
+## How to Talk Lizard
 
 We talk a lot about listening to your instincts, to your nonconscious,
 lizard brain. The techniques are always the same.
 
-| Tip 61 | Listen to Your Inner Lizard |
+> [!TIP]
+> **Tip 61: Listen to Your Inner Lizard**
 
 First, stop what you’re doing. Give yourself a little time and space to
 let your brain organize itself. Stop thinking about the code, and do
@@ -8684,7 +8985,7 @@ But maybe you’ve tried these things, and you’re still stuck. It’s time
 for action. We need to tell your brain that what you’re about to do
 doesn’t matter. And we do that by prototyping.
 
-### It’s Playtime!
+## It’s Playtime!
 
 Andy and Dave have both spent hours looking at empty editor buffers.
 We’ll type in some code, then look at the ceiling,
@@ -8727,7 +9028,7 @@ At this stage, you know what to do. Delete all the prototype code, throw
 away the sticky note, and fill that empty editor buffer with
 bright, shiny new code.
 
-### Not Just Your Code
+## Not Just Your Code
 
 A large part of our job is dealing with existing code, often written by
 other people. Those people will have different instincts to you, and so
@@ -8745,7 +9046,7 @@ consciously to apply the patterns that they applied tacitly.
 
 And you might just learn something new along the way.
 
-### Not Just Code
+## Not Just Code
 
 Learning to listen to your gut when coding is an important skill to
 foster. But it applies to the bigger picture are well. Sometimes a
@@ -8755,17 +9056,19 @@ environment, express them out loud. Explore them. The chances are that
 there’s something lurking in that dark doorway. Listen to your instincts
 and avoid the problem before it jumps out at you.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 13, _Prototypes and Post-it Notes_
 - Topic 22, _Engineering Daybooks_
 - Topic 46, _Solving Impossible Puzzles_
 
-### Challenges
+#### Challenges
 
 - Is there something you know you should do, but have put off because it feels a little scary, or difficult? Apply the techniques in this section. Time box it to an hour, maybe two, and promise yourself that when the bell rings you’ll delete what you did. What did you learn?
 
-| Topic 38 | Programming by Coincidence |
+---
+
+### Topic 38: Programming by Coincidence
 
 Do you ever watch old black-and-white war movies? The weary soldier
 advances cautiously out of the brush. There’s a clearing ahead: are
@@ -8787,7 +9090,7 @@ tale, we should be wary of drawing false conclusions. We should avoid
 programming by coincidence—relying on luck and accidental
 successes—in favor of _programming deliberately_.
 
-### How to Program by Coincidence
+## How to Program by Coincidence
 
 Suppose Fred is given a programming assignment. Fred types in some
 code, tries it, and it seems to work. Fred types in some more code,
@@ -8808,7 +9111,7 @@ better. We don’t rely on coincidences—do we?
 Sometimes we might. Sometimes it can be pretty easy to confuse a happy
 coincidence with a purposeful plan. Let’s look at a few examples.
 
-#### Accidents of Implementation
+## Accidents of Implementation
 
 Accidents of implementation are things that happen simply because
 that’s the way the code is currently written. You end up relying on
@@ -8829,13 +9132,14 @@ context, is a related problem.
 Here it looks like Fred is desperately trying to get something out on the
 screen using some particular GUI rendering framework:
 
-|     | paint();            |
-| --- | ------------------- |
-|     | invalidate();       |
-|     | validate();         |
-|     | revalidate();       |
-|     | repaint();          |
-|     | paintImmediately(); |
+```text
+paint();
+invalidate();
+validate();
+revalidate();
+repaint();
+paintImmediately();
+```
 
 But these routines were never designed to be called this way;
 although they seem to work, that’s really just a coincidence.
@@ -8862,13 +9166,13 @@ can help eliminate misunderstandings.
 For routines you call, rely only on documented behavior.
 If you can’t, for whatever reason, then document your assumption well.
 
-#### Close Enough Isn’t
+## Close Enough Isn’t
 
 We once worked on a large project that reported on data fed from a very large number of hardware data collection units out in the field. These units spanned states and time zones, and for various logistical and historical reasons, each unit was set to local time. [Note from the battle-scarred: UTC is there for a reason. Use it.] As a result of conflicting time zone interpretations and inconsistencies in Daylight Savings Time policies, results were almost always wrong, but only off by one. The developers on the project had gotten into the habit of just adding one or subtracting one to get the correct answer, reasoning that it was _only_ off by one in this one situation. And then the next function would see the value as off by the one the other way, and change it back.
 
 But the fact that it was “only” off by one some of the time was a coincidence, masking a deeper and more fundamental flaw. Without a proper model of time handling, the entire large code base had devolved over time to an untenable mass of +1 and -1 statements. Ultimately, none of it was correct and the project was scrapped.
 
-#### Phantom Patterns
+## Phantom Patterns
 
 Human beings are designed to see patterns and causes, even when it’s just a coincidence. For example, Russian leaders always alternate between being bald and hairy: a bald (or obviously balding) state leader of Russia has succeeded a non-bald (“hairy”) one, and vice versa, for nearly 200 years. [https://en.wikipedia.org/wiki/Correlation_does_not_imply_causation]
 
@@ -8878,7 +9182,7 @@ A log file that shows an intermittent error every 1,000 requests may be a diffic
 
 Don’t assume it, prove it.
 
-#### Accidents of Context
+## Accidents of Context
 
 You can have “accidents of context” as well.
 Suppose you are writing
@@ -8895,9 +9199,10 @@ When you copied code from the first answer you found on the net, are you sure yo
 
 Finding an answer that happens to fit is not the same as the right answer.
 
-| Tip 62 | Don’t Program by Coincidence |
+> [!TIP]
+> **Tip 62: Don’t Program by Coincidence**
 
-#### Implicit Assumptions
+## Implicit Assumptions
 
 Coincidences can mislead at all levels—from generating
 requirements through to testing. Testing is particularly fraught with
@@ -8910,7 +9215,7 @@ these assumptions are rarely documented and are often in conflict
 between different developers. Assumptions that aren’t based on
 well-established facts are the bane of all projects.
 
-### How to Program Deliberately
+## How to Program Deliberately
 
 We want to spend less time churning out code, catch and fix errors as
 early in the development cycle as possible, and create fewer errors to
@@ -8929,7 +9234,7 @@ begin with. It helps if we can program deliberately:
 So next time something seems to work, but you don’t know why, make
 sure it isn’t just a coincidence.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 4, _Stone Soup and Boiled Frogs_
 - Topic 9, _DRY—The Evils of Duplication_
@@ -8937,18 +9242,19 @@ sure it isn’t just a coincidence.
 - Topic 34, _Shared State Is Incorrect State_
 - Topic 43, _Stay Safe Out There_
 
-### Exercises
+#### Exercises
 
 **Exercise 25** (possible answer)
 
 A data feed from a vendor gives you an array of tuples representing key-value pairs. The key of DepositAccount will hold a string of the account number in the corresponding value:
 
-|     | [                                   |
-| --- | ----------------------------------- |
-|     | ...                                 |
-|     | {:DepositAccount, "564-904-143-00"} |
-|     | ...                                 |
-|     | ]                                   |
+```text
+[
+  ...
+  {:DepositAccount, "564-904-143-00"}
+  ...
+]
+```
 
 It worked perfectly in test on the 4-core developer laptops and on the 12-core build machine, but on the production servers running in containers, you keep getting the wrong account numbers. What’s going on?
 
@@ -8960,7 +9266,9 @@ You’re coding an autodialer for voice alerts, and have to manage a database of
 
 You have written an app that scales up common recipes for a cruise ship dining room that seats 5,000. But you’re getting complaints that the conversions aren’t precise. You check, and the code uses the conversion formula of 16 cups to a gallon. That’s right, isn’t it?
 
-| Topic 39 | Algorithm Speed |
+---
+
+### Topic 39: Algorithm Speed
 
 In Topic 15, _Estimating_, we talked about estimating things
 such as how long it takes to walk across town, or how long a project
@@ -8977,7 +9285,7 @@ It turns out that these questions can often be answered using common
 sense, some analysis, and a way of writing approximations called the
 _Big-O_ notation.
 
-### What Do We Mean by Estimating Algorithms?
+## What Do We Mean by Estimating Algorithms?
 
 Most nontrivial algorithms handle some kind of variable input—sorting
 `n` strings, inverting an `m x n` matrix, or decrypting a message
@@ -9001,7 +9309,7 @@ we’re doing is sensible in the circumstances. However, we sometimes _do_
 find ourselves performing a more detailed analysis. That’s when Big-O
 notation comes in handy.
 
-### Big-O Notation
+## Big-O Notation
 
 The Big-O notation, written `O(1)` , is a mathematical way of dealing with
 approximations. When we write that a particular sort routine sorts `n`
@@ -9062,10 +9370,10 @@ exercises for an example).
 |     | Exponential (traveling salesman problem, set partitioning)                                     |
 
 ```image-description
-A comparative runtime complexity graph illustrating common Big O curves. The chart plots performance trajectories for `O(1)` , `O(log n)` , `O(n)` , `O(n log n)` , `O(n^2)` , `O(2^n)` , and `O(n!)` .
+A comparative runtime complexity graph illustrating common Big O curves. The chart plots performance trajectories for `O(1)`,`O(log n)`,`O(n)`,`O(n log n)`,`O(n^2)`,`O(2^n)`, and`O(n!)` .
 ```
 
-### Common Sense Estimation
+## Common Sense Estimation
 
 You can estimate the order of many basic algorithms using common
 sense.
@@ -9122,7 +9430,7 @@ that each set has the same total, and so on. Often, heuristics are
 used to reduce the running times of these types of algorithms in
 particular problem domains.
 
-### Algorithm Speed in Practice
+## Algorithm Speed in Practice
 
 It’s unlikely that you’ll spend much time during your career writing
 sort routines. The ones in the libraries available to you will
@@ -9139,7 +9447,8 @@ an overnight batch run, or the number of names in a list of people),
 then you might want to stop and consider the effect that large values
 may have on your running time or memory consumption.
 
-| Tip 63 | Estimate the Order of Your Algorithms |
+> [!TIP]
+> **Tip 63: Estimate the Order of Your Algorithms**
 
 There are some approaches you can take to address potential problems.
 If you have an algorithm that is `O(n^2)` , try to find a divide-and-conquer approach that will take you down to `O(n log n)` .
@@ -9169,13 +9478,14 @@ theoretical and practical bases. After all this estimating, the only
 timing that counts is the speed of your code, running in the production
 environment, with real data. This leads to our next tip.
 
-| Tip 64 | Test Your Estimates |
+> [!TIP]
+> **Tip 64: Test Your Estimates**
 
 If it’s tricky getting accurate timings, use _code profilers_
 to count the number of times the different steps in your algorithm get
 executed, and plot these figures against the size of the input.
 
-#### Best Isn’t Always Best
+## Best Isn’t Always Best
 
 You also need to be pragmatic about choosing appropriate
 algorithms—the fastest one is not always the best for the job. Given a
@@ -9189,17 +9499,17 @@ Also be wary of _premature optimization_. It’s always a good idea
 to make sure an algorithm really is a bottleneck before investing your
 precious time trying to improve it.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 15, _Estimating_
 
-### Challenges
+#### Challenges
 
 - Every developer should have a feel for how algorithms are designed and analyzed. Robert Sedgewick has written a series of accessible books on the subject (_Algorithms_ [SW11]_An Introduction to the Analysis of Algorithms_ [SF13] and others). We recommend adding one of his books to your collection, and making a point of reading it.
 - For those who like more detail than Sedgewick provides, read Donald Knuth’s definitive _Art of Computer Programming_ books, which analyze a wide range of algorithms. - _The Art of Computer Programming, Volume 1: Fundamental Algorithms_ [Knu98] - _The Art of Computer Programming, Volume 2: Seminumerical Algorithms_ [Knu98a] - _The Art of Computer Programming, Volume 3: Sorting and Searching_ [Knu98b] - _The Art of Computer Programming, Volume 4A: Combinatorial Algorithms, Part 1_ [Knu11].
 - In the first exercise that follows we look at sorting arrays of long integers. What is the impact if the keys are more complex, and the overhead of key comparison is high? Does the key structure affect the efficiency of the sort algorithms, or is the fastest sort always fastest?
 
-### Exercises
+#### Exercises
 
 **Exercise 28** (possible answer)
 
@@ -9220,7 +9530,9 @@ chop is `O(log n)` . Can you prove this?
 In Figure 3, _Runtimes of various algorithms_, we claimed that
 `O(log n)` is the same as `O(log_10 n)` (or indeed logarithms to any base). Can you explain why?
 
-| Topic 40 | Refactoring |
+---
+
+### Topic 40: Refactoring
 
 Change and decay in all around I see...
 
@@ -9285,7 +9597,7 @@ Refactoring is not intended to be a special, high-ceremony, once-in-a-while acti
 
 In order to guarantee that the external behavior hasn’t changed, you need good, automated unit testing that validates the behavior of the code.
 
-### When Should You Refactor?
+## When Should You Refactor?
 
 You refactor when you’ve learned something; when you understand something better than you did last year, yesterday, or even just ten minutes ago.
 
@@ -9336,7 +9648,7 @@ it was working, maybe it’s better to leave well enough alone. Many
 developers are reluctant to go in and re-open a piece of code just because it
 isn’t quite right.
 
-#### Real-World Complications
+## Real-World Complications
 
 So you go to your teammates or client and say, “This code works, but I
 need another week to completely refactor it.”
@@ -9358,13 +9670,14 @@ while it grows and spreads—but removing it then will be both more
 expensive and more dangerous. Wait even longer, and you may lose the
 patient entirely.
 
-| Tip 65 | Refactor Early, Refactor Often |
+> [!TIP]
+> **Tip 65: Refactor Early, Refactor Often**
 
 Collateral damage in code can be just as deadly over time (see Topic 3, _Software Entropy_). Refactoring, as with most things, is easier to do while the issues are small, as an ongoing activity while coding. You shouldn’t need “a week to refactor” a piece of code—that’s a full-on rewrite. If that level of disruption is necessary, then you might well not be able to do it immediately. Instead, make sure that it gets placed on the
 schedule. Make sure that users of the affected code _know_ that
 it is scheduled to be rewritten and how this might affect them.
 
-### How Do You Refactor?
+## How Do You Refactor?
 
 Refactoring started out in the Smalltalk
 community, and had just started to gain a wider
@@ -9412,7 +9725,7 @@ fix it. Manage the pain: if it
 hurts now, but is going to hurt even more later, you might as well get
 it over with. Remember the lessons of Topic 3, _Software Entropy_: don’t live with broken windows.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 3, _Software Entropy_
 - Topic 9, _DRY—The Evils of Duplication_
@@ -9421,7 +9734,9 @@ it over with. Remember the lessons of Topic 3, _Software Entropy_: don’t live 
 - Topic 44, _Naming Things_
 - Topic 48, _The Essence of Agility_
 
-| Topic 41 | Test to Code |
+---
+
+### Topic 41: Test to Code
 
 The first edition of this book was written in more primitive times, when
 most developers wrote no tests—why bother, they thought, the world was
@@ -9445,12 +9760,13 @@ you should go about it?
 
 Let’s start with the bold statement:
 
-| Tip 66 | Testing Is Not About Finding Bugs |
+> [!TIP]
+> **Tip 66: Testing Is Not About Finding Bugs**
 
 We believe that the major benefits of testing happen when you think
 about and write the tests, not when you run them.
 
-### Thinking About Tests
+## Thinking About Tests
 
 It’s a Monday morning and you settle in to start work on some new code.
 You have to write something
@@ -9460,10 +9776,11 @@ than 10 videos a week on your “world’s funniest dishwashing videos” site.
 You fire up your editor, and start by writing the function that performs
 the query:
 
-|     | def return_avid_viewers do |
-| --- | -------------------------- |
-|     | # ... hmmm ...             |
-|     | end                        |
+```ruby
+def return_avid_viewers do
+  # ... hmmm ...
+end
+```
 
 Stop! How do you know that what you’re about to do is a good thing?
 
@@ -9478,7 +9795,9 @@ test database, but in our case that means we should be passing the
 database instance into our function rather than using some global one,
 as that allows us to change it while testing:
 
-| | def return_avid_users(db) do |
+```ruby
+def return_avid_users(db) do
+```
 
 Then we have to think about how we’d populate that test data. The
 requirement asks for a “list of people who watch more than 10 videos a
@@ -9490,13 +9809,15 @@ business contact is out. Let’s just cheat and pass in the name of the
 field (which will allow us to test what we have, and potentially change it
 later):
 
-| | def return_avid_users(db, qualifying_field_name) do |
+```ruby
+def return_avid_users(db, qualifying_field_name) do
+```
 
 We started by thinking about our tests, and without writing a line of
 code, we’ve already made two discoveries and used them to change the API
 of our method.
 
-### Tests Drive Coding
+## Tests Drive Coding
 
 In the previous example, thinking about testing made us reduce coupling
 in our code (by passing in a database connection rather than using a
@@ -9505,7 +9826,8 @@ test a parameter). Thinking about writing a test for our method made us
 look at it from the outside, as if we were a client of the code, and not
 its author.
 
-| Tip 67 | A Test Is the First User of Your Code |
+> [!TIP]
+> **Tip 67: A Test Is the First User of Your Code**
 
 We think this is probably the biggest benefit offered by testing:
 testing is vital feedback that guides your coding.
@@ -9528,7 +9850,7 @@ _before_ you start coding, you may well find the patterns in the logic
 that’ll simplify the function. If you think about the error conditions
 you’ll need to test, you’ll structure your function accordingly.
 
-#### Test-Driven Development
+## Test-Driven Development
 
 There’s a school of programming that says that, given all the benefits
 of thinking about tests up front, why not go ahead and write them up
@@ -9585,7 +9907,8 @@ can build a list of abstractions which will take them eventually to a
 single top-level solution, but how can they decide on the functionality
 of layers when they don’t know where they are heading?
 
-| Tip 68 | Build End-to-End, Not Top-Down or Bottom Up |
+> [!TIP]
+> **Tip 68: Build End-to-End, Not Top-Down or Bottom Up**
 
 We strongly believe that the only way to build software is
 incrementally. Build small pieces of end-to-end functionality, learning
@@ -9599,7 +9922,7 @@ by the green "tests passed" message, writing
 lots of code that doesn’t actually get you closer to a
 solution.
 
-### TDD: You Need to Know Where You’re Going
+## TDD: You Need to Know Where You’re Going
 
 The old joke asks “How do you eat an elephant?” The punchline: “One bite at a time.” And this idea is often touted as a benefit of TDD. When you can’t comprehend the whole problem, take small steps, one test at a time. However, this approach can mislead you, encouraging you to focus on and endlessly polish the easy problems while ignoring the real reason you’re coding. An interesting example of this happened in 2006, when Ron Jeffries, a leading figure in the agility movement, started a series of blog posts which documented his test-driven coding of a Sudoko solver. [https://ronjeffries.com/categories/sudoku. A big “thank you” to Ron for letting us use this story.] After five posts, he’d refined the representation of the underlying board, refactoring a number of times until he was happy with the object model. But then he abandoned the project. It’s interesting to read the blog posts in order, and watch how a clever person can get sidetracked by the minutia, reinforced by the glow of passing tests.
 
@@ -9607,7 +9930,7 @@ As a contrast, Peter Norvig describes an alternative approach [http://norvig.com
 
 Tests can definitely help drive development. But, as with every drive, unless you have a destination in mind, you can end up going in circles.
 
-### Back to the Code
+## Back to the Code
 
 Component-based development has long been a lofty goal of software
 development. [We’ve been trying since at least 1986, when Cox and Novobilski
@@ -9630,7 +9953,7 @@ We can do the same thing in software. Like our hardware colleagues,
 we need to build testability into the software from the very beginning,
 and test each piece thoroughly before trying to wire them together.
 
-### Unit Testing
+## Unit Testing
 
 Chip-level testing for hardware is roughly equivalent to _unit testing_
 in software—testing done on each module, in isolation, to verify its
@@ -9654,7 +9977,7 @@ Before we get that far, however, we need to decide what to test at the
 unit level. Historically, programmers threw a few random bits of data at
 the code, looked at the print statements, and called it tested. We can do much better.
 
-### Testing Against Contract
+## Testing Against Contract
 
 We like to think of unit testing as _testing against contract_
 (see Topic 23, _Design by Contract_).
@@ -9666,12 +9989,13 @@ it promises, over a wide range of test cases and boundary conditions.
 
 What does this mean in practice? Let’s start with a simple, numerical example: a square root routine. Its documented contract is simple:
 
-|     | pre-conditions:                                         |
-| --- | ------------------------------------------------------- |
-|     | argument >= 0;                                          |
-|     |                                                         |
-|     | post-conditions:                                        |
-|     | ((result * result) - argument).abs <= epsilon*argument; |
+```text
+pre-conditions:
+  argument >= 0;
+
+post-conditions:
+  ((result * result) - argument).abs <= epsilon*argument;
+```
 
 This tells us what to test:
 
@@ -9685,12 +10009,13 @@ exercise the square root function.
 
 Then we can call this routine to test our square root function:
 
-|     | assertWithinEpsilon(my_sqrt(0), 0)                |
-| --- | ------------------------------------------------- |
-|     | assertWithinEpsilon(my_sqrt(2.0), 1.4142135624)   |
-|     | assertWithinEpsilon(my_sqrt(64.0), 8.0)           |
-|     | assertWithinEpsilon(my_sqrt(1.0e7), 3162.2776602) |
-|     | assertRaisesException fn => my_sqrt(-4.0) end     |
+```javascript
+assertWithinEpsilon(my_sqrt(0), 0)
+assertWithinEpsilon(my_sqrt(2.0),   1.4142135624)
+assertWithinEpsilon(my_sqrt(64.0),  8.0)
+assertWithinEpsilon(my_sqrt(1.0e7), 3162.2776602)
+assertRaisesException fn =>  my_sqrt(-4.0) end
+```
 
 This is a pretty simple test; in the real world, any nontrivial module
 is likely to be dependent on a number of other modules, so how do we go
@@ -9720,9 +10045,10 @@ awkward moment later in the project. By emphasizing testing against
 contract, we can try to avoid as many of those downstream disasters as
 possible.
 
-| Tip 69 | Design to Test |
+> [!TIP]
+> **Tip 69: Design to Test**
 
-### Ad Hoc Testing
+## Ad Hoc Testing
 
 Not to be confused with “odd hack,” _ad-hoc_ testing is when we run poke
 at our code manually. This may be as simple as a console.log(), or a
@@ -9734,7 +10060,7 @@ ad hoc test. If the code broke once, it is likely to break again.
 Don’t just throw away the test you created; add it to the existing
 unit test arsenal.
 
-### Build a Test Window
+## Build a Test Window
 
 Even the best sets of tests are unlikely to find all the bugs; there’s
 something about the damp, warm conditions of a production environment
@@ -9777,7 +10103,7 @@ Andy says I shouldn’t include this sidebar. He worries it will tempt inexperie
 
 Should you write tests? Yes. But after you’ve been doing it for 30 years, feel free to experiment a little to see where the benefit lies for you.
 
-### A Culture of Testing
+## A Culture of Testing
 
 All software you write _will_ be tested—if not by you and your team,
 then by the eventual users—so you might as well plan on testing it
@@ -9796,18 +10122,21 @@ A culture of testing means all the tests pass all the time. Ignore a spew of tes
 
 Treat test code with the same care as any production code. Keep it decoupled, clean, and robust. Don’t rely on unreliable things (see Topic 38, _Programming by Coincidence_) like the absolute position of widgets in a GUI system, or exact timestamps in a server log, or the exact wording of error messages. Testing for these sorts of things will result in fragile tests.
 
-| Tip 70 | Test Your Software, or Your Users Will |
+> [!TIP]
+> **Tip 70: Test Your Software, or Your Users Will**
 
 Make no mistake, testing is part of programming. It’s not something left to other departments or staff.
 
 Testing, design, coding—it’s all programming.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 27, _Don’t Outrun Your Headlights_
 - Topic 51, _Pragmatic Starter Kit_
 
-| Topic 42 | Property-Based Testing |
+---
+
+### Topic 42: Property-Based Testing
 
 Доверяй, но проверяй    
 (Trust, but verify)
@@ -9832,7 +10161,7 @@ work of testing is split from the coding.
 Instead, we favor an alternative, where the computer, which doesn’t
 share your preconceptions, does some testing for you.
 
-### Contracts, Invariants, and Properties
+## Contracts, Invariants, and Properties
 
 In Topic 23, _Design by Contract_, we talked about the idea that code has
 _contracts_ that it meets: you meet the conditions when you feed it
@@ -9848,7 +10177,8 @@ Once we work out our contracts and invariants (which we’re going to lump
 together and call _properties_) we can use them to automate our testing.
 What we end up doing is called _property-based testing_.
 
-| Tip 71 | Use Property-Based Tests to Validate Your Assumptions |
+> [!TIP]
+> **Tip 71: Use Property-Based Tests to Validate Your Assumptions**
 
 As an artificial example, we can build some tests for our sorted list.
 We’ve already established one property: the sorted list is the same size
@@ -9863,40 +10193,44 @@ Here is the full source of the tests:
 
 [proptest/sort.py](http://media.pragprog.com/titles/tpp20/code/proptest/sort.py)
 
-|     | from hypothesis import given                            |
-| --- | ------------------------------------------------------- |
-|     | import hypothesis.strategies as some                    |
-|     |                                                         |
-|     | @given(some.lists(some.integers()))                     |
-|     | def test_list_size_is_invariant_across_sorting(a_list): |
-|     | original_length = len(a_list)                           |
-|     | a_list.sort()                                           |
-|     | assert len(a_list) == original_length                   |
-|     |                                                         |
-|     | @given(some.lists(some.text()))                         |
-|     | def test_sorted_result_is_ordered(a_list):              |
-|     | a_list.sort()                                           |
-|     | for i in range(len(a_list) - 1):                        |
-|     | assert a_list[i] <= a_list[i + 1]                       |
+```python
+// proptest/sort.py
+from   hypothesis import given
+import hypothesis.strategies as some
+
+@given(some.lists(some.integers()))
+def test_list_size_is_invariant_across_sorting(a_list):
+    original_length = len(a_list)
+    a_list.sort()
+    assert len(a_list) == original_length
+
+@given(some.lists(some.text()))
+def test_sorted_result_is_ordered(a_list):
+    a_list.sort()
+    for i in range(len(a_list) - 1):
+        assert a_list[i] <= a_list[i + 1]
+```
 
 Here’s what happens when we run it:
 
-|     | $ pytest sort.py                                                     |
-| --- | -------------------------------------------------------------------- |
-|     | ======================= test session starts ======================== |
-|     | ...                                                                  |
-|     | plugins: hypothesis-4.14.0                                           |
-|     |                                                                      |
-|     | sort.py .. [100%]                                                    |
-|     |                                                                      |
-|     | ===================== 2 passed in 0.95 seconds ===================== |
+```python
+// proptest/sort.py
+$ pytest sort.py
+======================= test session starts ========================
+...
+plugins: hypothesis-4.14.0
+
+sort.py ..                                                    [100%]
+
+===================== 2 passed in 0.95 seconds =====================
+```
 
 Not much drama there. But, behind the scenes, Hypothesis ran both of our
 tests one hundred times, passing in a different list each time. The
 lists will have varying lengths, and will have different contents. It’s
 as if we’d cooked up 200 individual tests with 200 random lists.
 
-### Test Data Generation
+## Test Data Generation
 
 Like most property-based testing libraries, Hypothesis gives you a
 minilanguage for describing the data it should generate. The language is
@@ -9905,18 +10239,27 @@ which we aliased as some, just because it reads better.
 
 If we wrote:
 
-| | @given(some.integers()) |
+```python
+// proptest/sort.py
+@given(some.integers())
+```
 
 Our test function would run multiple times. Each time, it would be
 passed a different integer. If instead we wrote the following:
 
-| | @given(some.integers(min_value=5, max_value=10).map(lambda x: x * 2)) |
+```python
+// proptest/sort.py
+@given(some.integers(min_value=5, max_value=10).map(lambda x: x * 2))
+```
 
 then we’d get the even numbers between 10 and 20.
 
 You can also compose types, so that
 
-| | @given(some.lists(some.integers(min_value=1), max_size=100)) |
+```python
+// proptest/sort.py
+@given(some.lists(some.integers(min_value=1), max_size=100))
+```
 
 will be lists of natural numbers that are at most 100 elements long.
 
@@ -9924,7 +10267,7 @@ This isn’t supposed to be a tutorial on any particular framework, so
 we’ll skip a bunch of cool details and instead look at a real-world
 example.
 
-### Finding Bad Assumptions
+## Finding Bad Assumptions
 
 We’re writing a simple order processing and stock control system
 (because there’s always room for one more). It models the stock levels
@@ -9935,39 +10278,43 @@ Here’s the code:
 
 [proptest/stock.py](http://media.pragprog.com/titles/tpp20/code/proptest/stock.py)
 
-|     | class Warehouse:                                                 |
-| --- | ---------------------------------------------------------------- |
-|     | def **init**(self, stock):                                       |
-|     | self.stock = stock                                               |
-|     |                                                                  |
-|     | def in_stock(self, item_name):                                   |
-|     | return (item_name in self.stock) and (self.stock[item_name] > 0) |
-|     |                                                                  |
-|     | def take_from_stock(self, item_name, quantity):                  |
-|     | if quantity <= self.stock[item_name]:                            |
-|     | self.stock[item_name] -= quantity                                |
-|     | else:                                                            |
-|     | raise Exception("Oversold {}".format(item_name))                 |
-|     |                                                                  |
-|     | def stock_count(self, item_name):                                |
-|     | return self.stock[item_name]                                     |
+```python
+// proptest/stock.py
+class Warehouse:
+    def __init__(self, stock):
+        self.stock = stock
+
+    def in_stock(self, item_name):
+        return (item_name in self.stock) and (self.stock[item_name] > 0)
+
+    def take_from_stock(self, item_name, quantity):
+        if quantity <= self.stock[item_name]:
+            self.stock[item_name] -= quantity
+        else:
+          raise Exception("Oversold {}".format(item_name))
+
+    def stock_count(self, item_name):
+        return self.stock[item_name]
+```
 
 We wrote a basic unit test, which passes:
 
 [proptest/stock.py](http://media.pragprog.com/titles/tpp20/code/proptest/stock.py)
 
-|     | def test_warehouse():                                    |
-| --- | -------------------------------------------------------- |
-|     | wh = Warehouse({"shoes": 10, "hats": 2, "umbrellas": 0}) |
-|     | assert wh.in_stock("shoes")                              |
-|     | assert wh.in_stock("hats")                               |
-|     | assert not wh.in_stock("umbrellas")                      |
-|     |                                                          |
-|     | wh.take_from_stock("shoes", 2)                           |
-|     | assert wh.in_stock("shoes")                              |
-|     |                                                          |
-|     | wh.take_from_stock("hats", 2)                            |
-|     | assert not wh.in_stock("hats")                           |
+```python
+// proptest/stock.py
+def test_warehouse():
+    wh = Warehouse({"shoes": 10, "hats": 2, "umbrellas": 0})
+    assert wh.in_stock("shoes")
+    assert wh.in_stock("hats")
+    assert not wh.in_stock("umbrellas")
+
+    wh.take_from_stock("shoes", 2)
+    assert wh.in_stock("shoes")
+
+    wh.take_from_stock("hats", 2)
+    assert not wh.in_stock("hats")
+```
 
 Then we wrote a function that processes a request to order items from
 the warehouse. It returns a tuple where the first element is either
@@ -9976,39 +10323,43 @@ quantity. We also wrote some tests, and they pass:
 
 [proptest/stock.py](http://media.pragprog.com/titles/tpp20/code/proptest/stock.py)
 
-|     | def order(warehouse, item, quantity):      |
-| --- | ------------------------------------------ |
-|     | if warehouse.in_stock(item):               |
-|     | warehouse.take_from_stock(item, quantity)  |
-|     | return ( "ok", item, quantity )            |
-|     | else:                                      |
-|     | return ( "not available", item, quantity ) |
+```python
+// proptest/stock.py
+def order(warehouse, item, quantity):
+    if warehouse.in_stock(item):
+        warehouse.take_from_stock(item, quantity)
+        return ( "ok", item, quantity )
+    else:
+        return ( "not available", item, quantity )
+```
 
 [proptest/stock.py](http://media.pragprog.com/titles/tpp20/code/proptest/stock.py)
 
-|     | def test_order_in_stock():                               |
-| --- | -------------------------------------------------------- |
-|     | wh = Warehouse({"shoes": 10, "hats": 2, "umbrellas": 0}) |
-|     | status, item, quantity = order(wh, "hats", 1)            |
-|     | assert status == "ok"                                    |
-|     | assert item == "hats"                                    |
-|     | assert quantity == 1                                     |
-|     | assert wh.stock_count("hats") == 1                       |
-|     |                                                          |
-|     | def test_order_not_in_stock():                           |
-|     | wh = Warehouse({"shoes": 10, "hats": 2, "umbrellas": 0}) |
-|     | status, item, quantity = order(wh, "umbrellas", 1)       |
-|     | assert status == "not available"                         |
-|     | assert item == "umbrellas"                               |
-|     | assert quantity == 1                                     |
-|     | assert wh.stock_count("umbrellas") == 0                  |
-|     |                                                          |
-|     | def test_order_unknown_item():                           |
-|     | wh = Warehouse({"shoes": 10, "hats": 2, "umbrellas": 0}) |
-|     | status, item, quantity = order(wh, "bagel", 1)           |
-|     | assert status == "not available"                         |
-|     | assert item == "bagel"                                   |
-|     | assert quantity == 1                                     |
+```python
+// proptest/stock.py
+def test_order_in_stock():
+    wh = Warehouse({"shoes": 10, "hats": 2, "umbrellas": 0})
+    status, item, quantity = order(wh, "hats", 1)
+    assert status   == "ok"
+    assert item     == "hats"
+    assert quantity == 1
+    assert wh.stock_count("hats") == 1
+
+def test_order_not_in_stock():
+    wh = Warehouse({"shoes": 10, "hats": 2, "umbrellas": 0})
+    status, item, quantity = order(wh, "umbrellas", 1)
+    assert status   == "not available"
+    assert item     == "umbrellas"
+    assert quantity == 1
+    assert wh.stock_count("umbrellas") == 0
+
+def test_order_unknown_item():
+    wh = Warehouse({"shoes": 10, "hats": 2, "umbrellas": 0})
+    status, item, quantity = order(wh, "bagel", 1)
+    assert status   == "not available"
+    assert item     == "bagel"
+    assert quantity == 1
+```
 
 On the surface, everything looks fine. But before we ship the code,
 let’s add some property tests.
@@ -10022,45 +10373,49 @@ quantity chosen from 1 to 4:
 
 [proptest/stock.py](http://media.pragprog.com/titles/tpp20/code/proptest/stock.py)
 
-|     | @given(item = some.sampled_from(["shoes", "hats"]),                             |
-| --- | ------------------------------------------------------------------------------- |
-|     | quantity = some.integers(min_value=1, max_value=4))                             |
-|     |                                                                                 |
-|     | def test_stock_level_plus_quantity_equals_original_stock_level(item, quantity): |
-|     | wh = Warehouse({"shoes": 10, "hats": 2, "umbrellas": 0})                        |
-|     | initial_stock_level = wh.stock_count(item)                                      |
-|     | (status, item, quantity) = order(wh, item, quantity)                            |
-|     | if status == "ok":                                                              |
-|     | assert wh.stock_count(item) + quantity == initial_stock_level                   |
+```python
+// proptest/stock.py
+@given(item     = some.sampled_from(["shoes", "hats"]),
+       quantity = some.integers(min_value=1, max_value=4))
+
+def test_stock_level_plus_quantity_equals_original_stock_level(item, quantity):
+    wh = Warehouse({"shoes": 10, "hats": 2, "umbrellas": 0})
+    initial_stock_level = wh.stock_count(item)
+    (status, item, quantity) = order(wh, item, quantity)
+    if status == "ok":
+        assert wh.stock_count(item) + quantity == initial_stock_level
+```
 
 Let’s run it:
 
-|     | $ pytest stock.py                                                          |
-| --- | -------------------------------------------------------------------------- |
-|     | . . .                                                                      |
-|     | stock.py:72:                                                               |
-|     | _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _        |
-|     | stock.py:76: in test_stock_level_plus_quantity_equals_original_stock_level |
-|     | (status, item, quantity) = order(wh, item, quantity)                       |
-|     | stock.py:40: in order                                                      |
-|     | warehouse.take_from_stock(item, quantity)                                  |
-|     | _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _        |
-|     |                                                                            |
-|     | self = , item_name = 'hats'                                                |
-|     | quantity = 3                                                               |
-|     |                                                                            |
-|     | def take_from_stock(self, item_name, quantity):                            |
-|     | if quantity <= self.stock[item_name]:                                      |
-|     | self.stock[item_name] -= quantity                                          |
-|     | else:                                                                      |
-|     | > raise Exception("Oversold {}".format(item_name))                         |
-|     | E Exception: Oversold hats                                                 |
-|     |                                                                            |
-|     | stock.py:16: Exception                                                     |
-|     | ---------------------------- Hypothesis ----------------------------       |
-|     | Falsifying example:                                                        |
-|     | test_stock_level_plus_quantity_equals_original_stock_level(                |
-|     | item='hats', quantity=3)                                                   |
+```python
+// proptest/stock.py
+$ pytest stock.py
+. . .
+stock.py:72:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+stock.py:76: in test_stock_level_plus_quantity_equals_original_stock_level
+    (status, item, quantity) = order(wh, item, quantity)
+stock.py:40: in order
+    warehouse.take_from_stock(item, quantity)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = , item_name = 'hats'
+quantity = 3
+
+    def take_from_stock(self, item_name, quantity):
+      if quantity <= self.stock[item_name]:
+        self.stock[item_name] -= quantity
+      else:
+> raise Exception("Oversold {}".format(item_name))
+E       Exception: Oversold hats
+
+stock.py:16: Exception
+---------------------------- Hypothesis ----------------------------
+Falsifying example:
+ test_stock_level_plus_quantity_equals_original_stock_level(
+       item='hats', quantity=3)
+```
 
 It blew up in warehouse.take_from_stock: we tried to remove three hats
 from the warehouse, but it only has two in stock.
@@ -10071,25 +10426,29 @@ Instead we need to make sure we have enough to fill the order:
 
 [proptest/stock1.py](http://media.pragprog.com/titles/tpp20/code/proptest/stock1.py)
 
-|     | def in_stock(self, item_name, quantity):                                 |
-| --- | ------------------------------------------------------------------------ |
-| »   | return (item_name in self.stock) and (self.stock[item_name] >= quantity) |
+```python
+// proptest/stock1.py
+def in_stock(self, item_name, quantity):
+    return (item_name in self.stock) and (self.stock[item_name] >= quantity)
+```
 
 And we change the order function, too:
 
 [proptest/stock1.py](http://media.pragprog.com/titles/tpp20/code/proptest/stock1.py)
 
-|     | def order(warehouse, item, quantity):      |
-| --- | ------------------------------------------ |
-| »   | if warehouse.in_stock(item, quantity):     |
-|     | warehouse.take_from_stock(item, quantity)  |
-|     | return ( "ok", item, quantity )            |
-|     | else:                                      |
-|     | return ( "not available", item, quantity ) |
+```python
+// proptest/stock1.py
+def order(warehouse, item, quantity):
+    if warehouse.in_stock(item, quantity):
+        warehouse.take_from_stock(item, quantity)
+        return ( "ok", item, quantity )
+    else:
+        return ( "not available", item, quantity )
+```
 
 And now our property test passes.
 
-### Property-Based Tests Often Surprise You
+## Property-Based Tests Often Surprise You
 
 In the previous example, we used a property-based test to check that
 stock levels were adjusted properly. The test found a bug, but it wasn’t
@@ -10116,7 +10475,7 @@ your test, there’s no guarantee that the same values will be used the
 next time you run tests. Having a unit test that forces those values to
 be used ensures that this bug won’t slip through.
 
-### Property-Based Tests Also Help Your Design
+## Property-Based Tests Also Help Your Design
 
 When we talked about unit testing, we said that one of the major
 benefits was the way it made you think about your code: a unit test is
@@ -10133,13 +10492,13 @@ We believe that property-based testing is complementary to unit testing:
 they address different concerns, and each brings its own benefits. If
 you’re not currently using them, give them a go.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 23, _Design by Contract_
 - Topic 25, _Assertive Programming_
 - Topic 45, _The Requirements Pit_
 
-### Exercises
+#### Exercises
 
 **Exercise 31** (possible answer)
 
@@ -10155,13 +10514,15 @@ the delivery truck. The output of your code is a list of all the crates.
 For each crate, the list gives the location in the truck, along with the
 width and height. What properties of the output could be tested?
 
-### Challenges
+#### Challenges
 
 Think about the code you’re currently working on. What are the
 properties: the contracts and invariants? Can you use property-based
 testing framework to verify these automatically?
 
-| Topic 43 | Stay Safe Out There |
+---
+
+### Topic 43: Stay Safe Out There
 
 Good fences make good neighbors.
 
@@ -10176,7 +10537,7 @@ As we write this, the daily news is filled with stories of devastating data brea
 
 It’s because the developers were careless.
 
-### The Other 90%
+## The Other 90%
 
 When coding, you may go through several cycles of “it works!” and “why isn’t that working?” with the occasional “there’s no way that could have happened…” [See Topic 20, Debugging.] After several hills and bumps on this uphill climb, it’s easy to say to yourself, “phew, it all works!” and proclaim the code done. Of course, it’s not done yet. You’re 90% done, but now you have the _other_ 90% to consider.
 
@@ -10199,7 +10560,7 @@ minutes—or even less.
 
 Security through obscurity just doesn’t work.
 
-### Security Basic Principles
+## Security Basic Principles
 
 Pragmatic Programmers have a healthy amount of paranoia. We know we have
 faults and limitations, and that external attackers
@@ -10216,7 +10577,7 @@ you should always bear in mind:
 
 Let’s take a look at each of these.
 
-#### Minimize Attack Surface Area
+## Minimize Attack Surface Area
 
 The _attack surface area_ of a system is the sum of all access points where an attacker can enter data, extract data, or invoke execution of a service. Here are a few examples:
 
@@ -10239,35 +10600,40 @@ characters in a file whose name is supplied at runtime:
 
 [safety/taint.rb](http://media.pragprog.com/titles/tpp20/code/safety/taint.rb)
 
-|     | puts "Enter a file name to count: " |
-| --- | ----------------------------------- |
-|     | name = gets                         |
-|     | system("wc -c #{name}")             |
+```ruby
+// safety/taint.rb
+puts "Enter a file name to count: "
+name = gets
+system("wc -c #{name}")
+```
 
 A nefarious user could do damage like this:
 
-|     | Enter a file name to count: |
-| --- | --------------------------- |
-|     | test.dat; rm -rf /          |
+```text
+Enter a file name to count:
+test.dat; rm -rf /
+```
 
 However, setting the SAFE level to 1 will taint external data, which
 means it can’t be used in dangerous contexts:
 
-| »   | $SAFE = 1                           |
-| --- | ----------------------------------- |
-|     |                                     |
-|     | puts "Enter a file name to count: " |
-|     | name = gets                         |
-|     | system("wc -c #{name}")             |
+```ruby
+$SAFE = 1
+
+puts "Enter a file name to count: "
+name = gets
+system("wc -c #{name}")
+```
 
 Now when we run it, we get caught red-handed:
 
-|     | $ ruby taint.rb                                                                 |
-| --- | ------------------------------------------------------------------------------- |
-|     | Enter a file name to count:                                                     |
-|     | test.dat; rm -rf /                                                              |
-|     | code/safety/taint.rb:5:in `system': Insecure operation - system (SecurityError) |
-|     | from code/safety/taint.rb:5:in `main                                            |
+```bash
+$ ruby taint.rb
+Enter a file name to count:
+test.dat; rm -rf /
+code/safety/taint.rb:5:in `system': Insecure operation - system (SecurityError)
+  from code/safety/taint.rb:5:in `main
+```
 
 Unauthenticated services are an attack vector
 
@@ -10288,9 +10654,10 @@ level, where
 well-known exploits target debugging and administrative facilities.
 Once cracked, the entire machine is left exposed.]
 
-| Tip 72 | Keep It Simple and Minimize Attack Surfaces |
+> [!TIP]
+> **Tip 72: Keep It Simple and Minimize Attack Surfaces**
 
-#### Principle of Least Privilege
+## Principle of Least Privilege
 
 Another key principle is to use the _least_ amount of privilege for the _shortest_ time you can get away with. In other words, don’t automatically grab the highest permission level, such as root or Administrator. If that high level _is_ needed, take it, do the minimum amount of work, and relinquish your permission quickly to reduce the risk. This principle dates back to the early 1970s:
 
@@ -10307,7 +10674,7 @@ certain of those categories.
 
 This technique follows the same sort of idea as minimizing surface area—reducing the scope of attack vectors, both by time and by privilege level. In this case, less is indeed more.
 
-#### Secure Defaults
+## Secure Defaults
 
 The default settings on your app, or for your users on your site, should
 be the _most_ secure values. These might not be the most user-friendly
@@ -10322,7 +10689,7 @@ want to see the password spelled out, perhaps for accessibility. If
 there’s little risk someone is looking over their shoulder, that’s a
 reasonable choice for them.
 
-#### Encrypt Sensitive Data
+## Encrypt Sensitive Data
 
 Don’t leave personally identifiable information, financial data, passwords, or other credentials in plain text, whether in a database or some other external file. If the data gets exposed, encryption offers an additional level of safety.
 
@@ -10349,17 +10716,18 @@ Strict password policies will actually _lower_ your security. Here’s a short l
 
 You want to encourage long, random passwords with a high degree of entropy. Putting artificial constraints limits entropy and encourages bad password habits, leaving your user’s accounts vulnerable to takeover.
 
-#### Maintain Security Updates
+## Maintain Security Updates
 
 Updating computer systems can be a huge pain. You need that security patch, but as a side effect it breaks some portion of your application. You could decide to wait, and defer the update until later. That’s a terrible idea, because now your system is vulnerable to a known exploit.
 
-| Tip 73 | Apply Security Patches Quickly |
+> [!TIP]
+> **Tip 73: Apply Security Patches Quickly**
 
 This tip affects every net-connected device, including phones, cars, appliances, personal laptops, developer machines, build machines, production servers, and cloud images. Everything. And if you think that this doesn’t really matter, just remember that the largest data breaches in history (so far) were caused by systems that were behind on their updates.
 
 Don’t let it happen to you.
 
-### Common Sense vs. Crypto
+## Common Sense vs. Crypto
 
 It’s important to keep in mind that common sense may fail you when it
 comes to matters of cryptography. The first and most important rule when
@@ -10393,7 +10761,7 @@ systems secure, and they’re better at it than you are.
 
 Stay safe out there.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 23, _Design by Contract_
 - Topic 24, _Dead Programs Tell No Lies_
@@ -10401,7 +10769,9 @@ Stay safe out there.
 - Topic 38, _Programming by Coincidence_
 - Topic 45, _The Requirements Pit_
 
-| Topic 44 | Naming Things |
+---
+
+### Topic 44: Naming Things
 
 The beginning of wisdom is to call things by their proper name.
 
@@ -10450,9 +10820,9 @@ make sure the names we use live up to this.
 
 Let’s look at a couple of examples:
 
-- We’re authenticating people who access our site that sells jewelry made from old graphics cards: | | let user = authenticate(credentials) | The variable is user because it’s _always_ user. But why? It means nothing. How about customer, or buyer? That way we get constant reminders as we code of what this person is trying to do, and what that means to us.
-- We have an instance method that discounts an order: | | public void deductPercent(double amount) | | --- | --- | | | // ... | Two things here. First, deductPercent is _what it does_ and not _why it does it_. Then the name of the parameter amount is at best misleading: is it an absolute amount, a percentage? Perhaps this would be better: | | public void applyDiscount(Percentage discount) | | --- | --- | | | // ... | The method name now makes its intent clear. We’ve also changed the parameter from a double to a Percentage, a type we’ve defined. We don’t know about you, but when dealing with percentages we never know if the value is supposed to be between 0 and 100 or 0.0 and 1.0. Using a type documents what the function expects.
-- We have a module that does interesting things with Fibonacci numbers. One of those things is to calculate the `n-th` number in the sequence. Stop and think what you’d call this function. Most people we ask would call it fib. Seems reasonable, but remember it will normally be called in the context of its module, so the call would be Fib.fib(n). How about calling it of or nth instead: | | Fib.of(0) # => 0 | | --- | --- | | | Fib.nth(20) # => 4181 |
+- We’re authenticating people who access our site that sells jewelry made from old graphics cards: `javascript let user = authenticate(credentials) ` The variable is user because it’s _always_ user. But why? It means nothing. How about customer, or buyer? That way we get constant reminders as we code of what this person is trying to do, and what that means to us.
+- We have an instance method that discounts an order: `text public void deductPercent(double amount)     // ... ` Two things here. First, deductPercent is _what it does_ and not _why it does it_. Then the name of the parameter amount is at best misleading: is it an absolute amount, a percentage? Perhaps this would be better: `text public void applyDiscount(Percentage discount)   // ... ` The method name now makes its intent clear. We’ve also changed the parameter from a double to a Percentage, a type we’ve defined. We don’t know about you, but when dealing with percentages we never know if the value is supposed to be between 0 and 100 or 0.0 and 1.0. Using a type documents what the function expects.
+- We have a module that does interesting things with Fibonacci numbers. One of those things is to calculate the `n-th` number in the sequence. Stop and think what you’d call this function. Most people we ask would call it fib. Seems reasonable, but remember it will normally be called in the context of its module, so the call would be Fib.fib(n). How about calling it of or nth instead: `javascript Fib.of(0)    # => 0 Fib.nth(20)  # => 4181 `
 
 When naming things, you’re constantly looking for ways of clarifying
 what you mean, and that act of clarification will lead you to a better
@@ -10470,7 +10840,7 @@ superheroes, cute mammals, _Lord of the Rings_ characters, you name it.
 
 Literally.
 
-### Honor the Culture
+## Honor the Culture
 
 Most introductory computer texts will admonish you never to use single letter variables such as i, j, or k. [Do you know why i is commonly used as a loop variable? The
 answer comes from over 60 years ago, when variables starting with
@@ -10481,9 +10851,10 @@ We think they’re wrong. Sort of.
 
 In fact, it depends on the culture of that particular programming language or environment. In the C programming language, i, j, and k are traditionally used as loop increment variables, s is used for a character string, and so on. If you program in that environment, that’s what you are used to seeing and it would be jarring (and hence wrong) to violate that norm. On the other hand, using that convention in a different environment where it’s _not_ expected is just as wrong. You’d never do something heinous like this Clojure example which assigns a string to variable i:
 
-|     | (let [i "Hello World"] |
-| --- | ---------------------- |
-|     | (println i))           |
+```javascript
+(let [i "Hello World"]
+        (println i))
+```
 
 Some language communities prefer camelCase, with embedded capital
 letters, while others prefer snake_case with embedded underscores to
@@ -10494,7 +10865,7 @@ Some languages allow a subset of Unicode in names. Get a sense of what
 the community expects before going all cute with names like ɹǝsn or
 εξέρχεται.
 
-### Consistency
+## Consistency
 
 Emerson is famous for writing “A foolish consistency is the hobgoblin of
 little minds…,” but Emerson wasn’t on a team of programmers.
@@ -10518,7 +10889,7 @@ everyone gets comfortable with the vocabulary, you’ll be able to use the
 jargon as a shorthand, expressing a lot of meaning accurately and
 concisely. (This is exactly what a _pattern language_ is.)
 
-### Renaming Is Even Harder
+## Renaming Is Even Harder
 
 No matter how much effort you put in up front, things change. Code is refactored, usage shifts, meaning becomes subtly altered. If you aren’t vigilant about updating names as you go, you can quickly descend into a nightmare much worse than meaningless names: _misleading_ names. Have
 you ever had someone explain inconsistencies in code such as,
@@ -10526,20 +10897,21 @@ you ever had someone explain inconsistencies in code such as,
 
 As we discuss in Topic 3, _Software Entropy_, when you spot a problem, fix it—right here and now. When you see a name that no longer expresses the intent, or is misleading or confusing, fix it. You’ve got full regression tests, so you’ll spot any instances you may have missed.
 
-| Tip 74 | Name Well; Rename When Needed |
+> [!TIP]
+> **Tip 74: Name Well; Rename When Needed**
 
 If for some reason you can’t change the now-wrong name, then you’ve got a bigger problem: an ETC violation (see Topic 8, _The Essence of Good Design_). Fix that first, then change the offending name. Make renaming easy, and do it often.
 
 Otherwise you’ll have to explain to the new folks on the team that
 getData really writes data to a file, and you’ll have to do it with a straight face.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 3, _Software Entropy_
 - Topic 40, _Refactoring_
 - Topic 45, _The Requirements Pit_
 
-### Challenges
+#### Challenges
 
 - When you find a function or method with an overly generic name, try and rename it to express all the things it really does. Now it’s an easier target for refactoring.
 - In our examples, we suggested using more specific names such as _buyer_ instead of the more traditional and generic _user._ What other names do you habitually use that could be better?
@@ -10548,9 +10920,7 @@ getData really writes data to a file, and you’ll have to do it with a straight
 
 Copyright © 2020 Pearson Education, Inc.
 
-# Chapter
-
-8Before the Project
+## Chapter 8: Before the Project
 
 At the very beginning of a project, you and the team need to learn the
 requirements. Simply being told what to do or
@@ -10570,7 +10940,9 @@ With these critical issues sorted out _before_ the project gets under
 way, you can be better positioned to avoid “analysis paralysis” and
 actually begin—and complete—your successful project.
 
-| Topic 45 | The Requirements Pit |
+---
+
+### Topic 45: The Requirements Pit
 
 Perfection is achieved, not when there is nothing left to add
 but when there is nothing left to take away...
@@ -10590,9 +10962,10 @@ surface. Normally, they’re buried deep beneath layers of assumptions,
 misconceptions, and politics. Even worse, often they don’t really exist
 at all.
 
-| Tip 75 | No One Knows Exactly What They Want |
+> [!TIP]
+> **Tip 75: No One Knows Exactly What They Want**
 
-### The Requirements Myth
+## The Requirements Myth
 
 In the early days of software, computers were more valuable (in terms of
 amortized cost per hour) than the people who worked with them. We saved
@@ -10617,9 +10990,10 @@ That’s where we programmers come in. Our job is to help people
 understand what they want. In fact, that’s probably our most valuable
 attribute. And it’s worth repeating:
 
-| Tip 76 | Programmers Help People Understand What They Want |
+> [!TIP]
+> **Tip 76: Programmers Help People Understand What They Want**
 
-### Programming as Therapy
+## Programming as Therapy
 
 Let’s call the people who ask us to write software our clients.
 
@@ -10706,7 +11080,7 @@ an intellectual process and a creative one: you’re thinking on your feet
 and you’re contributing to a solution that is likely to be better than
 one that either you or the client would have produced alone.
 
-### Requirements Are a Process
+## Requirements Are a Process
 
 In the previous example, the developer took the requirements and
 fed-back a consequence to the client. This initiated the exploration.
@@ -10714,7 +11088,8 @@ During that exploration, you are likely to come up with more feedback as
 the client plays with different solutions. This is the reality of all
 requirements gathering:
 
-| Tip 77 | Requirements Are Learned in a Feedback Loop |
+> [!TIP]
+> **Tip 77: Requirements Are Learned in a Feedback Loop**
 
 Your job is to help the client understand the consequences of their
 stated requirements. You do that by generating feedback, and letting
@@ -10746,7 +11121,7 @@ ones that end with direct client feedback. This keeps us on track, and
 makes sure that if we _do_ go in the wrong direction, the amount of time
 lost is minimized.
 
-### Walk in Your Client’s Shoes
+## Walk in Your Client’s Shoes
 
 There’s a simple technique for getting inside your clients’ heads
 that isn’t used often enough: become a client. Are you writing a system
@@ -10766,14 +11141,15 @@ be amazed at how the request “May I sit in for a week while you do
 your job?’’ helps build trust and establishes a basis for
 communication with your clients. Just remember not to get in the way!
 
-| Tip 78 | Work with a User to Think Like a User |
+> [!TIP]
+> **Tip 78: Work with a User to Think Like a User**
 
 Gathering feedback is also the time to start to
 build a rapport with your client base, learning their expectations and
 hopes for the system you are building. See
 Topic 52, _Delight Your Users_, for more.
 
-### Requirements vs. Policy
+## Requirements vs. Policy
 
 Let’s imagine that while discussing a Human Resources system, a
 client says “Only an employee’s supervisors and the personnel
@@ -10795,12 +11171,13 @@ support metadata.
 
 In fact, there’s a general rule here:
 
-| Tip 79 | Policy Is Metadata |
+> [!TIP]
+> **Tip 79: Policy Is Metadata**
 
 Implement the general case, with the policy information as an example
 of the type of thing the system needs to support.
 
-### Requirements vs. Reality
+## Requirements vs. Reality
 
 In a January 1999 _Wired_
 magazine article, [https://www.wired.com/1999/01/eno/] producer and musician
@@ -10827,7 +11204,7 @@ takes this into account. And this is why early feedback, with prototypes
 or tracer bullets, will let your clients say “yes, it does _what_ I
 want, but not _how_ I want.”
 
-### Documenting Requirements
+## Documenting Requirements
 
 We believe that the best requirements documentation, perhaps the _only_
 requirements documentation, is working code.
@@ -10838,7 +11215,7 @@ documents are not a deliverable: they are not something that you give to
 a client to sign off on. Instead, they are simply mileposts to help
 guide the implementation process.
 
-#### Requirements Documents Are Not for Clients
+## Requirements Documents Are Not for Clients
 
 In the past, both Andy and Dave have been on projects that produced
 incredibly detailed requirements. These substantial documents expanded
@@ -10874,7 +11251,7 @@ This isn’t putting the client down. But giving them a large technical
 document is like giving the average developer a copy of the _Iliad_ in
 Homeric Greek and asking them to code the video game from it.
 
-#### Requirements Documents Are for Planning
+## Requirements Documents Are for Planning
 
 So we don’t believe in the monolithic, heavy-enough-to-stun-an-ox,
 requirements document. We do, however, know that requirements have to be
@@ -10896,7 +11273,7 @@ short, you’re encouraging developers to ask clarifying questions. You’re
 enhancing the feedback process between clients and coders before and
 during the creation of each piece of code.
 
-### Overspecification
+## Overspecification
 
 Another big danger in producing a requirements document is being too
 specific. Good requirements are abstract. Where
@@ -10909,7 +11286,7 @@ policy.
 Requirements are not architecture. Requirements are not design, nor
 are they the user interface. Requirements are _need_.
 
-### Just One More Wafer-Thin Mint…
+## Just One More Wafer-Thin Mint…
 
 Many project failures are blamed on an increase in scope—also known as
 feature bloat, creeping featurism, or requirements creep. This is an
@@ -10922,7 +11299,7 @@ of “just one more feature.” They’ll see another story card go up on the
 board, and they’ll get to help choose another card to move into the next
 iteration to make room. Feedback works both ways.
 
-### Maintain a Glossary
+## Maintain a Glossary
 
 As soon as you start discussing requirements, users and domain
 experts will use certain terms that have specific meaning to them.
@@ -10937,13 +11314,14 @@ use the glossary to ensure consistency. This implies that the glossary
 needs to be widely accessible—a good argument for online
 documentation.
 
-| Tip 80 | Use a Project Glossary |
+> [!TIP]
+> **Tip 80: Use a Project Glossary**
 
 It’s hard to succeed on a project if users and developers
 call the same thing by different names or, even worse, refer to
 different things by the same name.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 5, _Good-Enough Software_
 - Topic 7, _Communicate!_
@@ -10955,7 +11333,7 @@ different things by the same name.
 - Topic 46, _Solving Impossible Puzzles_
 - Topic 52, _Delight Your Users_
 
-### Exercises
+#### Exercises
 
 **Exercise 33** (possible answer)
 
@@ -10968,12 +11346,14 @@ that are not to make them more useful (if possible).
 4. If a user enters non-numeric characters in a numeric field, the system will flash the field background and not accept them.
 5. The code and data for this embedded application must fit within 32Mb.
 
-### Challenges
+#### Challenges
 
 - Can you use the software you are writing? Is it possible to have a good feel for requirements _without_ being able to use the software yourself?
 - Pick a non-computer-related problem you currently need to solve. Generate requirements for a noncomputer solution.
 
-| Topic 46 | Solving Impossible Puzzles |
+---
+
+### Topic 46: Solving Impossible Puzzles
 
 Gordius, the King of Phrygia, once tied a knot that no
 one could untie. It was said that whoever solved the riddle of the
@@ -11011,7 +11391,7 @@ On the other hand, as Alexander proved, some apparent constraints may
 not be real constraints at all. Many software problems can be just as
 sneaky.
 
-### Degrees of Freedom
+## Degrees of Freedom
 
 The popular buzz-phrase “thinking outside the box”
 encourages us to recognize constraints that might not be applicable
@@ -11040,7 +11420,8 @@ not they are real, hard-and-fast constraints.
 It’s not whether you think inside the box or outside the box. The
 problem lies in _finding_ the box—identifying the real constraints.
 
-| Tip 81 | Don’t Think Outside the Box—Find the Box |
+> [!TIP]
+> **Tip 81: Don’t Think Outside the Box—Find the Box**
 
 When faced with an intractable problem, enumerate _all_ the
 possible avenues you have before you. Don’t dismiss anything, no
@@ -11062,7 +11443,7 @@ constraints within them.
 By the way, a solution to the Four Posts puzzle is shown
 at the end of the book.
 
-### Get Out of Your Own Way!
+## Get Out of Your Own Way!
 
 Sometimes you will find yourself working on a problem that seems much
 harder than you thought it should be. Maybe it feels like you’re
@@ -11100,7 +11481,7 @@ Have them ask you questions such as:
 
 This is another example of Rubber Ducking in practice.
 
-### Fortune Favors the Prepared Mind
+## Fortune Favors the Prepared Mind
 
 Louis Pasteur is reported to have said:
 
@@ -11119,19 +11500,21 @@ to do that using an Engineering Daybook (Topic 22, _Engineering Daybooks_).
 And always remember the advice on the cover of _The Hitchhiker’s Guide to
 the Galaxy_: DON’T PANIC.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 5, _Good-Enough Software_
 - Topic 37, _Listen to Your Lizard Brain_
 - Topic 45, _The Requirements Pit_
 - Andy wrote an entire book about this kind of thing: _Pragmatic Thinking and Learning: Refactor Your Wetware_ [Hun08].
 
-### Challenges
+#### Challenges
 
 - Take a hard look at whatever difficult problem you are embroiled in today. Can you cut the Gordian knot? Do you have to do it this way? Do you have to do it at all?
 - Were you handed a set of constraints when you signed on to your current project? Are they all still applicable, and is the interpretation of them still valid?
 
-| Topic 47 | Working Together |
+---
+
+### Topic 47: Working Together
 
 I’ve never met a human being who would want to read 17,000 pages of documentation, and if there was, I’d kill him to get him out of the gene pool.
 
@@ -11157,7 +11540,7 @@ Studies also offer support for the reverse principle: you can deliberately struc
 
 But most importantly, development teams that include users will produce software that clearly reflects that involvement, and teams that don’t bother will reflect that, too.
 
-### Pair Programming
+## Pair Programming
 
 _Pair programming_ is one of the practices of eXtreme Programming that has become popular outside of XP itself. In pair programming, one developer operates the keyboard, and the other does not. Both work on the problem together, and can switch typing duties as needed.
 
@@ -11165,7 +11548,7 @@ There are many benefits to pair programming. Different people bring different ba
 
 The inherent peer-pressure of a second person helps against moments of weakness and bad habits of naming variables foo and such. You’re less inclined to take a potentially embarrassing shortcut when someone is actively watching, which also results in higher-quality software.
 
-### Mob Programming
+## Mob Programming
 
 And if two heads are better than one, what about having a dozen diverse people all working on the same problem at the same time, with one typist?
 
@@ -11173,7 +11556,7 @@ _Mob programming_, despite the name, does not involve torches or pitchforks. It�
 
 You might think of mob programming as _tight collaboration with live coding._
 
-### What Should I Do?
+## What Should I Do?
 
 If you’re currently only programming solo, maybe try pair programming. Give it a minimum of two weeks, only a few hours at a time, as it will feel strange at first. To brainstorm new ideas or diagnose thorny issues, perhaps try a mob programming session.
 
@@ -11193,9 +11576,12 @@ Do some reading and research, from both textbook and experience reports, and get
 
 But however you go about it, let us suggest one final piece of advice:
 
-| Tip 82 | Don’t Go into the Code Alone |
+> [!TIP]
+> **Tip 82: Don’t Go into the Code Alone**
 
-| Topic 48 | The Essence of Agility |
+---
+
+### Topic 48: The Essence of Agility
 
 You keep using that word, I do not think it means what you think it means.
 
@@ -11206,7 +11592,8 @@ developer. You can be on a team that adopts agile practices, a team that
 responds to change and setbacks with agility. Agility is your style, not
 you.
 
-| Tip 83 | Agile Is Not a Noun; Agile Is How You Do Things |
+> [!TIP]
+> **Tip 83: Agile Is Not a Noun; Agile Is How You Do Things**
 
 As we write this, almost 20 years after the inception of the Manifesto
 for Agile Software Development, [https://agilemanifesto.org] we see many, many developers
@@ -11247,7 +11634,7 @@ statement. The values are motivated and informed by the continuous act
 of uncovering better ways to produce software. This is not a static
 document. It’s suggestions for a generative process.
 
-### There Can Never Be an Agile Process
+## There Can Never Be an Agile Process
 
 In fact, whenever someone says “do this, and you’ll be agile,” they are
 wrong. By definition.
@@ -11272,7 +11659,7 @@ customer, the outside world; an incredibly large number of factors, some
 major and some trivial. No fixed, static plan can survive this
 uncertainty.
 
-### So What Do We Do?
+## So What Do We Do?
 
 No one can tell you _what_ to do. But we think we can tell you something
 about the spirit with which you do it. It all boils down to how you deal
@@ -11297,18 +11684,24 @@ you gather feedback.
 
 “Now my code needs to get the account owner.
 
-| | let user = accountOwner(accountID); |
+```javascript
+let user = accountOwner(accountID);
+```
 
 Hmmm… user is a useless name. I’ll make it owner.
 
-| | let owner = accountOwner(accountID); |
+```javascript
+let owner = accountOwner(accountID);
+```
 
 But now that feels a little redundant. What am I actually trying to do
 here? The story says that I’m sending this person an email, so I need to
 find their email address. Maybe I don’t need the whole account owner at
 all.
 
-| | let email = emailOfAccountOwner(accountID); |
+```javascript
+let email = emailOfAccountOwner(accountID);
+```
 
 By applying the feedback loop at a really low level (the naming of a
 variable) we’ve actually improved the design of the overall system,
@@ -11325,7 +11718,7 @@ apply it to review their process and how well it worked. A team that
 doesn’t continuously experiment with their process is not an agile
 team.
 
-### And This Drives Design
+## And This Drives Design
 
 In Topic 8, _The Essence of Good Design_ we assert that the measure of design is
 how easy the result of that design is to change: a good design produces something
@@ -11344,13 +11737,13 @@ at every level, without any hesitation.
 
 That is agility.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 27, _Don’t Outrun Your Headlights_
 - Topic 40, _Refactoring_
 - Topic 50, _Coconuts Don’t Cut It_
 
-### Challenges
+#### Challenges
 
 The simple feedback loop isn’t just for software. Think of other
 decisions you’ve made recently. Could any of them have been improved by
@@ -11360,9 +11753,7 @@ improve what you do by gathering and acting on feedback?
 
 Copyright © 2020 Pearson Education, Inc.
 
-# Chapter
-
-9Pragmatic Projects
+## Chapter 9: Pragmatic Projects
 
 As your project gets under way, we need to move away from issues of
 individual philosophy and coding to talk about larger, project-sized
@@ -11385,7 +11776,9 @@ The last tip in the book is a direct consequence of all the rest. In
 Topic 53, _Pride and Prejudice_, we ask you to sign your work,
 and to take pride in what you do.
 
-| Topic 49 | Pragmatic Teams |
+---
+
+### Topic 49: Pragmatic Teams
 
 At Group L, Stoffel oversees six first-rate programmers, a
 managerial challenge roughly comparable to herding cats.
@@ -11407,7 +11800,8 @@ and becomes ineffective.] Teams where members are constantly being pulled onto o
 
 A pragmatic team is small, under 10-12 or so members. Members come and go rarely. Everyone knows everyone well, trusts each other, and depends on each other.
 
-| Tip 84 | Maintain Small, Stable Teams |
+> [!TIP]
+> **Tip 84: Maintain Small, Stable Teams**
 
 In this section we’ll look briefly at how pragmatic techniques can be
 applied to teams as a whole. These notes are only a start.
@@ -11417,7 +11811,7 @@ dynamics that work for them.
 
 Let’s recast some of the previous sections in terms of teams.
 
-### No Broken Windows
+## No Broken Windows
 
 Quality is a team issue. The most diligent developer placed on a team
 that just doesn’t care will find it difficult to maintain the
@@ -11438,7 +11832,7 @@ deliverable. This is clearly ridiculous: quality can come only from
 the individual contributions of _all_ team members. Quality is built in,
 not bolted on.
 
-### Boiled Frogs
+## Boiled Frogs
 
 Remember the apocryphal frog in the pan of water, back in
 Topic 4, _Stone Soup and Boiled Frogs_? It doesn’t notice the gradual change in its
@@ -11460,7 +11854,7 @@ The team needn’t reject changes out of hand—you
 simply need to be aware that they’re happening. Otherwise, it’ll be
 _you_ in the hot water.
 
-### Schedule Your Knowledge Portfolio
+## Schedule Your Knowledge Portfolio
 
 In Topic 6, _Your Knowledge Portfolio_ we looked at ways you should invest in your personal Knowledge Portfolio on your own time. Teams that want to succeed need to consider their knowledge and skill investments as well.
 
@@ -11482,9 +11876,10 @@ Learning and skill improvements
 
 Personal learning and improvements are a great start, but many skills are more effective when spread team-wide. Plan to do it, whether it’s the informal brown-bag lunch or more formal training sessions.
 
-| Tip 85 | Schedule It to Make It Happen |
+> [!TIP]
+> **Tip 85: Schedule It to Make It Happen**
 
-### Communicate Team Presence
+## Communicate Team Presence
 
 It’s obvious that developers in a team must talk to each other. We
 gave some suggestions to facilitate this in
@@ -11516,7 +11911,7 @@ team’s name liberally when talking with people. It sounds silly, but
 it gives your team an identity to build on, and the world something
 memorable to associate with your work.
 
-### Don’t Repeat Yourselves
+## Don’t Repeat Yourselves
 
 In Topic 9, _DRY—The Evils of Duplication_, we talked about the difficulties of eliminating
 duplicated work between members of a team. This duplication leads to
@@ -11530,7 +11925,7 @@ If you have to wait a week for the team meeting to ask your question or share yo
 
 Maintain awareness to stay DRY.
 
-### Team Tracer Bullets
+## Team Tracer Bullets
 
 A project team has to accomplish many different tasks in different areas of the project, touching a lot of different technologies. Understanding requirements,
 designing architecture, coding for frontend and server, testing, all have to happen. But it’s a common misconception that these activities and tasks can happen separately, in isolation. They can’t.
@@ -11545,11 +11940,12 @@ will not be able to make informed decisions.
 
 With Topic 12, _Tracer Bullets_, we recommend developing individual features, however small and limited initially, that go end-to-end through the entire system. That means that you need all the skills to do that within the team: frontend, UI/UX, server, DBA, QA, etc., all comfortable and accustomed to working with each other. With a tracer bullet approach, you can implement very small bits of functionality very quickly, and get immediate feedback on how well your team communicates and delivers. That creates an environment where you can make changes and tune your team and process quickly and easily.
 
-| Tip 86 | Organize Fully Functional Teams |
+> [!TIP]
+> **Tip 86: Organize Fully Functional Teams**
 
 Build teams so you can build code end-to-end, incrementally and iteratively.
 
-### Automation
+## Automation
 
 A great way to ensure both consistency and accuracy is to automate
 everything the team does.
@@ -11562,7 +11958,7 @@ Make sure the team has skills at _tool building_
 to construct and deploy
 the tools that automate the project development and production deployment.
 
-### Know When to Stop Adding Paint
+## Know When to Stop Adding Paint
 
 Remember that teams are made up of individuals. Give each member the
 ability to shine in their own way. Give them just enough
@@ -11571,7 +11967,7 @@ value. Then, like the painter in
 Topic 5, _Good-Enough Software_, resist the temptation to
 add more paint.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 2, _The Cat Ate My Source Code_
 - Topic 7, _Communicate!_
@@ -11580,14 +11976,16 @@ add more paint.
 - Topic 50, _Coconuts Don’t Cut It_
 - Topic 51, _Pragmatic Starter Kit_
 
-### Challenges
+#### Challenges
 
 - Look around for successful teams outside the area of software development. What makes them successful? Do they use any of the processes discussed in this section?
 - Next time you start a project, try convincing people to brand it. Give your organization time to become used to the idea, and then do a quick audit to see what difference it made, both within the team and externally.
 - You were probably once given problems such as “If it takes 4 workers 6 hours to dig a ditch, how long would it take 8 workers?” In real life, however, what factors affect the answer if the workers were writing code instead? In how many scenarios is the time actually reduced?
 - Read _The Mythical Man Month_ [Bro96] by Frederick Brooks. For extra credit, buy two copies so you can read it twice as fast.
 
-| Topic 50 | Coconuts Don’t Cut It |
+---
+
+### Topic 50: Coconuts Don’t Cut It
 
 The native islanders had never seen an airplane before, or met people
 such as these strangers. In return for use of their land, the strangers
@@ -11616,7 +12014,7 @@ only, as if “stand up” or “iteration” were some sort of incantation for
 the superstitious. Unsurprisingly, they, too, failed to attract the real
 magic.
 
-### Context Matters
+## Context Matters
 
 Have you or your team fallen in this trap? Ask yourself, why are you
 even using that particular development method? Or that framework? Or
@@ -11634,7 +12032,8 @@ base and requirements?
 
 Don’t fall for it. Particular artifacts, superficial structures, policies, processes, and methods are not enough.
 
-| Tip 87 | Do What Works, Not What’s Fashionable |
+> [!TIP]
+> **Tip 87: Do What Works, Not What’s Fashionable**
 
 How do you know “what works”? You rely on that most fundamental of Pragmatic techniques:
 
@@ -11644,7 +12043,7 @@ Pilot the idea with a small team or set of teams. Keep the good bits that seem t
 
 _That’s_ the actual secret to their success.
 
-### One Size Fits No One Well
+## One Size Fits No One Well
 
 The purpose of a software development methodology is to help people work together. As we discuss in Topic 48, _The Essence of Agility_, there is no single plan you can follow when you develop software, especially not a plan that someone _else_ came up with at another company.
 
@@ -11660,7 +12059,7 @@ We frequently hear software development leaders tell their staff, “We should o
 
 First, get yourself a few hundred thousand servers and tens of millions of users...
 
-### The Real Goal
+## The Real Goal
 
 The goal of course isn’t to “do Scrum,” “do agile,” “do Lean,” or what-have-you. The goal is to be in a position to deliver working software that gives the users some new capability _at a moment’s notice._ Not weeks, months, or years from now, but _now_. For many teams and organizations, continuous delivery feels like a lofty, unattainable goal, especially if you’re saddled with a process that restricts delivery to months, or even weeks. But as with any goal, the key is to keep aiming in the right direction.
 
@@ -11670,7 +12069,8 @@ A line graph tracking delivery durations across multiple service entities. The c
 
 If you’re delivering in years, try and shorten the cycle to months. From months, cut it down to weeks. From a four-week sprint, try two. From a two week sprint, try one. Then daily. Then, finally, on demand. Note that being able to deliver on demand does not mean you are forced to deliver every minute of every day. You deliver when the users need it, when it makes business sense to do so.
 
-| Tip 88 | Deliver When Users Need It |
+> [!TIP]
+> **Tip 88: Deliver When Users Need It**
 
 In order to move to this style of continuous development, you need a rock-solid infrastructure, which we discuss in the next topic, Topic 51, _Pragmatic Starter Kit_. You do development in the main trunk of your version control system, not in branches, and use techniques such as _feature switches_ to roll out test features to users selectively.
 
@@ -11680,7 +12080,7 @@ But don’t take our word for it, investigate and try these approaches for yours
 
 Might as well be using coconuts.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 12, _Tracer Bullets_
 - Topic 27, _Don’t Outrun Your Headlights_
@@ -11688,7 +12088,9 @@ Might as well be using coconuts.
 - Topic 49, _Pragmatic Teams_
 - Topic 51, _Pragmatic Starter Kit_
 
-| Topic 51 | Pragmatic Starter Kit |
+---
+
+### Topic 51: Pragmatic Starter Kit
 
 Civilization advances by extending the number of
 important operations we can perform without thinking.
@@ -11721,7 +12123,7 @@ After we wrote the first edition of _The Pragmatic Programmer,_ we wanted to cre
 
 These are the three legs that support every project. Here’s how.
 
-### Drive with Version Control
+## Drive with Version Control
 
 As we said in Topic 19, _Version Control_, you want to keep everything needed to build your project under version control. That idea becomes even more important in the context of the project itself.
 
@@ -11729,17 +12131,19 @@ First, it allows build machines to be ephemeral. Instead of one hallowed, creaky
 
 And that’s the important part: at the project level, version control _drives_ the build and release process.
 
-| Tip 89 | Use Version Control to Drive Builds, Tests, and Releases |
+> [!TIP]
+> **Tip 89: Use Version Control to Drive Builds, Tests, and Releases**
 
 That is, build, test, and deployment are triggered via commits or pushes to version control, and built in a container in the cloud. Release to staging or production is specified by using a tag in your version control system. Releases then become a much more low-ceremony part of every day life—true continuous delivery, not tied to any one build machine or developer’s machine.
 
-### Ruthless and Continuous Testing
+## Ruthless and Continuous Testing
 
 Many developers test gently, subconsciously knowing where the code will break and avoiding the weak spots. Pragmatic Programmers are different. We are _driven_ to find our bugs _now_, so we don’t have to endure the shame of others finding our bugs later.
 
 Finding bugs is somewhat like fishing with a net. We use fine, small nets (unit tests) to catch the minnows, and big, coarse nets (integration tests) to catch the killer sharks. Sometimes the fish manage to escape, so we patch any holes that we find, in hopes of catching more and more slippery defects that are swimming about in our project pool.
 
-| Tip 90 | Test Early, Test Often, Test Automatically |
+> [!TIP]
+> **Tip 90: Test Early, Test Often, Test Automatically**
 
 We want to start testing as soon as we have code. Those tiny minnows
 have a nasty habit of becoming giant, man-eating sharks pretty fast,
@@ -11754,7 +12158,8 @@ defects.
 Additionally, knowing that you’ve passed the test gives you a high
 degree of confidence that a piece of code is “done.’’
 
-| Tip 91 | Coding Ain’t Done ’Til All the Tests Run |
+> [!TIP]
+> **Tip 91: Coding Ain’t Done ’Til All the Tests Run**
 
 The automatic build runs all available tests. It’s important to aim to “test for real,” in other words, the test environment should match the production environment closely. Any gaps are where bugs breed.
 
@@ -11768,7 +12173,7 @@ This list is by no means complete, and some specialized projects will
 require various other types of testing as well. But it gives us a
 good starting point.
 
-#### Unit Testing
+## Unit Testing
 
 A _unit test_ is code that exercises a module. We covered this in Topic 41, _Test to Code_. Unit testing is the
 foundation of all the other forms of testing that we’ll discuss in
@@ -11780,7 +12185,7 @@ Once all of the pertinent modules have passed their individual tests,
 you’re ready for the next stage. You need to test how all the modules
 use and interact with each other throughout the system.
 
-#### Integration Testing
+## Integration Testing
 
 _Integration testing_ shows that the major subsystems that make
 up the project work and play well with each other. With good
@@ -11793,7 +12198,7 @@ Integration testing is really just an extension of the unit testing
 we’ve described—you’re just testing how entire subsystems honor
 their contracts.
 
-#### Validation and Verification
+## Validation and Verification
 
 As soon as you have an executable user interface or prototype, you need to
 answer an all-important question: the users told you what they wanted,
@@ -11805,7 +12210,7 @@ isn’t very useful. Be conscious of end-user access patterns and how
 they differ from developer test data (for an example, see the story
 about brush strokes here).
 
-#### Performance Testing
+## Performance Testing
 
 Performance or stress testing may be
 important aspects of the project as well.
@@ -11817,7 +12222,7 @@ connections, or transactions per second. Is it scalable?
 For some applications, you may need specialized testing hardware or
 software to simulate the load realistically.
 
-#### Testing the Tests
+## Testing the Tests
 
 Because we can’t write perfect software, it follows that we can’t write
 perfect test software either. We need to test the tests.
@@ -11830,13 +12235,14 @@ After you have written a test to detect a particular bug, _cause_
 the bug deliberately and make sure the test complains. This ensures
 that the test will catch the bug if it happens for real.
 
-| Tip 92 | Use Saboteurs to Test Your Testing |
+> [!TIP]
+> **Tip 92: Use Saboteurs to Test Your Testing**
 
 If you are _really_ serious about testing, take a separate branch of the source tree, introduce bugs on purpose, and verify that the tests will catch them. At a higher level, you can use something like Netflix’s _Chaos Monkey_ [https://netflix.github.io/chaosmonkey] to disrupt (i.e., “kill”) services and test your application’s resilience.
 
 When writing tests, make sure that alarms sound when they should.
 
-#### Testing Thoroughly
+## Testing Thoroughly
 
 Once you are confident that your tests are correct, and are finding
 bugs you create, how do you know if you have tested the code base
@@ -11854,10 +12260,11 @@ that your program may have. States are not equivalent to lines of
 code. For instance, suppose you have a function that takes two
 integers, each of which can be a number from 0 to 999:
 
-|     | int test(int a, int b) { |
-| --- | ------------------------ |
-|     | return a / (a + b);      |
-|     | }                        |
+```text
+int test(int a, int b) {
+  return a / (a + b);
+}
+```
 
 In theory, this three-line function has 1,000,000 logical states,
 999,999 of which will work correctly and one that will not (when a + b
@@ -11866,16 +12273,17 @@ tell you that—you would need to identify all possible states of the
 program. Unfortunately, in general this is a _really hard_ problem.
 Hard as in, “The sun will be a cold hard lump before you can solve it.”
 
-| Tip 93 | Test State Coverage, Not Code Coverage |
+> [!TIP]
+> **Tip 93: Test State Coverage, Not Code Coverage**
 
-#### Property-Based Testing
+## Property-Based Testing
 
 A great way to explore how your code handles unexpected states is to
 have a computer generate those states.
 
 Use _property-based_ testing techniques to generate test data according to the contracts and invariants of the code under test. We cover this topic in detail in Topic 42, _Property-Based Testing_.
 
-### Tightening the Net
+## Tightening the Net
 
 Finally, we’d like to reveal the single most important concept in
 testing. It is an obvious one, and virtually every textbook says to
@@ -11884,7 +12292,8 @@ do it this way. But for some reason, most projects still do not.
 If a bug slips through the net of existing tests, you need to add a
 new test to trap it next time.
 
-| Tip 94 | Find Bugs Once |
+> [!TIP]
+> **Tip 94: Find Bugs Once**
 
 Once a human tester finds a bug, it should be the _last_ time a
 human tester finds that bug.
@@ -11897,7 +12306,7 @@ Because it will happen again. And we just don’t have the time to go
 chasing after bugs that the automated tests could have found for us.
 We have to spend our time writing new code—and new bugs.
 
-### Full Automation
+## Full Automation
 
 As we said at the beginning of this section, modern development relies on scripted, automatic procedures. Whether you use something as simple as shell scripts with rsync and ssh, or full-featured solutions such as Ansible, Puppet, Chef, or Salt, just don’t rely on any manual intervention.
 
@@ -11905,7 +12314,8 @@ Once upon a time, we were at a client site where all the developers were using t
 
 Not surprisingly, every developer’s machine was loaded slightly differently. Subtle differences in the application’s behavior occurred when different developers ran the same code. Bugs would appear on one machine but not on others. Tracking down version differences of any one component usually revealed a surprise.
 
-| Tip 95 | Don’t Use Manual Procedures |
+> [!TIP]
+> **Tip 95: Don’t Use Manual Procedures**
 
 People just aren’t as repeatable as computers are. Nor should we expect them to be. A shell script or program will execute the same instructions, in the same order, time after time. It is under version control itself, so you can examine changes to the build/release procedures over time as well (“but it _used_ to work…”).
 
@@ -11917,7 +12327,7 @@ broken a very large window. [Always remember Topic 3, Software Entropy. Always.]
 
 With these three legs of version control, ruthless testing, and full automation, your project will have the firm foundation you need so you can concentrate on the hard part: delighting users.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 11, _Reversibility_
 - Topic 12, _Tracer Bullets_
@@ -11927,13 +12337,15 @@ With these three legs of version control, ruthless testing, and full automation,
 - Topic 49, _Pragmatic Teams_
 - Topic 50, _Coconuts Don’t Cut It_
 
-### Challenges
+#### Challenges
 
 - Are your nightly or continuous builds automatic, but deploying to production isn’t? Why? What’s special about that server?
 - Can you automatically test your project completely? Many teams are forced to answer “no.” Why? Is it too hard to define the acceptable results? Won’t this make it hard to prove to the sponsors that the project is “done”?
 - Is it too hard to test the application logic independent of the GUI? What does this say about the GUI? About coupling?
 
-| Topic 52 | Delight Your Users |
+---
+
+### Topic 52: Delight Your Users
 
 When you enchant people, your goal is not to make money
 from them or to get them to do what you want, but
@@ -11972,20 +12384,23 @@ And now that you’ve surfaced some of the underlying expectations of value behi
 
 We’ve found that as our knowledge of the domain increases, we’re better able to make suggestions on other things that could be done to address the underlying business issues. We strongly believe that developers, who are exposed to many different aspects of an organization, can often see ways of weaving different parts of the business together that aren’t always obvious to individual departments.
 
-| Tip 96 | Delight Users, Don’t Just Deliver Code |
+> [!TIP]
+> **Tip 96: Delight Users, Don’t Just Deliver Code**
 
 If you want to delight your client, forge a relationship with
 them where you can actively help solve their problems. Even though your title might be some variation of “Software Developer” or “Software Engineer,” in truth it should be “Problem Solver.” That’s what we do, and that’s the essence of a Pragmatic Programmer.
 
 We solve problems.
 
-### Related Sections Include
+## Related Sections Include
 
 - Topic 12, _Tracer Bullets_
 - Topic 13, _Prototypes and Post-it Notes_
 - Topic 45, _The Requirements Pit_
 
-| Topic 53 | Pride and Prejudice |
+---
+
+### Topic 53: Pride and Prejudice
 
 You have delighted us long enough.
 
@@ -11996,7 +12411,8 @@ rejoice in accepting challenges and in making our expertise well known.
 If we are responsible for a design, or a piece of code, we do a job we
 can be proud of.
 
-| Tip 97 | Sign Your Work |
+> [!TIP]
+> **Tip 97: Sign Your Work**
 
 Artisans of an earlier age were proud to sign their
 work. You should be, too.
@@ -12047,9 +12463,7 @@ own responsibility.
 
 Eleanor Roosevelt
 
-# Chapter
-
-10Postface
+## Chapter 10: Postface
 
 In the twenty years leading up to the first edition, we were part of the evolution of the computer from a peripheral curiosity to a modern imperative for businesses. In the twenty years since then, software has grown beyond mere business machines and has truly taken over the world. But what does that really mean for us?
 
@@ -12107,7 +12521,8 @@ truthfully say that you tried to list all the consequences, and made
 sure to protect the users from them, then you bear some responsibility
 when things go bad.
 
-| Tip 98 | First, Do No Harm |
+> [!TIP]
+> **Tip 98: First, Do No Harm**
 
 Second, there’s a judgment related to the Golden Rule: would I be happy
 to be a user of this software? Do I want my details shared? Do I want my
@@ -12119,7 +12534,8 @@ if you’re involved in that project, you are just as responsible as the
 sponsors. No matter how many degrees of separation you might
 rationalize, one rule remains true:
 
-| Tip 99 | Don’t Enable Scumbags |
+> [!TIP]
+> **Tip 99: Don’t Enable Scumbags**
 
 ## Imagine the Future you Want
 
@@ -12135,11 +12551,12 @@ castles in the air every day.
 
 We all have an amazing life.
 
-| Tip 100 | It’s Your Life. Share it. Celebrate it. Build it. AND HAVE FUN! |
+> [!TIP]
+> **Tip 100: It’s Your Life. Share it. Celebrate it. Build it. AND HAVE FUN!**
 
 Copyright © 2020 Pearson Education, Inc.
 
-# Appendix
+## Appendix
 
 1Bibliography
 
@@ -12153,7 +12570,7 @@ answers that can’t be questioned.
 
 Richard Feynman
 
-# Appendix
+## Appendix
 
 2Possible Answers to the Exercises
 
@@ -12196,71 +12613,79 @@ command.
 
 [lang/turtle.c](http://media.pragprog.com/titles/tpp20/code/lang/turtle.c)
 
-|     | typedef struct {                              |
-| --- | --------------------------------------------- |
-|     | char cmd; /* the command letter */            |
-|     | int hasArg; /* does it take an argument */    |
-|     | void (_func)(int, int); /_ routine to call */ |
-|     | } Command;                                    |
-|     |                                               |
-|     | static Command cmds[] = {                     |
-|     | { 'P', ARG, doSelectPen },                    |
-|     | { 'U', NO_ARG, doPenUp },                     |
-|     | { 'D', NO_ARG, doPenDown },                   |
-|     | { 'N', ARG, doPenDir },                       |
-|     | { 'E', ARG, doPenDir },                       |
-|     | { 'S', ARG, doPenDir },                       |
-|     | { 'W', ARG, doPenDir }                        |
-|     | };                                            |
+```c
+// lang/turtle.c
+typedef struct {
+  char  cmd;              /* the command letter */
+  int hasArg;             /* does it take an argument */
+  void (*func)(int, int); /* routine to call */
+} Command;
+
+static Command cmds[] = {
+  { 'P',  ARG,     doSelectPen },
+  { 'U',  NO_ARG,  doPenUp },
+  { 'D',  NO_ARG,  doPenDown },
+  { 'N',  ARG,     doPenDir },
+  { 'E',  ARG,     doPenDir },
+  { 'S',  ARG,     doPenDir },
+  { 'W',  ARG,     doPenDir }
+};
+```
 
 The main program is pretty simple: read a line, look up the command,
 get the argument if required, then call the handler function.
 
 [lang/turtle.c](http://media.pragprog.com/titles/tpp20/code/lang/turtle.c)
 
-|     | while (fgets(buff, sizeof(buff), stdin)) {          |
-| --- | --------------------------------------------------- |
-|     |                                                     |
-|     | Command *cmd = findCommand(*buff);                  |
-|     |                                                     |
-|     | if (cmd) {                                          |
-|     | int arg = 0;                                        |
-|     |                                                     |
-|     | if (cmd->hasArg && !getArg(buff+1, &arg)) {         |
-|     | fprintf(stderr, "'%c' needs an argument\n", *buff); |
-|     | continue;                                           |
-|     | }                                                   |
-|     |                                                     |
-|     | cmd->func(*buff, arg);                              |
-|     | }                                                   |
-|     | }                                                   |
+```c
+// lang/turtle.c
+while (fgets(buff, sizeof(buff), stdin)) {
+
+  Command *cmd = findCommand(*buff);
+
+  if (cmd) {
+    int   arg = 0;
+
+    if (cmd->hasArg && !getArg(buff+1, &arg)) {
+      fprintf(stderr, "'%c' needs an argument\n", *buff);
+      continue;
+    }
+
+    cmd->func(*buff, arg);
+  }
+}
+```
 
 The function that looks up a command performs a linear search of the
 table, returning either the matching entry or NULL.
 
 [lang/turtle.c](http://media.pragprog.com/titles/tpp20/code/lang/turtle.c)
 
-|     | Command *findCommand(int cmd) {                 |
-| --- | ----------------------------------------------- |
-|     | int i;                                          |
-|     |                                                 |
-|     | for (i = 0; i < ARRAY_SIZE(cmds); i++) {        |
-|     | if (cmds[i].cmd == cmd)                         |
-|     | return cmds + i;                                |
-|     | }                                               |
-|     |                                                 |
-|     | fprintf(stderr, "Unknown command '%c'\n", cmd); |
-|     | return 0;                                       |
-|     | }                                               |
+```c
+// lang/turtle.c
+Command *findCommand(int cmd) {
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(cmds); i++) {
+    if (cmds[i].cmd == cmd)
+      return cmds + i;
+  }
+
+  fprintf(stderr, "Unknown command '%c'\n", cmd);
+  return 0;
+}
+```
 
 Finally, reading the numeric argument is pretty simple using sscanf.
 
 [lang/turtle.c](http://media.pragprog.com/titles/tpp20/code/lang/turtle.c)
 
-|     | int getArg(const char *buff, int *result) { |
-| --- | ------------------------------------------- |
-|     | return sscanf(buff, "%d", result) == 1;     |
-|     | }                                           |
+```c
+// lang/turtle.c
+int getArg(const char *buff, int *result) {
+  return sscanf(buff, "%d", result) == 1;
+}
+```
 
 **Answer 5** (from exercise 5)
 
@@ -12300,74 +12725,75 @@ Here’s the parser written using the Pegjs JavaScript library:
 
 [lang/peg_parser/time_parser.pegjs](http://media.pragprog.com/titles/tpp20/code/lang/peg_parser/time_parser.pegjs)
 
-|     | time                                                        |
-| --- | ----------------------------------------------------------- |
-|     | = h:hour offset:ampm { return h + offset }                  |
-|     | / h:hour ":" m:minute offset:ampm { return h + m + offset } |
-|     | / h:hour ":" m:minute { return h + m }                      |
-|     |                                                             |
-|     | ampm                                                        |
-|     | = "am" { return 0 }                                         |
-|     | / "pm" { return 12*60 }                                     |
-|     |                                                             |
-|     | hour                                                        |
-|     | = h:two_hour_digits { return h*60 }                         |
-|     | / h:digit { return h*60 }                                   |
-|     |                                                             |
-|     | minute                                                      |
-|     | = d1:[0-5] d2:[0-9] { return parseInt(d1+d2, 10); }         |
-|     |                                                             |
-|     | digit                                                       |
-|     | = digit:[0-9] { return parseInt(digit, 10); }               |
-|     |                                                             |
-|     | two_hour_digits                                             |
-|     | = d1:[01] d2:[0-9 ] { return parseInt(d1+d2, 10); }         |
-|     | / d1:[2] d2:[0-3] { return parseInt(d1+d2, 10); }           |
+```text
+// lang/peg_parser/time_parser.pegjs
+time
+  = h:hour offset:ampm              { return h + offset }
+  / h:hour ":" m:minute offset:ampm { return h + m + offset }
+  / h:hour ":" m:minute             { return h + m }
+
+ampm
+  = "am" { return 0 }
+  / "pm" { return 12*60 }
+
+hour
+  = h:two_hour_digits { return h*60 }
+  / h:digit           { return h*60 }
+
+minute
+  = d1:[0-5] d2:[0-9] { return parseInt(d1+d2, 10); }
+
+digit
+  = digit:[0-9] { return parseInt(digit, 10); }
+
+two_hour_digits
+  = d1:[01] d2:[0-9 ] { return parseInt(d1+d2, 10); }
+  / d1:[2]  d2:[0-3]  { return parseInt(d1+d2, 10); }
+```
 
 The tests show it in use:
 
 [lang/peg_parser/test_time_parser.js](http://media.pragprog.com/titles/tpp20/code/lang/peg_parser/test_time_parser.js)
 
-|     | let test = require('tape');                    |
-| --- | ---------------------------------------------- |
-|     | let time_parser = require('./time_parser.js'); |
-|     |                                                |
-|     | // time ::= hour ampm                          |             |
-|     | // hour : minute ampm                          |             |
-|     | // hour : minute                               |
-|     | //                                             |
-|     | // ampm ::= am                                 | pm          |
-|     | //                                             |
-|     | // hour ::= digit                              | digit digit |
-|     | //                                             |
-|     | // minute ::= digit digit                      |
-|     | //                                             |
-|     | // digit ::= 0                                 | 1           | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   |
-|     |                                                |
-|     |                                                |
-|     | const h = (val) => val*60;                     |
-|     | const m = (val) => val;                        |
-|     | const am = (val) => val;                       |
-|     | const pm = (val) => val + h(12);               |
-|     |                                                |
-|     | let tests = {                                  |
-|     |                                                |
-|     | "1am": h(1),                                   |
-|     | "1pm": pm(h(1)),                               |
-|     |                                                |
-|     | "2:30": h(2) + m(30),                          |
-|     | "14:30": pm(h(2)) + m(30),                     |
-|     | "2:30pm": pm(h(2)) + m(30),                    |
-|     |                                                |
-|     | }                                              |
-|     |                                                |
-|     | test('time parsing', function (t) {            |
-|     | for (const string in tests) {                  |
-|     | let result = time_parser.parse(string)         |
-|     | t.equal(result, tests[string], string);        |
-|     | }                                              |
-|     | t.end()                                        |
-|     | });                                            |
+```javascript
+// lang/peg_parser/test_time_parser.js
+let test = require("tape");
+let time_parser = require("./time_parser.js");
+
+// time    ::= hour ampm            |
+//             hour : minute ampm   |
+//             hour : minute
+//
+//  ampm   ::= am | pm
+//
+//  hour   ::= digit | digit digit
+//
+//  minute ::= digit digit
+//
+//  digit  ::= 0 |1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+const h = (val) => val * 60;
+const m = (val) => val;
+const am = (val) => val;
+const pm = (val) => val + h(12);
+
+let tests = {
+  "1am": h(1),
+  "1pm": pm(h(1)),
+
+  "2:30": h(2) + m(30),
+  "14:30": pm(h(2)) + m(30),
+  "2:30pm": pm(h(2)) + m(30),
+};
+
+test("time parsing", function (t) {
+  for (const string in tests) {
+    let result = time_parser.parse(string);
+    t.equal(result, tests[string], string);
+  }
+  t.end();
+});
+```
 
 **Answer 8** (from exercise 8)
 
@@ -12375,31 +12801,33 @@ Here’s a possible solution in Ruby:
 
 [lang/re_parser/time_parser.rb](http://media.pragprog.com/titles/tpp20/code/lang/re_parser/time_parser.rb)
 
-|     | TIME_RE = %r{                       |
-| --- | ----------------------------------- |
-|     | (?[0-9]){0}                         |
-|     | (?[0-1]){0}                         |
-|     | (?[0-6]){0}                         |
-|     | (? am                               | pm){0}         |
-|     | (? (\g \g)                          | \g){0}         |
-|     | (? \g \g){0}                        |
-|     |                                     |
-|     | \A(                                 |
-|     | ( \g \g )                           |
-|     |                                     | ( \g : \g \g ) |
-|     |                                     | ( \g : \g )    |
-|     | )\Z                                 |
-|     |                                     |
-|     | }x                                  |
-|     |                                     |
-|     | def parse_time(string)              |
-|     | result = TIME_RE.match(string)      |
-|     | if result                           |
-|     | result[:hour].to_i * 60 +           |
-|     | (result[:minute]                    |                | "0").to_i + |
-|     | (result[:ampm] == "pm" ? 12*60 : 0) |
-|     | end                                 |
-|     | end                                 |
+```ruby
+// lang/re_parser/time_parser.rb
+TIME_RE = %r{
+(?[0-9]){0}
+(?[0-1]){0}
+(?[0-6]){0}
+(? am | pm){0}
+(?   (\g \g) | \g){0}
+(? \g  \g){0}
+
+\A(
+    ( \g \g )
+  | ( \g : \g \g )
+  | ( \g : \g )
+)\Z
+
+}x
+
+def parse_time(string)
+  result = TIME_RE.match(string)
+  if result
+    result[:hour].to_i * 60 +
+    (result[:minute] || "0").to_i +
+    (result[:ampm] == "pm" ? 12*60 : 0)
+  end
+end
+```
 
 (This code uses the trick of defining named patterns at the start of the
 regular expression, and then referencing them as subpatterns in the
@@ -12432,36 +12860,40 @@ Java, with the pre- and postconditions in comments.
 
 First, the invariant for the class:
 
-|     | /**                                   |
-| --- | ------------------------------------- |
-|     | * @invariant getSpeed() > 0           |
-|     | * implies isFull() // Don't run empty |
-|     | *                                     |
-|     | * @invariant getSpeed() >= 0 &&       |
-|     | * getSpeed() < 10 // Range check      |
-|     | */                                    |
+```ruby
+// lang/re_parser/time_parser.rb
+/**
+  * @invariant getSpeed() > 0
+  *        implies isFull()              // Don't run empty
+  *
+  * @invariant getSpeed() >= 0 &&
+  *        getSpeed() < 10               // Range check
+  */
+```
 
 Next, the pre- and postconditions:
 
-|     | /**                                                        |
-| --- | ---------------------------------------------------------- |
-|     | * @pre Math.abs(getSpeed() - x) <= 1 // Only change by one |
-|     | * @pre x >= 0 && x < 10 // Range check                     |
-|     | * @post getSpeed() == x // Honor requested speed           |
-|     | */                                                         |
-|     | public void setSpeed(final int x)                          |
-|     |                                                            |
-|     | /**                                                        |
-|     | * @pre !isFull() // Don't fill it twice                    |
-|     | * @post isFull() // Ensure it was done                     |
-|     | */                                                         |
-|     | void fill()                                                |
-|     |                                                            |
-|     | /**                                                        |
-|     | * @pre isFull() // Don't empty it twice                    |
-|     | * @post !isFull() // Ensure it was done                    |
-|     | */                                                         |
-|     | void empty()                                               |
+```ruby
+// lang/re_parser/time_parser.rb
+/**
+  * @pre Math.abs(getSpeed() - x) <= 1 // Only change by one
+  * @pre x >= 0 && x < 10              // Range check
+  * @post getSpeed() == x              // Honor requested speed
+  */
+public void setSpeed(final int x)
+
+/**
+  * @pre !isFull()                     // Don't fill it twice
+  * @post isFull()                     // Ensure it was done
+  */
+void fill()
+
+/**
+  * @pre isFull()                      // Don't empty it twice
+  * @post !isFull()                    // Ensure it was done
+  */
+void empty()
+```
 
 **Answer 15** (from exercise 15)
 
@@ -12503,16 +12935,18 @@ A simple implementation could be:
 
 [event/strings_ex_1.rb](http://media.pragprog.com/titles/tpp20/code/event/strings_ex_1.rb)
 
-|     | class FSM                                   |
-| --- | ------------------------------------------- |
-|     | def initialize(transitions, initial_state)  |
-|     | @transitions = transitions                  |
-|     | @state = initial_state                      |
-|     | end                                         |
-|     | def accept(event)                           |
-|     | @state, action = TRANSITIONS[@state][event] |     | TRANSITIONS[@state][:default] |
-|     | end                                         |
-|     | end                                         |
+```ruby
+// event/strings_ex_1.rb
+class FSM
+  def initialize(transitions, initial_state)
+    @transitions = transitions
+    @state       = initial_state
+  end
+  def accept(event)
+    @state, action = TRANSITIONS[@state][event] || TRANSITIONS[@state][:default]
+  end
+end
+```
 
 (Download this file to get the updated code that uses
 this new FSM class.)
@@ -12526,27 +12960,31 @@ this new FSM class.)
 
 **Answer 21** (from exercise 21)
 
-1. Shipping and sales tax are added to an order: | | basic order → finalized order | In conventional code, it’s likely you’d have a function that calculated shipping costs and another that calculated tax. But we’re thinking about transformations here, so we transform an order with just items into a new kind of thing: an order that can be shipped.
-2. Your application loads configuration information from a named file: | | file name → configuration structure |
-3. Someone logs in to a web application: | | user credentials → session |
+1. Shipping and sales tax are added to an order: `text basic order → finalized order ` In conventional code, it’s likely you’d have a function that calculated shipping costs and another that calculated tax. But we’re thinking about transformations here, so we transform an order with just items into a new kind of thing: an order that can be shipped.
+2. Your application loads configuration information from a named file: `text file name → configuration structure `
+3. Someone logs in to a web application: `text user credentials → session `
 
 **Answer 22** (from exercise 22)
 
 The high-level transformation:
 
-|     | field contents as string |
-| --- | ------------------------ |
-|     | → [validate & convert]   |
-|     | → {:ok, value}           | {:error, reason} |
+```ruby
+// event/strings_ex_1.rb
+field contents as string
+    → [validate & convert]
+        → {:ok, value} | {:error, reason}
+```
 
 could be broken down into:
 
-|     | field contents as string      |
-| --- | ----------------------------- |
-|     | → [convert string to integer] |
-|     | → [check value >= 18]         |
-|     | → [check value <= 150]        |
-|     | → {:ok, value}                | {:error, reason} |
+```ruby
+// event/strings_ex_1.rb
+field contents as string
+    → [convert string to integer]
+    → [check value >= 18]
+    → [check value <= 150]
+        → {:ok, value} | {:error, reason}
+```
 
 This assumes that you have an error-handling pipeline.
 
@@ -12563,11 +13001,13 @@ code. Imagine the requirement changed, and we have to ignore lines
 starting with a # character. In the transformation style, that would
 be easy:
 
-|     | const content = File.read(file_name);                   |
-| --- | ------------------------------------------------------- |
-|     | const no_comments = remove_comments(content)            |
-|     | const lines = find_matching_lines(no_comments, pattern) |
-|     | const result = truncate_lines(lines)                    |
+```ruby
+// event/strings_ex_1.rb
+const content     = File.read(file_name);
+const no_comments = remove_comments(content)
+const lines       = find_matching_lines(no_comments, pattern)
+const result      = truncate_lines(lines)
+```
 
 We could even swap the order of remove_comments and
 find_matching_lines and it would still work.
