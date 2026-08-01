@@ -1,0 +1,168 @@
+### Topic 44: Naming Things
+
+The beginning of wisdom is to call things by their proper name.
+
+Confucius
+
+What’s in a name? When we’re programming, the answer is “everything!”
+
+We create names for applications, subsystems, modules, functions,
+variables—we’re constantly creating new things and bestowing names on
+them. And those names are very, very important, because they reveal a
+lot about your intent and belief.
+
+We believe that things should be named according to the role they play
+in your code. This means that, whenever you create something, you need
+to pause and think “what is my motivation to create this?”
+
+This is a powerful question, because it takes you out of the immediate
+problem-solving mindset and makes you look at the bigger picture. When
+you consider the role of a variable or function, you’re thinking about
+what is special about it, about what it can do, and what it interacts
+with. Often, we find ourselves realizing that what we were about to do
+made no sense, all because we couldn’t come up with an appropriate name.
+
+There’s some science behind the idea that names are deeply meaningful.
+It turns out that the brain can read and understand words really fast:
+faster than many other activities. This means that words have a certain
+priority when we try to make sense of something. This can be
+demonstrated using the Stroop effect. [Studies of Interference in Serial Verbal Reactions [Str35]]
+
+Look at the following panel.
+It has a list of color names or shades, and each is shown in a color or
+shade. But the names and colors don’t necessarily match. Here’s part one
+of the challenge—say aloud the name of each color as
+written: [We have two versions of this panel. One uses different colors, and the other uses shades of gray. If you’re seeing this in black and white and want the color version, or if you’re having trouble distinguishing colors and want to try the grayscale version, pop over to https://pragprog.com/the-pragmatic-programmer/stroop-effect.]
+
+```image-description
+An illustration demonstrating the Stroop effect test. Color names appear rendered in mismatched font colors, testing cognitive interference during processing.
+```
+
+Now repeat this, but instead say aloud the color used to draw the word.
+Harder, eh? It’s easy to be fluent when reading, but way harder when
+trying to recognize colors.
+
+Your brain treats written words as something to be respected. We need to
+make sure the names we use live up to this.
+
+Let’s look at a couple of examples:
+
+- We’re authenticating people who access our site that sells jewelry made from old graphics cards: `javascript let user = authenticate(credentials) ` The variable is user because it’s _always_ user. But why? It means nothing. How about customer, or buyer? That way we get constant reminders as we code of what this person is trying to do, and what that means to us.
+- We have an instance method that discounts an order: `text public void deductPercent(double amount)     // ... ` Two things here. First, deductPercent is _what it does_ and not _why it does it_. Then the name of the parameter amount is at best misleading: is it an absolute amount, a percentage? Perhaps this would be better: `text public void applyDiscount(Percentage discount)   // ... ` The method name now makes its intent clear. We’ve also changed the parameter from a double to a Percentage, a type we’ve defined. We don’t know about you, but when dealing with percentages we never know if the value is supposed to be between 0 and 100 or 0.0 and 1.0. Using a type documents what the function expects.
+- We have a module that does interesting things with Fibonacci numbers. One of those things is to calculate the `n-th` number in the sequence. Stop and think what you’d call this function. Most people we ask would call it fib. Seems reasonable, but remember it will normally be called in the context of its module, so the call would be Fib.fib(n). How about calling it of or nth instead: `javascript Fib.of(0)    # => 0 Fib.nth(20)  # => 4181 `
+
+When naming things, you’re constantly looking for ways of clarifying
+what you mean, and that act of clarification will lead you to a better
+understanding of your code _as you write it._
+
+However, not all names have to be candidates for a literary prize.
+
+The Exception That Proves the Rule
+
+While we strive for clarity in code, branding is a different matter entirely.
+
+There’s a well-established tradition that projects and project teams
+should have obscure, “clever” names. Names of Pokémon, Marvel
+superheroes, cute mammals, _Lord of the Rings_ characters, you name it.
+
+Literally.
+
+## Honor the Culture
+
+Most introductory computer texts will admonish you never to use single letter variables such as i, j, or k. [Do you know why i is commonly used as a loop variable? The
+answer comes from over 60 years ago, when variables starting with
+I through N were integers in the original FORTRAN. And FORTRAN
+was in turn influenced by algebra.]
+
+We think they’re wrong. Sort of.
+
+In fact, it depends on the culture of that particular programming language or environment. In the C programming language, i, j, and k are traditionally used as loop increment variables, s is used for a character string, and so on. If you program in that environment, that’s what you are used to seeing and it would be jarring (and hence wrong) to violate that norm. On the other hand, using that convention in a different environment where it’s _not_ expected is just as wrong. You’d never do something heinous like this Clojure example which assigns a string to variable i:
+
+```javascript
+(let [i "Hello World"]
+        (println i))
+```
+
+Some language communities prefer camelCase, with embedded capital
+letters, while others prefer snake_case with embedded underscores to
+separate words. The languages themselves will of course accept either,
+but that doesn’t make it right. Honor the local culture.
+
+Some languages allow a subset of Unicode in names. Get a sense of what
+the community expects before going all cute with names like ɹǝsn or
+εξέρχεται.
+
+## Consistency
+
+Emerson is famous for writing “A foolish consistency is the hobgoblin of
+little minds…,” but Emerson wasn’t on a team of programmers.
+
+Every project has its own vocabulary: jargon words that have a special
+meaning to the team. “Order” means one thing to a team creating an
+online store, and something very different to a team whose app charts
+the lineage of religious groups. It’s important that everyone on the
+team knows what these words mean, and that they use them consistently.
+
+One way is to encourage a lot of communication. If everyone pair
+programs, and pairs switch frequently, then jargon will spread
+osmotically.
+
+Another way is to have a project glossary, listing the terms that have
+special meaning to the team. This is an informal document, possibly
+maintained on a wiki, possibly just index cards on a wall somewhere.
+
+After a while, the project jargon will take on a life of its own. As
+everyone gets comfortable with the vocabulary, you’ll be able to use the
+jargon as a shorthand, expressing a lot of meaning accurately and
+concisely. (This is exactly what a _pattern language_ is.)
+
+## Renaming Is Even Harder
+
+No matter how much effort you put in up front, things change. Code is refactored, usage shifts, meaning becomes subtly altered. If you aren’t vigilant about updating names as you go, you can quickly descend into a nightmare much worse than meaningless names: _misleading_ names. Have
+you ever had someone explain inconsistencies in code such as,
+“The routine called getData really writes data to an archive file”?
+
+As we discuss in Topic 3, _Software Entropy_, when you spot a problem, fix it—right here and now. When you see a name that no longer expresses the intent, or is misleading or confusing, fix it. You’ve got full regression tests, so you’ll spot any instances you may have missed.
+
+> [!TIP]
+> **Tip 74: Name Well; Rename When Needed**
+
+If for some reason you can’t change the now-wrong name, then you’ve got a bigger problem: an ETC violation (see Topic 8, _The Essence of Good Design_). Fix that first, then change the offending name. Make renaming easy, and do it often.
+
+Otherwise you’ll have to explain to the new folks on the team that
+getData really writes data to a file, and you’ll have to do it with a straight face.
+
+## Related Sections Include
+
+- Topic 3, _Software Entropy_
+- Topic 40, _Refactoring_
+- Topic 45, _The Requirements Pit_
+
+#### Challenges
+
+- When you find a function or method with an overly generic name, try and rename it to express all the things it really does. Now it’s an easier target for refactoring.
+- In our examples, we suggested using more specific names such as _buyer_ instead of the more traditional and generic _user._ What other names do you habitually use that could be better?
+- Are the names in your system congruent with user terms from the domain? If not, why? Does this cause a Stroop-effect style cognitive dissonance for the team?
+- Are names in your system hard to change? What can you do to fix that particular broken window?
+
+Copyright © 2020 Pearson Education, Inc.
+
+## Chapter 8: Before the Project
+
+At the very beginning of a project, you and the team need to learn the
+requirements. Simply being told what to do or
+listening to users is not enough: read Topic 45, _The Requirements Pit_ and learn how to avoid the common traps and pitfalls.
+
+Conventional wisdom and constraint management are the topics of
+Topic 46, _Solving Impossible Puzzles_. Whether you are performing
+requirements, analysis, coding, or testing, difficult problems will crop
+up. Most of the time, they won’t be as difficult as they first appear
+to be.
+
+And when that impossible project comes up, we like to turn to our secret weapon: Topic 47, _Working Together_. And by “working together” we don’t mean sharing a massive requirements document, flinging heavily cc’d emails or enduring endless meetings. We mean solving problems together while coding. We’ll show you who you need and how to start.
+
+Even though the Agile Manifesto begins with “Individuals and interactions over processes and tools,” virtually all “agile” projects begin with an ironic discussion of which process and which tools they’ll use. But no matter how well thought out it is, and regardless of which “best practices” it includes, no method can replace _thinking_. You don’t need any particular process or tool, what you do need is the Topic 48, _The Essence of Agility_.
+
+With these critical issues sorted out _before_ the project gets under
+way, you can be better positioned to avoid “analysis paralysis” and
+actually begin—and complete—your successful project.

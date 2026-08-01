@@ -1,0 +1,105 @@
+### Topic 27: Don’t Outrun Your Headlights
+
+It’s tough to make predictions, especially about the future.
+
+Lawrence "Yogi" Berra, after a Danish Proverb
+
+It’s late at night, dark, pouring rain. The two-seater whips around the tight curves of the twisty little mountain roads, barely holding the corners. A hairpin comes up and the car misses it, crashing though the skimpy guardrail and soaring to a fiery crash in the valley below. State troopers arrive on the scene, and the senior officer sadly shakes their head. “Must have outrun their headlights.”
+
+Had the speeding two-seater been going faster than the speed of light? No, that speed limit is firmly fixed. What the officer referred to was the driver’s ability to stop or steer in time in response to the headlight’s illumination.
+
+Headlights have a certain limited range, known as the _throw distance_.
+Past that point, the light spread is too diffuse to be effective. In
+addition, headlights only project in a straight line, and won’t
+illuminate anything off-axis, such as curves, hills, or dips in the
+road. According to the National Highway Traffic Safety Administration,
+the average distance illuminated by low-beam headlights is about
+160 feet. Unfortunately, stopping distance at 40mph
+is 189 feet, and at 70mph a whopping 464 feet. [Per the NHTSA, Stopping Distance = Reaction Distance +
+Braking Distance, assuming an average reaction time of
+1.5s
+and deceleration of 17.02ft/s².]
+So indeed, it’s
+actually pretty easy to outrun your headlights.
+
+In software development, our “headlights” are similarly limited. We can’t see too far ahead into the future, and the further off-axis you look, the darker it gets. So Pragmatic Programmers have a firm rule:
+
+> [!TIP]
+> **Tip 42: Take Small Steps—Always**
+
+Always take small, deliberate steps, checking for feedback and adjusting before proceeding. Consider that the rate of feedback is your speed limit. You never take on a step or a task that’s “too big.”
+
+What do we mean exactly by feedback? Anything that independently confirms or disproves your action. For example:
+
+- Results in a REPL provide feedback on your understanding of APIs and algorithms
+- Unit tests provide feedback on your last code change
+- User demo and conversation provide feedback on features and usability
+
+What’s a task that’s too big? Any task that requires “fortune telling.” Just as the car headlights have limited throw, we can only see into the future perhaps one or two steps, maybe a few hours or days at most. Beyond that, you can quickly get past _educated guess_ and into _wild speculation._ You might find yourself slipping into fortune telling when you have to:
+
+- Estimate completion dates months in the future
+- Plan a design for future maintenance or extendability
+- Guess user’s future needs
+- Guess future tech availability
+
+But, we hear you cry, aren’t we supposed to design for future maintenance? Yes, but only to a point: only as far ahead as you can see. The more you have to predict what the future will look like, the more risk you incur that you’ll be wrong. Instead of wasting effort designing for an uncertain future, you can always fall back on designing your code to be replaceable. Make it easy to throw out your code and replace it with something better suited. Making code replaceable will also help with cohesion, coupling, decoupling, and DRY, leading to a better design overall.
+
+Even though you may feel confident of the future, there’s always the chance of a black swan around the corner.
+
+## Black Swans
+
+In his book, _The Black Swan: The Impact of the Highly Improbable_ [Tal10], Nassim Nicholas Taleb posits that all significant events in history have come from high-profile, hard-to-predict, and rare events that are beyond the realm of normal expectations. These outliers, while statistically rare, have disproportionate effects. In addition, our own cognitive biases tend to blind us to changes creeping up on the edges of our work (see Topic 4, _Stone Soup and Boiled Frogs_).
+
+Around the time of the first edition of _The Pragmatic Programmer_,
+debate raged in computer magazines and online forums over the burning
+question: “Who would win the desktop GUI wars, Motif or
+OpenLook?” [Motif and OpenLook were GUI
+standards for X-Window based Unix workstations.] It was the wrong question. Odds are you’ve probably never
+heard of these technologies as neither “won” and the browser-centric
+web quickly dominated the landscape.
+
+> [!TIP]
+> **Tip 43: Avoid Fortune-Telling**
+
+Much of the time, tomorrow looks a lot like today. But don’t count on it.
+
+## Related Sections Include
+
+- Topic 12, _Tracer Bullets_
+- Topic 13, _Prototypes and Post-it Notes_
+- Topic 40, _Refactoring_
+- Topic 41, _Test to Code_
+- Topic 48, _The Essence of Agility_
+- Topic 50, _Coconuts Don’t Cut It_
+
+Copyright © 2020 Pearson Education, Inc.
+
+## Chapter 5: Bend, or Break
+
+Life doesn’t stand still.
+Neither can the code that we write. In order to keep up with today’s
+near-frantic pace of change, we need to make every effort to write
+code that’s as loose—as flexible—as possible. Otherwise we may
+find our code quickly becoming outdated, or too brittle to fix, and may
+ultimately be left behind in the mad dash toward the future.
+
+Back in Topic 11, _Reversibility_ we talked about the perils of irreversible
+decisions. In this chapter, we’ll tell you how to make _reversible_
+decisions, so your code can stay flexible and adaptable in the face of
+an uncertain world.
+
+First we look at _coupling_—the dependencies between bits of
+code. Topic 28, _Decoupling_ shows how to keep separate
+concepts separate, decreasing coupling.
+
+Next, we’ll look at different techniques you can use when Topic 29, _Juggling the Real World_. We’ll examine four different strategies to help manage and react to events—a critical aspect of modern software applications.
+
+Traditional procedural and object-oriented code might be too tightly coupled for your purposes. In Topic 30, _Transforming Programming_, we’ll take advantage of the more flexible and clearer style offered by function pipelines, even if your language doesn’t support them directly.
+
+Common object-oriented style can tempt you with another trap. Don’t fall for it, or you’ll end up paying a hefty Topic 31, _Inheritance Tax_. We’ll explore better alternatives to keep your code flexible and easier to change.
+
+And of course a good way to stay flexible is to write _less_ code. Changing code
+leaves you open to the possibility of introducing new bugs. Topic 32, _Configuration_ will explain how to move details out of the code
+completely, where they can be changed more safely and easily.
+
+All these techniques will help you write code that bends and doesn’t break.

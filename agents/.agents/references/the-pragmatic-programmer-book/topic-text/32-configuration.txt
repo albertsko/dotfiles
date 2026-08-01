@@ -1,0 +1,181 @@
+### Topic 32: Configuration
+
+Let all your things have their places; let each part of your
+business have its time.
+
+Benjamin Franklin, Thirteen Virtues, autobiography
+
+When code relies on values that may change after the
+application has gone live, keep those values external to the app. When
+your application will run in different environments, and potentially for
+different customers, keep the environment- and customer-specific values
+outside the app. In this way, you’re parameterizing your application;
+the code adapts to the places it runs.
+
+> [!TIP]
+> **Tip 55: Parameterize Your App Using External Configuration**
+
+Common things you will probably want to put in configuration data
+include:
+
+- Credentials for external services (database, third party APIs, and so on)
+- Logging levels and destinations
+- Port, IP address, machine, and cluster names the app uses
+- Environment-specific validation parameters
+- Externally set parameters, such as tax rates
+- Site-specific formatting details
+- License keys
+
+Basically, look for anything that you know will have to change that you
+can express outside your main body of code, and slap it into some
+configuration bucket.
+
+## Static Configuration
+
+Many frameworks, and quite a few custom applications, keep configuration
+in either flat files or database tables. If the information is in flat
+files, the trend is to use some off-the-shelf plain-text format.
+Currently YAML and JSON are popular for this. Sometimes applications
+written in scripting languages use special purpose source-code files,
+dedicated to containing just configuration. If the information is
+structured, and is likely to be changed by the customer (sales tax
+rates, for example), it might be better to store it in a database table.
+And, of course, you can use both, splitting the configuration
+information according to use.
+
+Whatever form you use, the configuration is read into your application
+as a data structure, normally when the application starts. Commonly,
+this data structure is made global, the thinking being that this makes
+it easier for any part of the code to get to the values it holds.
+
+We prefer that you don’t do that. Instead, wrap the configuration
+information behind a (thin) API. This decouples your code from the
+details of the representation of configuration.
+
+## Configuration-As-A-Service
+
+While static configuration is common, we currently favor a different
+approach. We still want configuration data kept external to the
+application, but rather than in a flat file or database, we’d like to
+see it stored behind a service API. This has a number of benefits:
+
+- Multiple applications can share configuration information, with authentication and access control limiting what each can see
+- Configuration changes can be made globally
+- The configuration data can be maintained via a specialized UI
+- The configuration data becomes dynamic
+
+That last point, that configuration should be dynamic, is critical as we
+move toward highly available applications. The idea that we should have
+to stop and restart an application to change a single parameter is
+hopelessly out of touch with modern realities. Using a configuration service, components of the application
+could register for notifications of updates to parameters they use, and
+the service could send them messages containing new values if and when
+they are changed.
+
+Whatever form it takes, configuration data drives the runtime behavior
+of an application. When configuration values change, there’s no need to
+rebuild the code.
+
+## Don’t Write Dodo-Code
+
+Without external configuration, your code is not as adaptable or
+flexible as it could be. Is this a bad thing? Well, out here in the
+real world, species that don’t adapt die.
+
+The dodo didn’t adapt to the presence of humans and their livestock on
+the island of Mauritius, and quickly became extinct. [It didn’t help that the settlers beat the placid (read: stupid)
+birds to death with clubs for sport.] It was
+the first documented extinction of a species at the hand of man.
+
+Don’t let your project (or your career) go the way of the dodo.
+
+```image-description
+An illustration of an extinct dodo bird. The sketch accompanies text describing fragile software designs unable to adapt to environmental changes.
+```
+
+## Related Sections Include
+
+- Topic 9, _DRY—The Evils of Duplication_
+- Topic 14, _Domain Languages_
+- Topic 16, _The Power of Plain Text_
+- Topic 28, _Decoupling_
+
+Don't Overdo It
+
+In the first edition of this book, we suggested using configuration instead of code in a similar fashion, but apparently should have been a little more specific in our instructions. Any advice can be taken to extremes or used inappropriately, so here are a few cautions:
+
+Don’t overdo it. One early client of ours decided that every single field in their application should be configurable. As a result, it took weeks to make even the smallest change, as you had to implement both the field and all the admin code to save and edit it. They had some _40,000_ configuration variables and a coding nightmare on their hands.
+
+Don’t push decisions to configuration out of laziness. If there’s
+genuine debate about whether a feature should work this way or that,
+or if it should be the users’ choice, try it out one way and get
+feedback on whether the decision was a good one.
+
+Copyright © 2020 Pearson Education, Inc.
+
+## Chapter 6: Concurrency
+
+Just so we’re all on the same page, let’s start with some definitions:
+
+_Concurrency_ is when the execution of two or more pieces of code act
+as if they run at the same time. _Parallelism_ is when they _do_
+run at the same time.
+
+To have concurrency, you need to run code in an environment that can
+switch execution between different parts of your code when it is
+running. This is often implemented using things such as fibers, threads,
+and processes.
+
+To have parallelism, you need hardware that can do two things at once.
+This might be multiple cores in a CPU, multiple CPUs in a computer, or
+multiple computers connected together.
+
+## Everything Is Concurrent
+
+It’s almost impossible to write code in a decent-sized system that
+doesn’t have concurrent aspects to it. They may be explicit, or they may
+be buried inside a library. Concurrency is a requirement if you want
+your application to be able to deal with the real world, where things
+are asynchronous: users are interacting, data is being fetched, external
+services are being called, all at the same time. If you force this
+process to be serial, with one thing happening, then the next, and so
+on, your system feels sluggish and you’re probably not taking full
+advantage of the power of the hardware on which it runs.
+
+In this chapter we’ll look at concurrency and parallelism.
+
+Developers often talk about coupling between chunks of code. They’re
+referring to dependencies, and how those dependencies make things hard
+to change. But there’s another form of coupling. _Temporal coupling_
+happens when your code imposes a sequence on things that is not required
+to solve the problem at hand. Do you depend on the “tick” coming before
+the “tock”? Not if you want to stay flexible. Does your code access
+multiple back-end services sequentially, one after the other? Not if you want to keep your
+customers. In Topic 33, _Breaking Temporal Coupling_, we’ll look at
+ways of identifying this kind of temporal coupling.
+
+Why is writing concurrent and parallel code so difficult? One reason is
+that we learned to program using sequential systems, and our languages
+have features that are relatively safe when used sequentially but become
+a liability once two things can happen at the same time. One of the
+biggest culprits here is _shared state_. This doesn’t just mean global
+variables: any time two or more chunks of code hold references to the
+same piece of mutable data, you have shared state. And
+Topic 34, _Shared State Is Incorrect State_. The section describes a number of
+workarounds for this, but ultimately they’re all error prone.
+
+If that makes you feel sad, _nil desperandum!_ There are better ways to
+construct concurrent applications. One of these is using the _actor
+model_, where independent processes, which share no data, communicate
+over channels using defined, simple, semantics. We talk about both the
+theory and practice of this approach in
+Topic 35, _Actors and Processes_.
+
+Finally, we’ll look at Topic 36, _Blackboards_. These are
+systems which act like a combination of an object store and a smart
+publish/subscribe broker. In their original form, they never really took
+off. But today we’re seeing more and more implementations of middleware
+layers with blackboard-like semantics. Used correctly, these types of
+systems offer a serious amount of decoupling.
+
+Concurrent and parallel code used to be exotic. Now it is required.

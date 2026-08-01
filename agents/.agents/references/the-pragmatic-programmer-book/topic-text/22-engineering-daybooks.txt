@@ -1,0 +1,101 @@
+### Topic 22: Engineering Daybooks
+
+Dave once worked for a small computer manufacturer, which meant working
+alongside electronic and sometimes mechanical engineers.
+
+Many of them walked around with a paper notebook, normally with a pen
+stuffed down the spine. Every now and then when we were talking, they’d
+pop the notebook open and scribble something.
+
+Eventually Dave asked the obvious question. It turned out that they’d
+been trained to keep an engineering _daybook_, a kind of journal in
+which they recorded what they did, things they’d learned, sketches of
+ideas, readings from meters: basically anything to do with their work.
+When the notebook became full, they’d write the date range on the spine,
+then stick it on the shelf next to previous daybooks. There may have
+been a gentle competition going on for whose set of books took the most
+shelf space.
+
+We use daybooks
+to take notes in meetings, to jot down what we’re working on, to
+note variable values when debugging, to leave reminders where
+we put things, to record wild ideas, and sometimes just to
+doodle. [There is some evidence that doodling helps focus and improves cognitive skills, for example, see What does doodling do? [And10].]
+
+The daybook has three main benefits:
+
+- It is more reliable than memory. People might ask “What was the name of that company you called last week about the power supply problem?” and you can flip back a page or so and give them the name and number.
+- It gives you a place to store ideas that aren’t immediately relevant to the task at hand. That way you can continue to concentrate on what you are doing, knowing that the great idea won’t be forgotten.
+- It acts as a kind of rubber duck (described here). When you stop to write something down, your brain may switch gears, almost as if talking to someone—a great chance to reflect. You may start to make a note and then suddenly realize that what you’d just done, the topic of the note, is just plain wrong.
+
+There’s an added benefit, too. Every now and then you can look back at
+what you were doing oh-so-many-years-ago and think about the people,
+the projects, and the awful clothes and hairstyles.
+
+So, try keeping an engineering daybook. Use paper, not a file or a wiki:
+there’s something special about the act of writing compared to typing.
+Give it a month, and see if you’re getting any benefits.
+
+If nothing else, it’ll make writing your memoir easier when you’re rich
+and famous.
+
+## Related Sections Include
+
+- Topic 6, _Your Knowledge Portfolio_
+- Topic 37, _Listen to Your Lizard Brain_
+
+Copyright © 2020 Pearson Education, Inc.
+
+## Chapter 4: Pragmatic Paranoia
+
+> [!TIP]
+> **Tip 36: You Can’t Write Perfect Software**
+
+Did that hurt? It shouldn’t. Accept it as an axiom of life. Embrace
+it. Celebrate it. Because perfect software doesn’t exist. No one in
+the brief history of computing has ever written a piece of perfect
+software. It’s unlikely that you’ll be the first. And unless you
+accept this as a fact, you’ll end up wasting time and energy
+chasing an impossible dream.
+
+So, given this depressing reality, how does a Pragmatic Programmer turn
+it into an advantage? That’s the topic of this chapter.
+
+Everyone knows that they personally are the only good driver on Earth.
+The rest of the world is out there to get them, blowing through stop
+signs, weaving between lanes, not indicating turns, texting on the
+phone, and just generally not living up to our
+standards. So we drive defensively. We look out for trouble before it
+happens, anticipate the unexpected, and never put ourselves into a
+position from which we can’t extricate ourselves.
+
+The analogy with coding is pretty obvious. We are constantly interfacing
+with other people’s code—code that might not live up to our high
+standards—and dealing with inputs that may or may not be valid. So we
+are taught to code defensively. If there’s any doubt, we validate all
+information we’re given. We use assertions to detect bad data, and distrust data from potential attackers or trolls. We check
+for consistency, put constraints on database columns, and generally feel
+pretty good about ourselves.
+
+But Pragmatic Programmers take this a step further. _They don’t trust
+themselves, either._ Knowing that no one writes perfect code, including
+themselves, Pragmatic Programmers build in defenses against their own
+mistakes. We describe the first defensive measure in Topic 23, _Design by Contract_: clients and suppliers must agree on rights and
+responsibilities.
+
+In Topic 24, _Dead Programs Tell No Lies_, we want to ensure that we do no
+damage while we’re working the bugs out. So we try to check things often
+and terminate the program if things go awry.
+
+Topic 25, _Assertive Programming_ describes an easy method of checking
+along the way—write code that actively verifies your assumptions.
+
+As your programs get more dynamic, you’ll find yourself juggling system
+resources—memory, files, devices, and the like. In Topic 26, _How to Balance Resources_, we’ll suggest ways of ensuring that you
+don’t drop any of the balls.
+
+And most importantly, we stick to small steps always, as described in Topic 27, _Don’t Outrun Your Headlights_, so we don’t fall off the edge of the cliff.
+
+In a world of imperfect systems, ridiculous time scales, laughable
+tools, and impossible requirements, let’s play it safe. As Woody Allen said, “When everybody actually _is_ out to get you, paranoia is just
+good thinking.”

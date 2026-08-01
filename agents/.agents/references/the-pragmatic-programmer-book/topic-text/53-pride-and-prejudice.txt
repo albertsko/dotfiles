@@ -1,0 +1,56 @@
+### Topic 53: Pride and Prejudice
+
+You have delighted us long enough.
+
+Jane Austen, Pride and Prejudice
+
+Pragmatic Programmers don’t shirk from responsibility. Instead, we
+rejoice in accepting challenges and in making our expertise well known.
+If we are responsible for a design, or a piece of code, we do a job we
+can be proud of.
+
+> [!TIP]
+> **Tip 97: Sign Your Work**
+
+Artisans of an earlier age were proud to sign their
+work. You should be, too.
+
+Project teams are still made up of people, however, and this rule can
+cause trouble. On some projects, the idea of _code ownership_
+can cause cooperation problems. People may become territorial, or
+unwilling to work on common foundation elements. The project may end
+up like a bunch of insular little fiefdoms. You become prejudiced in
+favor of your code and against your coworkers.
+
+That’s not what we want. You shouldn’t jealously defend your code
+against interlopers; by the same token, you should treat other
+people’s code with respect. The Golden Rule (“Do unto others as you
+would have them do unto you’’) and a foundation of mutual respect
+among the developers is critical to make this tip work.
+
+Anonymity, especially on large projects, can provide a breeding ground
+for sloppiness, mistakes, sloth, and bad code. It becomes too easy to
+see yourself as just a cog in the wheel, producing lame excuses in
+endless status reports instead of good code.
+
+While code must be owned, it doesn’t have to be owned by an individual.
+In fact, Kent Beck’s eXtreme Programming [http://www.extremeprogramming.org]
+recommends communal ownership of code (but this also requires additional
+practices, such as pair programming, to guard against the dangers of
+anonymity).
+
+We want to see pride of ownership. “I wrote this, and I stand behind
+my work.” Your signature should come to be recognized as an
+indicator of quality. People should see your name on a piece of code
+and expect it to be solid, well written, tested, and documented. A
+really professional job. Written by a professional.
+
+A Pragmatic Programmer.
+
+Thank you.
+
+```image-description
+Signature of Dave Andy.
+```
+
+Copyright © 2020 Pearson Education, Inc.

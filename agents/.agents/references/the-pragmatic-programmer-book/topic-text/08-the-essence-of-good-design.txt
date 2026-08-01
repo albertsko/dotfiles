@@ -1,0 +1,85 @@
+### Topic 8: The Essence of Good Design
+
+The world is full of gurus and pundits, all eager to pass on their
+hard-earned wisdom when it comes to How to Design Software. There are
+acronyms, lists (which seem to favor five entries), patterns, diagrams,
+videos, talks, and (the internet being the internet) probably a cool
+series on the Law of Demeter explained using interpretive dance.
+
+And we, your gentle authors, are guilty of this too. But we’d like to
+make amends by explaining something that only became apparent to us
+fairly recently. First, the general statement:
+
+> [!TIP]
+> **Tip 14: Good Design Is Easier to Change Than Bad Design**
+
+A thing is well designed if it adapts to the people who use it. For
+code, that means it must adapt by changing.
+So we believe in the ETC principle: _Easier to Change_. _ETC_. That’s it.
+
+As far as we can tell, every design principle out there is a special
+case of ETC.
+
+Why is decoupling good? Because by isolating concerns we make each
+easier to change. ETC.
+
+Why is the single responsibility principle useful? Because a change in
+requirements is mirrored by a change in just one module. ETC.
+
+Why is naming important? Because good names make code easier to read,
+and you have to read it to change it. ETC!
+
+## ETC Is a Value, Not a Rule
+
+Values are things that help you make decisions: should I do this, or
+that? When it comes to thinking about software, ETC is a guide, helping
+you choose between paths. Just like all your other values, it should be
+floating just behind your conscious thought, subtly nudging you in the
+right direction.
+
+But how do you make that happen? Our experience is that it requires some
+initial conscious reinforcement. You may need to spend a week or so
+deliberately asking yourself “did the thing I just did make the overall
+system easier or harder to change?” Do it when you save a file. Do it
+when you write a test. Do it when you fix a bug.
+
+There’s an implicit premise in ETC. It assumes that a person can tell
+which of many paths will be easier to change in the future. Much of
+the time, common sense will be correct, and you can make an educated
+guess.
+
+Sometimes, though, you won’t have a clue. That’s OK. In those cases, we
+think you can do two things.
+
+First, given that you’re not sure what form change will take, you can
+always fall back on the ultimate “easy to change” path: try to make what
+you write replaceable. That way, whatever happens in the future, this
+chunk of code won’t be a roadblock. It seems extreme, but actually it’s
+what you should be doing all the time, anyway. It’s really just thinking
+about keeping code decoupled and cohesive.
+
+Second, treat this as a way to develop instincts. Note the situation in
+your engineering day book: the choices you have, and some guesses about
+change. Leave a tag in the source. Then, later, when this code has to
+change, you’ll be able to look back and give yourself feedback. It might
+help the next time you reach a similar fork in the road.
+
+The rest of the sections in this chapter have specific ideas on design,
+but all are motivated by this one principle.
+
+## Related Sections Include
+
+- Topic 9, _DRY, The Evils of Duplication_
+- Topic 10, _Orthogonality_
+- Topic 11, _Reversibility_
+- Topic 14, _Domain Languages_
+- Topic 28, _Decoupling_
+- Topic 30, _Transforming Programming_
+- Topic 31, _Inheritance Tax_
+
+#### Challenges
+
+- Think about a design principle you use regularly. Is it intended to make things easy-to-change?
+- Also think about languages and programming paradigms (OO, FP, Reactive, and so on). Do any have either big positives or big negatives when it comes to helping you write ETC code? Do any have both? When coding, what can you do to eliminate the negatives and accentuate the positives? [To paraphrase the old Arlen/Mercer song…]
+
+- Many editors have support (either built-in or via extensions) to run commands when you save a file. Get your editor to popup an _ETC?_ message every time you save [Or, perhaps, to keep your sanity, every 10th time…] and use it as a cue to think about the code you just wrote. Is it easy to change?
