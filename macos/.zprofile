@@ -1,5 +1,5 @@
 export DOTFILES_PROFILE=macos
-export DOTFILES_OBSIDIAN_VAULT="$HOME/iCloud/vault"
+export VAULT_HOME="$HOME/Library/Mobile Documents/com~apple~CloudDocs/vault"
 
 export PNPM_HOME="$HOME/Library/pnpm"
 

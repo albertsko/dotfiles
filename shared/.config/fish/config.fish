@@ -7,6 +7,11 @@ alias ssh 'env TERM=xterm-256color ssh'
 
 alias cfg 'git -C "$DOTFILES_HOME"'
 abbr --add cdcfg 'cd "$DOTFILES_HOME"'
+alias zedcfg 'zed --user-data-dir "$XDG_STATE_HOME/zed-dotfiles" --existing "$DOTFILES_HOME"'
+
+alias v 'git --git-dir="$VAULT_GIT_DIR" --work-tree="$VAULT_HOME"'
+abbr --add cdv 'cd "$VAULT_HOME"'
+alias zedv 'zed --user-data-dir "$XDG_STATE_HOME/zed-vault" --existing "$VAULT_HOME"'
 
 abbr --add add git add
 abbr --add commit git commit
@@ -26,10 +31,6 @@ end
 
 function ggg
     git add -A && git commit -m "$argv" && git push
-end
-
-function docs
-    zed --user-data-dir "$XDG_STATE_HOME/zed-docs" --existing "$DOTFILES_OBSIDIAN_VAULT"
 end
 
 if status is-interactive
