@@ -13,21 +13,10 @@ alias v 'git --git-dir="$VAULT_GIT_DIR" --work-tree="$VAULT_HOME"'
 abbr --add cdv 'cd "$VAULT_HOME"'
 alias zedv 'zed --user-data-dir "$XDG_STATE_HOME/zed-vault" --existing "$VAULT_HOME"'
 
-abbr --add add git add
-abbr --add commit git commit
-abbr --add pull git pull
-abbr --add push git push
-abbr --add stat git status
-abbr --add gdiff 'git diff HEAD'
-abbr --add vdiff 'git difftool HEAD'
-abbr --add gco git checkout
-abbr --add gcb git checkout -b
-abbr --add gst git status
+abbr --add gd 'git diff HEAD'
+abbr --add gc git checkout
+abbr --add gs git status
 abbr --add gl 'git log --oneline --graph --decorate'
-
-function log
-    git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit $argv
-end
 
 function ggg
     git add -A && git commit -m "$argv" && git pull --rebase && git push
