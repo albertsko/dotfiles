@@ -30,7 +30,11 @@ function log
 end
 
 function ggg
-    git add -A && git commit -m "$argv" && git push
+    git add -A && git commit -m "$argv" && git pull --rebase && git push
+end
+
+function vvv
+    v add -A && v commit -m "$argv" && v pull --rebase && v push
 end
 
 if status is-interactive
