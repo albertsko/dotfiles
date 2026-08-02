@@ -19,11 +19,11 @@ abbr --add gs git status
 abbr --add gl 'git log --oneline --graph --decorate'
 
 function ggg
-    git add -A && git commit -m "$argv" && git pull --rebase && git push
+    git add -A && git commit -m "$argv" && git pull --rebase; git push
 end
 
 function vvv
-    v add -A && v commit -m "$argv" && v pull --rebase && v push
+    v add -A && v commit -m "$argv" && v pull --rebase; v push
 end
 
 if status is-interactive
