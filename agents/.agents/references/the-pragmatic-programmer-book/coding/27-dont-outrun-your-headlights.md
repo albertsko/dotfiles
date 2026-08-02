@@ -8,5 +8,6 @@ Software development has a limited planning horizon: the farther a design, estim
 - Match each step to a fast feedback mechanism. Explore an application programming interface in a read-evaluate-print loop, run a unit test after a code change, and demonstrate a feature to users before expanding it.
 - Treat any task that requires guessing distant completion dates, future requirements, future maintenance needs, or unavailable technology as too large. Narrow the task to the next decision that current evidence can support.
 - Design only for changes you can reasonably see. Avoid speculative extension points and abstractions for hypothetical needs.
-- Make uncertain code easy to discard or replace. Isolate it behind a small interface, keep each component focused, and minimize dependencies so an unexpected change does not spread through the system.
+- Make uncertain code easy to discard or replace. Isolate it behind a small interface, keep each component focused, avoid duplicating its knowledge, and minimize dependencies so an unexpected change does not spread through the system.
 - Reassess the plan whenever feedback disproves an assumption. Change direction while the unfinished step and replacement cost remain small.
+- Expect rare, high-impact events and gradual changes at the edges of the work to invalidate confident predictions. Revisit assumptions instead of counting on tomorrow to resemble today.

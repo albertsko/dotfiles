@@ -13,6 +13,7 @@ Requirements are not fixed facts waiting to be collected; they emerge as enginee
 - State requirements as needs and semantic invariants, not architecture, implementation, or interface choices. Replace “supervisors and personnel may view records” with “authorized users may view records” when the listed roles are current policy rather than an enduring rule.
 - Represent changeable policy as data or configuration. Build a general authorization mechanism and store permitted roles as metadata so policy changes do not require scattered code edits.
 - Validate usability as well as feature coverage. Preserve users’ established skills and natural feedback loops instead of forcing technically complete functions through an awkward interaction model.
-- Record requirements as short, user-centered stories for planning and prioritization. Keep each story concise enough to trigger clarifying conversations before and during implementation, and treat working behavior as the strongest validation of shared understanding.
+- Treat written requirements as planning mileposts for the team, not authoritative deliverables for client sign-off. Use working software as the strongest validation of shared understanding.
+- Record requirements as short, user-centered stories for planning and prioritization. Keep each story concise enough to trigger clarifying conversations before and during implementation.
 - Make scope changes visible. Add each requested feature to the plan, show its cost, and ask which existing work should move out of the iteration to make room.
 - Maintain one accessible project glossary. Define each domain term precisely and use the same vocabulary in conversations, stories, code, tests, and support material.

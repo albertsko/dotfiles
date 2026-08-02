@@ -6,10 +6,10 @@ Property-based testing validates contracts and invariants across many generated 
 
 - Identify each operation's preconditions, postconditions, and invariants before choosing test examples.
 - Express properties independently of the implementation. For example, assert that a successful stock removal leaves `remaining quantity + removed quantity == original quantity`.
-- Generate data from the operation's valid domain, and compose generators for collections and related values. Include empty collections, minimum and maximum values, and values on both sides of important boundaries.
+- Describe generated data precisely: constrain values to the relevant ranges, transform generators when the domain requires it, and compose generators for collections and related values. Include empty collections, minimum and maximum values, and values on both sides of important boundaries.
 - Generate combinations that challenge assumptions shared by the code and its unit tests. For example, test requests both below and above the available stock instead of checking only whether any stock exists.
 - Treat unexpected exceptions from valid generated inputs as property failures, even when the declared assertion did not fail.
-- Inspect the smallest falsifying input, reproduce it in a focused unit test, and keep that test as a deterministic regression check because later generated runs may use different values.
+- Inspect the reported falsifying input, reproduce it in a focused unit test, and keep that test as a deterministic regression check because later generated runs may use different values.
 - Fix the violated contract or data model, not merely the observed example. If availability depends on quantity, make quantity part of the availability check.
 - Keep focused unit tests for known behavior and regressions, and use property-based tests to explore broad input spaces and validate universal guarantees.
 - Use difficult-to-state properties as design feedback: simplify APIs and state transitions until their invariants are explicit and testable.

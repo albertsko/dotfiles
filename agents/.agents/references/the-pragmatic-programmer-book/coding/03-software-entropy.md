@@ -1,6 +1,6 @@
 ## 3. Software Entropy
 
-Software entropy is the accelerating disorder that appears when a team tolerates bad designs, wrong decisions, and poor code. A single neglected defect signals that quality no longer matters, making further degradation feel acceptable and spreading hopelessness across the team. Protect a healthy codebase by repairing each problem quickly, containing problems that cannot yet be fixed, and avoiding collateral damage even under deadline or incident pressure.
+Software entropy is the accelerating disorder, often called software rot or technical debt, that spreads when a project's culture tolerates bad designs, wrong decisions, and poor code. Even on a one-person project, one neglected defect signals that quality no longer matters, encourages further decay, and can create a sense that nothing can be fixed. Protect a healthy codebase by repairing each problem quickly, visibly containing problems that cannot yet be fixed, and avoiding collateral damage even under deadline or incident pressure.
 
 ### The Pragmatic Approach
 

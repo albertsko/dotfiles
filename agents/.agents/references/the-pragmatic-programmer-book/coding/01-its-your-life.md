@@ -1,6 +1,6 @@
 ## 1. It’s Your Life
 
-Software engineers have agency over their technical growth and work: when skills become dated or a role becomes boring, toxic, underpaid, or inflexible, act instead of waiting for an employer to make things better. Try to change the current situation, invest your own time in learning, ask for the conditions you want, and find a better opportunity when meaningful change does not follow.
+Software engineers have unusual agency because their skills are in demand, cross geographic boundaries, and support remote work. When skills become dated or a role becomes boring, toxic, underpaid, or inflexible, act instead of waiting for an employer to improve the situation: try to change it, invest your own time in learning, ask for the conditions you want, and find a better opportunity when meaningful change does not follow.
 
 ### The Pragmatic Approach
 

@@ -11,7 +11,7 @@ A version control system (VCS) preserves every change to code, documentation, co
 - Identify each release in the repository, then verify that the identified revision can regenerate the release after later development changes.
 - Isolate independent work in branches. For example, develop feature A and feature B on separate branches, then merge each completed change without disrupting the other.
 - Select a branching and review workflow that addresses the team's actual coordination problems, and revise the workflow as the team gains experience.
-- Configure a central project repository with strong access control, command-line automation, merge reviews, issue integration, reporting, and change notifications.
+- Keep an archived central repository even when the version control system supports peer-to-peer work, and use it as the project hub. Prefer third-party hosting unless operating repository infrastructure is part of the organization's business, and require strong access control, an intuitive interface, command-line automation, merge reviews, issue integration, reporting, change notifications, and collaborative documentation.
 - Automate builds and tests when changes reach designated branches; deploy only after those checks succeed, and retain a tested rollback path to a known working revision.
 - Practice recovery commands before an incident by restoring an earlier state, undoing a faulty change, and rolling back a release under controlled conditions.
 - Express workstation setup as versioned text, such as dotfiles, editor configuration, installed-application lists, and provisioning scripts, then test the setup by rebuilding a spare machine.

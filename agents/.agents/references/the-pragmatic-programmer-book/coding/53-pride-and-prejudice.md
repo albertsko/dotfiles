@@ -1,9 +1,10 @@
 ## 53. Pride and Prejudice
 
-Take responsibility for the code and designs you create, and make your authorship a dependable signal that the work is solid, clear, tested, documented, and worthy of professional confidence. Treat ownership as accountability rather than exclusive control: welcome collaboration, respect coworkers' contributions, and preserve individual responsibility when the team owns code collectively.
+Accept challenging responsibility for the code and designs you create, and let the quality of your work demonstrate your expertise. Make your authorship a dependable signal that the work is solid, clear, tested, documented, and worthy of professional confidence. Treat ownership as accountability rather than exclusive control: welcome collaboration, respect coworkers' contributions, and preserve individual responsibility when the team owns code collectively.
 
 ### The Pragmatic Approach
 
+- Accept challenging work, take responsibility for it, and let its quality demonstrate your expertise.
 - Make your authorship traceable, and stand behind every design and code change you produce.
 - Deliver work you would be proud to sign: write solid, readable code, test its behavior, and document the knowledge needed to maintain it.
 - Use ownership to create accountability, not territory; welcome reviews, improvements, and contributions from coworkers.

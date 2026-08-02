@@ -1,6 +1,6 @@
 ## 52. Delight Your Users
 
-Software delights users when it solves their underlying business problem within their objectives and budget, not merely when it works and ships on time. Treat stated requirements as incomplete proposals until you uncover the business outcomes users expect, then use those outcomes to guide implementation decisions throughout the project. Build domain knowledge and work as a problem solver who can connect parts of the organization and propose better ways to achieve the desired value.
+Software delights users when it solves their underlying business problem within their objectives and budget, not merely when it works and ships on time. Treat stated requirements as incomplete proposals until you uncover the business outcomes users expect, then use those outcomes to guide implementation decisions throughout the project. Build domain knowledge and a collaborative relationship with users so you can act as a problem solver, connect parts of the organization, and propose better ways to achieve the desired value.
 
 ### The Pragmatic Approach
 
