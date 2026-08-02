@@ -8,6 +8,6 @@ Resource use stays balanced when the code that allocates a finite resource also 
 - Keep resource lifetimes narrow, pass resource handles explicitly, and use scope-bound cleanup when the language provides it.
 - Allocate a resource before entering a protected block, then release it in a `finally` clause when scope-based cleanup is unavailable.
 - Acquire shared resource sets in a consistent order and release nested resources in reverse order.
-- Define and enforce who owns and frees every aggregate structure and each structure it contains.
+- For each aggregate structure, explicitly choose whether it recursively frees its contents, frees only itself and may orphan unreferenced contents, or refuses deallocation while it contains substructures. Apply the policy consistently, and in procedural languages centralize allocation and deallocation in a module for each major structure.
 - Rotate or expire logs, debug files, database records, and other persistent artifacts that consume finite capacity.
 - Wrap resource operations, check allocation counts at stable execution points, and use leak-detection tools to confirm that cleanup succeeds.

@@ -4,11 +4,13 @@ Programming by coincidence means trusting code because it appears to work withou
 
 ### The Pragmatic Approach
 
-- Understand every piece of code well enough to explain why it works and why it might fail.
-- Proceed from a plan and rely on documented behavior, well-defined interfaces, and sound domain models.
+- Understand the code, application, and technologies well enough to explain in detail why the code works and why it might fail.
+- Proceed from a plan and rely on documented behavior, sound domain models, and small, well-documented interfaces that hide implementation details.
 - Remove unnecessary calls and accidental workarounds once you identify the behavior that the code actually requires.
 - Prove suspected causes and patterns with evidence instead of inferring them from intermittent results or limited tests.
-- Identify and document assumptions about inputs, execution order, locale, files, configuration, clocks, hardware, and network conditions.
-- Test assumptions directly with experiments and assertions, and treat unsupported assumptions as unreliable.
+- Identify, reconcile, and document assumptions across requirements, implementation, and testing, including assumptions about inputs, execution order, users, locale, file permissions, configuration, runtime environments, clock accuracy, hardware, and network availability and speed.
+- Use Coordinated Universal Time when systems span time zones.
+- Rely only on behavior you know is reliable. If reliability is uncertain, assume the worst; if you must depend on undocumented behavior, record the assumption clearly.
+- Test assumptions directly with experiments and assertions so verified assumptions also document the code.
 - Prioritize correct fundamentals and infrastructure before adding secondary features.
-- Refactor or replace existing code when its design no longer fits, while weighing the change against the cost of preserving it.
+- Refactor or replace existing code when its design no longer fits, while weighing the change against the cost of preserving it. Do not rewrite suitable code merely to impose personal preferences.

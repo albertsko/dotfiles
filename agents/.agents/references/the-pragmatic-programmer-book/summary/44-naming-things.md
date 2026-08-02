@@ -6,11 +6,13 @@ Names shape how programmers understand code because written words command attent
 
 - Name each element for its role and intent.
 - Pause before naming an element and identify why it exists, what makes it distinct, what it does, and what it interacts with.
-- Replace generic labels such as `user` or `amount` with precise domain terms such as `buyer`, `customer`, `discount`, or `percentage`.
+- Replace generic labels such as `user` or `amount` with precise domain terms such as `buyer`, `customer`, `discount`, or `percentage`, and keep system names congruent with users’ domain terms.
 - Name operations for their purpose, and introduce explicit types when primitive values leave units, ranges, or expectations unclear.
 - Consider the surrounding context so names remain clear without redundant repetition.
 - Follow the established conventions of the language and community, including customary short names, casing, and character sets.
-- Define the project’s shared vocabulary, spread it through frequent communication, and record specialized terms in a glossary when useful.
-- Reserve playful or obscure names for projects, products, and teams rather than code whose meaning must be clear.
+- Define the project’s shared vocabulary, spread it through frequent communication such as pair programming with frequently changing pairs, and record specialized terms in a glossary when useful so established jargon becomes accurate, concise shorthand.
+- Reserve playful or obscure names for branding, such as projects and teams, rather than code whose meaning must be clear.
+- Rename an overly generic function or method to express everything it does, then use the resulting name to identify it as a refactoring target.
 - Rename an element as soon as its name becomes inaccurate, confusing, or misleading.
-- Maintain regression tests and adaptable designs so renaming remains easy and safe.
+- Maintain regression tests so missed references are detected and renaming remains safe.
+- If a name is difficult to change, treat the difficulty as a design problem, make the design adaptable first, and then rename it.

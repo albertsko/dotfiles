@@ -6,10 +6,13 @@ Software development is continuous maintenance because requirements, regulations
 
 - Give each piece of knowledge or intent one authoritative representation.
 - Change a rule in one place, and treat changes required in multiple places or formats as evidence of duplicated knowledge.
-- Distinguish shared knowledge from coincidentally identical code before extracting an abstraction.
+- Distinguish shared knowledge from coincidentally identical or merely related representations before extracting an abstraction; unify them only when they express the same intent.
 - Replace repeated logic and presentation rules with named functions or other single points of change.
 - Use clear names and readable structure instead of comments that restate implementation details.
 - Compute derived values from their source data; when caching is necessary, encapsulate the cache and keep it synchronized through accessors.
-- Generate integrations and data representations from formal specifications or schemas whenever possible.
+- Expose data through uniform accessors so callers need not know whether values are stored or computed.
+- Define internal APIs in neutral, centrally shared specifications that can generate documentation, mocks, tests, and clients.
+- Import formal external API specifications when available; when none exists, consider creating and publishing one.
+- Generate data representations from introspected source schemas whenever possible.
 - Validate flexible external data against a table of required fields and formats.
-- Communicate frequently, review colleagues' work, centralize reusable utilities, and make existing functionality easy to find and reuse.
+- Communicate frequently through durable team channels, review colleagues' work, centralize reusable utilities, assign knowledge stewardship, and make existing functionality easy to find and reuse.

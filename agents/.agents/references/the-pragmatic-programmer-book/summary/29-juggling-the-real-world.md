@@ -6,9 +6,9 @@ Responsive applications treat an event as the availability of external or intern
 
 - Identify each meaningful event as newly available information, whether it comes from a user, a timer, an external system, or an internal computation.
 - Use a finite state machine when the correct response depends on both the current state and the incoming event.
-- Express state transitions as data, define default or error transitions, and attach actions only where transitions must produce effects.
+- Express state transitions as data, define default or error transitions, and store action names or callables with transitions that produce effects; encapsulate reusable machine logic and state when useful.
 - Persist state outside the process when a workflow spans multiple requests, sessions, or long delays.
-- Use the Observer pattern for simple local notifications, and keep callbacks short to limit coupling and synchronous delays.
-- Use publish/subscribe channels when publishers and subscribers need independent lifecycles or asynchronous communication, and add tracing so hidden message paths remain understandable.
+- Implement the Observer pattern directly for simple local notifications when callback registration and iteration are all you need; account for coupling to the observable and synchronous callback bottlenecks.
+- Use an established publish/subscribe library or service when publishers and subscribers need independent lifecycles or asynchronous communication, and account for reduced visibility into which subscribers handle each message.
 - Model event sequences and combinations as streams, then filter, transform, merge, or pair them with the same operations used for ordinary collections.
 - Process independent event streams concurrently and handle both results and errors as they arrive.

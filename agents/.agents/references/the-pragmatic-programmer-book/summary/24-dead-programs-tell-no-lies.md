@@ -7,7 +7,7 @@ Treat every error, including unexpected input, missing or corrupt data, incorrec
 - Validate data, runtime assumptions, deployed code, and dependency versions.
 - Add a default branch to every case or switch statement, and treat reaching it unexpectedly as an error.
 - Read and investigate every error message instead of assuming the error cannot happen.
-- Let exceptions propagate unless a handler can recover, clean up, or add useful context.
+- Let exceptions propagate automatically; catch one only when the handler can do more than log a message and rethrow it.
 - Terminate execution promptly when an impossible state makes further behavior untrustworthy.
-- Release resources, log essential details, close transactions, and coordinate with other processes before terminating when the environment requires cleanup.
+- Release claimed resources, write necessary log messages, clean up open transactions, and coordinate with other processes before terminating when the environment requires cleanup.
 - Isolate fallible work under supervisors that clean up, restart it, and manage failures through a supervisor hierarchy.

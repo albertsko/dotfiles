@@ -4,11 +4,12 @@ Agility is a way individuals and teams work, not a branded process or fixed solu
 
 ### The Pragmatic Approach
 
-- Treat agility as a responsive working style, not as a method, label, job title, or boxed solution.
+- Treat agility as a responsive working style, not as a fixed process, label, job title, or boxed solution.
 - Use the stated value priorities to decide what to examine, then choose actions that fit the context.
 - Determine where you are and where you want to go.
 - Take the smallest meaningful step toward the destination.
 - Evaluate the result, gather feedback, and repair anything you broke.
 - Repeat the feedback loop at every scale, from names and code structure to project direction and team practices.
+- Let early feedback challenge whether planned work is necessary and whether software is the right solution.
 - Experiment continuously with how the team works, and act on the findings.
-- Keep designs easy to change and reduce coupling so the cost of correction does not encourage neglect.
+- Favor reversible decisions, keep designs easy to change, and reduce coupling so the cost of correction does not encourage neglect.

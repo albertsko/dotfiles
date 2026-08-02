@@ -9,6 +9,7 @@ Editor fluency makes text manipulation, the raw material of programming, feel in
 - Replace repeated manual editing with a command or small automation.
 - Reindent code, toggle block comments, undo and redo, split and navigate panels, jump to lines, sort selections, search with strings and regular expressions, repeat searches, and edit with multiple cursors without reaching for a pointing device.
 - Display compilation errors and run project tests from the editor.
-- Disable key autorepeat and work without a mouse or trackpad for a week to expose gaps in keyboard fluency.
+- Consider switching editors if the current editor cannot support essential fluency tasks.
+- Disable key autorepeat and work without a mouse or trackpad for a week to expose gaps in keyboard fluency; keep notes of new key sequences and accept a temporary productivity hit while they become automatic.
 - Keep a list of missing integrations, search for extensions, and learn the editor's extension language.
 - Build and publish an extension when no available tool solves a recurring need.

@@ -7,6 +7,6 @@ Developers delight users by solving their underlying business problems, not mere
 - Ask users how they will recognize success at a meaningful time after the project ends.
 - Translate their answer into explicit business-value expectations and ensure the entire team understands them.
 - Choose the path that moves the project closer to those expectations.
-- Test every stated requirement against the desired outcome, and propose a better requirement when it will produce more value.
-- Revisit the expectations throughout the project and use growing domain knowledge to identify additional ways to solve the underlying problem.
+- Treat stated requirements as incomplete hypotheses that may be guesses at a technical implementation. Iterate them with users, test them against the desired outcome, and propose alternatives when you can show they move the project closer to that outcome.
+- Revisit the expectations throughout the project. Use growing domain knowledge and the team's view across the organization to connect business areas and identify additional ways to solve the underlying problem.
 - Build a collaborative relationship that lets the team act as active problem solvers.

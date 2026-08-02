@@ -7,8 +7,8 @@ Prototypes cheaply isolate risky, unfamiliar, experimental, or critical aspects 
 - Prototype any architecture, functionality, external data, third-party component, performance concern, or interface design that creates uncertainty or risk.
 - Define the specific questions the prototype must answer before building it.
 - Choose the cheapest medium that exposes the target behavior, structure, appearance, or interaction.
-- Ignore correctness, completeness, robustness, documentation, and polish when they do not affect the questions under investigation.
-- Use high-level scripting languages, interface-design tools, or lightweight physical materials to assemble and revise ideas quickly.
-- Model architectural responsibilities, collaborations, coupling, duplication, interfaces, constraints, and the timing of each module's data access.
-- Tell every stakeholder that prototype code is incomplete, disposable, and unsuitable for deployment.
+- Omit details that do not affect the questions: use dummy data, support only a predefined path, leave error handling incomplete, and minimize prototype-code comments and documentation. Record the lessons the prototype produces.
+- Use high-level scripting languages, interface-design tools, or lightweight physical materials to assemble and revise ideas quickly. Use scripts as glue to test new combinations of existing low-level components, and do not let the prototype language constrain the production implementation.
+- Prototype architecture as a whole without making every module functional. Evaluate whether responsibilities and collaborations are well defined, coupling is minimized, duplication is identifiable, interfaces and constraints are acceptable, and every module can access required data when needed.
+- Tell every stakeholder before code-based prototyping that prototype code is incomplete, disposable, cannot be completed into production software, and is unsuitable for deployment.
 - Discard the prototype after extracting its lessons; build a production-quality foundation instead when details cannot be omitted or stakeholders may treat the result as deployable software.

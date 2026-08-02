@@ -7,7 +7,7 @@ Tracer bullet development builds a lean, production-quality path through every m
 - Create the project first, add a minimal working feature, and confirm that the system builds and runs.
 - Identify the requirements that define the system, the greatest uncertainties, and the highest risks, then implement them first.
 - Build the thinnest production-quality feature that passes through every relevant architectural layer.
-- Show each working increment to users and use their feedback to correct the direction quickly.
-- Add functionality to the end-to-end skeleton in small, complete increments and integrate changes continuously.
+- Tell users that early increments are immature, show the increments early, invite participation, and use feedback to correct the direction quickly.
+- Add unit-tested functionality to the end-to-end skeleton in small, complete increments and integrate changes frequently.
 - Keep tracer code maintainable with proper structure, error handling, documentation, tests, and self-checking.
 - Use disposable prototypes only to investigate isolated questions; use tracer code to establish and evolve the real application.

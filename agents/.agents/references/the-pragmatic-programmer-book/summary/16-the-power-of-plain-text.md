@@ -7,7 +7,9 @@ Plain text stores knowledge as printable, human-understandable information whose
 - Store persistent knowledge as printable, human-understandable, self-describing text.
 - Use meaningful names and recognizable formats instead of opaque fields and values.
 - Choose structured plain-text formats when the data needs structure.
+- Use common, line-oriented plain-text formats so small, focused tools can work together.
 - Keep configuration, test data, and test output in plain text so standard tools can edit, search, compare, version, verify, and analyze them.
 - Design text data so useful information can be recognized and extracted with only partial knowledge of its format.
+- When choosing a storage format, test how it handles schema changes, versioning, extensibility, and migration of existing data.
 - Preserve a plain-text interface when a binary representation serves as a performance optimization.
 - Favor plain text for long-term access, interoperability, and recovery in limited environments.

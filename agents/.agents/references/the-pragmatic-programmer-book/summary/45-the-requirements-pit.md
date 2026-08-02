@@ -8,11 +8,11 @@ Requirements are not preexisting facts waiting to be gathered; assumptions, misc
 - Ask about assumptions, edge cases, exceptions, and likely future changes.
 - Explain the consequences of each option with facts, then let the client make the decision.
 - Build flexible mockups and prototypes, let clients use them, and revise them in response to feedback.
-- Deliver in short iterations that end with direct client feedback.
-- Work alongside actual users to learn their real workflows, expectations, and vocabulary without disrupting their work.
-- Validate how users perform their work as well as what functions the software provides.
-- State requirements as needs and semantic invariants, not as architecture, design, user interface details, or current work practices.
+- Treat the entire project as ongoing requirements discovery, using short iterations that end with direct feedback from relevant clients and users.
+- Work alongside actual users to learn their real workflows, expectations, and vocabulary, and to build trust without disrupting their work.
+- Design tools around users' established ways of working; validate how users perform their work as well as what functions the software provides.
+- Use the simplest non-vague statement that accurately captures the business need and semantic invariants, not architecture, design, user interface details, or current work practices.
 - Implement general mechanisms and represent changeable business policy as metadata.
-- Use concise user stories as planning mileposts that prompt conversation, not exhaustive specifications presented for client sign-off.
+- Write concise user stories from the user's perspective as planning mileposts that prompt clarification before and during implementation, not exhaustive specifications presented for client sign-off.
 - Make every proposed feature's cost visible and reprioritize existing work when scope grows.
 - Maintain one widely accessible glossary and require everyone to use its terms consistently.

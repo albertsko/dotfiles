@@ -4,7 +4,7 @@ Temporal coupling arises when software unnecessarily requires operations to occu
 
 ### The Pragmatic Approach
 
-- Map each workflow and distinguish required ordering from activities that can begin or proceed concurrently.
+- Use an activity diagram or equivalent workflow map to distinguish required ordering from activities that can begin or proceed concurrently.
 - Remove time and order dependencies that exist only because the original design was linear.
 - Overlap useful work with waits for databases, external services, user input, files, or external programs.
 - Split independent, processor-intensive work into chunks, process the chunks in parallel, and combine the results.

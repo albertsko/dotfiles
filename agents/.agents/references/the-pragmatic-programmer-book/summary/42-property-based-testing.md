@@ -5,8 +5,8 @@ Example-based unit tests can repeat the same mistaken assumptions embedded in th
 ### The Pragmatic Approach
 
 - Identify the contracts and invariants that express what must be true before and after each operation.
-- Describe broad, relevant input sets with composable generators, including boundary values and varied collection sizes.
+- Keep test design close to implementation so that thinking about tests informs the code; let generated cases supply an independent challenge to shared assumptions.
+- Describe broad, relevant input sets with composable generators, including varied values and collection sizes.
 - Assert properties of the results and state changes instead of checking only a few expected examples.
-- Run generated cases to challenge assumptions shared by the implementation and its conventional unit tests.
 - Capture the exact inputs from every failure, reproduce them in a focused unit test, fix the faulty assumption, and keep the test as a regression guard.
 - Use property-based tests alongside unit tests to validate general behavior while preserving clear examples of known cases.

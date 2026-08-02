@@ -10,4 +10,5 @@ Treat a program as a sequence of transformations that converts input data into o
 - Pass each function's result directly to the next compatible function.
 - Use a pipeline operator or successive assignments to make the transformation sequence visible.
 - Pass state through the flow instead of hiding mutable state in communicating objects.
+- Use static type checking, when available, to catch pipeline stages whose input and output types are incompatible.
 - Wrap results as success values or errors, and stop later transformations from running after a failure.

@@ -5,8 +5,9 @@ Software projects operate in a changing world: requirements, users, hardware, av
 ### The Pragmatic Approach
 
 - Treat every technical and vendor decision as provisional.
-- Delay irreversible commitments until the project has enough information to justify them.
+- Avoid unnecessary irreversible commitments.
 - Identify plausible alternatives and estimate the cost of switching to each one.
+- Apply the Don't Repeat Yourself principle so a changed decision does not require updates in multiple places.
 - Hide third-party application programming interfaces behind abstractions that the project controls.
 - Expose persistence as a service instead of scattering database-specific calls through the code.
 - Separate client rendering from server behavior so a browser interface can give way to an application programming interface or mobile client.

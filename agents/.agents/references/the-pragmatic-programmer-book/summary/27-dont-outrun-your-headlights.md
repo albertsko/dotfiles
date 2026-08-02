@@ -7,7 +7,7 @@ Software development has a limited throw distance: the farther plans reach beyon
 - Break work into small, deliberate steps.
 - Seek independent feedback after every step, then adjust before proceeding.
 - Limit each task to the scope that available feedback can validate.
-- Avoid plans that depend on distant completion dates, maintenance needs, user demands, or technology forecasts.
+- Avoid tasks that require predicting completion dates months ahead, future maintenance or extensibility requirements, future user needs, or future technology availability.
 - Design only for needs supported by current evidence.
 - Make uncertain code easy to discard and replace.
 - Revisit assumptions and watch for rare events or overlooked changes.

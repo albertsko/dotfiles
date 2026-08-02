@@ -7,7 +7,7 @@ Take responsibility for your work and create code you can proudly sign: solid, w
 - Sign your work and stand behind its quality.
 - Produce solid, well-written, tested, and documented code.
 - Accept responsibility and make your expertise visible through professional results.
-- Welcome others' contributions instead of defending code as personal territory.
+- Collaborate on shared foundation code and welcome others' contributions instead of defending code as personal territory.
 - Treat coworkers' code with the same respect you expect for your own.
 - Establish clear individual or communal ownership without allowing anonymity to weaken accountability.
 - Pair communal ownership with practices such as pair programming that preserve quality and responsibility.

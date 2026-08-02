@@ -5,8 +5,9 @@ Text manipulation languages provide a powerful, general-purpose way to transform
 ### The Pragmatic Approach
 
 - Learn one text manipulation language well.
-- Use text manipulation to test ideas quickly and automate recurring project work.
+- Use text manipulation when its time and code savings make quick experiments or important project automation feasible.
 - Keep information in plain text when practical so scripts can process it easily.
-- Extract generated content from authoritative files instead of copying and maintaining duplicates.
+- Keep code examples in tested, authoritative source files, and extract and format only the relevant segments instead of copying and maintaining duplicates.
+- Keep index entries with their source text, then collate and format them automatically so document changes do not leave a separate index difficult to maintain.
 - Write small utilities for bulk conversions, searches, reports, and controlled edits.
 - Back up original files and inspect results before accepting automated changes.

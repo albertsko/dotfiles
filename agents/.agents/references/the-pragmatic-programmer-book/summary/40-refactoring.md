@@ -11,4 +11,4 @@ Software evolves more like a garden than a finished building: as knowledge, requ
 - Run the tests after each change so failures identify a small, recent edit.
 - Use automated refactoring tools to propagate safe structural changes when available.
 - Schedule a rewrite explicitly when the required change is too disruptive for incremental refactoring, and inform affected users.
-- Make old clients fail to compile when an intentional interface change must expose every dependency that needs updating.
+- If you must change an external interface, consider deliberately breaking the build so old clients fail to compile and reveal what needs updating.

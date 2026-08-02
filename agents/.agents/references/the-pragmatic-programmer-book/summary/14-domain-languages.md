@@ -7,7 +7,10 @@ Programming languages shape the solutions developers see, but the problem domain
 - Write code with the problem domain's vocabulary so the solution expresses domain concepts directly.
 - Choose an internal domain language when host-language features provide useful power and its syntax is an acceptable constraint.
 - Start an internal domain language with ordinary functions before adding metaprogramming or macros.
+- Use host-language control structures to generate repeated domain declarations, such as families of tests.
 - Prefer established external formats such as YAML, JSON, or CSV when they can express the required data.
-- Create a custom external language mainly when application users need to write it and its benefits justify the parser and tooling effort.
+- If no established external format fits, prefer an internal language; create a custom external language only when application users will write it and its benefits justify the parser and tooling effort.
+- When custom syntax is necessary, reuse an existing parser or parser framework when possible and design the parser so new commands are easy to add.
 - Translate external specifications into well-defined code or data that the application can execute.
-- Give business users runnable software to explore so their concrete needs can emerge.
+- Consider whether a domain language can express requirements, generate repetitive code, or provide a reusable framework across projects.
+- Do not treat business-user sign-off on detailed specifications as proof that the requirements are understood; give users runnable software to explore so their concrete needs can emerge.

@@ -6,6 +6,7 @@ Problems that seem impossible often stay stuck because people repeat obvious app
 
 - Enumerate every possible avenue, including options that initially sound impractical or foolish.
 - Identify each constraint, classify it as absolute or assumed, and demand proof before rejecting a path.
+- Revalidate inherited constraints and confirm that they still apply and are still interpreted correctly.
 - Rank the most restrictive constraints first, then fit the remaining constraints within them.
 - Ask whether the problem must be solved, whether it must be solved in the proposed way, and what benefit the solution provides.
 - Remove avoidable edge cases and try a simpler related problem when the full problem remains stuck.

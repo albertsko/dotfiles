@@ -6,7 +6,8 @@ Large changes often stall when a complete proposal triggers delays and resistanc
 
 - Identify the smallest useful result you can reasonably secure support and resources for.
 - Build that result well, demonstrate it, and let visible success attract participation.
-- Invite people to extend the working result toward the larger vision.
+- Suggest modest improvements to the working result, then let stakeholders ask for the next increments toward the larger vision.
 - Monitor the entire project, not only your own work, for cumulative schedule, scope, design, and morale changes.
+- Practice situational awareness: deliberately scan the project for changes or details that seem out of context.
 - Review small changes together so gradual drift becomes visible before it causes serious damage.
 - Confirm that each incremental change benefits the participants and the project; stop or adjust when it becomes deceptive or harmful.
