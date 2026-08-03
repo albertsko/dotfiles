@@ -25,11 +25,11 @@
   "disableRemoteControl": true,
   "disableWorkflows": true,
   "disableArtifact": true,
+  "enabledPlugins": {
+    "gopls-lsp@claude-plugins-official": true
+  },
   "effortLevel": "medium",
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
-  "theme": "dark",
-  "enabledPlugins": {
-    "gopls-lsp@claude-plugins-official": true
-  }
+  "theme": "dark"
 }
