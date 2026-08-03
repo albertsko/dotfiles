@@ -1,9 +1,9 @@
 ---
-name: communication-and-output
+name: output
 description: Style guide for writing clear user-facing output.
 ---
 
-# Communication And Output
+# Output
 
 Two tenets govern everything below: **say exactly what you mean**, and **take out all unnecessary words**.
 Diverging from a rule is fine when you know why, the goal is a message the reader gets on the first pass, not rule-following.
