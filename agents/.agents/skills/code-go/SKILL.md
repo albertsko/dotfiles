@@ -1,6 +1,7 @@
 ---
 name: code-go
 description: Guide for writing Go code following Google's Go style guide. Use when creating, reviewing, or refactoring any Go code (.go file, package, module, test), or when deciding on naming, error handling, interfaces, or test structure in Go.
+disable-model-invocation: true
 ---
 
 # Code Go

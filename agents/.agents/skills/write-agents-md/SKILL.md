@@ -1,6 +1,7 @@
 ---
 name: write-agents-md
 description: Guide for writing AGENTS.md context files for AI coding agents. Use when creating, reviewing, or improving an AGENTS.md or CLAUDE.md, deciding what belongs in the context file versus a skill, or structuring context files in a monorepo.
+disable-model-invocation: true
 ---
 
 # Write AGENTS.md

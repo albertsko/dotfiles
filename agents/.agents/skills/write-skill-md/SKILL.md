@@ -1,6 +1,7 @@
 ---
 name: write-skill-md
 description: Guide for authoring AI agent skills in the open SKILL.md format. Use when creating a new skill, reviewing or improving an existing SKILL.md, or deciding whether repeated instructions should become a skill.
+disable-model-invocation: true
 ---
 
 # Write SKILL.md

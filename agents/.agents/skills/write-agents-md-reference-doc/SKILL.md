@@ -1,6 +1,7 @@
 ---
 name: write-agents-md-reference-doc
 description: Guide for writing reference documents linked from AGENTS.md or CLAUDE.md. Use when extracting an oversized AGENTS.md section into its own file, creating or reviewing a doc that agents load on demand (rule inventories, decision tables, subsystem specs, debugging notes), or deciding whether content belongs in AGENTS.md, a reference doc, or a skill.
+disable-model-invocation: true
 ---
 
 # Write AGENTS.md Reference Doc

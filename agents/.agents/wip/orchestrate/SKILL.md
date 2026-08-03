@@ -1,7 +1,7 @@
 ---
 name: orchestrate
 description: Run a plan-code-judge loop on one task. A read-only Planner subagent writes the plan, the Codex CLI implements it, and a read-only Judge subagent reviews the diff until it approves.
-disable-model-invocation: false
+disable-model-invocation: true
 ---
 
 # Orchestrate

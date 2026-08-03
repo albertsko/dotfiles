@@ -1,6 +1,7 @@
 ---
 name: code
 description: General coding guide, language-agnostic.
+disable-model-invocation: true
 ---
 
 # Code

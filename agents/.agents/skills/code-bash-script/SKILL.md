@@ -1,6 +1,7 @@
 ---
 name: code-bash-script
 description: Guide for writing robust bash scripts. Use when creating, reviewing, or refactoring any shell script (.sh file, bin script, CLI wrapper, install/setup script), or when handling flags, arguments, or strict mode in bash.
+disable-model-invocation: true
 ---
 
 # Code Bash Script
