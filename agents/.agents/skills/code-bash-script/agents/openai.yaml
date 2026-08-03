@@ -1,0 +1,5 @@
+interface:
+  display_name: "Code Bash Script"
+  short_description: "Write robust bash scripts"
+policy:
+  allow_implicit_invocation: false
