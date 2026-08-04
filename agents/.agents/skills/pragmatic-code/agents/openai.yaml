@@ -1,5 +1,5 @@
 interface:
   display_name: "Pragmatic Code"
   short_description: "Pragmatic Programmer coding principles"
-policy:
-  allow_implicit_invocation: false
+# policy:
+#   allow_implicit_invocation: false

@@ -1,5 +1,5 @@
 interface:
   display_name: "Code"
   short_description: "General language-agnostic coding guide"
-policy:
-  allow_implicit_invocation: false
+# policy:
+#   allow_implicit_invocation: false
