@@ -31,5 +31,6 @@
   "effortLevel": "medium",
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
-  "theme": "dark"
+  "theme": "dark",
+  "hooks": {"SessionStart":[{"matcher":"*","hooks":[{"type":"command","command":"bash '/Users/askonieczny/.claude/hooks/herdr-agent-state.sh' session","timeout":10}]}]}
 }

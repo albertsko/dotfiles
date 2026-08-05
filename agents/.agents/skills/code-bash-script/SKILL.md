@@ -1,7 +1,6 @@
 ---
 name: code-bash-script
 description: Guide for writing robust bash scripts. Use when creating, reviewing, or refactoring any shell script (.sh file, bin script, CLI wrapper, install/setup script), or when handling flags, arguments, or strict mode in bash.
-disable-model-invocation: false
 ---
 
 # Code Bash Script
@@ -14,8 +13,8 @@ Order every script the same way, top to bottom:
 
 1. Shebang and strict mode
 2. UPPERCASE globals and constants
-3. Minimal helper functions (`usage`, `die`)
-4. Flag and argument parsing
+3. The `die` function, plus other functions only when justified
+4. Flag and argument parsing, only when the script accepts them
 5. Validation, so the script fails before any logic runs
 6. Flat procedural logic
 
@@ -35,7 +34,7 @@ Use `#!/usr/bin/env bash`, not `#!/bin/bash`: macOS/BSD ship bash outside `/bin`
 - `pipefail` breaks legitimately-failing pipeline stages (`grep` with no match, SIGPIPE from `head`); handle expected failures with `cmd || true`.
 - Under `-u`, use `"${1:-}"` / `"${VAR:-default}"` for legitimately-maybe-unset variables.
 
-So still check every command whose failure matters explicitly: `cmd || die "message"`.
+So still check every command whose failure matters explicitly: `cmd || die 'command failed'`.
 
 ## Globals And Constants
 
@@ -44,26 +43,36 @@ So still check every command whose failure matters explicitly: `cmd || die "mess
 - Mark true constants `readonly`.
 - Derive script location once: `SCRIPT_DIR="$(dirname -- "$(realpath "${BASH_SOURCE[0]}")")"`.
 
-## Helper Functions
+## Functions
 
-Define only the helpers the script needs, right after the globals. The two standard ones:
+Always define this helper after the globals:
 
 ```sh
-usage() { printf 'Usage: %s [-n|--dry-run] [--] PROFILE\n' "${0##*/}"; }
 die() {
 	printf 'Error: %s\n' "$1" >&2
-	usage >&2
 	exit 1
 }
 ```
 
+Add another function only when multiple call sites share meaningful behavior or the function isolates
+non-trivial logic. Do not add `usage`, `help`, or `main` by default.
+
 - Errors and progress messages go to stderr; stdout is reserved for the script's actual output.
 - In functions, declare variables `local`, and separately from command-substitution assignment: `local x=$(cmd)` masks the exit code (SC2155). Write `local x; x=$(cmd)`.
-- Once a script has more than one non-helper function, end it with a `main` function invoked as `main "$@"` on the last line.
+- Once a script needs multiple functions, consider a `main` function invoked as `main "$@"` on the last line.
 
 ## Flags And Arguments
 
-Use a manual `while`/`case` loop, the only portable way to get `--long` flags, `--opt=value`, and custom errors (Greg's Wiki BashFAQ/035). `getopts` is acceptable for short-options-only scripts; never use external `getopt(1)` (the BSD/macOS version mangles arguments containing spaces).
+Do not add flags, help output, or a parser to a script with fixed behavior. Reject unexpected arguments directly:
+
+```sh
+(($# == 0)) || die "unexpected argument: $1"
+```
+
+When a script actually accepts flags, use a manual `while`/`case` loop. It is the only portable way to
+get `--long` flags, `--opt=value`, and custom errors (Greg's Wiki BashFAQ/035). `getopts` is acceptable
+for short-options-only scripts; never use external `getopt(1)` because the BSD/macOS version mangles
+arguments containing spaces.
 
 Set defaults before the loop so flags override them. The canonical loop:
 
@@ -73,10 +82,6 @@ verbose=0
 
 while :; do
 	case "${1-}" in
-	-h | --help)
-		usage
-		exit 0
-		;;
 	-f | --file)
 		[[ ${2-} ]] || die '"--file" requires a non-empty argument'
 		file=$2
@@ -98,7 +103,8 @@ done
 
 Conventions to honor:
 
-- When the user requests `--help`, print usage to **stdout** and exit 0. On a bad invocation, print the error and usage to **stderr** and exit non-zero.
+- Add `-h` or `--help` only when explicitly requested or when a non-trivial interface needs discoverable usage. When supported, print help to stdout and exit 0.
+- On a bad invocation, print the error to stderr and exit non-zero. Print usage only when it helps resolve the error.
 - `--` ends option parsing; everything after is an operand.
 - Reject unknown flags and empty option-arguments; don't ignore them.
 
@@ -107,7 +113,7 @@ Conventions to honor:
 After parsing, check every precondition and fail with a specific message before any work happens (negative-space programming):
 
 ```sh
-[[ "$file" ]] || die "--file is required"
+[[ $(uname -s) == Darwin && $(uname -m) == arm64 ]] || die 'this script requires macOS on Apple silicon'
 [[ -d "$TARGET_DIR" ]] || die "target directory is missing: $TARGET_DIR"
 ```
 
@@ -115,7 +121,8 @@ Once the logic starts, every input is already known-good, so the logic reads as 
 
 ## Flat Logic, No Nesting
 
-- Use guard clauses and early `exit` instead of `if/else` pyramids. A branch that ends the script (`--delete` mode, dry-run) does its work and exits; the main path continues unindented.
+- Favor `[[ condition ]] || die 'message'` for terminal preconditions and early exits. Use `if` when both branches are meaningful or execution continues after the branch.
+- Avoid `if`/`else` pyramids. A branch that ends the script does its work and exits; the main path continues unindented.
 - Build command argument lists in arrays, never in strings; append conditionally and expand quoted:
 
 ```sh
@@ -133,7 +140,7 @@ stow "${flags[@]}" --restow "$package"
 - Never pipe into `while`: the loop runs in a subshell and assignments vanish. Use `done < <(cmd)` or `readarray -t`.
 - Never parse `ls`; use globs (`for f in ./*.sh`) or `find ... -print0`.
 - Use `--` before filename arguments (`rm -- "$file"`) and explicit paths (`./*` not `*`) so names starting with `-` aren't taken as flags.
-- Handle `cd` failure: `cd "$dir" || die "cannot cd to $dir"`.
+- Handle `cd` failure explicitly: `cd "$dir" || die "cannot cd to $dir"`.
 - If the script creates temp state, use `tmp=$(mktemp)` plus `trap 'rm -f "$tmp"' EXIT`. Never hardcode `/tmp/name`.
 
 ## Verify
