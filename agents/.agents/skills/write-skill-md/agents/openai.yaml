@@ -1,5 +1,0 @@
-interface:
-  display_name: "Write SKILL.md"
-  short_description: "Author agent skills in the SKILL.md format"
-policy:
-  allow_implicit_invocation: false
