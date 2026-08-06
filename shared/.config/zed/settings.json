@@ -8,6 +8,7 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   // --- Profiles ---
+  "diff_view_style": "unified",
   "cli_default_open_behavior": "existing_window",
   "profiles": {
     "agentic": {
@@ -89,7 +90,8 @@
   "hard_tabs": false,
   "show_signature_help_after_edits": true,
   "extend_comment_on_newline": false,
-  // --- Window Layout & Panels ---
+  "excerpt_context_lines": 6,
+  "expand_excerpt_lines": 12,
   "outline_panel": {
     "dock": "left",
   },
@@ -130,6 +132,7 @@
     "indent_guides": {
       "show": "never",
     },
+    "auto_reveal_entries": true,
   },
   "terminal": {
     "line_height": "standard",

@@ -21,4 +21,9 @@
       // "j k": "vim::NormalBefore"
     },
   },
+  {
+    "bindings": {
+      "shift-backspace": "project_panel::RemoveFromProject",
+    },
+  },
 ]
