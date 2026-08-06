@@ -4,6 +4,7 @@ fish_vi_key_bindings
 alias x exit
 alias http xh
 alias ssh 'env TERM=xterm-256color ssh'
+alias zed 'zed -a'
 
 alias cfg 'git -C "$DOTFILES_HOME"'
 abbr --add cdcfg 'cd "$DOTFILES_HOME"'
