@@ -19,6 +19,9 @@ abbr --add gc git checkout
 abbr --add gs git status
 abbr --add gl 'git log --oneline --graph --decorate'
 
+abbr --add hd 'hunk diff'
+abbr --add hs 'hunk show'
+
 function ggg
     git add -A && git commit -m "$argv" && git pull --rebase; git push
 end

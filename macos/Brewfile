@@ -12,7 +12,7 @@ brew "tldr"
 brew "bat"
 brew "xh"
 brew "git"
-brew "git-delta"
+brew "hunk"
 brew "stow"
 
 # Shell
