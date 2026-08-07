@@ -8,7 +8,6 @@ git config --global alias.br branch
 git config --global alias.ci commit
 git config --global alias.st status
 
-git config --global core.pager "hunk pager"
 git config --global alias.hdiff '-c core.pager="hunk pager" diff'
 git config --global alias.hshow '-c core.pager="hunk pager" show'
 
