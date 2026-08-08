@@ -1,0 +1,3 @@
+.scratch/
+docs/adr/*.md
+docs/external/*.md

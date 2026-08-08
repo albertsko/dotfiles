@@ -1,7 +1,7 @@
 _install\.sh
-\.git
-\.gitignore
-\.gitmodules
+^/\.git($|/)
+^/\.gitignore$
+^/\.gitmodules$
 \.DS_Store
 ^/README.*
 ^/LICENSE.*

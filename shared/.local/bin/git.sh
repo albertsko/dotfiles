@@ -13,6 +13,7 @@ git config --global alias.hshow '-c core.pager="hunk pager" show'
 
 git config --global init.defaultBranch main
 git config --global color.ui auto
+git config --global core.excludesFile "$HOME/.gitignoreglobal"
 
 git config --global push.default current
 git config --global push.autoSetupRemote true
