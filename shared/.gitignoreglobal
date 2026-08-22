@@ -1,4 +1,1 @@
 .scratch/
-docs/adr/*.md
-docs/external/*.md
-docs/agents/*.md

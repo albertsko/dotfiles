@@ -7,28 +7,11 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  // --- Profiles ---
-  "diff_view_style": "unified",
-  "cli_default_open_behavior": "existing_window",
-  "profiles": {
-    "agentic": {
-      "settings": {
-        "disable_ai": false,
-        "toolbar": {
-          "agent_review": true,
-          "breadcrumbs": true,
-          "code_actions": true,
-          "quick_actions": true,
-          "selections_menu": true,
-        },
-      },
-    },
-  },
   // --- Languages ---
   "languages": {
     "PHP": {
       "language_servers": [
-        "phpantom_lsp",
+        "phpantom",
         "!intelephense",
         "!phpactor",
         "!phptools",
@@ -63,27 +46,42 @@
         "gofumpt": true,
       },
     },
+    "golangci-lint": {
+      "initialization_options": {
+        "command": [
+          "golangci-lint",
+          "run",
+          "--output.json.path",
+          "stdout",
+          "--show-stats=false",
+          "--output.text.path=",
+        ],
+      },
+    },
+  },
+  "auto_install_extensions": {
+    "golangci-lint": true,
   },
   // --- General ---
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "One Dark",
+    "dark": "Everforest Dark Hard (regular)",
   },
-  "ui_font_family": "Inter",
-  "ui_font_size": 15,
+  "ui_font_size": 17,
   "auto_update": true,
   "disable_ai": true,
   "telemetry": {
     "diagnostics": false,
     "metrics": false,
   },
+  "cli_default_open_behavior": "existing_window",
   // --- Text Editor ---
   "cursor_shape": "bar",
   "cursor_blink": false,
   "buffer_font_family": "JetBrainsMonoNL Nerd Font",
   "buffer_font_size": 15,
-  "buffer_line_height": "comfortable",
+  "buffer_line_height": "standard",
   "autosave": "on_focus_change",
   "format_on_save": "off",
   "inline_code_actions": false,
@@ -160,4 +158,5 @@
       "enabled": false,
     },
   },
+  "diff_view_style": "split",
 }

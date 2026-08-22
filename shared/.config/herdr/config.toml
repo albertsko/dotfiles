@@ -7,7 +7,7 @@ focus_pane_up    = "prefix+up"
 focus_pane_right = "prefix+right"
 split_horizontal = "prefix+,"
 split_vertical    = "prefix+."
-new_tab   = "prefix+c"
+new_tab   = "prefix+t"
 close_tab = "prefix+x"
 workspace_picker = "prefix+w"
 goto             = "prefix+g"
@@ -18,3 +18,6 @@ agent_panel_sort = "spaces"
 
 [theme]
 name = "one-dark"
+
+[ui.toast]
+delivery = "system"

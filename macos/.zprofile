@@ -1,10 +1,7 @@
 export DOTFILES_PROFILE=macos
 export VAULT_HOME="$HOME/Library/Mobile Documents/com~apple~CloudDocs/vault"
 
-export PNPM_HOME="$HOME/Library/pnpm"
-
 export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
-export PATH="$PNPM_HOME:$PATH"
 
 if [[ -x /opt/homebrew/bin/brew ]]; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"

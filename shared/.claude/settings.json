@@ -46,5 +46,5 @@
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
   "theme": "dark",
-  "model": "opus[1m]"
+  "model": "claude-fable-5[1m]"
 }
