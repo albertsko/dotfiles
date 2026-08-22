@@ -1,24 +1,18 @@
-# dotfiles
+Personal dotfiles managed with GNU Stow.
 
-## Install
+### Install
 
 ```sh
 bash <(curl -fsSL https://raw.githubusercontent.com/albertsko/dotfiles/main/install.sh)
 ```
 
-Clones the repo to `~/.local/share/dotfiles`, prompts for a profile (`macos`, `ubuntu24`, `work`), sets up SSH + git, runs the profile installer, then symlinks dotfiles into `$HOME` via stow.
+The installer clones this repository to `~/.local/state/dotfiles`, prompts for `macos` or `ubuntu26`, runs the profile installer, and symlinks the dotfiles into `$HOME`.
 
-Set `DOTFILES_DRY_RUN=1` to preview without making changes.
+Set `DOTFILES_DRY_RUN=1` to preview the installer without making changes.
 
-## Stow
+### Packages
 
-Dotfiles are organized into stow packages:
-
-- `shared/` — applied to all profiles
-- `macos/`, `ubuntu24/`, `work/` — profile-specific overrides
-
-To re-stow manually after adding files:
-
-```sh
-stow.sh <profile>
-```
+- `shared/` contains configuration used on every machine.
+- `macos/` contains the macOS profile and Homebrew bundle.
+- `ubuntu26/` is the placeholder for the upcoming Ubuntu 26 profile.
+- `work/` is an optional overlay for work-specific configuration.

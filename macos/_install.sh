@@ -11,6 +11,5 @@ if [[ ! -d "$VAULT_GIT_DIR" ]]; then
 	git --git-dir="$VAULT_GIT_DIR" read-tree HEAD
 fi
 
-bash "$SCRIPT_DIR/.local/bin/sudo-touchid.sh"
 bash "$SCRIPT_DIR/.local/bin/brew.sh"
 bash "$SCRIPT_DIR/.local/bin/macos.sh"

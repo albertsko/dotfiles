@@ -3,7 +3,7 @@ set -euo pipefail
 
 brew update
 brew outdated
-brew upgrade
+brew upgrade --yes
 brew autoremove
 brew cleanup
 brew doctor

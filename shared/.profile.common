@@ -3,7 +3,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 
-export DOTFILES_HOME="$XDG_DATA_HOME/dotfiles"
+export DOTFILES_HOME="$XDG_STATE_HOME/dotfiles"
 export DEV_HOME="$HOME/dev"
 export VAULT_HOME="${VAULT_HOME:-$HOME/vault}"
 export VAULT_GIT_DIR="$XDG_DATA_HOME/.vault.git"

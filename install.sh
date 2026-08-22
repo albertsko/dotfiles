@@ -2,7 +2,6 @@
 set -euo pipefail
 
 REPO_URL="https://github.com/albertsko/dotfiles.git"
-PROFILES=(macos ubuntu24 work)
 
 export DOTFILES_DRY_RUN="${DOTFILES_DRY_RUN:-0}"
 run() {
@@ -17,7 +16,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
-export DOTFILES_HOME="${DOTFILES_HOME:-$XDG_DATA_HOME/dotfiles}"
+export DOTFILES_HOME="${DOTFILES_HOME:-$XDG_STATE_HOME/dotfiles}"
 
 run mkdir -p "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$DOTFILES_HOME"
 
@@ -35,23 +34,9 @@ if [[ -d "$DOTFILES_HOME/.git" ]]; then
 	fi
 fi
 
-# select profile
-printf 'Enter profile (%s): ' "${PROFILES[*]}"
+printf 'Profile (macos/ubuntu26): '
 read -r DOTFILES_PROFILE
-echo ""
-
-valid_profile=0
-for profile in "${PROFILES[@]}"; do
-	if [[ "$DOTFILES_PROFILE" == "$profile" ]]; then
-		valid_profile=1
-		break
-	fi
-done
-
-if [[ "$valid_profile" != "1" ]]; then
-	echo "Error: invalid profile '$DOTFILES_PROFILE'. Expected one of: ${PROFILES[*]}." >&2
-	exit 1
-fi
+[[ "$DOTFILES_PROFILE" == "macos" || "$DOTFILES_PROFILE" == "ubuntu26" ]] || exit 1
 export DOTFILES_PROFILE
 
 # install dotfiles
@@ -60,9 +45,3 @@ run bash "$DOTFILES_HOME/$DOTFILES_PROFILE/_install.sh"
 
 # run stow
 run bash "$DOTFILES_HOME/shared/.local/bin/stow.sh" --override
-
-# install profile services
-service_installer="$DOTFILES_HOME/$DOTFILES_PROFILE/.local/bin/entrypoint.sh"
-if [[ -x "$service_installer" ]]; then
-	run bash "$service_installer"
-fi

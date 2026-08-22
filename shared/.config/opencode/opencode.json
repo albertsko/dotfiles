@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "/Users/askonieczny/Library/pnpm/global/v11/116eb-1a02ad32dd7-4c6eca6dea842a9b/node_modules/@rynfar/meridian/plugin/meridian.ts"
+  ],
+  "provider": {
+    "anthropic": {
+      "options": {
+        "baseURL": "http://127.0.0.1:3456",
+        "apiKey": "x"
+      }
+    }
+  }
+}

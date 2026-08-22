@@ -1,6 +1,4 @@
 _install\.sh
-^/\.test($|/)
-\.gitkeep
 \.git
 \.gitignore
 \.gitmodules
