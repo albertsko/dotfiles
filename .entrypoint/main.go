@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
 	"os"
-	"path/filepath"
-	"time"
+	"os/exec"
+	"strings"
 )
 
 func main() {
@@ -15,36 +17,49 @@ func main() {
 }
 
 func run() error {
-	stateRoot := os.Getenv("XDG_STATE_HOME")
-	if stateRoot == "" {
-		homePath, err := os.UserHomeDir()
-		if err != nil {
-			return fmt.Errorf("get home path: %w", err)
+	s, err := NewService()
+	if err != nil {
+		return fmt.Errorf("failed to create service: %w", err)
+	}
+
+	err = s.runPodman()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// --- service runners ---
+
+func (s *Service) runPodman() error {
+	err := execCmd("podman", "machine", "start")
+	if err != nil && !strings.Contains(err.Error(), "already running") {
+		return err
+	}
+	return nil
+}
+
+// --- helpers ---
+
+func execCmd(args ...string) error {
+	if len(args) == 0 {
+		return fmt.Errorf("failed to execCmd: 0 len cmd")
+	}
+
+	cmd := exec.Command(args[0], args[1:]...)
+	var stdout bytes.Buffer
+	var stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	err := cmd.Run()
+	if err != nil {
+		if exitErr, ok := errors.AsType[*exec.ExitError](err); ok {
+			return fmt.Errorf("exit code %d\nstderr:\n%s", exitErr.ExitCode(), stderr.String())
 		}
-		stateRoot = filepath.Join(homePath, ".local", "state")
+
+		return fmt.Errorf("failed to execute command: %+v", err)
 	}
-
-	statePath := filepath.Join(stateRoot, "entrypoint")
-	if err := os.MkdirAll(statePath, 0o700); err != nil {
-		return fmt.Errorf("create state path: %w", err)
-	}
-
-	logPath := filepath.Join(statePath, "entrypoint.log")
-	logFile, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0o600)
-	if err != nil {
-		return fmt.Errorf("open log file: %w", err)
-	}
-
-	_, err = fmt.Fprintf(logFile, "%s entrypoint ran\n", time.Now().Format(time.RFC3339))
-	closeErr := logFile.Close()
-
-	if err != nil {
-		return fmt.Errorf("write log entry: %w", err)
-	}
-
-	if closeErr != nil {
-		return fmt.Errorf("close log file: %w", closeErr)
-	}
-
 	return nil
 }

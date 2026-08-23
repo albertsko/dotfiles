@@ -1,0 +1,27 @@
+name: gdrive
+
+services:
+  gdrive:
+    pull_policy: build
+    build:
+      context: .
+      pull: true
+    environment:
+      PGID: "${PGID:-1000}"
+      PUID: "${PUID:-1000}"
+    volumes:
+      - "${HOME}/.gdrive:/data"
+      - "${HOME}/.gdrive-bak:/backup"
+      - config:/config/rclone
+      - state:/state
+    restart: unless-stopped
+    stop_grace_period: 2m
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+volumes:
+  config:
+  state:
