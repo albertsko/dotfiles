@@ -12,29 +12,14 @@ readonly REMOTE_ACCESS_CHECK_PATH="${REMOTE_PATH}RCLONE_TEST"
 readonly STATE_WORK_DIR=/state/bisync
 readonly SYNC_INTERVAL_SECONDS=300
 RUN_USER=""
-CHILD_PID=""
-CHILD_SIGNAL=INT
 
 die() {
 	printf 'Error: %s\n' "$1" >&2
 	exit 1
 }
 
-stop() {
-	if [[ -n $CHILD_PID ]]; then
-		kill -s "$CHILD_SIGNAL" "$CHILD_PID" 2>/dev/null || true
-		wait "$CHILD_PID" 2>/dev/null || true
-	fi
-	exit 0
-}
-
 run_rclone() {
-	su-exec "$RUN_USER" rclone "$@" <&0 &
-	CHILD_PID=$!
-	local status=0
-	wait "$CHILD_PID" || status=$?
-	CHILD_PID=""
-	return "$status"
+	su-exec "$RUN_USER" rclone "$@"
 }
 
 run_bisync() {
@@ -78,16 +63,7 @@ sync_once() {
 	run_bisync --resync-mode newer || printf '%s\n' 'Google Drive recovery failed; retrying later.' >&2
 }
 
-sleep_until_next_sync() {
-	CHILD_SIGNAL=TERM
-	sleep "$SYNC_INTERVAL_SECONDS" &
-	CHILD_PID=$!
-	wait "$CHILD_PID" || true
-	CHILD_PID=""
-	CHILD_SIGNAL=INT
-}
-
-trap stop INT TERM
+trap 'exit 0' INT TERM
 
 command_name="${1:-service}"
 shift || true
@@ -118,5 +94,5 @@ fi
 
 while :; do
 	sync_once
-	sleep_until_next_sync
+	sleep "$SYNC_INTERVAL_SECONDS"
 done
