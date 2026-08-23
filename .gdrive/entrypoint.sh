@@ -4,8 +4,13 @@ set -euo pipefail
 readonly CONFIG_DIR=/config/rclone
 readonly CONFIG_PATH="$CONFIG_DIR/rclone.conf"
 readonly FILTERS_PATH=/state/filters.conf
-readonly INITIALIZED_PATH=/state/initialized
-readonly ACCESS_CHECK_PATH=/data/RCLONE_TEST
+readonly SYNC_SETTINGS_PATH=/state/sync-settings-version
+readonly SYNC_SETTINGS_VERSION=1
+readonly DATA_DIR=/data
+readonly BACKUP_DIR=/backup
+readonly REMOTE_PATH=gdrive:
+readonly ACCESS_CHECK_PATH="$DATA_DIR/RCLONE_TEST"
+readonly REMOTE_ACCESS_CHECK_PATH="${REMOTE_PATH}RCLONE_TEST"
 readonly STATE_WORK_DIR=/state/bisync
 readonly DRY_RUN_WORK_DIR=/tmp/gdrive-bisync
 readonly USER_ID="${PUID:-1000}"
@@ -47,20 +52,20 @@ run_bisync() {
 	local timestamp
 	timestamp="$(date -u +%Y%m%dT%H%M%SZ)" || die 'cannot create backup timestamp'
 	local -a args=(
-		bisync /data gdrive:
+		bisync "$DATA_DIR" "$REMOTE_PATH"
 		--config "$CONFIG_PATH"
 		--workdir "$work_dir"
 		--filters-file "$FILTERS_PATH"
-		--create-empty-src-dirs
+		--drive-skip-gdocs
+		--drive-skip-shortcuts
+		--max-delete 10
 		--resilient
 		--recover
 		--max-lock 2m
 		--conflict-resolve newer
 		--suffix-keep-extension
-		--drive-skip-shortcuts
+		--backup-dir1 "$BACKUP_DIR/$timestamp"
 		--verbose
-		--backup-dir1 "/backup/$timestamp"
-		--backup-dir2 "gdrive:bak/$timestamp"
 	)
 	args+=("$@")
 	run_rclone "${args[@]}"
@@ -75,7 +80,7 @@ case "$command_name" in
 config | service)
 	(($# == 0)) || die "unexpected argument: $1"
 	;;
-init)
+resync)
 	(($# <= 1)) || die "unexpected argument: $2"
 	[[ $# == 0 || $1 == --apply ]] || die "unknown option: $1"
 	;;
@@ -85,33 +90,31 @@ esac
 [[ $USER_ID =~ ^[0-9]+$ ]] || die 'PUID must be numeric'
 [[ $GROUP_ID =~ ^[0-9]+$ ]] || die 'PGID must be numeric'
 
-mkdir -p "$CONFIG_DIR" "$STATE_WORK_DIR" /backup /data
+mkdir -p "$CONFIG_DIR" "$STATE_WORK_DIR" "$BACKUP_DIR" "$DATA_DIR"
 chown -R "$RUN_USER" "$CONFIG_DIR" /state
 chmod 700 "$CONFIG_DIR" /state "$STATE_WORK_DIR"
 cp /etc/gdrive/filters.conf "$FILTERS_PATH"
 chown "$RUN_USER" "$FILTERS_PATH"
 chmod 600 "$FILTERS_PATH"
-su-exec "$RUN_USER" test -w /data || die '/data is not writable'
-su-exec "$RUN_USER" test -w /backup || die '/backup is not writable'
+su-exec "$RUN_USER" test -w "$DATA_DIR" || die "$DATA_DIR is not writable"
+su-exec "$RUN_USER" test -w "$BACKUP_DIR" || die "$BACKUP_DIR is not writable"
 
 case "$command_name" in
 config)
 	run_rclone config --config "$CONFIG_PATH" || die 'rclone configuration failed'
 	remotes="$(su-exec "$RUN_USER" rclone listremotes --config "$CONFIG_PATH")" || die 'cannot list rclone remotes'
 	[[ $'\n'${remotes}$'\n' == *$'\ngdrive:\n'* ]] || die 'configuration must contain a remote named gdrive'
-	rm -rf -- "$STATE_WORK_DIR"
-	mkdir -p "$STATE_WORK_DIR"
-	chown "$RUN_USER" "$STATE_WORK_DIR"
-	rm -f -- "$INITIALIZED_PATH"
 	;;
-init)
+resync)
 	[[ -s $CONFIG_PATH ]] || die 'run gdrive.sh config first'
-	[[ ! -e $ACCESS_CHECK_PATH || -f $ACCESS_CHECK_PATH ]] || die "$ACCESS_CHECK_PATH must be a regular file"
-	su-exec "$RUN_USER" touch "$ACCESS_CHECK_PATH" || die "cannot create $ACCESS_CHECK_PATH"
 	if [[ ${1:-} == --apply ]]; then
-		run_bisync "$STATE_WORK_DIR" --resync-mode newer || die 'initial bisync failed'
-		touch "$INITIALIZED_PATH"
-		chown "$RUN_USER" "$INITIALIZED_PATH"
+		[[ ! -e $ACCESS_CHECK_PATH || -f $ACCESS_CHECK_PATH ]] || die "$ACCESS_CHECK_PATH must be a regular file"
+		run_rclone touch "$ACCESS_CHECK_PATH" --config "$CONFIG_PATH" || die "cannot create $ACCESS_CHECK_PATH"
+		run_rclone touch "$REMOTE_ACCESS_CHECK_PATH" --config "$CONFIG_PATH" || die "cannot create $REMOTE_ACCESS_CHECK_PATH"
+		run_bisync "$STATE_WORK_DIR" --check-access --resync-mode newer || die 'resync failed'
+		printf '%s\n' "$SYNC_SETTINGS_VERSION" >"$SYNC_SETTINGS_PATH"
+		chown "$RUN_USER" "$SYNC_SETTINGS_PATH"
+		chmod 600 "$SYNC_SETTINGS_PATH"
 		exit 0
 	fi
 	mkdir -p "$DRY_RUN_WORK_DIR"
@@ -120,10 +123,14 @@ init)
 	;;
 service)
 	while :; do
-		if [[ -s $CONFIG_PATH && -e $INITIALIZED_PATH ]]; then
+		sync_settings_version=""
+		[[ ! -f $SYNC_SETTINGS_PATH ]] || sync_settings_version="$(<"$SYNC_SETTINGS_PATH")"
+		if [[ -s $CONFIG_PATH && $sync_settings_version == "$SYNC_SETTINGS_VERSION" ]]; then
 			run_bisync "$STATE_WORK_DIR" --check-access --track-renames || printf '%s\n' 'Google Drive sync failed.' >&2
+		elif [[ -s $CONFIG_PATH ]]; then
+			printf '%s\n' 'Google Drive requires resync. Run gdrive.sh resync, then gdrive.sh resync --apply.' >&2
 		else
-			printf '%s\n' 'Google Drive is not configured and initialized.' >&2
+			printf '%s\n' 'Google Drive is not configured. Run gdrive.sh config.' >&2
 		fi
 		CHILD_SIGNAL=TERM
 		sleep "$SYNC_INTERVAL_SECONDS" &

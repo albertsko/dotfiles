@@ -17,7 +17,7 @@ usage() {
 		'' \
 		'Commands:' \
 		'  config              Configure the gdrive rclone remote' \
-		'  init [--apply]      Preview or apply the initial merge' \
+		'  resync [--apply]    Preview or apply a full reconciliation' \
 		'  start               Start the sync service' \
 		'  stop                Stop the sync service' \
 		'  status              Show service status' \
@@ -37,7 +37,13 @@ help | -h | --help | '')
 	usage
 	exit 0
 	;;
-config | init | start | stop | status | logs) ;;
+config | start | stop | status | logs)
+	(($# == 0)) || die "unexpected argument: $1"
+	;;
+resync)
+	(($# <= 1)) || die "unexpected argument: $2"
+	[[ $# == 0 || $1 == --apply ]] || die "unknown option: $1"
+	;;
 *) die "unknown command: $command_name" ;;
 esac
 
@@ -45,39 +51,37 @@ command -v docker >/dev/null || die 'docker is required'
 docker compose version >/dev/null 2>&1 || die 'docker compose is required'
 docker info >/dev/null 2>&1 || die 'Docker-compatible daemon is unavailable'
 
-mkdir -p "$DATA_DIR" "$BACKUP_DIR"
-chmod 700 "$DATA_DIR" "$BACKUP_DIR"
+case "$command_name" in
+config | resync | start)
+	mkdir -p "$DATA_DIR" "$BACKUP_DIR"
+	chmod 700 "$DATA_DIR" "$BACKUP_DIR"
+	;;
+esac
+
 PUID=$(id -u)
 PGID=$(id -g)
 export PUID PGID
 
 case "$command_name" in
 config)
-	(($# == 0)) || die "unexpected argument: $1"
 	compose stop
 	compose run --rm gdrive config
 	;;
-init)
-	(($# <= 1)) || die "unexpected argument: $2"
-	[[ $# == 0 || $1 == --apply ]] || die "unknown option: $1"
+resync)
 	compose stop
-	compose run --rm gdrive init "$@"
+	compose run --rm gdrive resync "$@"
 	[[ ${1:-} != --apply ]] || compose up -d
 	;;
 start)
-	(($# == 0)) || die "unexpected argument: $1"
 	compose up -d
 	;;
 stop)
-	(($# == 0)) || die "unexpected argument: $1"
 	compose stop
 	;;
 status)
-	(($# == 0)) || die "unexpected argument: $1"
 	compose ps
 	;;
 logs)
-	(($# == 0)) || die "unexpected argument: $1"
 	compose logs -f
 	;;
 esac

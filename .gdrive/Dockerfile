@@ -1,4 +1,4 @@
-FROM rclone/rclone:latest
+FROM rclone/rclone:1.75.0
 
 RUN apk add --no-cache bash su-exec
 
