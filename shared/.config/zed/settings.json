@@ -66,7 +66,7 @@
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Everforest Dark Hard (regular)",
+    "dark": "One Dark",
   },
   "ui_font_size": 17,
   "auto_update": true,
@@ -81,17 +81,17 @@
   "cursor_blink": false,
   "buffer_font_family": "JetBrainsMonoNL Nerd Font",
   "buffer_font_size": 15,
-  "buffer_line_height": "standard",
+  "buffer_line_height": "comfortable",
   "autosave": "on_focus_change",
   "format_on_save": "off",
   "inline_code_actions": false,
   "hard_tabs": false,
-  "show_signature_help_after_edits": true,
+  // "show_signature_help_after_edits": true,
   "extend_comment_on_newline": false,
   "excerpt_context_lines": 6,
   "expand_excerpt_lines": 12,
   "outline_panel": {
-    "dock": "left",
+    "dock": "right",
   },
   "agent": {
     "dock": "right",
@@ -99,7 +99,7 @@
     "model_parameters": [],
   },
   "git_panel": {
-    "dock": "left",
+    "dock": "right",
   },
   "inlay_hints": {
     "enabled": false,
@@ -123,7 +123,7 @@
     "show_diagnostics": "errors",
   },
   "project_panel": {
-    "dock": "left",
+    "dock": "right",
     "entry_spacing": "comfortable",
     "default_width": 200,
     "indent_size": 12,
@@ -133,11 +133,11 @@
     "auto_reveal_entries": true,
   },
   "terminal": {
-    "line_height": "standard",
+    "line_height": "comfortable",
     "toolbar": {
       "breadcrumbs": false,
     },
-    "dock": "bottom",
+    "dock": "right",
   },
   "minimap": {
     "show": "never",
