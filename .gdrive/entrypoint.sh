@@ -11,9 +11,7 @@ readonly ACCESS_CHECK_PATH="$DATA_DIR/RCLONE_TEST"
 readonly REMOTE_ACCESS_CHECK_PATH="${REMOTE_PATH}RCLONE_TEST"
 readonly STATE_WORK_DIR=/state/bisync
 readonly SYNC_INTERVAL_SECONDS=300
-readonly USER_ID="${PUID:-1000}"
-readonly GROUP_ID="${PGID:-1000}"
-readonly RUN_USER="$USER_ID:$GROUP_ID"
+RUN_USER=""
 CHILD_PID=""
 CHILD_SIGNAL=INT
 
@@ -95,10 +93,10 @@ command_name="${1:-service}"
 shift || true
 (($# == 0)) || die "unexpected argument: $1"
 [[ $command_name == config || $command_name == service ]] || die "unknown command: $command_name"
-[[ $USER_ID =~ ^[0-9]+$ ]] || die 'PUID must be a numeric user ID'
-[[ $GROUP_ID =~ ^[0-9]+$ ]] || die 'PGID must be a numeric group ID'
 
 mkdir -p "$CONFIG_DIR" "$STATE_WORK_DIR" "$BACKUP_DIR" "$DATA_DIR"
+RUN_USER="$(stat -c '%u:%g' "$DATA_DIR")" || die "cannot determine owner of $DATA_DIR"
+[[ $RUN_USER =~ ^[0-9]+:[0-9]+$ ]] || die "invalid owner for $DATA_DIR: $RUN_USER"
 chown -R "$RUN_USER" "$CONFIG_DIR" /state
 chmod 700 "$CONFIG_DIR" /state "$STATE_WORK_DIR" "$BACKUP_DIR" "$DATA_DIR"
 cp /etc/gdrive/filters.conf "$FILTERS_PATH"

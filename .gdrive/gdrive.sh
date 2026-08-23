@@ -29,9 +29,6 @@ docker compose version >/dev/null 2>&1 || die 'Docker Compose is required'
 
 mkdir -p "$DATA_DIR" "$BACKUP_DIR"
 chmod 700 "$DATA_DIR" "$BACKUP_DIR"
-PUID="$(id -u)"
-PGID="$(id -g)"
-export PUID PGID
 
 if ((configure)); then
 	compose stop
