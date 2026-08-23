@@ -2,12 +2,10 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(dirname -- "$(realpath -- "${BASH_SOURCE[0]}")")"
+readonly SCRIPT_DIR
 
 mkdir -p "$SCRIPT_DIR/.bin"
-build="$SCRIPT_DIR/.bin/entrypoint"
+readonly BUILD_PATH="$SCRIPT_DIR/.bin/entrypoint"
 
-[[ ! -x "$build" || "$SCRIPT_DIR/go.mod" -nt "$build" || "$SCRIPT_DIR/main.go" -nt "$build" ]] && {
-	go -C "$SCRIPT_DIR" build -o "$build" .
-}
-
-exec "$build" "$@"
+go -C "$SCRIPT_DIR" build -o "$BUILD_PATH" .
+exec "$BUILD_PATH" "$@"

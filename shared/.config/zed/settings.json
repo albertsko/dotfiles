@@ -81,7 +81,7 @@
   "cursor_blink": false,
   "buffer_font_family": "JetBrainsMonoNL Nerd Font",
   "buffer_font_size": 15,
-  "buffer_line_height": "standard",
+  "buffer_line_height": "comfortable",
   "autosave": "on_focus_change",
   "format_on_save": "off",
   "inline_code_actions": false,
@@ -133,7 +133,7 @@
     "auto_reveal_entries": true,
   },
   "terminal": {
-    "line_height": "standard",
+    "line_height": "comfortable",
     "toolbar": {
       "breadcrumbs": false,
     },

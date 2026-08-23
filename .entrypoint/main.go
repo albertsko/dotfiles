@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -22,7 +24,12 @@ func run() error {
 		return fmt.Errorf("failed to create service: %w", err)
 	}
 
-	err = s.runPodman()
+	err = s.startContainerEngine()
+	if err != nil {
+		return err
+	}
+
+	err = s.runGDrive()
 	if err != nil {
 		return err
 	}
@@ -32,12 +39,29 @@ func run() error {
 
 // --- service runners ---
 
+func (s *Service) startContainerEngine() error {
+	if runtime.GOOS == "darwin" {
+		return s.runPodman()
+	}
+
+	return nil
+}
+
 func (s *Service) runPodman() error {
 	err := execCmd("podman", "machine", "start")
 	if err != nil && !strings.Contains(err.Error(), "already running") {
 		return err
 	}
 	return nil
+}
+
+func (s *Service) runGDrive() error {
+	dotfilesHome := os.Getenv("DOTFILES_HOME")
+	if dotfilesHome == "" {
+		return fmt.Errorf("DOTFILES_HOME is not set")
+	}
+
+	return execCmd(filepath.Join(dotfilesHome, ".gdrive", "gdrive.sh"))
 }
 
 // --- helpers ---
