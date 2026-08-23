@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -28,6 +29,7 @@ func run() error {
 	if err != nil {
 		return err
 	}
+	time.Sleep(time.Second * 30)
 
 	err = s.runGDrive()
 	if err != nil {
