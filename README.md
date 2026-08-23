@@ -10,8 +10,9 @@ The installer clones this repository to `~/.local/state/dotfiles`, prompts for `
 
 Set `DOTFILES_DRY_RUN=1` to preview the installer without making changes.
 
-### Packages
+### Layout
 
+- `apps/` contains repo-local applications used by startup services.
 - `shared/` contains configuration used on every machine.
 - `macos/` contains the macOS profile and Homebrew bundle.
 - `ubuntu26/` is the placeholder for the upcoming Ubuntu 26 profile.

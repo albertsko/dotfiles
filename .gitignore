@@ -1,4 +1,4 @@
 .DS_Store
 .other/
 .scratch/
-.entrypoint/.bin/
+apps/entrypoint/.bin/

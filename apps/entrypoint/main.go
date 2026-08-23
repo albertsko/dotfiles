@@ -61,7 +61,7 @@ func (s *Service) runGDrive() error {
 		return fmt.Errorf("DOTFILES_HOME is not set")
 	}
 
-	return execCmd(filepath.Join(dotfilesHome, ".gdrive", "gdrive.sh"))
+	return execCmd(filepath.Join(dotfilesHome, "apps", "gdrive", "gdrive.sh"))
 }
 
 // --- helpers ---
