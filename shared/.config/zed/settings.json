@@ -123,7 +123,7 @@
     "show_diagnostics": "errors",
   },
   "project_panel": {
-    "dock": "left",
+    "dock": "right",
     "entry_spacing": "comfortable",
     "default_width": 200,
     "indent_size": 12,
@@ -137,7 +137,7 @@
     "toolbar": {
       "breadcrumbs": false,
     },
-    "dock": "left",
+    "dock": "right",
   },
   "minimap": {
     "show": "never",
