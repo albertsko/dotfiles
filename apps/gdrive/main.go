@@ -1,9 +1,10 @@
 package main
 
-import (
-	"fmt"
-)
+import "github.com/albertsko/dotfiles/apps/gdrive/rclonebisync"
 
 func main() {
-	fmt.Println("dupa")
+	_, err := rclonebisync.New("gdrive", 300)
+	if err != nil {
+		panic(err)
+	}
 }
