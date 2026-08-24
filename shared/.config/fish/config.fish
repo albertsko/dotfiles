@@ -4,6 +4,7 @@ alias x exit
 alias http xh
 alias ssh 'env TERM=xterm-256color ssh'
 alias zed 'zed -a'
+alias zedgo 'zed "$(go env GOROOT)/../.."'
 
 alias cfg 'git -C "$DOTFILES_HOME"'
 abbr --add cdcfg 'cd "$DOTFILES_HOME"'

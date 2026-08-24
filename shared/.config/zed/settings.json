@@ -76,6 +76,8 @@
     "metrics": false,
   },
   "cli_default_open_behavior": "existing_window",
+  // */libexec/src/** is addded for Go's stdlib view
+  "file_scan_inclusions": [".env*", "*/libexec/src/**"],
   // --- Text Editor ---
   "cursor_shape": "bar",
   "cursor_blink": false,
