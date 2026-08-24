@@ -8,6 +8,11 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   // --- Languages ---
+  "file_finder": {
+    "include_ignored": "all",
+  },
+  "file_scan_inclusions": ["**/*.go"],
+
   "languages": {
     "PHP": {
       "language_servers": [
@@ -123,6 +128,8 @@
     "show_diagnostics": "errors",
   },
   "project_panel": {
+    "git_status": false,
+    "hide_gitignore": false,
     "dock": "right",
     "entry_spacing": "comfortable",
     "default_width": 200,
