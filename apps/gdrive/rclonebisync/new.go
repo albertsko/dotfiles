@@ -2,10 +2,14 @@ package rclonebisync
 
 import (
 	"embed"
+	"errors"
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -18,8 +22,14 @@ const (
 	defaultBackupDir = "rclone-bak"
 )
 
+const (
+	RcloneGeMajorVersion = 1
+	RcloneGeMinorVersion = 75
+)
+
 type Bisync struct {
-	o *options
+	o      *options
+	runner rcloneRunner
 }
 
 type options struct {
@@ -30,6 +40,7 @@ type options struct {
 	configPath          string
 	workdirPath         string
 	filtersPath         *string
+	logger              *log.Logger
 }
 
 type Option func(opts *options) error
@@ -39,13 +50,21 @@ func New(
 	syncIntervalSeconds int,
 	opts ...Option,
 ) (*Bisync, error) {
+	if err := checkRclone(); err != nil {
+		return nil, err
+	}
+
 	options := new(options)
 	options.remotePath = remotePath
 	options.syncIntervalSeconds = syncIntervalSeconds
+	options.logger = log.Default()
 
 	// defaults
-	home := homeDir()
-	remoteState := localStateDir(remotePath)
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return nil, fmt.Errorf("get user home directory: %w", err)
+	}
+	remoteState := localStateDir(home, remotePath)
 
 	options.dataPath = filepath.Join(home, defaultDataDir)
 	options.backupPath = filepath.Join(home, defaultBackupDir)
@@ -60,10 +79,11 @@ func New(
 		}
 	}
 
-	_ = os.MkdirAll(options.dataPath, 0o700)
-	_ = os.MkdirAll(options.backupPath, 0o700)
-	_ = os.MkdirAll(options.configPath, 0o700)
-	_ = os.MkdirAll(options.workdirPath, 0o700)
+	for _, path := range []string{options.dataPath, options.backupPath, options.configPath, options.workdirPath} {
+		if err := os.MkdirAll(path, 0o700); err != nil {
+			return nil, fmt.Errorf("create directory %s: %w", path, err)
+		}
+	}
 
 	// FS
 	if options.filtersPath == nil {
@@ -76,10 +96,12 @@ func New(
 		if err != nil {
 			return nil, fmt.Errorf("failed to write filters conf: %w", err)
 		}
+		options.filtersPath = &path
 	}
 
 	return &Bisync{
-		o: options,
+		o:      options,
+		runner: execRcloneRunner{},
 	}, nil
 }
 
@@ -118,24 +140,64 @@ func WithFiltersPath(path string) Option {
 	}
 }
 
-func homeDir() string {
-	path, err := os.UserHomeDir()
-	if err != nil {
-		log.Fatalf("failed to get user home dir: %+v", err)
+func WithLogger(logger *log.Logger) Option {
+	return func(opts *options) error {
+		if logger == nil {
+			return fmt.Errorf("logger must not be nil")
+		}
+		opts.logger = logger
+		return nil
 	}
-	return path
 }
 
-func localStateDir(rcloneRemotePath string) string {
-	home := homeDir()
+func localStateDir(home string, rcloneRemotePath string) string {
 	localState := filepath.Join(home, ".local", "state")
-	_ = os.MkdirAll(localState, 0o700)
-
-	path := filepath.Join(localState, "rclone", cutRemote(rcloneRemotePath))
-	return path
+	return filepath.Join(localState, "rclone", cutRemote(rcloneRemotePath))
 }
 
 func cutRemote(rcloneRemotePath string) string {
 	cut, _, _ := strings.Cut(rcloneRemotePath, ":")
 	return cut
+}
+
+// --- rclone version ---
+
+func checkRclone() error {
+	_, err := exec.LookPath("rclone")
+	if errors.Is(err, exec.ErrNotFound) {
+		return fmt.Errorf("find rclone in PATH: %w", err)
+	}
+	if err != nil {
+		return fmt.Errorf("check rclone: %w", err)
+	}
+
+	cmd := exec.Command("rclone", "--version")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("read rclone version: %w", err)
+	}
+
+	firstLine, _, _ := strings.Cut(string(out), "\n")
+	ok := checkVersion(firstLine, RcloneGeMajorVersion, RcloneGeMinorVersion)
+	if !ok {
+		return fmt.Errorf("incorrect rclone version, must be greater or equal %d.%d", RcloneGeMajorVersion, RcloneGeMinorVersion)
+	}
+
+	return nil
+}
+
+func checkVersion(versionLine string, geMajor int, geMinor int) bool {
+	re := regexp.MustCompile(`^rclone v(\d+)\.(\d+)`)
+	matches := re.FindStringSubmatch(versionLine)
+	if len(matches) != 3 {
+		return false
+	}
+
+	major, _ := strconv.Atoi(matches[1])
+	minor, _ := strconv.Atoi(matches[2])
+	if major < geMajor || minor < geMinor {
+		return false
+	}
+
+	return true
 }
