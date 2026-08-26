@@ -15,6 +15,7 @@ brew "git"
 brew "hunk"
 brew "stow"
 brew "mole"
+brew "rclone"
 
 # Shell
 brew "fish"

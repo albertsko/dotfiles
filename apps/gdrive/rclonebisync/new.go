@@ -20,6 +20,8 @@ const (
 	accessCheckFile  = "RCLONE_TEST"
 	defaultDataDir   = "rclone"
 	defaultBackupDir = "rclone-bak"
+	statusFile       = "status"
+	logFile          = "bisync.log"
 )
 
 const (
@@ -33,21 +35,21 @@ type Bisync struct {
 }
 
 type options struct {
-	remotePath          string
-	syncIntervalSeconds int
-	dataPath            string
-	backupPath          string
-	configPath          string
-	workdirPath         string
-	filtersPath         *string
-	logger              *log.Logger
+	remotePath  string
+	dataPath    string
+	backupPath  string
+	configPath  string
+	workdirPath string
+	statusPath  string
+	logPath     string
+	filtersPath *string
+	logger      *log.Logger
 }
 
 type Option func(opts *options) error
 
 func New(
 	remotePath string,
-	syncIntervalSeconds int,
 	opts ...Option,
 ) (*Bisync, error) {
 	if err := checkRclone(); err != nil {
@@ -56,7 +58,6 @@ func New(
 
 	options := new(options)
 	options.remotePath = remotePath
-	options.syncIntervalSeconds = syncIntervalSeconds
 	options.logger = log.Default()
 
 	// defaults
@@ -70,6 +71,8 @@ func New(
 	options.backupPath = filepath.Join(home, defaultBackupDir)
 	options.configPath = filepath.Join(remoteState, "config")
 	options.workdirPath = filepath.Join(remoteState, "workdir")
+	options.statusPath = filepath.Join(remoteState, statusFile)
+	options.logPath = filepath.Join(remoteState, logFile)
 
 	// opts
 	for i, opt := range opts {

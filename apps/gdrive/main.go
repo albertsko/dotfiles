@@ -10,10 +10,7 @@ import (
 	"github.com/albertsko/dotfiles/apps/gdrive/rclonebisync"
 )
 
-const (
-	remotePath          = "gdrive:sync"
-	syncIntervalSeconds = 300
-)
+const remotePath = "gdrive:sync"
 
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
@@ -31,7 +28,7 @@ func run(ctx context.Context, args []string) error {
 		return err
 	}
 
-	client, err := rclonebisync.New(remotePath, syncIntervalSeconds)
+	client, err := rclonebisync.New(remotePath)
 	if err != nil {
 		return fmt.Errorf("create rclone bisync client: %w", err)
 	}
@@ -41,9 +38,20 @@ func run(ctx context.Context, args []string) error {
 		return client.Configure(ctx)
 	case "service":
 		return client.Service(ctx)
+	case "status":
+		return printStatus(client)
 	default:
 		return fmt.Errorf("unknown command: %s", command)
 	}
+}
+
+func printStatus(client *rclonebisync.Bisync) error {
+	status, err := client.Status()
+	if err != nil {
+		return err
+	}
+	fmt.Print(status)
+	return nil
 }
 
 func parseCommand(args []string) (string, error) {
@@ -53,7 +61,7 @@ func parseCommand(args []string) (string, error) {
 	if len(args) > 1 {
 		return "", fmt.Errorf("unexpected argument: %s", args[1])
 	}
-	if args[0] != "config" && args[0] != "service" {
+	if args[0] != "config" && args[0] != "service" && args[0] != "status" {
 		return "", fmt.Errorf("unknown command: %s", args[0])
 	}
 

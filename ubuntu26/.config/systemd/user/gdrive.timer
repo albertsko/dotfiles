@@ -1,0 +1,10 @@
+[Unit]
+Description=Synchronize Google Drive files every five minutes
+
+[Timer]
+OnBootSec=1min
+OnUnitInactiveSec=5min
+Unit=gdrive.service
+
+[Install]
+WantedBy=timers.target

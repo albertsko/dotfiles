@@ -1,0 +1,9 @@
+[Unit]
+Description=Synchronize Google Drive files
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -lc 'exec "$$DOTFILES_HOME/apps/.bin/gdrive" service'
+KillSignal=SIGINT
+TimeoutStopSec=100s
+WorkingDirectory=%h

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"os"
 	"os/exec"
+	"time"
 )
 
 type rcloneRunner interface {
@@ -20,6 +21,10 @@ type execRcloneRunner struct{}
 
 func (execRcloneRunner) Run(ctx context.Context, args ...string) error {
 	cmd := exec.CommandContext(ctx, "rclone", args...)
+	cmd.Cancel = func() error {
+		return cmd.Process.Signal(os.Interrupt)
+	}
+	cmd.WaitDelay = 95 * time.Second
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -28,6 +33,10 @@ func (execRcloneRunner) Run(ctx context.Context, args ...string) error {
 
 func (execRcloneRunner) Output(ctx context.Context, args ...string) ([]byte, error) {
 	cmd := exec.CommandContext(ctx, "rclone", args...)
+	cmd.Cancel = func() error {
+		return cmd.Process.Signal(os.Interrupt)
+	}
+	cmd.WaitDelay = 95 * time.Second
 	cmd.Stdin = os.Stdin
 	cmd.Stderr = os.Stderr
 	return cmd.Output()

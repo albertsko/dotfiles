@@ -2,14 +2,24 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(dirname -- "$(realpath -- "${BASH_SOURCE[0]}")")"
-BIN_DIR="$SCRIPT_DIR/.bin"
+readonly SCRIPT_DIR
+readonly BIN_DIR="$SCRIPT_DIR/.bin"
+
+die() {
+	printf 'Error: %s\n' "$1" >&2
+	exit 1
+}
+
+[[ ${1:-} ]] || die 'missing app name'
+
+app=$1
+shift
+
+app_path="$SCRIPT_DIR/$app"
+build_path="$BIN_DIR/$app"
+
+[[ -d "$app_path" ]] || die "unknown app: $app"
 
 mkdir -p "$BIN_DIR"
-
-APP="$1"
-shift 1
-
-BUILD_PATH="$BIN_DIR/$APP"
-
-go -C "$SCRIPT_DIR/$APP" build -o "$BUILD_PATH" .
-exec "$BUILD_PATH" "$@"
+go -C "$app_path" build -o "$build_path" .
+exec "$build_path" "$@"

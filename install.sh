@@ -47,7 +47,7 @@ run bash "$DOTFILES_HOME/$DOTFILES_PROFILE/_install.sh"
 run bash "$DOTFILES_HOME/shared/.local/bin/stow.sh" --override
 
 # install profile services
-service_installer="$DOTFILES_HOME/$DOTFILES_PROFILE/.local/bin/entrypoint.sh"
+service_installer="$DOTFILES_HOME/$DOTFILES_PROFILE/.local/bin/gdrive.sh"
 if [[ -x "$service_installer" ]]; then
 	run bash "$service_installer"
 fi
