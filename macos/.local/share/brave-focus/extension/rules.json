@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "requestDomains": [
+        "youtube.com",
+        "youtu.be",
+        "youtube-nocookie.com",
+        "facebook.com",
+        "fb.com",
+        "messenger.com",
+        "m.me"
+      ],
+      "resourceTypes": ["main_frame"]
+    }
+  }
+]

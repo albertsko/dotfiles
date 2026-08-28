@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Brave Focus",
+  "version": "1.0.0",
+  "description": "Blocks distracting websites in the focus profile.",
+  "permissions": ["declarativeNetRequest"],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "blocked_sites",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  }
+}
