@@ -1,16 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="https://github.com/albertsko/dotfiles.git"
+readonly REPO_URL="https://github.com/albertsko/dotfiles.git"
 
 export DOTFILES_DRY_RUN="${DOTFILES_DRY_RUN:-0}"
+
+die() {
+	printf 'Error: %s\n' "$1" >&2
+	exit 1
+}
+
 run() {
 	if [[ "$DOTFILES_DRY_RUN" == "1" ]]; then
-		echo "[dry-run]" "$@"
+		printf '[dry-run]'
+		printf ' %q' "$@"
+		printf '\n'
 	else
 		"$@"
 	fi
 }
+
+(($# == 0)) || die "unexpected argument: $1"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -34,9 +44,16 @@ if [[ -d "$DOTFILES_HOME/.git" ]]; then
 	fi
 fi
 
-printf 'Profile (macos/ubuntu26): '
-read -r DOTFILES_PROFILE
-[[ "$DOTFILES_PROFILE" == "macos" || "$DOTFILES_PROFILE" == "ubuntu26" ]] || exit 1
+DOTFILES_PROFILE="${DOTFILES_PROFILE:-}"
+if [[ -z "$DOTFILES_PROFILE" ]]; then
+	printf 'Profile (macos/ubuntu26/lima): '
+	read -r DOTFILES_PROFILE
+fi
+
+case "$DOTFILES_PROFILE" in
+macos | ubuntu26 | lima) ;;
+*) die "unsupported profile: $DOTFILES_PROFILE" ;;
+esac
 export DOTFILES_PROFILE
 
 # install dotfiles

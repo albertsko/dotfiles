@@ -1,0 +1,66 @@
+minimumLimaVersion: 2.2.0
+
+base:
+- template:ubuntu-26.04
+
+vmType: vz
+cpus: 6
+memory: 12GiB
+disk: 100GiB
+
+vmOpts:
+  vz:
+    rosetta:
+      enabled: true
+      binfmt: true
+
+mounts:
+- location: "~"
+  writable: false
+- location: "~/Documents/github.com"
+  writable: true
+
+containerd:
+  system: false
+  user: false
+
+ssh:
+  forwardAgent: true
+
+param:
+  DOTFILES_REF: main
+
+provision:
+- mode: yq
+  path: /etc/systemd/system/docker.socket.d/override.conf
+  format: ini
+  expression: .Socket.SocketUser="{{.User}}"
+- mode: system
+  file: system.sh
+- mode: user
+  file: user.sh
+
+probes:
+- mode: readiness
+  description: Docker, Homebrew, and dotfiles are ready
+  script: |
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v docker >/dev/null 2>&1
+    docker info >/dev/null
+    /home/linuxbrew/.linuxbrew/bin/brew --version >/dev/null
+    /home/linuxbrew/.linuxbrew/bin/gh --version >/dev/null
+    test -d "{{.Home}}/.local/state/dotfiles/.git"
+  hint: See "/var/log/cloud-init-output.log" in the guest.
+
+hostResolver:
+  hosts:
+    host.docker.internal: host.lima.internal
+
+portForwards:
+- guestSocket: /var/run/docker.sock
+  hostSocket: "{{.Dir}}/sock/docker.sock"
+
+message: |
+  Docker context: lima-limadev
+  Dotfiles ref: {{.Param.DOTFILES_REF}}

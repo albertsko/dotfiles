@@ -2,7 +2,6 @@
 brew "wget"
 brew "jq"
 brew "ripgrep"
-brew "mas"
 brew "gh"
 brew "lazygit"
 brew "lazydocker"
@@ -14,7 +13,6 @@ brew "xh"
 brew "git"
 brew "hunk"
 brew "stow"
-brew "mole"
 brew "rclone"
 
 # Shell
@@ -22,12 +20,7 @@ brew "fish"
 brew "starship"
 brew "zoxide"
 
-# Containers
-brew "docker"
-brew "docker-compose"
-brew "docker-buildx"
-brew "lima"
-brew "podman"
+# Containers and Kubernetes
 brew "kubernetes-cli"
 brew "minikube"
 brew "k9s"
@@ -47,17 +40,25 @@ brew "go-task"
 brew "sqlc"
 brew "goose"
 
-# Casks
-cask "ghostty"
-cask "brave-browser"
-cask "vlc"
-cask "zed"
-cask "screen-studio"
-cask "karabiner-elements"
+if OS.mac?
+  brew "mas"
+  brew "mole"
+  brew "docker"
+  brew "docker-compose"
+  brew "docker-buildx"
+  brew "lima"
+  brew "podman"
 
-# Fonts
-cask "sf-symbols"
-cask "font-sf-mono"
-cask "font-sf-pro"
-cask "font-inter"
-cask "font-jetbrains-mono-nerd-font"
+  cask "ghostty"
+  cask "brave-browser"
+  cask "vlc"
+  cask "zed"
+  cask "screen-studio"
+  cask "karabiner-elements"
+
+  cask "sf-symbols"
+  cask "font-sf-mono"
+  cask "font-sf-pro"
+  cask "font-inter"
+  cask "font-jetbrains-mono-nerd-font"
+end
