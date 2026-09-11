@@ -8,9 +8,7 @@ DOTFILES_HOME="${DOTFILES_HOME:-$(realpath -- "$SCRIPT_DIR/..")}"
 readonly DOTFILES_HOME
 readonly BREWFILE="$DOTFILES_HOME/shared/Brewfile"
 
-if [[ ! -x "$BREW_BIN" ]]; then
-	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+[[ -x "$BREW_BIN" ]] || NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 "$BREW_BIN" analytics off
 "$BREW_BIN" bundle install --no-upgrade --file="$BREWFILE"

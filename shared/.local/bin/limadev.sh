@@ -10,12 +10,12 @@ readonly DOTFILES_HOME
 readonly CONFIG_PATH="$DOTFILES_HOME/lima/.config/lima/limadev.yml"
 readonly DOTFILES_REF="${LIMADEV_DOTFILES_REF:-main}"
 
-if [[ "${1:-}" == "--recreate" ]]; then
+[[ "${1:-}" != "--recreate" ]] || {
 	limactl delete --force "$INSTANCE_NAME" >/dev/null 2>&1 || true
 	shift
-fi
+}
 
-if ! limactl list "$INSTANCE_NAME" --format '{{.Name}}' >/dev/null 2>&1; then
+limactl list "$INSTANCE_NAME" --format '{{.Name}}' >/dev/null 2>&1 ||
 	limactl start \
 		--name="$INSTANCE_NAME" \
 		--param="DOTFILES_REF=$DOTFILES_REF" \
@@ -23,14 +23,11 @@ if ! limactl list "$INSTANCE_NAME" --format '{{.Name}}' >/dev/null 2>&1; then
 		--timeout=30m \
 		--tty=false \
 		"$CONFIG_PATH"
-fi
 
 docker_host="$(limactl list "$INSTANCE_NAME" --format 'unix://{{.Dir}}/sock/docker.sock')"
-if docker context inspect "$DOCKER_CONTEXT" >/dev/null 2>&1; then
-	docker context update "$DOCKER_CONTEXT" --docker "host=$docker_host" >/dev/null
-else
-	docker context create "$DOCKER_CONTEXT" --docker "host=$docker_host" >/dev/null
-fi
+context_action=update
+docker context inspect "$DOCKER_CONTEXT" >/dev/null 2>&1 || context_action=create
+docker context "$context_action" "$DOCKER_CONTEXT" --docker "host=$docker_host" >/dev/null
 
 gh_token="${GH_TOKEN:-$(gh auth token --hostname github.com)}"
 exec env \
