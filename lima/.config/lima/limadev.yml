@@ -17,6 +17,18 @@ vmOpts:
 mounts:
 - location: "~/dev"
   writable: true
+- location: "~/.codex"
+  mountPoint: "{{.Home}}/.codex"
+  writable: true
+- location: "~/.claude"
+  mountPoint: "{{.Home}}/.claude"
+  writable: true
+- location: "~/.agents"
+  mountPoint: "{{.Home}}/.agents"
+  writable: true
+- location: "~/.config/opencode"
+  mountPoint: "{{.Home}}/.config/opencode"
+  writable: true
 
 containerd:
   system: false
