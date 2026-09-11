@@ -2,8 +2,11 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(dirname -- "$(realpath -- "${BASH_SOURCE[0]}")")"
+readonly SCRIPT_DIR
 DOTFILES_HOME="${DOTFILES_HOME:-$(realpath -- "$SCRIPT_DIR/../../..")}"
+readonly DOTFILES_HOME
 BREWFILE="$DOTFILES_HOME/shared/Brewfile"
+readonly BREWFILE
 
 die() {
 	printf 'Error: %s\n' "$1" >&2
@@ -19,16 +22,14 @@ if ! command -v brew >/dev/null 2>&1; then
 	/bin/bash -c "$installer" || die 'failed to install Homebrew'
 fi
 
-BREW_SHELLENV="$(/bin/zsh -lc 'brew shellenv')" || {
-	die 'Homebrew is installed, but brew is not available in a login shell'
-}
-eval "$BREW_SHELLENV"
+brew_shellenv="$(/bin/zsh -lc 'brew shellenv')" || die 'Homebrew is installed, but brew is not available in a login shell'
+eval "$brew_shellenv" || die 'failed to apply the Homebrew environment'
 
-brew analytics off
+brew analytics off || die 'failed to disable Homebrew analytics'
 
-BREW_PREFIX="$(brew --prefix)" || die 'failed to determine the Homebrew prefix'
-mkdir -p "$BREW_PREFIX/share"
-sudo chmod -R go-w "$BREW_PREFIX/share"
+brew_prefix="$(brew --prefix)" || die 'failed to determine the Homebrew prefix'
+mkdir -p "$brew_prefix/share" || die 'failed to create the Homebrew share directory'
+sudo chmod -R go-w "$brew_prefix/share" || die 'failed to secure the Homebrew share directory'
 
-brew bundle install --file="$BREWFILE"
+brew bundle install --file="$BREWFILE" || die 'failed to install the shared Brewfile'
 command -v stow >/dev/null 2>&1 || die 'stow was not installed by the Brewfile'

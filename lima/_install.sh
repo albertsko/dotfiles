@@ -3,7 +3,9 @@ set -euo pipefail
 
 readonly BREW_BIN="/home/linuxbrew/.linuxbrew/bin/brew"
 SCRIPT_DIR="$(dirname -- "$(realpath -- "${BASH_SOURCE[0]}")")"
+readonly SCRIPT_DIR
 DOTFILES_HOME="${DOTFILES_HOME:-$(realpath -- "$SCRIPT_DIR/..")}"
+readonly DOTFILES_HOME
 readonly BREWFILE="$DOTFILES_HOME/shared/Brewfile"
 
 die() {
@@ -21,15 +23,15 @@ if [[ ! -x "$BREW_BIN" ]]; then
 	NONINTERACTIVE=1 /bin/bash -c "$installer" || die 'failed to install Homebrew'
 fi
 
-eval "$("$BREW_BIN" shellenv)"
-brew analytics off
-brew bundle install --no-upgrade --file="$BREWFILE"
+brew_shellenv="$("$BREW_BIN" shellenv)" || die 'failed to load the Homebrew environment'
+eval "$brew_shellenv" || die 'failed to apply the Homebrew environment'
+brew analytics off || die 'failed to disable Homebrew analytics'
+brew bundle install --no-upgrade --file="$BREWFILE" || die 'failed to install the shared Brewfile'
 command -v stow >/dev/null 2>&1 || die 'stow was not installed by the Brewfile'
 
 # The Ubuntu image creates regular skeleton files at these paths. Remove only
 # those regular files; repeated installs keep the existing Stow links intact.
 for shell_file in "$HOME/.bashrc" "$HOME/.profile"; do
-	if [[ -e "$shell_file" && ! -L "$shell_file" ]]; then
-		rm -f -- "$shell_file"
-	fi
+	[[ -e "$shell_file" && ! -L "$shell_file" ]] || continue
+	rm -f -- "$shell_file" || die "failed to remove the default shell file: $shell_file"
 done

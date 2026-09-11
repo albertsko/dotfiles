@@ -16,7 +16,7 @@ run() {
 		printf ' %q' "$@"
 		printf '\n'
 	else
-		"$@"
+		"$@" || die "command failed: $1"
 	fi
 }
 
@@ -63,10 +63,10 @@ run bash "$DOTFILES_HOME/$DOTFILES_PROFILE/_install.sh"
 # Profile installers run in child shells, so import a newly installed Homebrew
 # into this process before invoking tools supplied by the Brewfile.
 for brew_bin in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew /usr/local/bin/brew; do
-	if [[ -x "$brew_bin" ]]; then
-		eval "$("$brew_bin" shellenv)"
-		break
-	fi
+	[[ -x "$brew_bin" ]] || continue
+	brew_shellenv="$("$brew_bin" shellenv)" || die "failed to load the Homebrew environment from $brew_bin"
+	eval "$brew_shellenv" || die 'failed to apply the Homebrew environment'
+	break
 done
 
 # run stow

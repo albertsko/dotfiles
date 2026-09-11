@@ -46,13 +46,7 @@ probes:
   script: |
     #!/usr/bin/env bash
     set -euo pipefail
-    command -v docker >/dev/null 2>&1
-    docker info >/dev/null
-    /home/linuxbrew/.linuxbrew/bin/brew --version >/dev/null
-    /home/linuxbrew/.linuxbrew/bin/gh --version >/dev/null
-    test -d "{{.Home}}/.local/state/dotfiles/.git"
-    test -L "{{.Home}}/.profile"
-    test -L "{{.Home}}/.bashrc"
+    bash "{{.Home}}/.local/state/dotfiles/lima/.config/lima/readiness.sh"
   hint: See "/var/log/cloud-init-output.log" in the guest.
 
 hostResolver:
