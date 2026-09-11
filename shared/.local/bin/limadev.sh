@@ -52,7 +52,12 @@ if [[ -z "$gh_token" ]]; then
 	gh_token="$(gh auth token --hostname github.com)" || die 'GitHub CLI authentication is unavailable; run gh auth login -h github.com'
 fi
 
-instance="$(limactl list "$INSTANCE_NAME" --quiet)" || die 'failed to inspect Lima instances'
+instance_names="$(limactl list --quiet)" || die 'failed to inspect Lima instances'
+instance=""
+while IFS= read -r name; do
+	[[ "$name" == "$INSTANCE_NAME" ]] && instance="$name"
+done <<<"$instance_names"
+
 if [[ "$RECREATE" == "1" && -n "$instance" ]]; then
 	limactl delete --force "$INSTANCE_NAME" || die "failed to delete Lima instance: $INSTANCE_NAME"
 	instance=""
