@@ -26,6 +26,10 @@ brew analytics off
 brew bundle install --no-upgrade --file="$BREWFILE"
 command -v stow >/dev/null 2>&1 || die 'stow was not installed by the Brewfile'
 
-# The Ubuntu image creates regular skeleton files at these paths. The Lima
-# package owns their replacements, so remove them before GNU Stow runs.
-rm -f -- "$HOME/.bashrc" "$HOME/.profile"
+# The Ubuntu image creates regular skeleton files at these paths. Remove only
+# those regular files; repeated installs keep the existing Stow links intact.
+for shell_file in "$HOME/.bashrc" "$HOME/.profile"; do
+	if [[ -e "$shell_file" && ! -L "$shell_file" ]]; then
+		rm -f -- "$shell_file"
+	fi
+done

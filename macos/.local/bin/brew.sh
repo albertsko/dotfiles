@@ -30,5 +30,5 @@ BREW_PREFIX="$(brew --prefix)" || die 'failed to determine the Homebrew prefix'
 mkdir -p "$BREW_PREFIX/share"
 sudo chmod -R go-w "$BREW_PREFIX/share"
 
-brew install stow
 brew bundle install --file="$BREWFILE"
+command -v stow >/dev/null 2>&1 || die 'stow was not installed by the Brewfile'
