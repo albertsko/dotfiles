@@ -8,7 +8,7 @@ readonly SCRIPT_DIR
 DOTFILES_HOME="${DOTFILES_HOME:-$(realpath -- "$SCRIPT_DIR/../../..")}"
 readonly DOTFILES_HOME
 readonly CONFIG_PATH="$DOTFILES_HOME/lima/.config/lima/limadev.yml"
-readonly DOTFILES_REF="${LIMADEV_DOTFILES_REF:-main}"
+readonly DOTFILES_REF="${LIMADEV_DOTFILES_REF:-$(git -C "$DOTFILES_HOME" branch --show-current)}"
 
 [[ "${1:-}" != "--recreate" ]] || {
 	limactl delete --force "$INSTANCE_NAME" >/dev/null 2>&1 || true
