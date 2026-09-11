@@ -3,6 +3,7 @@ set -euo pipefail
 
 readonly DOCKER_KEYRING="/etc/apt/keyrings/docker.asc"
 readonly DOCKER_SOURCE="/etc/apt/sources.list.d/docker.sources"
+readonly APT_OPTIONS=(--yes -o Acquire::Retries=5 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30)
 readonly CONFLICTING_PACKAGES=(docker.io docker-compose docker-compose-v2 docker-doc docker-buildx podman-docker containerd runc)
 readonly DOCKER_PACKAGES=(docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin)
 readonly SYSTEM_PACKAGES=(build-essential ca-certificates curl file git procps)
@@ -21,11 +22,11 @@ export DEBIAN_FRONTEND=noninteractive
 
 for package in "${CONFLICTING_PACKAGES[@]}"; do
 	status="$(dpkg-query --show --showformat='${db:Status-Abbrev}' "$package" 2>/dev/null || true)"
-	[[ "$status" == ii* ]] && apt-get remove --yes "$package"
+	[[ "$status" == ii* ]] && apt-get "${APT_OPTIONS[@]}" remove "$package"
 done
 
-apt-get update
-apt-get install --yes "${SYSTEM_PACKAGES[@]}"
+apt-get "${APT_OPTIONS[@]}" update
+apt-get "${APT_OPTIONS[@]}" install "${SYSTEM_PACKAGES[@]}"
 
 install -m 0755 -d "$(dirname -- "$DOCKER_KEYRING")"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o "$DOCKER_KEYRING" || die 'failed to download the Docker signing key'
@@ -45,8 +46,8 @@ printf '%s\n' \
 	"Architectures: $docker_arch" \
 	"Signed-By: $DOCKER_KEYRING" >"$DOCKER_SOURCE"
 
-apt-get update
-apt-get install --yes "${DOCKER_PACKAGES[@]}"
+apt-get "${APT_OPTIONS[@]}" update
+apt-get "${APT_OPTIONS[@]}" install "${DOCKER_PACKAGES[@]}"
 systemctl daemon-reload
 systemctl enable docker.service docker.socket
 systemctl restart docker.socket docker.service
