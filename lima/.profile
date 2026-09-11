@@ -8,3 +8,4 @@ fi
 [[ -f "$HOME/.profile.local" ]] && . "$HOME/.profile.local"
 
 [[ -f "$HOME/.bashrc" ]] && . "$HOME/.bashrc"
+# Lima BEGIN: keep Lima from changing this stowed file
