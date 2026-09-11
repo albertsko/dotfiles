@@ -60,6 +60,15 @@ export DOTFILES_PROFILE
 run bash "$DOTFILES_HOME/shared/_install.sh"
 run bash "$DOTFILES_HOME/$DOTFILES_PROFILE/_install.sh"
 
+# Profile installers run in child shells, so import a newly installed Homebrew
+# into this process before invoking tools supplied by the Brewfile.
+for brew_bin in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew /usr/local/bin/brew; do
+	if [[ -x "$brew_bin" ]]; then
+		eval "$("$brew_bin" shellenv)"
+		break
+	fi
+done
+
 # run stow
 run bash "$DOTFILES_HOME/shared/.local/bin/stow.sh" --override
 
