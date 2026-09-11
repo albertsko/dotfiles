@@ -15,9 +15,7 @@ vmOpts:
       binfmt: true
 
 mounts:
-- location: "~"
-  writable: false
-- location: "~/Documents/github.com"
+- location: "~/dev"
   writable: true
 
 containerd:
