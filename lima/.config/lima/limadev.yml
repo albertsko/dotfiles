@@ -1,0 +1,68 @@
+minimumLimaVersion: 2.2.0
+
+base:
+- template:_images/ubuntu-26.04
+
+vmType: vz
+cpus: 4
+memory: 8GiB
+disk: 100GiB
+
+vmOpts:
+  vz:
+    rosetta:
+      enabled: true
+      binfmt: true
+
+mounts:
+- location: "~/dev"
+  writable: true
+- location: "~/.codex"
+  mountPoint: "{{.Home}}/.codex"
+  writable: true
+- location: "~/.claude"
+  mountPoint: "{{.Home}}/.claude"
+  writable: true
+- location: "~/.agents"
+  mountPoint: "{{.Home}}/.agents"
+  writable: true
+- location: "~/.config/opencode"
+  mountPoint: "{{.Home}}/.config/opencode"
+  writable: true
+
+containerd:
+  system: false
+  user: false
+
+ssh:
+  forwardAgent: true
+
+param:
+  DOTFILES_REF: main
+
+provision:
+- mode: yq
+  path: /etc/systemd/system/docker.socket.d/override.conf
+  format: ini
+  expression: .Socket.SocketUser="{{.User}}"
+- mode: system
+  file: system.sh
+- mode: user
+  file: user.sh
+
+probes:
+- mode: readiness
+  description: Docker is ready
+  script: |
+    #!/usr/bin/env bash
+    set -euo pipefail
+    docker info >/dev/null
+  hint: See "/var/log/cloud-init-output.log" in the guest.
+
+portForwards:
+- guestSocket: /var/run/docker.sock
+  hostSocket: "{{.Dir}}/sock/docker.sock"
+
+message: |
+  Docker context: limadev
+  Dotfiles ref: {{.Param.DOTFILES_REF}}
