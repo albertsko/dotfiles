@@ -32,6 +32,7 @@ docker context "$context_action" "$DOCKER_CONTEXT" --docker "host=$docker_host" 
 gh_token="${GH_TOKEN:-$(gh auth token --hostname github.com)}"
 exec env \
 	"GH_TOKEN=$gh_token" \
+	TERM=xterm-256color \
 	LIMA_SHELLENV_BLOCK='*' \
 	LIMA_SHELLENV_ALLOW=GH_TOKEN \
 	limactl shell --start --preserve-env "$INSTANCE_NAME" -- "$@"
