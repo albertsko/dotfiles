@@ -22,9 +22,9 @@ var remotes = map[string]string{
 var targetPaths = []string{".agents/skills", ".claude/skills", ".codex/skills"}
 
 type skill struct {
-	name  string
-	path  string
-	label string
+	linkName  string
+	sourceDir string
+	label     string
 }
 
 type app struct {
@@ -108,37 +108,37 @@ func (a *app) run() error {
 }
 
 func (a *app) syncRepositories() error {
-	git := func(args ...string) error {
-		cmd := exec.Command("git", args...)
-		cmd.Stdout = os.Stderr
-		cmd.Stderr = os.Stderr
-		if err := cmd.Run(); err != nil {
-			return fmt.Errorf("git %s: %w", strings.Join(args, " "), err)
-		}
-		return nil
-	}
-
-	syncRepository := func(url, dir string) error {
-		if err := os.MkdirAll(filepath.Dir(dir), 0o755); err != nil {
-			return err
-		}
-		_, err := os.Stat(dir)
-		if errors.Is(err, fs.ErrNotExist) {
-			return git("clone", "--depth", "1", url, dir)
-		}
-		if err != nil {
-			return err
-		}
-		if err := git("-C", dir, "fetch", "--depth", "1", "origin"); err != nil {
-			return err
-		}
-		return git("-C", dir, "reset", "--hard", "FETCH_HEAD")
-	}
-
 	for name, url := range remotes {
 		if err := syncRepository(url, filepath.Join(a.cacheDir, name)); err != nil {
 			return err
 		}
+	}
+	return nil
+}
+
+func syncRepository(url, dir string) error {
+	if err := os.MkdirAll(filepath.Dir(dir), 0o755); err != nil {
+		return err
+	}
+	_, err := os.Stat(dir)
+	if errors.Is(err, fs.ErrNotExist) {
+		return runGit("clone", "--depth", "1", url, dir)
+	}
+	if err != nil {
+		return err
+	}
+	if err := runGit("-C", dir, "fetch", "--depth", "1", "origin"); err != nil {
+		return err
+	}
+	return runGit("-C", dir, "reset", "--hard", "FETCH_HEAD")
+}
+
+func runGit(args ...string) error {
+	cmd := exec.Command("git", args...)
+	cmd.Stdout = os.Stderr
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("git %s: %w", strings.Join(args, " "), err)
 	}
 	return nil
 }
@@ -157,127 +157,13 @@ func (a *app) loadSkills() ([]skill, error) {
 	}
 	owners := make(map[string]string)
 	for _, skill := range skills {
-		if owner, exists := owners[skill.name]; exists {
-			return nil, fmt.Errorf("duplicate skill %q in %s and %s", skill.name, owner, skill.path)
+		if owner, exists := owners[skill.linkName]; exists {
+			return nil, fmt.Errorf("duplicate skill %q in %s and %s", skill.linkName, owner, skill.sourceDir)
 		}
-		owners[skill.name] = skill.path
+		owners[skill.linkName] = skill.sourceDir
 	}
 	sort.Slice(skills, func(i, j int) bool { return skills[i].label < skills[j].label })
 	return skills, nil
-}
-
-func chooseSkills(skills []skill, links map[string]string) ([]skill, error) {
-	enabled := make(map[string]bool, len(links))
-	for _, target := range links {
-		enabled[target] = true
-	}
-	options := make([]huh.Option[skill], 0, len(skills))
-	for _, skill := range skills {
-		options = append(options, huh.NewOption(skill.label, skill).Selected(enabled[skill.path]))
-	}
-
-	var selected []skill
-	field := huh.NewMultiSelect[skill]().
-		Title("Select skills to enable").
-		Options(options...).
-		Value(&selected)
-	err := huh.NewForm(huh.NewGroup(field)).Run()
-	return selected, err
-}
-
-func (a *app) replaceLinks(selected []skill) error {
-	removeLinks := func(dir string) error {
-		links, err := readLinks(dir)
-		if err != nil {
-			return err
-		}
-		for name, target := range links {
-			if !withinRoot(a.repoRoot, target) && !withinRoot(a.cacheDir, target) {
-				continue
-			}
-			if err := os.Remove(filepath.Join(dir, name)); err != nil {
-				return err
-			}
-		}
-		return nil
-	}
-
-	for _, dir := range a.targets {
-		if err := removeLinks(dir); err != nil {
-			return err
-		}
-	}
-
-	linkSkills := func(dir string, selected []skill) error {
-		if err := os.MkdirAll(dir, 0o755); err != nil {
-			return err
-		}
-		for _, skill := range selected {
-			target, err := filepath.Rel(dir, skill.path)
-			if err != nil {
-				return err
-			}
-			if err := os.Symlink(target, filepath.Join(dir, skill.name)); err != nil {
-				return err
-			}
-		}
-		return nil
-	}
-
-	for _, dir := range a.targets {
-		if err := linkSkills(dir, selected); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-// --- helpers ---
-
-func readLinks(dir string) (map[string]string, error) {
-	info, err := os.Lstat(dir)
-	if errors.Is(err, fs.ErrNotExist) {
-		return nil, nil
-	}
-	if err != nil {
-		return nil, err
-	}
-	if !info.IsDir() {
-		return nil, fmt.Errorf("%s is not a real directory", dir)
-	}
-	entries, err := os.ReadDir(dir)
-	if err != nil {
-		return nil, err
-	}
-
-	resolveLink := func(link string) (string, error) {
-		target, err := os.Readlink(link)
-		if err != nil {
-			return "", err
-		}
-		if filepath.IsAbs(target) {
-			return filepath.Clean(target), nil
-		}
-		return filepath.Clean(filepath.Join(filepath.Dir(link), target)), nil
-	}
-
-	links := make(map[string]string)
-	for _, entry := range entries {
-		if entry.Type()&fs.ModeSymlink == 0 {
-			continue
-		}
-		target, err := resolveLink(filepath.Join(dir, entry.Name()))
-		if err != nil {
-			return nil, err
-		}
-		links[entry.Name()] = target
-	}
-	return links, nil
-}
-
-func withinRoot(root, path string) bool {
-	relative, err := filepath.Rel(root, path)
-	return err == nil && filepath.IsLocal(relative)
 }
 
 func findSkills(root, source string) ([]skill, error) {
@@ -306,8 +192,123 @@ func findSkills(root, source string) ([]skill, error) {
 			return nil
 		}
 		name := filepath.Base(path)
-		skills = append(skills, skill{name: source + "-" + name, path: path, label: source + ":" + name})
+		skills = append(skills, skill{
+			linkName:  source + "-" + name,
+			sourceDir: path,
+			label:     source + ":" + name,
+		})
 		return fs.SkipDir
 	})
 	return skills, err
+}
+
+func chooseSkills(skills []skill, links map[string]string) ([]skill, error) {
+	enabled := make(map[string]bool, len(links))
+	for _, target := range links {
+		enabled[target] = true
+	}
+	options := make([]huh.Option[skill], 0, len(skills))
+	for _, skill := range skills {
+		options = append(options, huh.NewOption(skill.label, skill).Selected(enabled[skill.sourceDir]))
+	}
+
+	var selected []skill
+	field := huh.NewMultiSelect[skill]().
+		Title("Select skills to enable").
+		Options(options...).
+		Value(&selected)
+	err := huh.NewForm(huh.NewGroup(field)).Run()
+	return selected, err
+}
+
+func (a *app) replaceLinks(selected []skill) error {
+	for _, dir := range a.targets {
+		if err := a.removeManagedLinks(dir); err != nil {
+			return err
+		}
+	}
+	for _, dir := range a.targets {
+		if err := createSkillLinks(dir, selected); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (a *app) removeManagedLinks(dir string) error {
+	links, err := readLinks(dir)
+	if err != nil {
+		return err
+	}
+	for name, target := range links {
+		if !withinRoot(a.repoRoot, target) && !withinRoot(a.cacheDir, target) {
+			continue
+		}
+		if err := os.Remove(filepath.Join(dir, name)); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func withinRoot(root, path string) bool {
+	relative, err := filepath.Rel(root, path)
+	return err == nil && filepath.IsLocal(relative)
+}
+
+func createSkillLinks(dir string, selected []skill) error {
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		return err
+	}
+	for _, skill := range selected {
+		target, err := filepath.Rel(dir, skill.sourceDir)
+		if err != nil {
+			return err
+		}
+		if err := os.Symlink(target, filepath.Join(dir, skill.linkName)); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func readLinks(dir string) (map[string]string, error) {
+	info, err := os.Lstat(dir)
+	if errors.Is(err, fs.ErrNotExist) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	if !info.IsDir() {
+		return nil, fmt.Errorf("%s is not a real directory", dir)
+	}
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return nil, err
+	}
+
+	links := make(map[string]string)
+	for _, entry := range entries {
+		if entry.Type()&fs.ModeSymlink == 0 {
+			continue
+		}
+		target, err := resolveLink(filepath.Join(dir, entry.Name()))
+		if err != nil {
+			return nil, err
+		}
+		links[entry.Name()] = target
+	}
+	return links, nil
+}
+
+func resolveLink(link string) (string, error) {
+	target, err := os.Readlink(link)
+	if err != nil {
+		return "", err
+	}
+	if filepath.IsAbs(target) {
+		return filepath.Clean(target), nil
+	}
+	return filepath.Clean(filepath.Join(filepath.Dir(link), target)), nil
 }
