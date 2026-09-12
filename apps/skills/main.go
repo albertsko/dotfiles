@@ -108,38 +108,35 @@ func (a *app) run() error {
 }
 
 func (a *app) syncRepositories() error {
+	git := func(args ...string) error {
+		cmd := exec.Command("git", args...)
+		cmd.Stdout = os.Stderr
+		cmd.Stderr = os.Stderr
+		if err := cmd.Run(); err != nil {
+			return fmt.Errorf("git %s: %w", strings.Join(args, " "), err)
+		}
+		return nil
+	}
+
+	syncRepository := func(url, dir string) error {
+		if err := os.MkdirAll(filepath.Dir(dir), 0o755); err != nil {
+			return err
+		}
+		_, err := os.Stat(dir)
+		if errors.Is(err, fs.ErrNotExist) {
+			return git("clone", "--depth", "1", url, dir)
+		}
+		if err != nil {
+			return err
+		}
+		if err := git("-C", dir, "fetch", "--depth", "1", "origin"); err != nil {
+			return err
+		}
+		return git("-C", dir, "reset", "--hard", "FETCH_HEAD")
+	}
+
 	for name, url := range remotes {
 		if err := syncRepository(url, filepath.Join(a.cacheDir, name)); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-func (a *app) replaceLinks(selected []skill) error {
-	for _, dir := range a.targets {
-		if err := a.removeLinks(dir); err != nil {
-			return err
-		}
-	}
-	for _, dir := range a.targets {
-		if err := linkSkills(dir, selected); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-func (a *app) removeLinks(dir string) error {
-	links, err := readLinks(dir)
-	if err != nil {
-		return err
-	}
-	for name, target := range links {
-		if !withinRoot(a.repoRoot, target) && !withinRoot(a.cacheDir, target) {
-			continue
-		}
-		if err := os.Remove(filepath.Join(dir, name)); err != nil {
 			return err
 		}
 	}
@@ -188,6 +185,53 @@ func chooseSkills(skills []skill, links map[string]string) ([]skill, error) {
 	return selected, err
 }
 
+func (a *app) replaceLinks(selected []skill) error {
+	removeLinks := func(dir string) error {
+		links, err := readLinks(dir)
+		if err != nil {
+			return err
+		}
+		for name, target := range links {
+			if !withinRoot(a.repoRoot, target) && !withinRoot(a.cacheDir, target) {
+				continue
+			}
+			if err := os.Remove(filepath.Join(dir, name)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+
+	for _, dir := range a.targets {
+		if err := removeLinks(dir); err != nil {
+			return err
+		}
+	}
+
+	linkSkills := func(dir string, selected []skill) error {
+		if err := os.MkdirAll(dir, 0o755); err != nil {
+			return err
+		}
+		for _, skill := range selected {
+			target, err := filepath.Rel(dir, skill.path)
+			if err != nil {
+				return err
+			}
+			if err := os.Symlink(target, filepath.Join(dir, skill.name)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+
+	for _, dir := range a.targets {
+		if err := linkSkills(dir, selected); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // --- helpers ---
 
 func readLinks(dir string) (map[string]string, error) {
@@ -205,6 +249,18 @@ func readLinks(dir string) (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	resolveLink := func(link string) (string, error) {
+		target, err := os.Readlink(link)
+		if err != nil {
+			return "", err
+		}
+		if filepath.IsAbs(target) {
+			return filepath.Clean(target), nil
+		}
+		return filepath.Clean(filepath.Join(filepath.Dir(link), target)), nil
+	}
+
 	links := make(map[string]string)
 	for _, entry := range entries {
 		if entry.Type()&fs.ModeSymlink == 0 {
@@ -219,47 +275,9 @@ func readLinks(dir string) (map[string]string, error) {
 	return links, nil
 }
 
-func resolveLink(link string) (string, error) {
-	target, err := os.Readlink(link)
-	if err != nil {
-		return "", err
-	}
-	if filepath.IsAbs(target) {
-		return filepath.Clean(target), nil
-	}
-	return filepath.Clean(filepath.Join(filepath.Dir(link), target)), nil
-}
-
 func withinRoot(root, path string) bool {
 	relative, err := filepath.Rel(root, path)
 	return err == nil && filepath.IsLocal(relative)
-}
-
-func git(args ...string) error {
-	cmd := exec.Command("git", args...)
-	cmd.Stdout = os.Stderr
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("git %s: %w", strings.Join(args, " "), err)
-	}
-	return nil
-}
-
-func syncRepository(url, dir string) error {
-	if err := os.MkdirAll(filepath.Dir(dir), 0o755); err != nil {
-		return err
-	}
-	_, err := os.Stat(dir)
-	if errors.Is(err, fs.ErrNotExist) {
-		return git("clone", "--depth", "1", url, dir)
-	}
-	if err != nil {
-		return err
-	}
-	if err := git("-C", dir, "fetch", "--depth", "1", "origin"); err != nil {
-		return err
-	}
-	return git("-C", dir, "reset", "--hard", "FETCH_HEAD")
 }
 
 func findSkills(root, source string) ([]skill, error) {
@@ -292,20 +310,4 @@ func findSkills(root, source string) ([]skill, error) {
 		return fs.SkipDir
 	})
 	return skills, err
-}
-
-func linkSkills(dir string, selected []skill) error {
-	if err := os.MkdirAll(dir, 0o755); err != nil {
-		return err
-	}
-	for _, skill := range selected {
-		target, err := filepath.Rel(dir, skill.path)
-		if err != nil {
-			return err
-		}
-		if err := os.Symlink(target, filepath.Join(dir, skill.name)); err != nil {
-			return err
-		}
-	}
-	return nil
 }
