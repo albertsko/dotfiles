@@ -13,7 +13,7 @@ Inspect the current instructions and the relevant code, configuration, and docum
 
 Let manifests and existing documentation supply ordinary package identity, package-manager selection, and standard script definitions. Preserve each verification obligation by naming the required checks, their success condition, and the canonical source of their commands. Inline command text when a local exception changes how to run it, such as an undocumented environment setting. If the user requires exact commands in the document, include them as requested.
 
-Place broadly applicable repository rules in the root instructions. Place package-only rules in scoped instructions when the target runtime supports that scope. For detail needed only by particular tasks, create a conditional reference. For a reusable workflow that needs its own invocation, use a skill.
+Place broadly applicable repository rules in the root instructions. Place package-only rules in scoped instructions when the target runtime supports that scope. For detail needed only by particular tasks, create a conditional reference document. For a reusable workflow that needs its own invocation, use a skill.
 
 ## Scope And Interoperability
 
