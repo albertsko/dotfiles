@@ -26,5 +26,12 @@ Set `DOTFILES_DRY_RUN=1` to preview the installer without making changes.
 Run `skills.sh` to choose the skills linked into `~/.agents/skills`,
 `~/.claude/skills`, and `~/.codex/skills`.
 
-Use `skills.sh --update` to refresh remote sources first. Use `skills.sh --cd`
-to open an interactive shell in this repository.
+The initial selection comes from `~/.agents/skills`. Links use a source prefix,
+such as `local-output` or `superpowers-test-driven-development`.
+Register remote repositories in `apps/skills/main.go`. Skills are read from each
+repository's `skills/` directory.
+
+Remote skills refresh on every run. If the refresh fails, the app stops before
+opening the selector. Accepting the selection rebuilds managed links in all
+three directories. Use `skills.sh --cd` to open an interactive shell in this
+repository.
