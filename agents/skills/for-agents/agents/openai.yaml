@@ -1,0 +1,5 @@
+interface:
+  display_name: "For Agents"
+  short_description: "Write agent instructions, skills, and references"
+policy:
+  allow_implicit_invocation: false

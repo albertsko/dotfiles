@@ -49,6 +49,7 @@ Before finishing, check that the draft addresses the user's main requests, follo
 - Lead a warning with the command, then state the risk: "Do not run the production migration. It drops the table."
 - Prefer simple tenses: "The migration completed."
 - Replace a semicolon or an em dash with two sentences, a comma, a colon, or parentheses.
+- Use straight ASCII quotation marks: double quotes (`"`) and apostrophes (`'`).
 - End a list's lead-in with a colon.
 
 ## Words

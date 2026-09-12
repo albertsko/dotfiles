@@ -1,5 +1,0 @@
-interface:
-  display_name: "Write AGENTS.md"
-  short_description: "Write AGENTS.md context files for coding agents"
-policy:
-  allow_implicit_invocation: false

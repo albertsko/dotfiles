@@ -155,9 +155,3 @@ Use `shfmt -w` only as an intentional formatting edit, then rerun `shfmt -d`.
 Run the happy path and every changed conditional path when the test is safe and authorized. For setup code, test a clean installation. Test a second run or restart only when the script claims repeatability.
 
 The work is done when all applicable static checks exit zero and runtime behavior has an observable success signal. Name any runtime path that could not be tested.
-
-## Sources
-
-- [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
-- [Greg's Wiki: BashPitfalls](https://mywiki.wooledge.org/BashPitfalls), [BashFAQ/035](https://mywiki.wooledge.org/BashFAQ/035), [BashFAQ/105](https://mywiki.wooledge.org/BashFAQ/105)
-- [ShellCheck wiki](https://www.shellcheck.net/wiki/)
