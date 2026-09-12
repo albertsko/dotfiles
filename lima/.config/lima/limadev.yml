@@ -26,6 +26,9 @@ mounts:
 - location: "~/.agents"
   mountPoint: "{{.Home}}/.agents"
   writable: true
+- location: "~/.local/share/albertsko-skills"
+  mountPoint: "{{.Home}}/.local/share/albertsko-skills"
+  writable: true
 - location: "~/.config/opencode"
   mountPoint: "{{.Home}}/.config/opencode"
   writable: true

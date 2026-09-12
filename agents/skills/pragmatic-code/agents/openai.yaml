@@ -1,0 +1,3 @@
+interface:
+  display_name: "Pragmatic Code"
+  short_description: "Pragmatic Programmer design principles for shaping code. Load only on explicit pragmatic-code skill request."

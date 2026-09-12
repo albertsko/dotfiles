@@ -12,10 +12,19 @@ Set `DOTFILES_DRY_RUN=1` to preview the installer without making changes.
 
 ### Layout
 
-- `apps/` contains repo-local applications used by startup services.
+- `agents/skills/` contains the skill library managed by the `skills.sh` launcher.
+- `apps/` contains repo-local applications and utilities.
 - `shared/` contains configuration used on every machine.
 - `macos/` contains the macOS profile.
 - `ubuntu26/` is the placeholder for the upcoming Ubuntu 26 profile.
 - `lima/` contains the Ubuntu 26 Lima development VM profile and provisioning configuration.
 - `shared/Brewfile` contains the portable command-line tools shared by macOS and the Lima VM, plus macOS-only tools guarded by `OS.mac?`.
 - `work/` is an optional overlay for work-specific configuration.
+
+### Skills
+
+Run `skills.sh` to choose the skills linked into `~/.agents/skills`,
+`~/.claude/skills`, and `~/.codex/skills`.
+
+Use `skills.sh --update` to refresh remote sources first. Use `skills.sh --cd`
+to open an interactive shell in this repository.
