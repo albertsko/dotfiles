@@ -1,5 +1,3 @@
 interface:
   display_name: "Pragmatic Code"
-  short_description: "Architecture and implementation that ease change"
-policy:
-  allow_implicit_invocation: false
+  short_description: "Pragmatic Programmer design principles for shaping code. Load only on explicit pragmatic-code skill request."

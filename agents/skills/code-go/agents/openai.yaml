@@ -1,0 +1,5 @@
+interface:
+  display_name: "Code Go"
+  short_description: "Write Go following Google's Go style guide"
+policy:
+  allow_implicit_invocation: false
