@@ -44,6 +44,7 @@ Before finishing, check that the draft addresses the user's main requests, follo
 
 - Keep one idea per sentence. Aim for at most 20 words in an instruction and 25 in an explanation, but keep a cause and its effect together.
 - Use the active voice and name the actor when the source identifies one.
+- Use straight ASCII quotation marks (`"..."` or `'...'`) and apostrophes (`'`) in prose.
 - Use the imperative for instructions: "Run the script."
 - Put a condition before its command: "If the build fails, read the log."
 - Lead a warning with the command, then state the risk: "Do not run the production migration. It drops the table."

@@ -1,5 +1,0 @@
-interface:
-  display_name: "Write AGENTS.md Reference Doc"
-  short_description: "Write reference docs linked from AGENTS.md"
-policy:
-  allow_implicit_invocation: false
