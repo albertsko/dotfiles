@@ -44,7 +44,7 @@ brew "sqlc"
 brew "goose"
 
 cask "codex"
-cask "claude-code"
+cask "claude-code@latest"
 
 if OS.mac?
   brew "mas"
