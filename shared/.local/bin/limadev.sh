@@ -2,22 +2,52 @@
 set -euo pipefail
 
 readonly INSTANCE_NAME="limadev"
-readonly DOCKER_CONTEXT="limadev"
-SCRIPT_DIR="$(dirname -- "$(realpath -- "${BASH_SOURCE[0]}")")"
-readonly SCRIPT_DIR
-DOTFILES_HOME="${DOTFILES_HOME:-$(realpath -- "$SCRIPT_DIR/../../..")}"
+script_dir="$(dirname -- "$(realpath -- "${BASH_SOURCE[0]}")")"
+DOTFILES_HOME="${DOTFILES_HOME:-$(realpath -- "$script_dir/../../..")}"
 readonly DOTFILES_HOME
-readonly CONFIG_PATH="$DOTFILES_HOME/lima/.config/lima/limadev.yml"
 readonly DOTFILES_REF="${LIMADEV_DOTFILES_REF:-$(git -C "$DOTFILES_HOME" branch --show-current)}"
-SKILLS_CACHE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/albertsko-skills"
-readonly SKILLS_CACHE_DIR
 
-mkdir -p "$SKILLS_CACHE_DIR"
+forward_gh=0
+recreate=0
+shell_env=(TERM=xterm-256color LIMA_SHELLENV_BLOCK='*' LIMA_SHELLENV_ALLOW=)
 
-[[ "${1:-}" != "--recreate" ]] || {
-	limactl delete --force "$INSTANCE_NAME" >/dev/null 2>&1 || true
+while (($#)); do
+	case "$1" in
+	--gh | -gh) forward_gh=1 ;;
+	--nossh | -nossh)
+		# A reused SSH connection can retain its forwarded agent.
+		shell_env+=('SSH=ssh -o ForwardAgent=no -o ControlMaster=no -o ControlPath=none -o ControlPersist=no')
+		;;
+	--recreate) recreate=1 ;;
+	-h | --help)
+		printf '%s\n' \
+			'Usage: limadev.sh [--gh|-gh] [--nossh|-nossh] [--recreate] [--] [COMMAND [ARG...]]' \
+			'' \
+			'  --gh, -gh        Forward GH_TOKEN or the host gh login (default: off).' \
+			'  --nossh, -nossh  Disable SSH agent forwarding for this session (default: on).' \
+			'  --recreate       Delete and recreate the VM before connecting.' \
+			'  -h, --help       Show this help.'
+		exit 0
+		;;
+	--)
+		shift
+		break
+		;;
+	-*)
+		printf 'Unknown option: %s\n' "$1" >&2
+		exit 2
+		;;
+	*) break ;;
+	esac
 	shift
-}
+done
+
+((forward_gh)) && gh_token="${GH_TOKEN:-$(gh auth token --hostname github.com)}"
+((forward_gh)) && shell_env+=("GH_TOKEN=$gh_token" LIMA_SHELLENV_ALLOW=GH_TOKEN)
+
+mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/albertsko-skills"
+
+((recreate == 0)) || limactl delete --force "$INSTANCE_NAME" >/dev/null 2>&1 || true
 
 limactl list "$INSTANCE_NAME" --format '{{.Name}}' >/dev/null 2>&1 ||
 	limactl start \
@@ -26,17 +56,12 @@ limactl list "$INSTANCE_NAME" --format '{{.Name}}' >/dev/null 2>&1 ||
 		--progress \
 		--timeout=30m \
 		--tty=false \
-		"$CONFIG_PATH"
+		"$DOTFILES_HOME/lima/.config/lima/limadev.yml"
 
 docker_host="$(limactl list "$INSTANCE_NAME" --format 'unix://{{.Dir}}/sock/docker.sock')"
 context_action=update
-docker context inspect "$DOCKER_CONTEXT" >/dev/null 2>&1 || context_action=create
-docker context "$context_action" "$DOCKER_CONTEXT" --docker "host=$docker_host" >/dev/null
+docker context inspect "$INSTANCE_NAME" >/dev/null 2>&1 || context_action=create
+docker context "$context_action" "$INSTANCE_NAME" --docker "host=$docker_host" >/dev/null
 
-gh_token="${GH_TOKEN:-$(gh auth token --hostname github.com)}"
-exec env \
-	"GH_TOKEN=$gh_token" \
-	TERM=xterm-256color \
-	LIMA_SHELLENV_BLOCK='*' \
-	LIMA_SHELLENV_ALLOW=GH_TOKEN \
+exec env "${shell_env[@]}" \
 	limactl shell --start --preserve-env "$INSTANCE_NAME" -- "$@"
