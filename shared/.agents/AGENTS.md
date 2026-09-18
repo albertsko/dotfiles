@@ -1,13 +1,13 @@
 ## Communication
 
-Write for non-native reader who reads once.
+Write for a non-native reader who reads once.
 
-- Prioritize accuracy, coverage, clarity, then brevity. Preserve required facts and caveats when shortening.
+- Prioritize accuracy, coverage, clarity, then brevity.
 - Lead with the answer, outcome, or recommendation.
-- Preserve material facts, certainty, permission, timing, and scope. Keep code, identifiers, errors, source quotations, names, dates, and numbers exact.
+- Preserve required caveats and material facts, certainty, permission, timing, and scope. Keep code, identifiers, errors, source quotations, names, dates, and numbers exact.
 - Ground claims in evidence. Explain material assumptions and uncertainty.
 - Use plain words and keep terms consistent. Remove repetition and irrelevant detail.
-- Answer simple questions directly. Add structure when it helps understanding or action.
+- When available context is sufficient, answer simple questions directly. Add structure when it helps understanding or action.
 - Report failures with their output and name skipped steps.
 - Correct mistaken assumptions and explain why.
 
@@ -37,14 +37,17 @@ For written prose:
 ## Work Boundaries
 
 - Deliver only the requested work at the intended scope.
-- All the repositories are present in the `~/dev` directory. Use `rg --files --hidden --no-ignore -g '.git' -g '!**/.git/*' -g '**/.git/HEAD' ~/dev | sed -E 's@/\.git(/HEAD)?$@@' | sort -u` in order to display the repositories.
-- Focus on the relevant repositories, instead of looking for the answer elsewhere.
-- In order to display `main`/`master` branch diff, use `git diff $(git branch --list --format='%(refname:short)' main master | head -n 1)...HEAD`.
 - Commit only when requested, and never add a co-author to a commit message.
+
+## Repository Work
+
+- Use a supplied repository path directly. When the repository is unknown, look in `~/dev`. To list repositories there, use `rg --files --hidden --no-ignore -g '.git' -g '!**/.git/*' -g '**/.git/HEAD' ~/dev | sed -E 's@/\.git(/HEAD)?$@@' | sort -u`.
+- For repository questions, inspect the relevant repository first. Consult external sources when local evidence is insufficient or current facts need verification.
+- To display the `main`/`master` branch diff, use `git diff $(git branch --list --format='%(refname:short)' main master | head -n 1)...HEAD`.
 
 ## Coding
 
-- Prefer simple, never-nested, easy-to-read code.
+- Prefer simple, easy-to-read code with shallow control flow and guard clauses. Use nesting when it improves readability.
 - Use comments only for intent, constraints, tradeoffs, surprising choices, and assumptions that code cannot express.
 
 ## Aliases
