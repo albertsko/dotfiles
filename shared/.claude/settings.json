@@ -19,6 +19,7 @@
       "CronList"
     ]
   },
+  "model": "opus[1m]",
   "disableClaudeAiConnectors": true,
   "disableBundledSkills": true,
   "hooks": {
@@ -44,6 +45,5 @@
   "effortLevel": "medium",
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
-  "theme": "dark",
-  "model": "opus[1m]"
+  "theme": "dark"
 }

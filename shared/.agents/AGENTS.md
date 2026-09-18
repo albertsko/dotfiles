@@ -43,5 +43,7 @@ Expand an alias only when the entire user message matches it exactly. Treat its 
 - `+scr`: Simplify, compress, and repeat your response.
 - `+eli`: Explain this like I'm 18. Simplify your language. Shorten your response.
 - `+foc`: Focus on what matters most. Reduce your response to the single most important point.
-- `+ref`: Rewrite your response with reference points.
+- `+ref`: Enable usage of Reference Points.
+- `+noref`: Disable usage of Reference Points.
 - `+once`: Load the skill only once and follow it in this session and all the subsessions.
+- `+diff`: In order to display main/master branch diff, use `git diff $(git merge-base $(git branch --list --format='%(refname:short)' main master | head -n 1) HEAD) HEAD`.
