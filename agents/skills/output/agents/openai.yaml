@@ -1,5 +1,0 @@
-interface:
-  display_name: "Output"
-  short_description: "Plain-language style guide for concise, accurate human-facing text."
-policy:
-  allow_implicit_invocation: false
