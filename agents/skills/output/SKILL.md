@@ -1,6 +1,7 @@
 ---
 name: output
 description: "Plain-language style guide for concise, accurate human-facing text."
+disable-model-invocation: true
 ---
 
 # Output

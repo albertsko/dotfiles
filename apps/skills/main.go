@@ -15,7 +15,6 @@ import (
 
 var remotes = map[string]string{
 	"mattpocock":  "https://github.com/mattpocock/skills",
-	"addyosmani":  "https://github.com/addyosmani/agent-skills",
 	"superpowers": "https://github.com/obra/superpowers",
 }
 
