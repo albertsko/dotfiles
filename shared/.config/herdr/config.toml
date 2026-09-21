@@ -17,7 +17,8 @@ copy_mode  = "prefix+y"  # herdr's copy-mode entry key; copy-mode's own internal
 agent_panel_sort = "spaces"
 
 [theme]
-name = "one-dark"
+name = "kanagawa"
 
+auto_switch = false
 [ui.toast]
 delivery = "system"
