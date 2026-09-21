@@ -45,5 +45,10 @@
   "effortLevel": "medium",
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
-  "theme": "dark"
+  "theme": "dark",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "xhigh"
+    }
+  }
 }

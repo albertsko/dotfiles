@@ -21,6 +21,7 @@ brew "fish"
 brew "fzf"
 brew "starship"
 brew "zoxide"
+brew "herdr"
 
 # Containers and Kubernetes
 brew "kubernetes-cli"
