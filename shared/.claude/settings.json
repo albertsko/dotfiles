@@ -43,12 +43,12 @@
     "gopls-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
-  "tui": "fullscreen",
-  "autoMemoryEnabled": false,
-  "theme": "dark",
   "modelSettings": {
     "claude-opus-5": {
       "effortLevel": "xhigh"
     }
-  }
+  },
+  "tui": "fullscreen",
+  "autoMemoryEnabled": false,
+  "theme": "dark"
 }

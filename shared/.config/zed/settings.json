@@ -104,6 +104,11 @@
   },
   "inlay_hints": {
     "enabled": false,
+    "show_parameter_hints": true,
+    "toggle_on_modifiers_press": {
+      "control": true,
+      "alt": true,
+    },
   },
   "collaboration_panel": {
     "dock": "left",

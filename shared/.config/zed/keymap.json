@@ -16,12 +16,20 @@
     },
   },
   {
+    "context": "Editor && mode == full",
+    "bindings": {
+      "cmd-shift-space": "editor::ShowSignatureHelp",
+      "shift-f12": "editor::FindAllReferences",
+    },
+  },
+  {
     "context": "Editor && vim_mode == insert",
     "bindings": {
       // "j k": "vim::NormalBefore"
     },
   },
   {
+    "context": "ProjectPanel && not_editing",
     "bindings": {
       "shift-backspace": "project_panel::RemoveFromProject",
     },
