@@ -21,15 +21,13 @@
       "hard_tabs": true,
       "tab_size": 4,
       "format_on_save": "on",
-      "formatter": {
-        "language_server": {
-          "name": "gopls",
-        },
-      },
+      "language_servers": ["gopls", "golangci-lint"],
+    },
+    "Go Mod": {
+      "format_on_save": "on",
       "code_actions_on_format": {
         "source.organizeImports": true,
       },
-      "language_servers": ["gopls", "golangci-lint"],
     },
     "Shell Script": {
       "format_on_save": "on",
@@ -52,6 +50,7 @@
         "command": [
           "golangci-lint",
           "run",
+          "--fast-only",
           "--output.json.path",
           "stdout",
           "--show-stats=false",
