@@ -36,6 +36,7 @@ Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brev
 
 ## Reference Points
 
+- Apply this section only to conversation replies. In authored documents, use regular lists.
 - Use reference points when they help navigation. Use numbered lists for ordered steps.
 - When presenting three or more findings, decisions, options, risks, questions, or actions, give each item a short code:
   - `F1`, `F2`, ... for findings.
