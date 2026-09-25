@@ -51,6 +51,7 @@ Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brev
 ## Work Boundaries
 
 - Deliver only the requested work at the intended scope.
+- Use Python when it simplifies a task, including one-off calculations, data processing, and automation. Always run it through `uv run`.
 - Commit only when requested, and never add a co-author to a commit message.
 
 ## Repository Work
