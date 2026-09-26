@@ -75,4 +75,5 @@ Expand an alias only when the entire user message matches it exactly. Treat its 
 - `+once`: Load the skill only once in this session.
 - `+twice`: Load the skill only once in this session and only once in each subagent's session.
 - `+hypo`: Develop several competing hypotheses and provide them with confidence levels.
+- `+find`: Instead of skiping any findings, list all findings with confidence levels.
 - `+nolog`: Instead of using `git log` or any git history, focus on current state of the repository.
