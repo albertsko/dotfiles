@@ -23,21 +23,21 @@ Model and effort settings:
 
 - Honor explicit model and effort choices. Tool definitions and available model lists take precedence over reference examples.
 - Apply recommendations through controls exposed by the active session. If those controls are unavailable, retain the current settings.
+- Correct missing context before increasing model capability or effort.
 - Report a mismatch only when it materially affects the task.
 
 ## Set Up
 
 - Start in a Git repository. If outside a repository, stop and ask for next steps.
-- Create a unique `.scratch/{task-id}` directory with a three-word task ID, such as `create-skill-flow`. The `.scratch/` directory is globally ignored.
-- Keep task and subtask notes and plans in this directory. Reuse it for the full duration of the task.
+- When notes or plans are needed, create a unique `.scratch/{task-id}` directory with a descriptive task ID. Keep task and subtask notes and plans there for the full task, and keep scratch artifacts out of commits.
+- For long tasks, maintain durable notes of decisions, completed steps with evidence, blockers, and the next action. Before resuming after an interruption or handoff, reconcile the notes with repository state to avoid repeating completed work.
 
 ## Delegate
 
 Apply these rules throughout the task:
 
-- Delegate when worth the coordination cost. Otherwise, work in the current session.
-- Delegate subtasks when handling them locally is highly likely to unnecessarily clutter the session context.
-- Start subagents with fresh context. Pass a focused, self-contained subtask brief with the relevant context, scope, constraints, completion checks, and expected output.
+- Delegate when worth the coordination cost, including when local work is highly likely to unnecessarily clutter the session context. Otherwise, work in the current session.
+- Start subagents with fresh context. Give each a focused, self-contained brief covering relevant context, scope, constraints, applicable workflow steps, completion checks, and expected output.
 - Own delegation and reviewer assignment. State in each subtask brief that further delegation requires your explicit assignment.
 - Run subagents in parallel only when their subtasks have no sequential dependencies.
 - Give concurrent editors exclusive ownership of files, or isolate their changes.
@@ -47,7 +47,7 @@ Apply these rules throughout the task:
 
 ## Workflow
 
-Follow this workflow for the task. Include applicable steps in subtask briefs.
+Follow this workflow for the task.
 
 ### 1. Inspect
 
@@ -61,27 +61,17 @@ Follow this workflow for the task. Include applicable steps in subtask briefs.
 
 - Proceed directly on clear, bounded work within existing authorization.
 - For consequential alternatives, compare tradeoffs and state the chosen approach and assumptions.
-- For dependent work, identify prerequisites and sequence the work into steps with observable completion checks.
-- Before executing a multi-step plan, check that the steps cover the requirements and agree on shared interfaces and constraints.
+- For dependent work, identify prerequisites and sequence steps with observable completion checks. Before executing a multi-step plan, verify requirement coverage and agreement on shared interfaces and constraints.
 - Ask before proceeding when an unresolved decision requires user input or the next action exceeds existing authorization.
-
-**For long tasks:**
-
-- Keep durable notes of decisions, completed steps with evidence, blockers, and the next action.
-- Update the notes as work progresses.
-- Before resuming after an interruption or handoff, read the notes and reconcile them with the repository state to avoid repeating completed work.
 
 ### 3. Execute
 
 - Work in sequential increments. Check each meaningful behavior change before building on it, with checks proportional to the change.
-- For new or changed tests, establish that they detect the missing or incorrect behavior.
-- For behavior fixes, add a repeatable regression check when practical. Verify that it fails without the fix and passes with the fix. Report when this is not practical.
+- Establish that new or changed tests detect the missing or incorrect behavior. For behavior fixes, add a repeatable regression check that fails without the fix and passes with it. Report when adding or demonstrating this check is impractical.
 
-### 4. Resolve
+## 4. Resolve
 
-- In case of failure, investigate the root cause before corrective edits. Reproduce the problem, gather evidence, and test one hypothesis at a time.
-- Correct missing context before increasing model capability or effort.
-- When an approach fails, change the hypothesis, evidence, or method before retrying.
+- In case of failure, investigate the root cause before corrective edits: reproduce the problem, gather evidence, and test one hypothesis at a time. Before retrying a failed approach, change the hypothesis, evidence, or method.
 - After repeated failures without progress, reassess the design and assumptions. Seek a fresh review or narrow the scope of the next repair attempt.
 - Revisit the plan when new evidence invalidates it.
 
@@ -92,10 +82,9 @@ Follow this workflow for the task. Include applicable steps in subtask briefs.
 - Verify findings before applying them, then recheck affected behavior.
 - Resolve each material finding by fixing it or recording why it is rejected or deferred.
 - Do not build dependent work on an unresolved correctness issue.
-- Report remaining findings.
 
 ### 6. Deliver
 
 - Run checks appropriate to the final state.
 - Match completion claims to observed results, including failed or skipped checks.
-- Deliver the requested result and identify any remaining work.
+- Deliver the requested result, remaining findings, and any remaining work.
