@@ -6,85 +6,63 @@ disable-model-invocation: true
 
 # Flow
 
-- This skill is for the coordinator session only.
-- Scale the process to uncertainty, dependencies, and the consequences of mistakes.
-- A **task** is the main user request, owned by the coordinating agent.
-- A **subtask** is part of the task delegated to a subagent.
+For the coordinator only. A task is the main user request. A subtask is delegated work. Scale the process to uncertainty, dependencies, and consequences.
 
-## Select Host Reference
+**Select Host Reference**
 
-Use the current agent host:
+Read [Codex](references/codex.md) or [Claude Code](references/claude.md) for the current host. If unknown, stop and ask.
 
-- In Codex, read [codex.md](references/codex.md).
-- In Claude Code, read [claude.md](references/claude.md).
-- If the host is unknown, stop and ask.
+- Honor explicit model and effort choices. Available models and tool definitions override reference examples.
+- Use exposed controls to apply recommendations. Otherwise, retain current settings.
+- Correct missing context before increasing capability or effort. Report setting mismatches only when material.
 
-Model and effort settings:
+**Set Up**
 
-- Honor explicit model and effort choices. Tool definitions and available model lists take precedence over reference examples.
-- Apply recommendations through controls exposed by the active session. If those controls are unavailable, retain the current settings.
-- Correct missing context before increasing model capability or effort.
-- Report a mismatch only when it materially affects the task.
+- Work in a Git repository. Otherwise, stop and ask for next steps.
+- When notes or plans are needed, keep all task and subtask artifacts in a unique, descriptive `.scratch/{task-id}` directory throughout the task. Exclude them from commits.
+- For long tasks, record decisions, completed steps with evidence, blockers, and the next action. After interruption or handoff, reconcile notes with repository state before resuming.
 
-## Set Up
+**Delegate**
 
-- Start in a Git repository. If outside a repository, stop and ask for next steps.
-- When notes or plans are needed, create a unique `.scratch/{task-id}` directory with a descriptive task ID. Keep task and subtask notes and plans there for the full task, and keep scratch artifacts out of commits.
-- For long tasks, maintain durable notes of decisions, completed steps with evidence, blockers, and the next action. Before resuming after an interruption or handoff, reconcile the notes with repository state to avoid repeating completed work.
+- Delegate when benefits outweigh coordination cost, including avoiding likely unnecessary context clutter. Otherwise, work locally.
+- Give fresh-context subagents self-contained briefs with context, scope, constraints, applicable steps, completion checks, and expected output.
+- Own delegation and reviewer assignment. Each brief must require your explicit assignment for further delegation.
+- Parallelize only independent subtasks. Give concurrent editors exclusive file ownership or isolated changes. Serialize conflicting shared-resource access.
+- Require completion status, results or changed files, verification evidence, and unresolved concerns. Blocked agents must report missing information or resources and attempted work.
+- Verify the combined result after integration.
 
-## Delegate
+## 1. Inspect
 
-Apply these rules throughout the task:
+- Read relevant code, instructions, and evidence. Define the outcome, constraints, and observable completion checks.
+- Before editing, inspect workspace changes and run relevant baseline checks. Record existing failures and preserve unrelated changes.
+- When scope changes, state the new deliverable and retain accepted constraints.
+- Ask for missing information that changes the result. Continue independent work while waiting.
 
-- Delegate when worth the coordination cost, including when local work is highly likely to unnecessarily clutter the session context. Otherwise, work in the current session.
-- Start subagents with fresh context. Give each a focused, self-contained brief covering relevant context, scope, constraints, applicable workflow steps, completion checks, and expected output.
-- Own delegation and reviewer assignment. State in each subtask brief that further delegation requires your explicit assignment.
-- Run subagents in parallel only when their subtasks have no sequential dependencies.
-- Give concurrent editors exclusive ownership of files, or isolate their changes.
-- Serialize conflicting access to shared resources.
-- Require subagents to report subtask completion status, results or changed files, verification evidence, and unresolved concerns. Require blocked subagents to report what is missing and what was tried.
-- Check the combined result after integrating delegated changes.
+## 2. Plan
 
-## Workflow
+- Proceed directly on clear, bounded, authorized work.
+- Compare consequential alternatives. State the chosen approach and assumptions.
+- Sequence dependent work with prerequisites and observable completion checks. Before executing a multi-step plan, verify requirement coverage and agreement on shared interfaces and constraints.
+- Ask when a decision needs user input or an action exceeds existing authorization.
 
-Follow this workflow for the task.
+## 3. Execute
 
-### 1. Inspect
-
-- Read the relevant code, instructions, and evidence.
-- Establish the requested outcome, constraints, and observable completion checks.
-- Before editing, inspect existing workspace changes and run relevant baseline checks. Record preexisting failures and preserve unrelated changes.
-- When the scope changes, state the new deliverable and carry forward accepted constraints.
-- Ask for missing information when it changes the result. Continue independent work while waiting.
-
-### 2. Plan
-
-- Proceed directly on clear, bounded work within existing authorization.
-- For consequential alternatives, compare tradeoffs and state the chosen approach and assumptions.
-- For dependent work, identify prerequisites and sequence steps with observable completion checks. Before executing a multi-step plan, verify requirement coverage and agreement on shared interfaces and constraints.
-- Ask before proceeding when an unresolved decision requires user input or the next action exceeds existing authorization.
-
-### 3. Execute
-
-- Work in sequential increments. Check each meaningful behavior change before building on it, with checks proportional to the change.
-- Establish that new or changed tests detect the missing or incorrect behavior. For behavior fixes, add a repeatable regression check that fails without the fix and passes with it. Report when adding or demonstrating this check is impractical.
+- Work in sequential increments. Check meaningful behavior changes proportionally before building on them.
+- Establish that new or changed tests detect missing or incorrect behavior. For fixes, add a repeatable regression check that fails without the fix and passes with it. Report when adding or demonstrating it is impractical.
 
 ## 4. Resolve
 
-- In case of failure, investigate the root cause before corrective edits: reproduce the problem, gather evidence, and test one hypothesis at a time. Before retrying a failed approach, change the hypothesis, evidence, or method.
-- After repeated failures without progress, reassess the design and assumptions. Seek a fresh review or narrow the scope of the next repair attempt.
-- Revisit the plan when new evidence invalidates it.
+- Before corrective edits, reproduce failures, gather evidence, and test one root-cause hypothesis at a time. Change the hypothesis, evidence, or method before retrying a failed approach.
+- After repeated failures without progress, reassess design and assumptions. Seek fresh review or narrow the next repair attempt.
+- Revise plans invalidated by new evidence.
 
-### 5. Review
+## 5. Review
 
-- Check the actual changes against the requested behavior and likely failure modes.
-- Use independent review when complexity or consequences justify delegation. Otherwise, review in the current session.
+- Review actual changes against requested behavior and likely failure modes. Use independent review when complexity or consequences justify delegation. Otherwise, review locally.
 - Verify findings before applying them, then recheck affected behavior.
-- Resolve each material finding by fixing it or recording why it is rejected or deferred.
-- Do not build dependent work on an unresolved correctness issue.
+- Fix each material finding or record why it is rejected or deferred. Resolve correctness issues before building dependent work.
 
-### 6. Deliver
+## 6. Deliver
 
-- Run checks appropriate to the final state.
-- Match completion claims to observed results, including failed or skipped checks.
-- Deliver the requested result, remaining findings, and any remaining work.
+- Run checks appropriate to the final state. Match completion claims to observed results, including failed or skipped checks.
+- Deliver the requested result, remaining findings, and remaining work.
