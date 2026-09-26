@@ -6,10 +6,10 @@ disable-model-invocation: true
 
 # Flow
 
-Scale the process to uncertainty, dependencies, and the consequences of mistakes.
-
-A **task** is the main user request, owned by the coordinating agent.
-A **subtask** is part of the task delegated to a subagent.
+- This skill is for the coordinator session only.
+- Scale the process to uncertainty, dependencies, and the consequences of mistakes.
+- A **task** is the main user request, owned by the coordinating agent.
+- A **subtask** is part of the task delegated to a subagent.
 
 ## Select Host Reference
 
@@ -36,18 +36,18 @@ Model and effort settings:
 Apply these rules throughout the task:
 
 - Delegate when worth the coordination cost. Otherwise, work in the current session.
-- Delegate subtasks when you have high confidence that handling them in the coordinating session would unnecessarily clutter its context.
-- Give each subagent a focused, self-contained subtask brief with the relevant context, scope, constraints, completion checks, and expected output. Use fresh context for independent reviewers.
-- The coordinating agent owns delegation and reviewer assignment. Subagents delegate further only when explicitly assigned that responsibility.
+- Delegate subtasks when handling them locally is highly likely to unnecessarily clutter the session context.
+- Start subagents with fresh context. Pass a focused, self-contained subtask brief with the relevant context, scope, constraints, completion checks, and expected output.
+- Own delegation and reviewer assignment. State in each subtask brief that further delegation requires your explicit assignment.
 - Run subagents in parallel only when their subtasks have no sequential dependencies.
 - Give concurrent editors exclusive ownership of files, or isolate their changes.
 - Serialize conflicting access to shared resources.
-- Require subagents to report subtask completion status, results or changed files, verification evidence, and unresolved concerns. When blocked, report what is missing and what was tried.
+- Require subagents to report subtask completion status, results or changed files, verification evidence, and unresolved concerns. Require blocked subagents to report what is missing and what was tried.
 - Check the combined result after integrating delegated changes.
 
 ## Workflow
 
-The coordinating agent follows this workflow for the task. Subagents apply the relevant steps within their assigned subtask scope.
+Follow this workflow for the task. Include applicable steps in subtask briefs.
 
 ### 1. Inspect
 
