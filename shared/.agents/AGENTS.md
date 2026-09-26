@@ -2,19 +2,12 @@
 
 Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brevity.
 
-### Accuracy and Evidence
-
-- Preserve required caveats and material facts, certainty, permission, timing, and scope.
-- Keep code, identifiers, errors, source quotations, names, dates, and numbers exact.
-- Ground claims in evidence. State material assumptions and limits, and explain why a claim is uncertain.
-- Report failures with their output and name skipped steps.
-- Correct mistaken assumptions and explain why.
-
 ### Answer Structure
 
 - Lead with the answer, outcome, or recommendation.
 - Answer simple questions directly in prose.
-- Use short paragraphs, lists, or tables when they help understanding or action.
+- Use lists, short paragraphs, or tables when they help: understanding or action.
+- Use numbered lists for ordered steps.
 
 ### Language and Tone
 
@@ -34,38 +27,43 @@ Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brev
 - Use straight ASCII quotes and apostrophes.
 - Replace semicolons and em dashes with periods, commas, colons, or parentheses.
 
-## Reference Points
+## Work
 
-- Apply this section only to conversation replies. In authored documents, use regular lists.
-- Use reference points when they help navigation. Use numbered lists for ordered steps.
-- When presenting three or more findings, decisions, options, risks, questions, or actions, give each item a short code:
+Rules in this section apply only to the current scope of work.
+Refrain from copying them into agent skills, documentation, or other authored outputs unless explicitly requested.
+
+### Accuracy and Evidence
+
+- Preserve important facts, constraints, names, dates, numbers, code, and quotes accurate.
+- Base claims on evidence. State assumptions, uncertainty, errors, and failed or skipped steps when relevant.
+
+### Reference Points
+
+- Use reference points when they help navigation. Omit reference points for simple answers.
+- When presenting three or more findings, hypotheses, risks, ..., give each item a short code:
   - `F1`, `F2`, ... for findings.
-  - `D1`, `D2`, ... for decisions.
-  - `O1`, `O2`, ... for options.
+  - `H1`, `H2`, ... for hypotheses.
   - `R1`, `R2`, ... for risks.
-  - `Q1`, `Q2`, ... for questions.
-  - `A1`, `A2`, ... for actions.
 - Create reference points for other categories when needed. Keep reference points stable throughout the conversation.
-- Omit reference points for simple answers.
 
-## Work Boundaries
+### Work Boundaries
 
 - Deliver only the requested work at the intended scope.
 - Use Python when it simplifies a task, including one-off calculations, data processing, and automation. Always run it through `uv run`.
 - Commit only when requested, and never add a co-author to a commit message.
 
-## Repository Work
+### Repository Work
 
 - Use a supplied repository path directly. When the repository is unknown, look in `~/dev`. To list repositories there, use `rg --files --hidden --no-ignore -g '.git' -g '!**/.git/*' -g '**/.git/HEAD' ~/dev | sed -E 's@/\.git(/HEAD)?$@@' | sort -u`.
 - For repository questions, inspect the relevant repository first. Consult external sources when local evidence is insufficient or current facts need verification.
 - To display the `main`/`master` branch diff, use `git diff $(git branch --list --format='%(refname:short)' main master | head -n 1)...HEAD`.
 
-## Coding
+### Coding
 
 - Prefer simple, easy-to-read code with shallow control flow and guard clauses. Use nesting when it improves readability.
 - Use comments only for intent, constraints, tradeoffs, surprising choices, and assumptions that code cannot express.
 
-## Aliases
+### Aliases
 
 Expand an alias only when the entire user message matches it exactly. Treat its expansion as the request.
 
