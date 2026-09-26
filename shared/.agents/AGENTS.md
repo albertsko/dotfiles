@@ -44,7 +44,7 @@ Refrain from copying them into agent skills, documentation, or other authored ou
   - `F1`, `F2`, ... for findings.
   - `H1`, `H2`, ... for hypotheses.
   - `R1`, `R2`, ... for risks.
-- Create reference points for other categories when needed. Keep reference points stable throughout the conversation.
+- Create stable reference points for other categories when needed.
 
 ### Work Boundaries
 
