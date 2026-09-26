@@ -7,7 +7,7 @@
 | Ambiguous investigation, architecture, broad integration      | `gpt-6-astra` | `low`, then increase if needed |
 | Difficult correctness review or unresolved reasoning problems | `gpt-6-astra` | `high`                         |
 
-- For a bounded task that exceeds Luna's capability, move to Sol.
+- For a bounded task or subtask that exceeds Luna's capability, move to Sol.
 - For broader reasoning that exceeds Sol's capability, move to Astra.
 - Increase effort when adequate evidence still requires deeper analysis.
 - Reserve `xhigh` and `max` for problems that justify additional time and usage.

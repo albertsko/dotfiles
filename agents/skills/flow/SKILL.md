@@ -8,6 +8,9 @@ disable-model-invocation: true
 
 Scale the process to uncertainty, dependencies, and the consequences of mistakes.
 
+A **task** is the main user request, owned by the coordinating agent.
+A **subtask** is part of the task delegated to a subagent.
+
 ## Select Host Reference
 
 Use the current agent host:
@@ -26,22 +29,25 @@ Model and effort settings:
 
 - Start in a Git repository. If outside a repository, stop and ask for next steps.
 - Create a unique `.scratch/{task-id}` directory with a three-word task ID, such as `create-skill-flow`. The `.scratch/` directory is globally ignored.
-- Keep task notes and plans in this directory. Reuse it across entire work of the same task.
+- Keep task and subtask notes and plans in this directory. Reuse it for the full duration of the task.
 
 ## Delegate
 
 Apply these rules throughout the task:
 
 - Delegate when worth the coordination cost. Otherwise, work in the current session.
-- Give each subagent a focused, self-contained brief with the relevant context, scope, constraints, completion checks, and expected output. Use fresh context for independent reviewers.
+- Delegate subtasks when you have high confidence that handling them in the coordinating session would unnecessarily clutter its context.
+- Give each subagent a focused, self-contained subtask brief with the relevant context, scope, constraints, completion checks, and expected output. Use fresh context for independent reviewers.
 - The coordinating agent owns delegation and reviewer assignment. Subagents delegate further only when explicitly assigned that responsibility.
-- Run subagents in parallel only when their tasks have no sequential dependencies.
+- Run subagents in parallel only when their subtasks have no sequential dependencies.
 - Give concurrent editors exclusive ownership of files, or isolate their changes.
 - Serialize conflicting access to shared resources.
-- Require subagents to report completion status, results or changed files, verification evidence, and unresolved concerns. When blocked, report what is missing and what was tried.
+- Require subagents to report subtask completion status, results or changed files, verification evidence, and unresolved concerns. When blocked, report what is missing and what was tried.
 - Check the combined result after integrating delegated changes.
 
-## Task Workflow
+## Workflow
+
+The coordinating agent follows this workflow for the task. Subagents apply the relevant steps within their assigned subtask scope.
 
 ### 1. Inspect
 
@@ -56,6 +62,7 @@ Apply these rules throughout the task:
 - Proceed directly on clear, bounded work within existing authorization.
 - For consequential alternatives, compare tradeoffs and state the chosen approach and assumptions.
 - For dependent work, identify prerequisites and sequence the work into steps with observable completion checks.
+- Before executing a multi-step plan, check that the steps cover the requirements and agree on shared interfaces and constraints.
 - Ask before proceeding when an unresolved decision requires user input or the next action exceeds existing authorization.
 
 **For long tasks:**
@@ -75,6 +82,7 @@ Apply these rules throughout the task:
 - In case of failure, investigate the root cause before corrective edits. Reproduce the problem, gather evidence, and test one hypothesis at a time.
 - Correct missing context before increasing model capability or effort.
 - When an approach fails, change the hypothesis, evidence, or method before retrying.
+- After repeated failures without progress, reassess the design and assumptions. Seek a fresh review or narrow the scope of the next repair attempt.
 - Revisit the plan when new evidence invalidates it.
 
 ### 5. Review
