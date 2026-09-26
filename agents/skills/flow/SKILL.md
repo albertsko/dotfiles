@@ -18,7 +18,7 @@ Use the current agent host:
 
 Honor explicit model and effort choices. Apply recommendations only through controls exposed by the active session. Otherwise, retain the current settings and report a mismatch only when it materially affects the task. Tool definitions and available model lists take precedence over reference examples.
 
-## Work Through
+## Work Through Task
 
 1. **Inspect.** Read the relevant code, instructions, and evidence. Establish the requested outcome, constraints, and observable completion checks. When the scope changes, state the new deliverable and carry forward accepted constraints. Ask for missing information when it changes the result, and continue independent work while waiting.
 2. **Choose an approach.** Proceed directly on clear, bounded work. For consequential alternatives, compare tradeoffs and state the chosen approach and assumptions. For dependent work, outline verifiable steps. Keep durable notes when needed for recovery or handoff. Continue within existing authorization.
@@ -31,5 +31,5 @@ Honor explicit model and effort choices. Apply recommendations only through cont
 
 - The work should be started in a `git` repository. If we are not in a repository, stop and ask for next steps.
 - We have globally ignored `.scratch/` dir.
-- At the start, create `.scratch/{session-id}`, using the goal in 3 words, e.g. `create-skill-flow`. Reuse it across stages of the same task.
-- Keep all the related work notes and tasks in the `.scratch/{session-id}` dir.
+- At the start, create `.scratch/{task-id}`, using the goal in 3 words, e.g. `create-skill-flow`. Reuse it across stages of the same task.
+- Keep all the related work notes and tasks in the `.scratch/{task-id}` dir.
