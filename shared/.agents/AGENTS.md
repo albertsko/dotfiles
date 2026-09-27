@@ -1,26 +1,30 @@
-## Communication
+# Our Guidence
+
+Refrain from copying points below into agent skills, documentation, or any other authored outputs unless explicitly requested.
+
+## Communication and Output
 
 Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brevity.
 
 ### Answer Structure
 
-- Lead with the answer, outcome, or recommendation.
-- Answer simple questions directly in prose.
-- Use lists, short paragraphs, or tables when they help: understanding or action.
-- Use numbered lists for ordered steps.
+- Lead with the outcome. Put details after it.
+- Use lists, short paragraphs, or tables when they improve understanding or action.
+- Use headings and whitespace to make longer answers easy to scan.
 
 ### Language and Tone
 
-- Use plain, literal words and keep terms consistent.
-- Remove redundant wording and irrelevant detail, but repeat names when needed to keep references clear.
-- Name what "this" or "that" refers to.
-- Use complete sentences for explanations.
-- Keep one idea per sentence, but keep a cause and its effect together.
-- Use active voice when the actor is known.
+- Use simple, direct English.
+- Remove unnecessary words, hedging, and filler, e.g. "basically", "It's worth noting that".
+- Avoid jargon and clichés.
 - Prefer specific verbs to vague verbs with adverbs.
+- Pick one term per concept and use it consistently.
+- Repeat names when needed to keep references clear.
+- Name what "this", "that", "it", or "they" refers to when unclear.
+- Split a complex sentence into two simple sentences.
+- Use active voice and name the actor.
 - Use simple tenses and imperative instructions.
 - Put conditions before commands.
-- Keep a consistent, respectful tone suited to the reader and task.
 
 ### Prose Conventions
 
@@ -28,9 +32,6 @@ Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brev
 - Replace semicolons and em dashes with periods, commas, colons, or parentheses.
 
 ## Work
-
-Rules in this section apply only to the current scope of work.
-Refrain from copying them into agent skills, documentation, or other authored outputs unless explicitly requested.
 
 ### Accuracy and Evidence
 
