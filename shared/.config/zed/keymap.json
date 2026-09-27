@@ -23,6 +23,13 @@
     },
   },
   {
+    "context": "Editor && showing_completions",
+    "bindings": {
+      "enter": "editor::ConfirmCompletion",
+      "tab": "editor::Tab",
+    },
+  },
+  {
     "context": "Editor && vim_mode == insert",
     "bindings": {
       // "j k": "vim::NormalBefore"
