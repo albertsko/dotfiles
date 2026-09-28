@@ -63,6 +63,7 @@ Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brev
 
 - Prefer simple, easy-to-read code with shallow control flow and guard clauses. Use nesting when it improves readability.
 - Use comments only for intent, constraints, tradeoffs, surprising choices, and assumptions that code cannot express.
+- Write tests around correctness, behavior, and important edge cases, not implementation details.
 
 ### Aliases
 
