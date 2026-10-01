@@ -52,5 +52,6 @@
   },
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
-  "theme": "dark"
+  "theme": "dark",
+  "skipDangerousModePermissionPrompt": true
 }
