@@ -135,7 +135,8 @@ func TestReplaceLinks(t *testing.T) {
 	}
 	for _, dir := range a.targets[:2] {
 		makeTestDir(t, dir)
-		makeTestLink(t, "../repo/old", filepath.Join(dir, "old-local"))
+		makeTestLink(t, "../repo/agents/skills/old", filepath.Join(dir, "old-local"))
+		makeTestLink(t, "../repo/optional/.agents/skills/custom", filepath.Join(dir, "custom"))
 		makeTestLink(t, filepath.Join(a.cacheDir, "old"), filepath.Join(dir, "old-remote"))
 		makeTestLink(t, "../repo-other/skill", filepath.Join(dir, "unrelated"))
 		writeTestFile(t, filepath.Join(dir, "notes"))
@@ -174,6 +175,10 @@ func TestReplaceLinks(t *testing.T) {
 		}
 	}
 	for _, dir := range a.targets[:2] {
+		customTarget, err := os.Readlink(filepath.Join(dir, "custom"))
+		if err != nil || customTarget != "../repo/optional/.agents/skills/custom" {
+			t.Fatalf("custom link changed: target %q, error %v", customTarget, err)
+		}
 		target, err := os.Readlink(filepath.Join(dir, "unrelated"))
 		if err != nil || target != "../repo-other/skill" {
 			t.Fatalf("unrelated link changed: target %q, error %v", target, err)
@@ -197,7 +202,7 @@ func TestReplaceLinksRemovesAcrossTargetsBeforeCreating(t *testing.T) {
 		targets:  []string{filepath.Join(root, "first"), filepath.Join(root, "not-a-directory")},
 	}
 	makeTestDir(t, a.targets[0])
-	makeTestLink(t, "../repo/old", filepath.Join(a.targets[0], "old"))
+	makeTestLink(t, "../repo/agents/skills/old", filepath.Join(a.targets[0], "old"))
 	writeTestFile(t, a.targets[1])
 	selected := []skill{{linkName: "local-new", sourceDir: filepath.Join(a.repoRoot, "new")}}
 

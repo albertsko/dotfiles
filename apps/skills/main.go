@@ -240,7 +240,7 @@ func (a *app) removeManagedLinks(dir string) error {
 		return err
 	}
 	for name, target := range links {
-		if !withinRoot(a.repoRoot, target) && !withinRoot(a.cacheDir, target) {
+		if !withinRoot(filepath.Join(a.repoRoot, "agents", "skills"), target) && !withinRoot(a.cacheDir, target) {
 			continue
 		}
 		if err := os.Remove(filepath.Join(dir, name)); err != nil {
