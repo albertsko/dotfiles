@@ -3,7 +3,7 @@
 | Action                                                        | Model         | Effort                         |
 | ------------------------------------------------------------- | ------------- | ------------------------------ |
 | Focused extraction, summaries, mechanical edits               | `gpt-6-luna`  | `high`                         |
-| Ordinary implementation, tests, bounded debugging and review  | `gpt-6-sol`   | `medium`                       |
+| Ordinary implementation, tests, bounded debugging and review  | `gpt-6.1-sol` | `medium`                       |
 | Ambiguous investigation, architecture, broad integration      | `gpt-6-astra` | `low`, then increase if needed |
 | Difficult correctness review or unresolved reasoning problems | `gpt-6-astra` | `high`                         |
 
