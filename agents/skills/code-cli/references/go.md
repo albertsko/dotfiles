@@ -1,508 +1,154 @@
 # Go rules
 
-This file explains how to build a CLI in Go, from layout to release, with Cobra, fang, koanf, and the Charm libraries. It maps existing rules to Go and adds rules for library defaults, patterns, and tooling.
+Use this reference for Go implementations. Cobra, koanf, and the Charm libraries are optional recipes, not reasons to migrate an existing stack. Apply the contracts selected in SKILL.md, arch.md, cli.md, and tui.md. A mapping line gives one implementation choice, not an extra requirement.
 
-## Terms
+## Evidence and applicability
 
-The terms in SKILL.md, arch.md, and tui.md apply. In this file, "command" means a CLI command, and the Command of tui.md is a "TUI command". New terms:
+Verify error propagation, numeric conversion, panic rendering, and forced signal exit against the application's own dependencies. Library observations here are verification targets, not claims that every current version was tested. Use `go doc` and the selected module's source for exact APIs. Pin dependency versions in the application's go.mod/go.sum and derive the Go minimum from those versions, rather than from this reference.
 
-- **Major line**: all releases of a library with one major version, for example v2.
-- **Root command**: the top command of the Cobra tree.
-- **App value**: one value with the per-run state of the CLI layer: flags, config, writers, logger, and the first error.
-- **`run` function**: the function that main calls. It does all the work and returns the exit code.
-- **Callback**: a function that Cobra calls during a run: a hook, an args validator, the flag error function, or a run handler (the function that does the command's work).
-- **Guard**: a wrapper around a callback. It records the callback's error on the app value, returns nil, and skips the callback once an error is recorded.
-- **Prescan**: a loop over the raw args, before Cobra parses them, that finds flags which must act early (`-h`, `--help`, `--json`, `--no-color`). It stops at `--`, so `todo add -- -h` adds an item.
-- **Color-aware writer** (short: writer): a wrapper around one output stream that strips or downsamples ANSI codes to match it.
-- **CLI error**: one error type with the exit code, a stable kind for `--json` (CLI-46), the message, and a fix hint.
-- **As checked**: library behavior seen in the versions checked for this file. A release may change it, so each case names a check. Run that check on the CLI's versions, or mark the finding unverified.
+Terms:
 
-## How to use this file
+- **App value**: per-run flags, configuration, writers, and runtime dependencies. It does not capture errors in a side channel.
+- **`run` function**: the function called by main that owns cleanup, rendering, and the exit code.
+- **Usage error**: invalid invocation syntax or inputs. Runtime failures have a different error type or classification.
+- **Machine mode**: the finite `--json` contract selected in CORE-6. Protocol traffic, completion scripts, exported artifacts, and native streams retain their declared formats.
 
-- A mapping line (`- CLI-1: ...`) gives one Go way to meet an existing rule. Judge the rule, not the line. A rule with no mapping line needs no Go-specific handling.
-- Look up exact APIs with `go doc <package>.<Symbol>`. Examples show one way for a small `todo` CLI, compiled against the versions checked. In them, `a` is the app value.
-- "Unix" marks a statement that holds on Linux and macOS only.
-
-Stack, by module path. `go get <path>@latest` stays on the major line of the path:
-
-- Go 1.26 or later, as checked: Bubble Tea, `x/term`, and `x/sys` declare `go 1.26.0`. Set that minimum as the go directive (`go mod edit -go=1.26.0`), not your local patch release. Check: `go list -m -f '{{if and .GoVersion (not .Main)}}{{.GoVersion}} {{.Path}}{{end}}' all | sort -V | tail -3`.
-- Commands: `github.com/spf13/cobra`, `charm.land/fang/v2` for styled help and `--version`, and `github.com/muesli/mango-cobra` with `github.com/muesli/roff` for the man page.
-- Config: `github.com/knadh/koanf/v2`, with `providers/file`, `providers/env/v2`, `providers/posflag`, `providers/confmap`, and `parsers/toml/v2` under `github.com/knadh/koanf/`, and `github.com/go-viper/mapstructure/v2` for a strict decode. The v1 env provider has another API.
-- Terminal: `charm.land/<name>/v2` for bubbletea, bubbles, lipgloss, huh, log, and glamour, `github.com/charmbracelet/colorprofile`, and `golang.org/x/term`.
-- Tests: `github.com/rogpeppe/go-internal/testscript`, `github.com/creack/pty` (Unix), and `github.com/charmbracelet/x/exp/teatest/v2`.
-
-Build order. Each step is done when its check passes:
-
-1. Module and layout (GO-1 to GO-3): `go build ./...` and `go vet ./...` pass.
-2. Domain core and adapters (GO-4, GO-5): unit tests pass.
-3. `run`, the command tree, output, and errors (GO-6 to GO-19): through a pipe, help exits 0, and a bad flag, an extra arg, and an unknown command or subcommand (also under `completion`) exit 2.
-4. Config, prompts, color, and signals (GO-20 to GO-33): the checks in their notes pass.
-5. The TUI, if planned (GO-34, GO-35): the checks in its notes pass.
-6. Tests, CI, and release (GO-36 to GO-44): the black-box tests pass against the built binary.
+Build order: select the applicable contract, implement domain rules and application services, implement parsing and output, then verify the built binary in an isolated harness. Add configuration, prompts, signals, a daemon, or a TUI only when the product needs them.
 
 ## Project setup and layout
 
-- CLI-118: Ship one module with one main package per binary. Users install with `go install <module>/cmd/<name>@<version>`.
-- ARCH-8, ARCH-9: Use `cmd/<name>/` for main and the thin CLI layer, `internal/<domain>/` for the domain core (types, rules, and sentinel and typed errors), and one `internal/` package per adapter.
+- CLI-118: A module with a main package in `cmd/<name>` supports `go install <module>/cmd/<name>@<version>`. Preserve an existing suitable layout.
+- ARCH-8, ARCH-9: Separate the pure domain rules, effectful application services, and adapters. A store interface belongs with the service that consumes it, not necessarily inside the pure core.
 
-- **GO-1** Import every Charm library that has a v2 line from that line's module path. Mixed lines load two copies of a library with different types, so code fails to compile or behaves differently. `[S15]`
-  - As checked: Bubble Tea, Bubbles, Lip Gloss, huh, log, fang, and Glamour have v2 lines under `charm.land`. Their GitHub paths give v1. Helper modules (colorprofile, `x/...`) stay on GitHub. Check: `go list -m all | grep -E '^github.com/charmbracelet/(bubbletea|bubbles|lipgloss|huh|log|fang|glamour) '` prints nothing.
-- **GO-2** Consider building the command tree in a constructor that takes the app value, in place of package-level commands and `init()` registration. Each test and script run then gets fresh flags and state. `[S12]`
-- **GO-3** Review code from the Cobra generator or user guide. As checked, both read a home dotfile (CLI-106) and exit 1 for every error (CLI-49), and the guide prints a config notice to stdout (CORE-2). `[S12]`
-  - Check: search the code for prints, exits, and config paths.
+- **GO-1** When selecting Charm libraries, choose compatible major lines and check module paths and dependency requirements. Preserve a working older stack unless migration is justified. Different major versions can coexist legally but have distinct Go types. Verify with `go list -m all` and compilation. `[S15]`
+- **GO-2** Consider a command-tree constructor taking the app value so tests and repeated runs receive fresh flags and state. `[S12]`
+- **GO-3** Review generated scaffolding for the selected contract: config paths, stdout notices, exit mapping, and process exits. Generated defaults are not product decisions. `[S12]`
 
 ## Architecture
 
-- **GO-4** Define interfaces in the package that consumes them: the domain core defines its store interface, and adapters implement it. Return concrete types, and add no interface only for mocking (ARCH-8, ARCH-78). `[S16]`
-- **GO-5** Consider a `go list -deps` test that fails when the domain core depends on CLI, terminal, or Charm packages. `internal/` blocks only imports from other modules, so it does not prevent this (ARCH-76). `[S16]`
+- **GO-4** Define small interfaces in consuming packages and return concrete implementations. Put I/O orchestration in application services around a pure core. Introduce interfaces for a real boundary, not merely to duplicate a concrete type for mocking (ARCH-8, ARCH-78). `[S16]`
+- **GO-5** Where package boundaries matter, consider a `go list -deps` check prohibiting CLI and terminal dependencies in the pure core. `internal/` controls external import access, not layering inside the application (ARCH-76). `[S16]`
 
-## The `run` function
+## Execution, errors, and output
 
-- **GO-6** Put the signal handler and the error mapping in `run`, and let main only exit with its code. Below `run`, return errors: an exit there skips deferred cleanup and the code map (CLI-49, CLI-80). `[S13,S15,S16,S17]`
-  - As checked (see `go doc`): fatal log calls and Cobra's check-and-exit helper also exit at once.
-- **GO-7** Recover panics in `run` and in your goroutines: print a bug report with the stack to stderr, and exit 1. An uncaught Go panic exits 2, the usage error code (CORE-3). `[S16]`
+- **GO-6** Let main call `os.Exit(run(os.Args[1:]))`. Own cleanup and error mapping inside `run`; return errors below that boundary. Fatal logging and exit helpers bypass deferred cleanup and centralized rendering (CLI-49, CLI-80). `[S13,S15,S16,S17]`
+- **GO-7** Recover unexpected panics at the process boundary and in owned goroutines, release resources, and classify them as internal failures. In finite JSON mode, emit one final JSON error object on stderr, never a raw stack. Human mode prints a concise bug-report hint. Send detailed stacks only through explicitly requested, redacted debug output, a documented structured field, or a selected debug file. A goroutine must forward its failure to its owner; recovering only in `run` does not catch another goroutine's panic. `[S16]`
 
-Example (GO-6): the startup sequence in order.
+Choose one final error renderer. In finite JSON mode, stdout holds one successful result document; stderr is empty on success or contains one final error document on failure. Suppress human progress, warnings, logger prefixes, and debug messages on machine stderr. Assemble finite results before emitting them where practical; a failed output device can prevent delivery of any complete document and cannot be repaired by another write to the same broken stream. Stop after an output error.
+
+Establish the requested mode before fallible setup, including config loading, and preserve that mode on parse errors. Use the registered option grammar to identify mode flags, including value consumption, explicit booleans, shorthand, and `--`; a token-equality scan is not a parser. If a mode cannot be resolved because its own syntax is invalid, report that syntax error using the documented default format. Test ordering and malformed-input cases for the chosen parser.
+
+- CORE-6, CORE-7: Tag JSON fields and test the declared schema, including errors. Native protocol and artifact output needs its own contract rather than a JSON wrapper.
+- ARCH-11: Check stdout writes and encoding errors. A closed pipe or full disk is an output failure.
+
+- **GO-14** Emit machine records and plain formats without styling. Use encoders and direct writers that preserve required bytes, including tabs. Human renderers may normalize whitespace or add terminal control sequences. `[S15]`
+- **GO-15** Where the JSON schema requires an empty list, initialize slices so the encoder emits `[]`, not `null`, and test it. `[S16]`
+- **GO-16** Map sentinel and typed errors to documented exit codes at one boundary. Avoid matching message strings. Account for the parser's actual error API: Cobra returns several untyped errors, so wrapping only flag parsing is insufficient. `[S12,S13]`
+- **GO-17** For Cobra, distinguish usage validation from effectful callbacks explicitly. Return usage errors from argument and flag-rule validators. Wrap errors from effectful pre-run, run, and post-run callbacks as runtime/domain errors before they reach the boundary; remaining known Cobra dispatch/validation errors can then map to usage errors. Keep the phase assumption documented and tested. Alternatively use a parser with typed usage errors. Validate required flags/groups before fallible setup when early rejection matters. Test unknown commands, unknown subcommands, required flags, flag groups, malformed values, extra args, and built-in commands. `[S12,S13]`
+- **GO-18** With Cobra, set `SilenceErrors` and `SilenceUsage`, use `ExecuteContext`, and render the returned error once. Optional fang styling is suitable only after its help/error paths pass the same output and terminal tests. A no-op fang error renderer alone does not prove that terminal queries or other writes disappear. `[S13]`
+- **GO-19** Return callback errors normally so execution stops. The former recipe that recorded an error and returned nil is retired: it let late-created help/completion callbacks bypass guards. Built-in non-error callbacks may print diagnostics without returning failure, so replace or explicitly test them where they are part of the public contract. Completion callbacks own their dependency failures and follow their shell protocol. `[S12]`
+
+A practical Cobra adapter wraps each effectful callback at construction, preserving the error:
 
 ```go
-func main() {
-	os.Exit(run(os.Args[1:])) // os.Exit skips deferred calls, so main only exits
-}
-
-func run(args []string) (code int) {
-	defer func() { // a crash exits 1, not 2
-		if r := recover(); r != nil {
-			_, _ = fmt.Fprintf(os.Stderr, "Error: internal error: %v\nPlease report this bug.\n%s", r, debug.Stack())
-			code = exitError
-		}
-	}()
-	catchSIGPIPE() // Unix only: EPIPE in place of death by SIGPIPE
-	pre := prescan(args)
-	if err := normalizeColorEnv(pre.noColor); err != nil { // one NO_COLOR value
-		_, _ = fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-		return exitError
-	}
-	ctx, stop := notifyContext(context.Background()) // a signal becomes the cancel cause
-	defer stop()
-
-	a := newApp(pre) // the writers, after the env is final
-	root := a.rootCmd()
-	root.SetArgs(args)
-	err := fang.Execute(ctx, root,
-		fang.WithVersion(buildVersion()), // GO-43
-		fang.WithoutManpage(),            // the tree has its own man command
-		fang.WithErrorHandler(func(io.Writer, fang.Styles, error) {}),
-	)
-	if a.err != nil { // the first recorded error wins
-		err = a.err
-	}
-	if sig := signalCause(ctx); sig != 0 { // a signal wins over the errors it caused
-		return 128 + sig
-	}
-	if err == nil {
-		return exitOK
-	}
-	e := classify(err) // the one place that maps errors to codes
-	a.renderError(e)   // GO-18
-	return e.Code
+func runtimeCallback(f func(*cobra.Command, []string) error) func(*cobra.Command, []string) error {
+    return func(c *cobra.Command, args []string) error {
+        if err := f(c, args); err != nil {
+            return runtimeError{err} // Unwrap preserves domain error classification
+        }
+        return nil
+    }
 }
 ```
+
+This wrapper does not turn errors into success and does not require traversing a finished tree to install guards. Built-in completion is a protocol, not an ordinary finite JSON command. Test `help bogus`, bare `__complete`, and completion dependency failures separately. Do not rely on a root setup hook to secure completion callbacks.
 
 ## Commands, flags, and help
 
-- CLI-8: For a missing arg, put concise help in the usage error (exit 2): the short description, one example, key flags, and `<cmd> --help`. A bare root call shows help with exit 0.
-- CLI-55: Use `-d, --debug`, not the counting `-v` of the Cobra user guide. As checked, Cobra's version flag takes a free `-v`, which CLI-55 allows. Check: `<tool> -v` prints the version.
-- CLI-15, CLI-16: In your root args validator (GO-17), call Cobra's suggestion function with a minimum distance above zero. As checked, at zero it finds prefix matches but no typos. Check: `<tool> lsit` suggests `list`.
-- CLI-21: As checked, Cobra adds the completion commands, and fang a hidden man page command, after your guards. So add the completion commands before the guards, and replace fang's man page with your own hidden `man` command, built from the root command with the man page library. Check: `<tool> completion bogus` and `<tool> man extra` exit 2, and `mandoc -T lint` accepts the `<tool> man` output.
+- CLI-8: Choose the bare-root behavior and missing-argument help according to the product. Use concise usage errors with a useful example and help pointer.
+- CLI-21: Help, version, completion, and man-page output have distinct native formats. Add only the interfaces the product supports and validate their actual behavior.
 
-- **GO-8** Set an args validator on every command. As checked, Cobra's default accepts any number of args, so an extra or mistyped arg is silently ignored (CLI-52, CLI-73). `[S12]`
-  - Check: an extra arg exits 2.
-- **GO-9** Let `-h` and `--help` win over other flags (CORE-4): prescan for them, and show help from the flag error function. As checked, Cobra parses flags before help, so an unknown flag next to `-h` fails. `[S12]`
-  - Check: `<cmd> <sub> --bogus -h` prints help with exit 0. As checked, Cobra still parses the args, so a `-h` after a value flag stays its value. Check: `<cmd> --<value-flag> -h <arg>` takes `-h` as the value.
-- **GO-10** With fang, say in the usage text of each value flag that it takes a value (CLI-18). As checked, fang's help drops Cobra's value placeholder, so readers cannot tell value flags from switches. `[S13]`
-  - Check: in piped `--help`, each value flag shows that it takes a value.
-- **GO-11** Check fang's help against CLI-13 and CLI-74 on the terminals you support, and use Cobra's help where fang's fails them. `[S13]`
-  - As checked: fang pads piped help lines to 120 columns, and on a TTY it first queries the terminal background (about 4 s on a silent terminal). fang replaces the root's help function as it starts, so for Cobra's help, run the tree with Cobra's execute, not fang, and set the version yourself. Check: trailing spaces in piped help, also after you set Cobra's help function, and `--help` time on a silent pseudo-TTY.
-- **GO-12** Load config and do other shared setup in one persistent pre-run hook on the root command only: as checked, only the nearest one runs. Inside the hook, skip the config load for commands that need no config (help, completion). Put cleanup in deferred calls, because guards skip post-run hooks after an error (CLI-80, GO-19). `[S12]`
-  - As checked: the root hook also runs for `help`, `completion`, and tab completion. Check: they work with `HOME` unset, and a subcommand's persistent pre-run hook hides the root one.
-- **GO-13** Keep completion functions fast, free of side effects, and silent on stdout except for the completions (CORE-2), because they run on every tab. Turn off the file-name fallback where no file name fits (CLI-4). `[S12]`
-  - As checked: the file-name fallback is on by default, and fish and PowerShell ignore both Cobra's extension shortcuts and its filter directives. For portable results, filter the file names inside the completion function. Check: press tab in each shell.
-
-## Output and the contract
-
-- CORE-6, CORE-7: The JSON field tags are the contract, so tag every field and test the shape.
-- ARCH-11: Return the error of every stdout write, so a closed pipe (GO-33) or a full disk gives the right code.
-
-- **GO-14** Write machine output (`--json`, `--plain`) with the standard library only, never through Lip Gloss styles, tables, or renderers. They add ANSI codes (GO-26), and as checked Lip Gloss turns tabs into spaces, which breaks `--plain` (check, Unix: `cat -t` shows tabs as `^I`). `[S15]`
-- **GO-15** Make an empty list print `[]` in JSON, not `null` (CORE-7). Go encodes a nil slice as `null`, so initialize result slices and test the empty case. `[S16]`
-
-## Errors and exit codes
-
-- CLI-49, CLI-50: Keep one list of exit code constants in code and in the root help, for example 0 success, 1 runtime error, 2 usage error (also a missing confirmation or terminal, GO-24, GO-34), 3 not found, 130 SIGINT, 141 closed pipe (GO-33), 143 SIGTERM. A "no" at a prompt gets a code only when the map has one.
-
-- **GO-16** Map errors to exit codes in one place in `run` with the CLI error type, by sentinel and typed errors, not message text (CORE-3, CLI-49). `[S12,S13]`
-- **GO-17** Make every parser error a usage error (exit 2, CORE-3): wrap each args validator and check required flags and flag groups in it, set a flag error function, and give the root and each group command a run handler. `[S12,S13]`
-  - As checked: Cobra returns parser errors as plain errors (exit 1). Without a root args validator, it reports an unknown command before any hook runs. It checks its own required-flag and flag-group markers after the pre-run hooks, so use no markers. Check: each kind of usage error exits 2.
-- **GO-18** Keep errors from fang: install a no-op error handler, guard every callback (GO-19), and render the error in `run` to stderr, as text with a hint or JSON with `--json` (CORE-2, CORE-11, CLI-46). `[S13]`
-  - As checked: fang's default handler prints a padded, styled block even into a pipe, and ignores `--json`. For any error from Cobra, fang first queries the terminal background on a TTY, also with a no-op handler (CLI-74). Parser errors come before Cobra binds `--json`, so take it from the prescan. Check: a bad flag with `--json`, piped, prints only your JSON error, and time each error path on a silent pseudo-TTY.
-- **GO-19** Guard every callback (see Guard in Terms). Cobra goes on after a callback returns nil, so without a guard a command runs with args that failed validation (CLI-73). `[S12]`
-  - Check: `<tool> rm <id1> <id2> --force` exits 2 and deletes nothing.
-
-Example (GO-17 to GO-19): guarded callbacks, and parser errors as usage errors.
-
-```go
-func (a *app) guard(f func(*cobra.Command, []string) error) func(*cobra.Command, []string) error {
-	if f == nil {
-		return nil
-	}
-	return func(cmd *cobra.Command, as []string) error {
-		if a.err == nil {
-			a.fail(f(cmd, as))
-		}
-		return nil
-	}
-}
-
-// captureErrors guards every callback of the tree. Commands use only callbacks that return errors.
-func (a *app) captureErrors(c *cobra.Command) {
-	if !c.Runnable() { // without a run handler, Cobra skips the args validator
-		c.RunE = func(c *cobra.Command, _ []string) error { return c.Help() }
-	}
-	if c.Args != nil {
-		c.Args = a.args(c.Args) // also for Cobra's own commands
-	}
-	c.PersistentPreRunE, c.PreRunE = a.guard(c.PersistentPreRunE), a.guard(c.PreRunE)
-	c.RunE = a.guard(c.RunE)
-	c.PostRunE, c.PersistentPostRunE = a.guard(c.PostRunE), a.guard(c.PersistentPostRunE)
-	for _, sub := range c.Commands() {
-		a.captureErrors(sub)
-	}
-}
-
-// args wraps an args validator and the command's flag rules (required flags, flag groups).
-func (a *app) args(v cobra.PositionalArgs, flagRules ...func(*cobra.Command) error) cobra.PositionalArgs {
-	return func(cmd *cobra.Command, as []string) error {
-		err := v(cmd, as)
-		for _, rule := range flagRules {
-			if err == nil {
-				err = rule(cmd)
-			}
-		}
-		if err != nil {
-			a.fail(usageErr(cmd, err)) // exit 2, not 1
-		}
-		return nil
-	}
-}
-```
-
-Example (GO-2, GO-12, GO-17): the command tree constructor.
-
-```go
-// rootCmd builds a fresh tree for each run (GO-2). Guards go on last.
-func (a *app) rootCmd() *cobra.Command {
-	root := &cobra.Command{Use: "todo",
-		Args:              a.unknownCommand,
-		PersistentPreRunE: a.setup, // loads config for the commands that need it
-	}
-	root.SetFlagErrorFunc(a.flagError)                   // help on a prescan hit (GO-9), else a usage error
-	root.AddCommand(a.addCmd(), a.listCmd(), a.manCmd()) // own man command: fang adds its own after the guards
-	root.InitDefaultCompletionCmd()                      // now: Cobra adds it at execute time, after the guards
-	a.captureErrors(root)
-	return root
-}
-```
+- **GO-8** Give each public command an appropriate args validator. Cobra's permissive default can silently accept extra arguments. Group commands need explicit unknown-child behavior too. `[S12]`
+- **GO-9** Let a successfully parsed help option bypass domain validation, configuration, and application work. Malformed option syntax remains a usage error. Use the same registered flag grammar as execution: `--name -h` consumes `-h` as a value, `--help=false` is false, and options after `--` are arguments. Do not implement help precedence with a raw token scan. Check these cases and shorthand forms against the selected parser. `[S12]`
+- **GO-10** If using fang or another help renderer, verify that each value-taking flag displays its value syntax in piped and terminal help. Add a usage annotation or choose another renderer when needed. `[S13]`
+- **GO-11** Verify help through a pipe and on a silent pseudo-TTY: readable layout, no unwanted padding or escapes, and bounded latency. With plain Cobra, set version/help directly. If fang replaces help during execution, changing Cobra's help function beforehand may not affect its output. `[S13]`
+- **GO-12** Keep shared setup explicit. Cobra's nearest persistent hook can hide an ancestor hook unless traversal is configured; test the selected setting. Skip config and credentials for commands that do not need them. Use deferred cleanup rather than post-run hooks, which may not run after failure. `[S12]`
+- **GO-13** Keep completion fast, side-effect free, and limited to the shell's completion protocol on stdout. Disable filename fallback when inappropriate. Verify filtering on every supported shell; extension directives may not have portable semantics. `[S12]`
 
 ## Config
 
-- CLI-108: As checked, a list in a higher koanf layer replaces the lower list. Document that. Check: set a list in two layers.
-- CLI-73: Skip koanf's strict merge and its default decode. As checked, the strict merge rejects a TOML whole number over an `int` default and an env string over a bool, without the key. The default decode is weakly typed (`limit = true` gives 1) and ignores unknown keys. A strict decoder config (the load example) rejects both, with the key, but still truncates a float into an int and accepts quoted numbers and bools from the file. Check: a misspelled key and a wrong type each fail.
-- CLI-7, CLI-73: After the merge, decode the values into a typed config value and validate it before a command runs, with an error that names the key.
+Configuration is optional. Select its scopes and trust boundaries first. For koanf, layer order, env transforms, flag providers, and decoding all need application tests; their defaults do not define the product contract.
 
-- **GO-20** Load config layers lowest first, because each load overrides the earlier ones: defaults, system, user, and project files, env vars, flags (CLI-108). A file named by a flag or env var replaces the default file. `[S14]`
-- **GO-21** Load flags last, and pass the config store to the flag provider, so an unset flag never overrides a lower layer. Keep per-run flags such as `--force` (CLI-104) out of the defaults, and load only flags that have one. `[S12,S14]`
-  - As checked: with the store, an unset flag fills only a key that no lower layer set. Without it, unset flags load nothing. Check: an unset flag keeps a file value.
-- **GO-22** Write your own env var transform: map each name to its flag key, skip empty values, and keep only keys that have a default (CORE-13, CLI-110). `[S14]`
-  - As checked: by default the env provider keeps keys such as `TODO_STORE` unchanged, and keeps empty values. The README transform maps `_` to the key delimiter, so `TODO_NO_INPUT` misses `no-input`. Read `TODO_NO_COLOR`, if offered, in the GO-27 step, before config loads. A list setting gets an env string as one item (`a,b`), unless the decode splits it (the load example). Check: a test per env var, and `TODO_FORCE=1` changes nothing.
-- **GO-23** Resolve the config path yourself: on Unix, an absolute `$XDG_CONFIG_HOME`, else `$HOME/.config`, also on macOS (CLI-106). Fail when `HOME` is empty. Skip only a missing default file, and fail on every other file error. `[S14,S16]`
-  - As checked: Go's user config dir function returns `~/Library/Application Support` on macOS, and fits Windows. An empty `HOME` gives a relative path. Check: `HOME` unset gives an error, and `env -i <tool> help` exits 0 (GO-12).
+- **GO-20** Load only selected configuration layers from lowest to highest precedence. Define whether an explicit file replaces default file discovery. Project configuration must have a deliberate trust scope (CLI-108). `[S14]`
+- **GO-21** If flags override configuration, load changed flags last and ensure an unset flag preserves lower-layer values. Keep per-run authorization controls such as `--force` out of persistent configuration. Test the chosen koanf flag provider with an existing lower-layer value. `[S12,S14]`
+- **GO-22** Map allowed environment names explicitly to config keys and convert their values using the schema before merging. Define empty values and list delimiters per setting. Keep secrets on the selected protected input channels. Converting all merged strings can silently permit file types the file schema rejects. `[S14]`
+- **GO-23** Implement the selected path policy. If using XDG paths on Unix, use an absolute XDG_CONFIG_HOME first; require HOME only for the `$HOME/.config` fallback. Go's `os.UserConfigDir` follows platform conventions and returns an error when its required environment value is absent. A hand-built join against an empty HOME is what can produce a relative path. Skip only a missing optional default file, not permission or parse errors. `[S14,S16]`
 
-Example (CLI-73, GO-20, GO-21, GO-23): load the layers lowest first, flags last, then decode strictly.
-
-```go
-k := koanf.New(".")
-if err := k.Load(confmap.Provider(defaults, "."), nil); err != nil { // 1 defaults: settings only
-	return nil, err
-}
-err := k.Load(file.Provider(path), toml.Parser()) // 2 config file
-missingDefault := errors.Is(err, fs.ErrNotExist) && !named
-if err != nil && !missingDefault { // skip only a missing default file
-	return nil, fmt.Errorf("read config file %s: %w", path, err)
-}
-if err := k.Load(env.Provider(".", env.Opt{Prefix: "TODO_", TransformFunc: envKey}), nil); err != nil {
-	return nil, err // 3 env vars
-}
-// 4 flags last: with k, unset flags keep lower values. flagKey skips flags with no default.
-if err := k.Load(posflag.ProviderWithFlag(flagSet, ".", k, flagKey), nil); err != nil {
-	return nil, err
-}
-// 5 strict decode: a wrong type or an unknown key fails, with the key
-dc := &mapstructure.DecoderConfig{ErrorUnused: true, DecodeHook: mapstructure.ComposeDecodeHookFunc(
-	mapstructure.StringToTimeDurationHookFunc(), mapstructure.StringToBasicTypeHookFunc(),
-	mapstructure.StringToSliceHookFunc(","))}
-var c Config
-if err := k.UnmarshalWithConf("", &c, koanf.UnmarshalConf{DecoderConfig: dc}); err != nil {
-	return nil, fmt.Errorf("config: %w", err)
-}
-```
-
-Example (GO-22): an env var transform with an allowlist.
-
-```go
-// envKey maps TODO_NO_INPUT to the flag key "no-input". Only keys with a default pass,
-// so a per-run flag or a future secret never comes from the env.
-func envKey(name, value string) (string, any) {
-	key := strings.ReplaceAll(strings.ToLower(strings.TrimPrefix(name, "TODO_")), "_", "-")
-	if _, ok := defaults[key]; !ok || value == "" {
-		return "", nil
-	}
-	return key, value // a string: the strict decode converts it (a list splits at commas), or names the key
-}
-```
+Decode only after checking source types and numeric ranges. A mapstructure decoder with `ErrorUnused: true` and weak typing disabled still needs a numeric hook: fractional floats and overflow can be coerced before post-decode validation sees them. For a strict integer policy, only integer source types are accepted for integer fields, and every value must fit the target bit width. Parse environment strings with `strconv.ParseInt`/`ParseUint` using the target width before merging. Reject file strings and floating-point inputs for integer settings, including `1.0`, under this policy. If a product allows integral floats, test integrality, finiteness, and target range before conversion. Validate domain constraints after decoding. Unknown keys must fail with their key names.
 
 ## Interactivity and prompts
 
-- CLI-110, TUI-42: Turn on huh's accessible (line) mode from a tool-prefixed env var or a config setting.
-- CLI-63: Read a password with echo off, after the TTY check of GO-24. Save the terminal state first, and restore it on a signal: as checked, the read restores echo only when it returns. Check (Unix): SIGINT during the read leaves echo on.
+- CLI-63: For echo-free secret input, save terminal state, arrange cancellation and restoration, then start reading. Noninteractive secret input can use a protected file descriptor or secret store; it need not be an argv value.
 
-- **GO-24** Run the CORE-8 check yourself before you build the form, and also require a TTY stderr, because a prompt on a redirected stderr is invisible. When prompts are off, fail with a usage error (CORE-10). `[S15]`
-  - As checked: huh runs Bubble Tea, which opens `/dev/tty` on Unix when stdin is not a TTY, so a piped or agent run still prompts. Check (Unix): on a terminal, `</dev/null` and `2>err.log` each give a usage error.
-- **GO-25** Send prompts to stderr, and pick the mode yourself: line mode through the stderr writer for `TERM=dumb` or the accessible setting (CLI-110), else the full-screen form (CORE-2, CORE-12). End line mode when the context ends (CLI-101). `[S15]`
-  - As checked: for `TERM=dumb`, huh picks line mode itself, but prompts on stdout with raw ANSI codes. Line mode ignores the context, so after Ctrl-C the prompt keeps waiting. The full-screen form returns a user-abort error for Ctrl-C, and a timeout error for SIGTERM. Check: Ctrl-C and SIGTERM give 130 and 143 in both modes.
-
-Example (GO-24, GO-25): the prompt gate and the prompt mode.
-
-```go
-tty := term.IsTerminal(int(os.Stdin.Fd())) && term.IsTerminal(int(os.Stderr.Fd()))
-if a.noInput || !tty { // a prompt on a redirected stderr is invisible
-	return false, cliError{Code: exitUsage, Kind: "confirmation_required",
-		Msg: "refusing to delete " + id + " without confirmation", Hint: "Pass --force to delete without a prompt."}
-}
-form := huh.NewForm(huh.NewGroup(huh.NewConfirm().Title(title).Value(&ok))).WithInput(os.Stdin)
-if os.Getenv("TERM") != "dumb" && !a.accessible { // the full-screen form needs the file itself
-	err := form.WithOutput(os.Stderr).RunWithContext(ctx)
-	return ok, err
-}
-done := make(chan error, 1) // line mode ignores ctx, so wait for the answer or the signal
-go func() { done <- form.WithAccessible(true).WithOutput(a.stderr).RunWithContext(ctx) }()
-select {
-case err := <-done:
-	return ok, err
-case <-ctx.Done():
-	return false, context.Cause(ctx) // the signal cause: exit 130 or 143
-}
-```
+- **GO-24** Before opening a prompt, apply the selected interaction policy yourself. `--no-input` forbids all interaction, even if a library can reopen `/dev/tty`. Finite JSON mode disables automatic prompts and permits only the explicit separate-terminal interaction in CLI-46. For the ordinary prompt mode require usable input and output terminal endpoints; return actionable failure when required input is missing. Explicit separate-terminal mode may use an agreed terminal while data remains redirected. `[S15]`
+- **GO-25** Route prompts to the chosen terminal, normally stderr for ordinary CLI prompting. Provide line/accessibility mode where supported. Verify Ctrl-C and SIGTERM for both modes. If a library's line reader ignores context, returning from a `select` does not stop its reader goroutine: use a cancellable reader with owned lifecycle, join it during cleanup, or select another prompt implementation. Do not leave a reader consuming input after a reusable `run` returns. `[S15]`
 
 ## Color and styling
 
-- CORE-12: As checked, with `NO_COLOR` colorprofile removes color but keeps bold and faint, which no-color.org allows, and leaves bare reset codes (`ESC[m`) on a TTY. To print no codes, skip styling when the writer's profile has no color. Check: on a pseudo-TTY with `NO_COLOR=1`, look for `ESC[`.
-
-- **GO-26** Print styled output only through the writers, created after the env is final (CORE-12, CLI-23). As checked, a Lip Gloss style with colors or text attributes renders ANSI codes, so plain `fmt` printing leaks them into a pipe. `[S15]`
-  - As checked: colorprofile writers, fang, charm log, huh's full-screen form, and Bubble Tea follow color detection. Rendered style strings, Glamour, huh's line mode on its default output, and Lip Gloss's package-level print functions (they read the env at start) do not. Check: pipe every command into `cat -v`.
-- **GO-27** Before fang runs and before any writer or logger exists, set `NO_COLOR=1` when `NO_COLOR` is not empty or the prescan found `--no-color`. The libraries that detect color then follow CORE-12 from one env value. `[S15]`
-  - As checked: colorprofile reads `NO_COLOR` as a boolean, so `NO_COLOR=yes` keeps color, and no Charm library adds `--no-color`. Check: on a pseudo-TTY, `NO_COLOR=yes`, `NO_COLOR=1`, and `--no-color` give no color codes.
-- **GO-28** Use charm log only for `-d, --debug` output, on your own stderr logger. Write normal messages to stderr with plain `fmt`, because, as checked, log lines carry level labels (CLI-32). `[S15]`
-  - As checked: the package-level logger also adds timestamps. Check: normal messages in a pipe have no label.
-- **GO-29** Query the terminal background only on a TTY when light or dark matters, and prefer colors that work on both. A terminal that does not answer delays output by seconds (CLI-74). `[S15]`
-  - As checked: each query waits up to 2 s. Lip Gloss's compatibility package for adaptive colors reads stdin and stdout globally, so keep it out of new code. Check: time the first styled output on a silent pseudo-TTY.
-
-Notes:
-
-- Windows, as checked: fang turns on escape code processing for stdout and stderr. Without fang, or before it runs, turn it on yourself (Lip Gloss has a helper). Check: the Windows console shows no raw codes.
-
-Example (GO-26, GO-27): one `NO_COLOR` value, then one writer per stream.
-
-```go
-// normalizeColorEnv runs before fang and before any writer or logger exists.
-func normalizeColorEnv(noColorFlag bool) error {
-	if noColorFlag || os.Getenv("NO_COLOR") != "" {
-		return os.Setenv("NO_COLOR", "1") // colorprofile parses NO_COLOR as a bool
-	}
-	return nil
-}
-
-// newApp creates one writer per stream, after the env is final. Commands print
-// styled text only through these writers.
-func newApp(pre prescanned) *app {
-	return &app{pre: pre,
-		stdout: colorprofile.NewWriter(os.Stdout, os.Environ()),
-		stderr: colorprofile.NewWriter(os.Stderr, os.Environ()),
-	}
-}
-```
+- **GO-26** Select styling per human-output stream. Machine output never uses terminal styling. Strip or bypass styling entirely when disabled, including non-color attributes and reset codes. Test actual output bytes rather than only a color-profile enum. `[S15]`
+- **GO-27** Apply CORE-12 before constructing renderers: machine mode, `--no-color`, nonempty NO_COLOR, TERM=dumb, and FORCE_COLOR=0 suppress styling; otherwise a supported positive FORCE_COLOR setting can enable human styling off-TTY, with per-stream terminal detection as the default. Adapt library-specific env interpretation locally instead of assuming it matches this policy. Avoid mutating process-global environment in reusable or parallel code. `[S15]`
+- **GO-28** Keep debug logging separate from result rendering. In finite JSON mode suppress human stderr logs, or send debug information to an explicitly chosen file or documented structured field. Verify library logger prefixes and timestamps. `[S15]`
+- **GO-29** Query a terminal background only when the choice is necessary and the query is bounded. Prefer palettes that work on light and dark backgrounds. Verify startup on a silent terminal and Windows escape processing on supported Windows consoles. `[S15]`
 
 ## Signals, context, and cleanup
 
-- CLI-80: Go's rename is atomic only on Unix, so a temp file plus a rename is an atomic write only there.
-- CLI-103: On Windows, list interrupt and SIGTERM in the handler: Go delivers console close events as SIGTERM. Windows still ends the process, so keep cleanup short.
+- CLI-80: Verify the destination platform/filesystem's rename and durability guarantees before promising atomic replacement. A temporary file and rename do not alone guarantee crash durability.
 
-- **GO-30** Pass the context from `run` down every call that does I/O or waits (CLI-78, CLI-101). A fresh background context below `run` ignores Ctrl-C. `[S16]`
-- **GO-31** Handle SIGINT and SIGTERM in `run`: cancel the root context with the signal as its cause, and exit 128 plus the signal number (CLI-101, CLI-103). `[S13,S16]`
-  - Without a handler, Go exits at once and skips deferred cleanup. As checked, fang's notify option drops which signal arrived, so the run exits 1. Check (Unix): SIGINT and SIGTERM give 130 and 143 after cleanup.
-- **GO-32** To meet CLI-102, after the first signal, stop the notification so the second one gets Go's default exit, or catch it and exit at once. `[S16]`
-  - To test the second-signal path, put a hook that slows cleanup behind a build tag, so release builds lack it.
-- **GO-33** To meet ARCH-11 on Unix, catch SIGPIPE at the start of `run`, in place of ignoring it. A write to a closed stdout or stderr then returns an error, not death by SIGPIPE. Child processes inherit an ignored signal, but not a caught one. `[S16]`
-  - On EPIPE, stop writing and exit quietly, for example with 141 (128 + SIGPIPE). Keep SIGPIPE out of the handler of GO-31. Check (Unix): a long output piped into `head -1` exits with the mapped code, silently, and a child `yes | head -1` exits 141.
+- **GO-30** Pass request context to I/O and waits. Use a separately bounded cleanup context only when cleanup must outlive request cancellation. `[S16]`
+- **GO-31** Where Unix signals are supported, handle SIGINT and SIGTERM at the process boundary, preserve the signal cause, clean up, and map to the documented status (commonly 130 and 143). Windows console events have different guarantees and need platform tests. `[S13,S16]`
+- **GO-32** The first signal cancels work. A second signal forces exit without blocking I/O or locks: restore the default action after cancellation or immediately call `os.Exit` in the emergency path. Print any explanation before a possible blocked cleanup path, subject to the output contract. Test against a full undrained stderr pipe and a deliberately stalled cleanup, with a bounded subprocess lifetime. `[S16]`
+- **GO-33** On Unix, if mapping broken pipes to an application exit status, catch SIGPIPE and check EPIPE rather than globally ignoring SIGPIPE. Ignored signals can be inherited by children. Stop writing on EPIPE and test both parent and child pipelines. Keep platform-specific handlers behind build constraints and release signal registrations when a reusable run returns. `[S16]`
 
-Example (GO-31, GO-32): the signal handler.
-
-```go
-// notifyContext cancels ctx on the first SIGINT or SIGTERM, with the signal as the cause.
-func notifyContext(parent context.Context) (context.Context, func()) {
-	ctx, cancel := context.WithCancelCause(parent)
-	ch := make(chan os.Signal, 2) // buffered: the signal package does not block to send
-	signal.Notify(ch, os.Interrupt, syscall.SIGTERM)
-	go func() {
-		s, ok := <-ch
-		if !ok {
-			return
-		}
-		cancel(signalError{sig: s.(syscall.Signal)}) // run reads the cause and exits 128 + sig
-		// a second signal skips cleanup: the one exit below run
-		if s, ok = <-ch; ok {
-			_, _ = fmt.Fprintln(os.Stderr, "Second signal received. Quitting without cleanup.")
-			os.Exit(128 + int(s.(syscall.Signal)))
-		}
-	}()
-	return ctx, func() { signal.Stop(ch); close(ch); cancel(nil) }
-}
-```
-
-Example (GO-33): SIGPIPE on Unix.
-
-```go
-// In a file with the "unix" build constraint. Its "!unix" twin has an empty catchSIGPIPE, and its
-// pipeClosed matches ERROR_NO_DATA (232, not run on Windows). Notify, not Ignore: children inherit Ignore.
-func catchSIGPIPE() { signal.Notify(make(chan os.Signal, 1), syscall.SIGPIPE) }
-
-// pipeClosed reports a write error after the reader went away. classify maps it to a code.
-func pipeClosed(err error) bool { return errors.Is(err, syscall.EPIPE) }
-```
+Define signal registration ownership, avoid concurrent handlers across runs, and distinguish signal cancellation from an unrelated context deadline.
 
 ## TUI
 
-- TUI-4: In the v2 line, the view declares the terminal modes, and the runtime sets and restores them. As checked, bracketed paste is on unless the view turns it off, and key disambiguation is always on while the program reads input. Check: the start bytes on a pseudo-TTY.
-- TUI-8: In raw mode, Ctrl-C is a key press, not SIGINT, so bind it in update. Check: Ctrl-C on a pseudo-TTY quits the TUI.
-- CORE-2: Send an error from the program run through the CLI error path to stderr, not to stdout as the Bubble Tea tutorial does.
-- CLI-101, GO-30: Pass the CLI command's context to the program, and keep it in the model, because, as checked, the model's init takes no context (see `go doc`).
+Use these rules only for an applicable Go TUI. Keep runtime dependencies (context, clients, cancellation handles) separate from replayable model state, even when the framework stores both in one Go wrapper. Commands may be opaque closures; compare explicit effect descriptors or observed effects rather than closures.
 
-- **GO-34** Run the TUI-3 check yourself before you start a Bubble Tea program. If it fails, return a usage error that names the CLI command for the same data. `[S15]`
-  - As checked: Bubble Tea opens the terminal device when stdin is not a TTY, and with stdout piped it writes escape codes into the pipe. Check: the TUI piped into `cat` gives a usage error.
-- **GO-35** Keep Bubble Tea's panic recovery on, and map its panic error to exit 1 as in GO-7 (TUI-6, TUI-7). In your own goroutines, recover and send the failure to the program as a message. `[S15]`
-  - As checked: Bubble Tea restores the terminal and prints the stack for panics in update, view, and TUI commands, but not in goroutines that you start. Check: compare the terminal mode before and after each panic.
-  - As checked: Bubble Tea also catches SIGINT and SIGTERM, may return nil for SIGTERM, and wraps its panic error in its killed error. So test the signal cause first, then the panic error, then the interrupt error (130). Check (Unix): SIGINT, SIGTERM, and a panic exit 130, 143, and 1.
+- **GO-34** Apply the selected terminal policy before starting Bubble Tea. Ordinary full-screen mode requires appropriate terminal endpoints. An explicit separate-terminal mode may coexist with redirected result data. `--no-input` must prevent library fallback to a terminal device. Test the actual input and renderer destinations. `[S15]`
+- **GO-35** Preserve the framework's terminal restoration on panic and cancellation, then map its error through the CLI renderer. Check the selected version's recovery scope, signal handling, and panic output. If recovery prints an uncontrolled stack, adapt the integration or exclude that path from finite JSON execution. Recover owned goroutines separately and forward failures to the program. Bind raw-mode Ctrl-C as a key action. Test init, update, view, command, and owned-goroutine failure paths. `[S15]`
+
+For the selected Bubble Tea version, verify initial size behavior, view-declared terminal modes, bracketed paste, key disambiguation, context cancellation, and SIGTERM's returned error. Neither a startup size message nor a particular panic wrapper is an unversioned guarantee.
 
 ## Testing
 
-- CLI-131, CLI-134: Register `run` as a testscript command in the test main (example below, as checked: see `go doc`). The test binary then runs the CLI as its own child process, with no build step.
-- TUI-48, TUI-49: teatest runs the real loop in memory with a fixed window size, types keys, and returns the final model (as checked, see `go doc`).
+- **GO-36** Test the built binary through pipes and, where relevant, a pseudo-TTY: streams, exact exits, option boundaries, configuration errors, color precedence, prompts, signals, and terminal restoration. Bound the entire child lifetime, register kill-and-wait cleanup immediately after starting it, and drain both output streams. Check errors from terminal-state capture before comparing states. A prompt-read deadline alone does not bound `Wait`. Keep a checked terminal endpoint alive for the before/after comparison. Verify platform support instead of assuming a Unix PTY test covers Windows. `[S16,S17]`
+- **GO-37** Construct an isolated child environment with temporary HOME/config/cache directories and explicit PATH, TERM, and required platform variables. Retain documented platform necessities rather than assuming an empty environment always boots. Set child env rather than global test-process env when tests run concurrently. `[S16,S17]`
+- **GO-38** Assert exact exit codes. In testscript, `! exec` checks failure, not a particular code; use a checked helper or ordinary subprocess tests for the code map. Test process-start failures separately from an exit status. `[S17]`
+- **GO-39** Snapshot either final model View output or an emulated terminal's final screen. Stripping escapes from a raw capture does not reconstruct cursor motion or erased content. Normalize only after establishing the rendering boundary. `[S15]`
+- **GO-40** Fuzz deterministic parsing and validation with bounded time. Preserve useful failing inputs under `testdata/fuzz`. Use isolated integration tests for process, terminal, and network behavior. `[S16]`
 
-- **GO-36** Test the contract on the built binary, through pipes and a pseudo-TTY: streams, exit codes, no escape codes in pipes, color controls, no prompt or TUI without a TTY, signals, and the terminal mode after exit. `[S16,S17]`
-  - As checked: the testscript child fits streams, exit codes, env, and files. Its stdin is never a TTY and its build info differs, so test TTY behavior, signals, and `--version` against the built binary. Check: `--version` in a script and in the binary.
-  - As checked: pseudo-TTY tests run on Unix only (use the `unix` build constraint), and Bubble Tea's start-up queries show up in captures. On macOS, read the terminal mode through the test's side. Set `TERM`: colorprofile treats a missing `TERM` as no color. Check: `GOOS=windows go vet ./...`, and a pseudo-TTY run without `TERM`.
-- **GO-37** Give every test a child env that starts empty, and a temp HOME and XDG dirs (on Windows `USERPROFILE`, `APPDATA`, `LOCALAPPDATA`). Otherwise `NO_COLOR`, the tool's env vars, and real config leak in (CLI-132). `[S16,S17]`
-  - Set the child's env, not the test's (the set-env helper blocks parallel tests). As checked, testscript gives each script a fake HOME (`exec env` shows it), so set the XDG vars in its setup.
-- **GO-38** Check exact exit codes in script tests with a custom command (CLI-49). As checked, testscript's negation only checks for a non-zero code. `[S17]`
-  - Check: `! exec` passes for exit 1 and 2.
-- **GO-39** Consider comparing the final TUI screen, with escape codes stripped, against a golden file, in place of the raw output. A renderer change then does not break the test (TUI-48). `[S15]`
-- **GO-40** When you fuzz, target pure parse and validation functions of the domain core, not the whole process, because targets must be fast and deterministic. Commit failing inputs in `testdata/fuzz`, and bound fuzz time in CI. `[S16]`
-
-Example (CLI-131, GO-38): register the CLI, and check exact exit codes.
+A PTY test's lifetime pattern should be equivalent to this, with every error checked by the product test:
 
 ```go
-func TestMain(m *testing.M) {
-	testscript.Main(m, map[string]func(){
-		"todo": func() { os.Exit(run(os.Args[1:])) },
-	})
-}
-
-// exitCode backs the script command "exitcode N cmd args...".
-func exitCode(ts *testscript.TestScript, neg bool, args []string) {
-	if neg || len(args) < 2 { // "! exitcode" would invert nothing, so refuse it
-		ts.Fatalf("usage: exitcode N cmd [args...]")
-	}
-	want, err := strconv.Atoi(args[0])
-	ts.Check(err)
-	got := 0
-	var ee *exec.ExitError
-	if err := ts.Exec(args[1], args[2:]...); errors.As(err, &ee) {
-		got = ee.ExitCode()
-	} else if err != nil {
-		ts.Fatalf("exitcode: %v", err)
-	}
-	if got != want {
-		ts.Fatalf("exit code %d, want %d", got, want)
-	}
-}
+ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+defer cancel()
+cmd := exec.CommandContext(ctx, bin, "interactive-command")
+cmd.WaitDelay = time.Second
+// Attach the PTY, capture and check its initial state, then start cmd.
+// Immediately arrange cleanup to kill a live child and wait exactly once.
+// Read the prompt with a bound, send Ctrl-C, then await completion with a bound.
+// A context deadline is a test failure, not the expected signal exit.
+// Capture and check final terminal state through the retained valid endpoint.
 ```
 
-Example (GO-36): a pseudo-TTY test of the built binary, on Unix.
+Add product tests using the supported platform's PTY facilities, with the lifecycle above and any descendants included in cleanup.
 
-```go
-func TestCtrlCAtPrompt(t *testing.T) {
-	bin, env, id := sandbox(t)   // the built binary, an env with HOME, XDG dirs, TERM, and an item
-	ptmx, tty, err := pty.Open() // the test keeps the terminal side, the CLI gets tty
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer func() { _ = ptmx.Close() }()
-	before, _ := term.GetState(int(ptmx.Fd())) // read through ptmx: macOS revokes tty on exit
-	cmd := exec.Command(bin, "rm", id)
-	cmd.Env, cmd.Stdin, cmd.Stdout, cmd.Stderr = env, tty, tty, tty
-	cmd.SysProcAttr = &syscall.SysProcAttr{Setsid: true, Setctty: true} // tty is the controlling terminal
-	if err := cmd.Start(); err != nil {
-		t.Fatal(err)
-	}
-	_ = tty.Close()                              // the child has its own copy
-	readUntil(t, ptmx, "Delete", 10*time.Second) // wait for the prompt, with a deadline
-	_, _ = ptmx.Write([]byte{3})                 // Ctrl-C: SIGINT, or a key press in raw mode
-	_ = cmd.Wait()
-	after, _ := term.GetState(int(ptmx.Fd()))
-	if code := cmd.ProcessState.ExitCode(); code != 130 || *after != *before {
-		t.Fatalf("exit %d, want 130, terminal mode restored: %v", code, *after == *before)
-	}
-}
-```
+## Tooling and release
 
-## Tooling and checks
+- **GO-41** Keep dependency metadata tidy and run build, vet, and meaningful tests. Run race checks on supported targets with the required toolchain/cgo setup. Select linters for actual contracts and explicitly handle output/cleanup errors. Verify the application's own dependencies and supported platform builds. `[S16,S19]`
+- **GO-42** Run govulncheck on the application's packages before release and on an appropriate CI schedule. Investigate reachability and block on applicable vulnerabilities. Prefer a targeted fixed-version upgrade over updating every dependency without review. `[S16]`
+- **GO-43** Derive version output from a release-stamped version, else build info, else a clear development label with revision/dirty state when available. Test the built release artifact; linker symbol names must match release configuration. GoReleaser is an optional release tool. Verify runtime files, OS capabilities, cgo linkage, and installation behavior before claiming a standalone binary. `[S13,S16,S18]`
+- **GO-44** Follow Go's module versioning rules, including `/vN` suffixes for module major versions from v2 onward where required. Version the CLI's public behavior separately according to CLI-93 and CLI-94. `[S16]`
 
-- **GO-41** Fail CI on a dirty `go mod tidy` diff (ARCH-81). Consider gating on checks like those in the table, with unchecked errors as lint errors, because a dropped error becomes a wrong exit code (ARCH-79). `[S16,S19]`
-  - As checked: the race detector needs cgo on Linux and Windows. Check: `GOOS=linux CGO_ENABLED=0 go test -race -c` fails. Mark each best-effort stderr write as ignored on purpose, so the unchecked-error check stays at zero.
-- **GO-42** Run govulncheck on all packages in CI, before each release, and on a schedule. Block on findings that your code calls (ARCH-80, ARCH-81). `[S16]`
-  - Upgrade a vulnerable indirect module itself (`go get <module>@<fixed version>`), not every module with `go get -u ./...`.
-
-Example (GO-41 to GO-43): checks and release commands.
-
-| Command | What it checks or does | When |
-|---|---|---|
-| `go vet ./...`, `go test -race ./...` | Suspicious constructs, data races | Every change |
-| golangci-lint | Many analyzers, and formatting once configured (as checked, staticcheck is a default: `golangci-lint linters`) | Every change |
-| govulncheck, `go mod tidy -diff` | Known vulnerabilities that the code calls, a clean go.mod | CI, release, schedule |
-| `go build -ldflags "-X main.version=..."` | Stamps the version at link time | Release builds |
-| GoReleaser `check`, `release --snapshot` | Checks the config, builds without publishing | Pull requests, release |
-
-## Release
-
-- CLI-118, ARCH-80: Release with GoReleaser. Pure-Go builds with cgo off give one static binary for a clean machine.
-- ARCH-81: Scripts read the artifact list, because dist directory names may change between GoReleaser versions (the docs give no guarantee). Check: compare them after an upgrade.
-
-- **GO-43** Build `--version` from build info: a version set at link time, else the main module version, else "(devel)" with the VCS revision and a dirty mark. Pass it to fang (CLI-21). `[S13,S16,S18]`
-  - As checked: `go install`, and `go build` in a VCS checkout, set the main module version. fang's default uses it only with a module checksum, so local builds show "unknown (built from source)". A link-time name that does not match the release config fails silently. Check: `--version` of a stamped build.
-- **GO-44** From v2 on, put the major version suffix in the module path and in every import, also for a CLI-only module. Go module versions follow the Go API. The CLI contract follows CLI-93 and CLI-94. `[S16]`
-
-## Not covered
-
-- Windows: named pipes for IPC, ConPTY tests, signal exit codes, and mintty, where TTY checks see a pipe.
-- A shell may start the CLI in the background with SIGINT ignored, and registering SIGINT turns it back on.
-- Re-raising SIGINT after cleanup (bash expects it to stop a loop), and SIGHUP.
-- Packaging beyond the GoReleaser quick start: signing, SBOMs, package managers, and uninstall steps (CLI-119).
+When relevant, verify Windows console/ConPTY and named pipes, shell job-control re-raising, Charm or koanf integration, platform durability, and release signing, packaging, and uninstall behavior. Record missing checks as unverified rather than treating this reference as evidence.

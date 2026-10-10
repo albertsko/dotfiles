@@ -1,31 +1,29 @@
 # Architecture rules
 
-This file holds language-neutral rules for the structure of a CLI program, from one process up to a daemon with many client programs.
+This file holds language-neutral rules for the structure of a CLI program, from a small filter to a daemon with many clients. Levels describe independent needs, not a maturity ladder.
 
 ## Terms
 
 The terms in SKILL.md apply. New terms:
 
 - **Domain core**: the part of the program that holds domain types, rules, and errors, with no I/O and no UI.
-- **Adapter**: a module that wraps storage or a remote backend behind an interface that the domain core defines.
-- **Client program** (short: client): a separate program that drives the domain core, for example the CLI, a TUI, a web UI, an MCP server, an editor plugin, or an extension. The CLI is one client program. An agent that drives the tool through its own client program (for example an MCP server) counts as that client program. Scripts, agents, and other programs (such as a plugin or a TUI) that only run the CLI command are not client programs. They use the CLI contract in cli.md.
-- **Protocol**: the typed requests, responses, and events between the domain core and its clients.
+- **Application service**: shared orchestration that applies domain rules, calls adapters, and owns transactions and effects. In a small tool, a few functions can fill this role.
+- **Adapter**: code that wraps storage or a remote backend behind an interface used by the application service.
+- **Client**: an interface that calls the shared application API or protocol, such as a CLI, TUI, web UI, MCP server, or editor extension. Multiple clients may run in one process or separate programs. Scripts and agents that only invoke the CLI use its existing process contract in cli.md; they do not require an additional application interface.
+- **Application API**: typed in-process calls and results exposed by the application service.
+- **Protocol**: serialized requests, responses, and events exchanged across a process or transport boundary. Its compatibility requirements depend on whether peers can be upgraded independently.
 - **Daemon**: a long-lived local process that owns state and serves clients over local IPC.
 - **Remote authority**: a remote service that is the current source of truth for some data or decisions. That data is server-owned, even when the user created it, for example health data that a cloud service holds.
 - **Hot work**: work that the user waits for now.
 - **Warm work**: speculative work that prepares data for later hot work.
-- **Lane**: a separate path for work, with its own queue and capacity.
+- **Lane**: a scheduling path with bounded queue and capacity. Lanes may share provider quotas and a state owner.
+- **Durable work**: accepted obligations, such as an outbox delivery, that need completion or a recorded failure even after a client exits. This is not speculative warm work.
 
 ## How to use this file
 
-- The architecture of a CLI is L0, plus every level whose test in "Choose a level" holds, plus the levels those require. The levels are not one chain. For example, a CLI can use L4 with no daemon.
-- Apply the rules of a level to the parts of the CLI that use the level. For example, when only the sync feature keeps a local copy of remote data, only that feature follows the L4 rules.
-- Mark the rules of an unused level `n/a`, with one line per section. Mutation pipeline and Background work apply when the CLI has that kind of work.
-- Record the level decision in the design: the levels used, the result of each level test, the parts of the CLI that use each level, any caches you record (ARCH-22), and the triggers that would add a level.
-- A level that another used level requires is never skipped. Its stay test does not apply.
-- A "Choose a level" rule passes when the design records the level decision for it and the decision matches the test. It fails when the decision, or a level the design uses, does not match the test. When a draft records no decision, mark the rule `open`.
-- For a built CLI with no design record, judge the levels from the code. A rule passes when the built levels match the tests. It fails when the CLI lacks a level whose test holds, or has a level that no test asks for.
-- The level status rules above cover ARCH-1 to ARCH-6. Check ARCH-7 like any other rule.
+- Apply L0 at the scale of the tool. Add levels for actual requirements or explicitly planned consumers. Record the reason, scope, and dependencies when making an architecture decision. Functions can satisfy a boundary without separate packages.
+- Apply each rule only to the feature that meets its condition. An unused level is `n/a`; cross-cutting security, mutation, and background rules have their own conditions below. "Consider" is advice under the SKILL.md rubric.
+- ARCH-1 to ARCH-6 evaluate the level decision, not the presence of the largest architecture. An existing design may keep a level for a justified operational or compatibility need. Missing evidence is `unverified`; an undecided draft is `open`.
 - The numbers in this file are examples, not defaults.
 
 ## Choose a level
@@ -34,29 +32,21 @@ Applies at: every CLI.
 
 CLI-facing rules: CLI-82.
 
-| Level | Adds | Use when | Requires | Skip when |
-|---|---|---|---|---|
-| L0 Domain core and thin CLI | A domain core, adapters, and a thin CLI in one process | Always (ARCH-1) | - | Never |
-| L1 Protocol | Typed messages between the domain core and its clients | L2 or L3 applies, or the interface must outlive its UI (ARCH-2) | - | Throwaway tool, or real-time two-way UX, when no used level requires L1 (ARCH-6) |
-| L2 Local daemon | An auto-spawned process that owns state | In-memory state, open connections, or background work must outlive one command (ARCH-3) | L1 | Stateless and fast from a cold start (ARCH-6) |
-| L3 Many clients | Peer clients, with authority in the domain core | Two or more client programs, now or expected (ARCH-4) | L1 | One client program and no second one in sight, or real-time two-way UX (ARCH-6) |
-| L4 Remote authority | A local copy of remote-owned data, with sync | The CLI keeps a local copy of remote-owned data (ARCH-5) | - | The CLI only sends requests and keeps no copy (ARCH-6) |
+| Level | Adds | Use when | Requires |
+|---|---|---|---|
+| L0 Domain rules and application logic | A testable separation from argument parsing and presentation | Every CLI, scaled to its complexity (ARCH-1) | - |
+| L1 Protocol | Serialized messages and a transport contract | Calls cross a process or transport boundary (ARCH-2) | - |
+| L2 Local daemon | A long-lived local process | Persistent resources or a long-lived owner are needed (ARCH-3) | L1 for client IPC |
+| L3 Many clients | Multiple interfaces to the same application capability | Two or more interfaces exist or are concretely planned (ARCH-4) | Shared application API; L1 only across transport boundaries |
+| L4 Local copies and sync | A cache, replica, or offline/synchronized data | Remote data is stored locally or synchronized (ARCH-5) | - |
 
-- **ARCH-1** Use L0 for every CLI. Add another level only when its test below holds, or when a level you add requires it. Layers that no test asks for are cost with no return. `[S2]`
-- **ARCH-2** Use L1 (protocol) when L2 or L3 requires it, or when the interface must outlive its current UI. Protocols built for stability survive UI rewrites. `[S2]`
-- **ARCH-3** Use L2 (local daemon) when in-memory state, open connections, or background work must outlive one command, for any reason below. State saved to a file or database between runs does not count by itself. One client is enough. L2 requires L1, because the CLI talks to the daemon through the protocol. `[S2]`
-  - Rebuilding the state for each command costs a delay that users notice (for example above about 50 ms).
-  - A connection must stay open, for example IMAP IDLE or a file watcher.
-  - Two or more client programs run at the same time and change shared state. Without a daemon, one client becomes the state holder.
-  - In-memory state must stay loaded after the client that opened it exits.
-- **ARCH-4** Use L3 (many clients) when you have or expect two or more client programs, for example the CLI and a TUI. L3 requires L1, and needs L2 only when the L2 test (ARCH-3) also holds. `[S2]`
-- **ARCH-5** Use L4 (remote authority) when the CLI keeps a local copy of data that a remote service owns (a cache, a mirror, or offline data), or syncs with it. L4 requires no other level. `[S2]`
-- **ARCH-6** Skip a level when its stay test holds: `[S2]`
-  - L1: the tool is a throwaway tool, or its UX is real-time and two-way (for example video calls or live drawing), where request and response shapes do not fit. This test applies only when no used level requires L1. Real-time two-way UX also skips L3.
-  - L2: the tool is stateless, and each run is fast from a cold start (for example under about 50 ms, as in jq or ripgrep).
-  - L3: the CLI is the only client program, and no second one is in sight.
-  - L4: the CLI only sends requests to a remote API and keeps no local copy. The network rules of cli.md apply (CLI-78).
-- **ARCH-7** When the CLI owns its data (no remote authority), design data features for offline use from the start, because offline support is hard to add to a server-centric design. Consider a local design first, with a backend added later for sync or sharing. `[S5]`
+- **ARCH-1** Use L0 for every CLI: separate domain decisions and application work from argument parsing and rendering where those concerns exist. A simple filter may need only a few functions. Add levels for a concrete requirement, not as a mandatory progression. `[S2]`
+- **ARCH-2** Use L1 when calls cross a process or transport boundary. An in-process CLI and TUI can share a typed application API without serialization, session setup, or version negotiation. Define compatibility rules when peers can be versioned independently. `[S2]`
+- **ARCH-3** Use L2 when the tool must keep a local process alive beyond a command to own persistent connections, resident state with a demonstrated startup cost, or resident background execution. Submitting durable work to an external queue, service, or scheduler does not by itself require a local daemon. Multiple writers alone do not require a daemon. Transactions or locks can coordinate independent processes. L2 needs L1 for client IPC; choose the process lifecycle from its operational requirements. `[S2]`
+- **ARCH-4** Use L3 when two or more interfaces use the same application capability, for example a CLI and TUI. Share domain rules and application services. Use L1 only across process or transport boundaries and L2 only when ARCH-3 applies. `[S2]`
+- **ARCH-5** Use L4 for a local cache or read replica of remote data, offline edits, or synchronization. Name which role each copy serves and apply only the corresponding rules. A disposable cache and an offline writable store have different durability contracts. `[S2]`
+- **ARCH-6** Skip L1 for in-process calls, L2 when no resource or owner needs to outlive a command, L3 when there is one interface, and L4 when no local copy or sync exists. Real-time interaction may use streams and events; it does not remove application API or transport boundaries. `[S2]`
+- **ARCH-7** When local ownership fits the product, consider designing local operations for offline use before adding sync or sharing. A remote-service client can legitimately require its service for remote operations. Keep independent local features available (CLI-98). `[S5]`
 
 ## L0 Domain core and thin CLI
 
@@ -64,26 +54,26 @@ Applies at: every CLI.
 
 CLI-facing rules: CLI-1, CLI-6, CLI-80.
 
-- **ARCH-8** Keep the domain core free of I/O and UI, and put storage and backend details in adapters. Every client can then reuse the domain core unchanged. `[S2]`
-- **ARCH-9** Keep the CLI layer thin: it parses input, calls the domain core, and renders the result. It calls the domain core in process, or through the protocol when the CLI uses L1. `[S2]`
-- **ARCH-10** When other programs need the capability, also ship it as a library with its own contract, docs, and versions (for example Willison's `llm`). Publish bounded contracts, not every module that splits off easily. `[S2,S6]`
-- **ARCH-11** On Unix, keep SIGPIPE from killing the process (for example, ignore it), and handle write errors as normal return values. Otherwise the process dies when its output goes through `head`. `[S2]`
+- **ARCH-8** Keep domain types and rules free of I/O and presentation. Put effectful orchestration and transactions in the application service, with storage and remote access behind adapters. Scale the separation to the program; separate packages are optional. `[S2]`
+- **ARCH-9** Keep the CLI layer focused on input parsing, application calls, and rendering. Call the application service in process or through L1 when a transport boundary exists. `[S2]`
+- **ARCH-10** Consider publishing a library when there is a concrete in-process consumer and a supportable public API. Scripts may already be served by the CLI process contract. A published library needs its own documented compatibility policy. `[S2,S6]`
+- **ARCH-11** On Unix, choose and test a broken-pipe policy for output consumed by tools such as `head`. Conventional SIGPIPE termination is valid for filters. If graceful cleanup requires handling write errors, configure the runtime accordingly, stop writing after EPIPE, and keep expected early pipe closure free of noisy diagnostics. `[S2]`
 
-## L1 Protocol
+## Shared application API and L1 protocol
 
-Applies at: CLIs that use L1. ARCH-21 and ARCH-22 apply to every CLI.
+Applies at: shared application APIs and transport protocols. ARCH-14, ARCH-16, and ARCH-17 apply only to their stated wire/compatibility conditions. ARCH-21 and ARCH-22 apply to every CLI.
 
 CLI-facing rules: CORE-6, CORE-7, CLI-39, CLI-40, CLI-42, CLI-43, CLI-46, CLI-93, CLI-94, CLI-95, CLI-99.
 
-- **ARCH-12** Give state one owner: the domain core (the daemon, with L2) owns domain state, background work, and execution flow. Clients keep only view state, such as focus and scroll. `[S2]`
-- **ARCH-13** Let clients reach the domain core only through protocol types, also when speed tempts you. Store reads, imports of internal modules, and shared memory bypass the protocol. In-process calls through protocol types, with no daemon, are fine. `[S2]`
-- **ARCH-14** Define the protocol (messages, error model, versioning rule) before the second client. Change it by the Future-proofing rules (CLI-93 to CLI-95), and retire old capabilities on a schedule. `[S2]`
-- **ARCH-15** Build the second client early, even a small one, as the test of the protocol. When it needs changes inside the domain core or the daemon, fix the protocol. `[S2]`
-- **ARCH-16** Exchange version and capabilities at session start, in explicit lifecycle messages (initialize, work, shutdown). Apply CLI-39 to every protocol message, and make the client refuse a version mismatch with a clear error (CLI-43). A client can then ask what the domain core supports. `[S2]`
-- **ARCH-17** Use JSON and an existing message format such as JSON-RPC for the protocol, unless you have a strong reason not to. People and agents can then read the traffic with `socat`. CLI output still follows CORE-6. `[S2]`
-- **ARCH-18** Decide each error kind once in the domain core, and carry its stable code to every client (CLI-46). A client that derives the kind from message text breaks when the wording changes. `[S2]`
-- **ARCH-19** Publish every change of shared state from the domain core as an event to all clients. A client may show an optimistic view, but only a domain core event changes shared state. `[S2]`
-- **ARCH-20** Consider one durable store for the main state, memory for session state, and derived state (such as a search index) rebuilt from the store. Reads, sync, and writes then never wait for a derived layer. `[S2]`
+- **ARCH-12** Give each shared state invariant an explicit owner or transaction boundary in the application service. A daemon may be that owner; a transactional store may coordinate independent processes. Clients own view state. The pure domain core defines rules without owning effectful execution. `[S2]`
+- **ARCH-13** Expose application capabilities through the shared application API and, across transports, protocol messages. UI code should not bypass authorization or invariants through direct store access. A composition root may instantiate and wire concrete services and adapters behind these interfaces. `[S2]`
+- **ARCH-14** Define transport messages, error semantics, and compatibility before adding an independently versioned peer. Apply CLI-93 to CLI-95 to published contracts. In-process clients can evolve together through ordinary typed API changes. `[S2]`
+- **ARCH-15** When a second interface is planned, consider building a small representative path early to test the shared API. Missing reusable behavior may require application-service work as well as API changes. Keep presentation-specific behavior in its client. `[S2]`
+- **ARCH-16** When peers are independently versioned, define supported protocol versions and capability discovery. Negotiate at session start for sessionful protocols, or use the transport's version mechanism for stateless calls. Reject unsupported versions clearly; accept compatible versions according to the contract. CLI-39 and CLI-43 apply to the corresponding structured wire contracts. `[S2]`
+- **ARCH-17** Consider JSON and an established protocol such as JSON-RPC for inspectable IPC. Use the chosen protocol's encoding and framing; high-volume binary or streaming use cases may need another contract. In-process APIs need no serialization. CLI output follows CORE-6. `[S2]`
+- **ARCH-18** Define domain and application error kinds in the shared application API and carry stable codes across client and transport boundaries (CLI-46). Clients render errors rather than classifying message text. `[S2]`
+- **ARCH-19** When clients subscribe to shared state changes, publish committed changes only to authorized, interested subscribers. An optimistic view is provisional until the application service confirms or reconciles it. Define missed-event recovery, such as a versioned snapshot, when delivery can be lost. `[S2]`
+- **ARCH-20** Consider a durable authoritative store, separate session state, and rebuildable derived indexes. State the consistency contract: asynchronous indexes can lag, and operations that require current indexed data must wait, fall back, or report that limitation. `[S2]`
 - **ARCH-21** Consider computing results on demand until a measurement on real data shows a slowdown that users notice. A build or query time measured on real data, for example in the design brief, counts. `[S2]`
 - **ARCH-22** Consider recording each cache or index with its refresh rule and its invalidation trigger, and each deferred one with the measured trigger that will force it. A stale cache returns wrong answers with no error. `[S2]`
 - **ARCH-23** Consider sorting every request into a few fixed groups (for example domain, platform, admin, client-specific), and record each new group as a design decision. `[S2]`
@@ -94,69 +84,69 @@ Applies at: CLIs that use L2.
 
 CLI-facing rules: CORE-13, CLI-78, CLI-79, CLI-80, CLI-81, CLI-100, CLI-101, CLI-102, CLI-103. The CLI client follows CLI-101 and CLI-102, and the daemon follows ARCH-30.
 
-- **ARCH-24** Auto-spawn the daemon from the client: connect when a daemon answers, and otherwise start the same binary with a daemon subcommand. Use an init-managed service only for a daemon that must run at boot or before login. `[S2]`
-- **ARCH-25** Detach a spawned daemon into its own session and process group, with its working directory at `/` and its standard streams on the null device. Harnesses may kill the whole process group of the client. `[S2]`
+- **ARCH-24** For an on-demand daemon, consider client auto-spawn using the same binary with a daemon subcommand. Use a service manager when startup, restart, environment, or unattended operation requires it. Document which component owns lifecycle and startup failure reporting. `[S2]`
+- **ARCH-25** When directly spawning a detached daemon on Unix, create an independent session/process group, choose a safe working directory, and redirect standard streams to explicit log sinks or the null device. Use the platform's lifecycle mechanism elsewhere. Service-managed and foreground daemons follow their supervisor's contract. `[S2]`
 - **ARCH-26** Make the launcher wait for readiness, not liveness: poll a status request with backoff and a budget that covers the slowest normal startup step. As an alternative, answer status early, and report slow parts as degraded. `[S2]`
 - **ARCH-27** Name the exact readiness signal in docs and tests, for example "status returns a compatible protocol version". Give each readiness fact its own state, such as "running, player degraded". `[S2]`
 - **ARCH-28** Allow one daemon per runtime identity (ARCH-33), with an exclusive lock held for its whole life. Write the PID file atomically, and remove a stale socket or PID file only under the lock. `[S2]`
-- **ARCH-29** Consider trusting a PID file that the daemon wrote until proven wrong, and treating a process-scan match as foreign until proven to be the daemon. The wrong default once deleted the PID files of live daemons. `[S2]`
+- **ARCH-29** Treat PID files as hints: verify identity before signaling or declaring a daemon live, because PIDs can be reused. Use the lifetime lock and authenticated or identity-checked readiness endpoint as the authority. Process-name matches alone do not prove ownership. `[S2]`
 - **ARCH-30** Turn SIGTERM, SIGINT, and a shutdown command into one shutdown event, and run the steps below under one deadline. Init systems send SIGKILL after a grace period (for example about 30 s). `[S2]`
   - Stop accepting requests.
   - Finish or cancel in-flight work.
   - Flush state, and reap child processes.
   - Remove the PID file, and exit.
 - **ARCH-31** Consider an optional idle shutdown after a configurable time with no client activity. Keep it off by default when latency matters more than memory, because the next command pays the cold start again. `[S2]`
-- **ARCH-32** When the daemon supervises child processes, drain the stderr of each child continuously in its own task, and keep the last stderr line and the exit status. A full pipe buffer blocks the child silently. `[S2]`
+- **ARCH-32** When supervising children, continuously drain or safely redirect every captured output stream, including stdout and stderr. A protocol reader can satisfy stdout draining. Retain bounded diagnostics and exit status; waiting for exit before reading a full pipe can deadlock. `[S2]`
 - **ARCH-33** Derive every path, socket, store, token file, and credential name from one runtime identity. Choose the identity before you open any durable handle, and scope it to its state (per user or per project). `[S2]`
 - **ARCH-34** Give installed, development, and demo runs separate runtime identities. Otherwise a copied development config can read production secrets through a shared credential name. `[S2]`
-- **ARCH-35** Make every client spawn and find the daemon of the same runtime identity, and print the resolved identity and paths in status output. One client outside the identity breaks the boundary. `[S2]`
+- **ARCH-35** Make clients find the daemon for the selected runtime identity, spawning it only when the client owns startup under ARCH-24. Print resolved identity and paths in authorized status output. A client using a different identity must not silently reach another instance. `[S2]`
 - **ARCH-36** Keep credential reads that can show an OS prompt out of daemon startup and polling. Resolve credentials when an account connects, from a non-interactive source first. One prompt at startup can block the daemon for every account. `[S2]`
 - **ARCH-37** Hold a "needs the user" state in the daemon: notify clients once per error kind, and fail fast until a repair command runs. Keep that command and diagnostics working without the daemon. `[S2]`
 - **ARCH-38** Give every external operation of the daemon a bounded timeout, for example provider calls, keychain reads, IPC requests, and player calls. CLI-78 covers the network calls of the CLI. `[S2]`
-- **ARCH-39** Consider streaming progress for long daemon operations, and let a client give up only after a stall window with no progress. A fixed total deadline kills slow but healthy first runs. Each network call keeps CLI-78. `[S2]`
+- **ARCH-39** Consider streaming meaningful progress for long daemon operations, with a stall timeout that heartbeats alone cannot reset. Support cancellation and a configurable total budget for unattended callers. Individual network operations retain CLI-78 timeouts. `[S2]`
 - **ARCH-40** Consider logging to a file per runtime identity with size-based rotation, a foreground mode that logs to stderr, and structured logs at every IPC boundary. A detached daemon has no stdout. `[S2]`
-- **ARCH-41** Consider capturing the activity log at the daemon dispatcher, not in each client. Classify each request as logged or skipped, and keep secret-bearing payloads out of the skipped-request log. `[S2]`
+- **ARCH-41** Consider capturing activity at the application dispatcher so clients share one audit policy. Classify logged and skipped operations; redact secret-bearing fields in both operational and audit diagnostics (CLI-47, CLI-48, CLI-77). `[S2]`
 
 ## L2 Transport
 
-Applies at: CLIs that use L2.
+Applies at: the selected transport. Local-daemon rules require L2; framing, message limits, and browser rules also apply to L1 transports without L2.
 
 CLI-facing rules: CORE-13.
 
-- **ARCH-42** Use local-only IPC for a daemon: a Unix domain socket on Unix, and a named pipe restricted to the owner on Windows (for example through `SECURITY_ATTRIBUTES`). A network port is open to every local process. `[S2]`
-- **ARCH-43** Put one stream interface between the protocol and the transport. Every platform and extra path (for example loopback TCP with a token, or a child command over SSH) then carries the same messages and encoding. `[S2]`
-- **ARCH-44** Use TCP or HTTP only when a client is on another machine, is a browser, or is a third-party client that needs HTTP tools (curl, OpenAPI). Otherwise a local socket is faster, safer, and simpler. `[S2]`
-- **ARCH-45** Put the socket in an owner-only directory, and set owner-only permissions on the socket file without relying on umask (for example 0600 in a 0700 directory under `$XDG_RUNTIME_DIR`). In /tmp, anyone can plant symlinks. `[S2]`
-- **ARCH-46** Frame stream messages with one fixed-size length prefix and one byte order, and read exactly that many bytes (for example a 4-byte big-endian prefix). `[S2]`
+- **ARCH-42** Prefer owner-restricted local IPC for a local daemon: Unix domain sockets on Unix or access-controlled named pipes on Windows. Loopback network ports are reachable by other local processes unless protected, so authenticate them and apply ARCH-61. `[S2]`
+- **ARCH-43** Keep application protocol semantics independent of platform transport details. Use a transport abstraction appropriate to the selected protocol; byte-stream, HTTP, and WebSocket framing need not be identical. `[S2]`
+- **ARCH-44** Choose TCP or HTTP when remote, browser, third-party, or operational integration requires it. Local sockets are a useful default for local-only clients, with explicit authentication and authorization where the trust boundary requires them. `[S2]`
+- **ARCH-45** For Unix domain sockets, put the socket in an owner-only directory, and set owner-only permissions on the socket file without relying on umask (for example 0600 in a 0700 directory under `$XDG_RUNTIME_DIR`). In /tmp, anyone can plant symlinks. `[S2]`
+- **ARCH-46** For a custom byte-stream protocol, define bounded unambiguous framing, for example a fixed-size length prefix with a specified byte order and exact-length reads. For an established protocol, use its framing without adding an incompatible wrapper. `[S2]`
 - **ARCH-47** Reject a message above a fixed size cap before you allocate, and keep every payload, events included, below the cap (for example 16 MiB). One unbounded event once crossed the cap and silently closed connections. `[S2]`
-- **ARCH-48** When a browser must be a client, consider a separate bridge to the local IPC that binds to loopback only. Check a bearer token, a Host allowlist, and a CORS allowlist on every route, API docs included. `[S2]`
-- **ARCH-49** Consider treating every local entrypoint as reachable by a hostile local client. Build file writes in the daemon under an allowlisted root, reject `..` and symlinks, set private permissions, and cap remote bodies before buffering. `[S2]`
+- **ARCH-48** When serving a browser, authenticate protected routes, validate Host and Origin as appropriate, and use a narrow CORS policy. Preflight and explicitly public health routes may need distinct handling but must expose no protected data or mutations. CORS is not authentication. A loopback bridge to local IPC is an optional topology choice, not a condition for these protections. `[S2]`
+- **ARCH-49** For a daemon that accepts untrusted local clients, enforce its allowed filesystem scope during resolution and open, including against symlink replacement races. Use directory-relative, race-safe operations where confinement is required, private file permissions, and bounded remote bodies. A separate path check followed by an unrestricted open is insufficient. `[S2]`
 
 ## L3 Many clients
 
-Applies at: CLIs that use L3.
+Applies at: CLIs that use L3. ARCH-51 to ARCH-53 also apply to a single interface when it handles authorization, restricted callers, or untrusted action inputs.
 
 CLI-facing rules: CORE-1, CLI-7, CLI-66, CLI-69, CLI-72, CLI-125, CLI-126, CLI-127, CLI-128.
 
-- **ARCH-50** Make every client an equal peer of the same protocol, including your own main UI and every AI integration. A privileged main UI turns the other clients into second-class ones. `[S2]`
-- **ARCH-51** Keep authority in the domain core: account scope, previews, permission checks, checks on outbound actions, and the activity log. New surfaces such as an MCP server enter only through the domain core, never through provider internals. `[S2]`
-- **ARCH-52** Tag each request with its origin (human CLI, agent, MCP), and check agent and MCP origins at one dispatch point against a profile (for example reads only). Human defaults stay (CORE-1). Doc examples do not stop an agent. `[S2]`
-- **ARCH-53** Consider treating untrusted content (mail, web pages, and their summaries) as data. It may describe an action, but it cannot choose recipients, tools, credentials, scope, or permissions, so check policy again at the mutation. `[S2]`
-- **ARCH-54** Send a user with no or broken accounts into setup in the client they use, with credential prompts visible there. Test each account before you report it saved, so first run ends working or in one repairable error. `[S2]`
+- **ARCH-50** Expose shared application capabilities consistently to each interface. Different authenticated callers may have different permissions; equal API semantics do not imply equal authority. `[S2]`
+- **ARCH-51** Keep account scope, previews, authorization, outbound-action checks, and audit policy in the application service. New surfaces such as MCP use that boundary rather than bypassing policy through provider internals. `[S2]`
+- **ARCH-52** Treat origin labels (human CLI, agent, MCP) as audit metadata, not proof of identity. Enforce restricted profiles using authenticated principals, capabilities, or an entrypoint whose credentials and accessible operations are actually restricted. A caller using the same human executable and credentials has the same authority; an origin string cannot distinguish it. `[S2]`
+- **ARCH-53** When untrusted content influences an action, distinguish user-authorized extraction of fields from instructions that attempt to grant authority. Validate derived targets and scope against the caller's permissions again at mutation. Content cannot grant credentials, permissions, or new tool authority. `[S2]`
+- **ARCH-54** When accounts require setup, offer it in the interactive client and provide a noninteractive repair path. Distinguish securely saved configuration from verified or connected status. If live verification is unavailable, report that state clearly rather than claiming the account works or discarding valid offline configuration. `[S2]`
 
-## L4 Remote authority
+## L4 Local copies and sync
 
-Applies at: CLIs that use L4.
+Applies at: CLIs that use L4, according to the role of each local copy. ARCH-61 applies at every external API boundary, even without L4.
 
-CLI-facing rules: CLI-78, CLI-89, CLI-98, CLI-100. CLI-98 still applies: the CLI keeps working on local data when the remote service is gone.
+CLI-facing rules: CLI-78, CLI-89, CLI-98, CLI-100. CLI-98 governs which local operations remain available when the service is unavailable.
 
-- **ARCH-55** Decide who owns each kind of data. Keep user-owned data primary on the device, read and written locally and synced in the background. Leave server-owned facts and judgments with the remote authority. `[S5]`
-- **ARCH-56** Consider treating the local copy of remote data as a disposable mirror that answers facts only. Send judgments (scores, advice, decisions) to the remote authority, and re-sync when the cache version changes. `[S2]`
-- **ARCH-57** When the upstream is not append-only, consider syncing the mirror on a change stamp that the server writes on every insert and update. Move the cursor to the highest stamp of each page. `[S2]`
-- **ARCH-58** Give data with more than one writer a dedicated sync layer (for example CRDTs), or, as this skill's default, a single writer. Hand-written diff and merge code is often unreliable and brittle. `[S5]`
+- **ARCH-55** For each data type and operation, identify the authoritative owner, permitted writers, freshness requirements, and offline behavior. Decide whether the local copy is disposable, a read replica, or durable writable state. User-created data can still be server-authoritative under the product contract. `[S5]`
+- **ARCH-56** For disposable caches, define refresh, invalidation, schema migration or rebuild, and stale-read behavior. Preserve unsynchronized edits outside disposable storage. Local derived results and cached server decisions are valid only within their stated authority and freshness contracts; facts versus judgments is not an ownership boundary. `[S2]`
+- **ARCH-57** For incremental sync, prefer the provider's supported change cursor and deletion records. Commit each page and its continuation atomically, replay safely after failure, and handle expired cursors with reconciliation. A timestamp alone is insufficient: a custom cursor needs a total order, stable pagination under concurrent changes, and tombstones or complete reconciliation for deletions. Test equal timestamps, updates during paging, deletions, and crash/retry boundaries. `[S2]`
+- **ARCH-58** For independent offline replicas, define conflict and delivery semantics using a supported sync mechanism, explicit merge policy, or a single authoritative writer. Multiple processes writing one transactional database can rely on its concurrency controls without a separate sync layer. CRDTs fit some data types, not every multi-writer system. `[S5]`
 - **ARCH-59** Consider treating an external registry as a snapshot that may lag, and count local ownership of a live resource as evidence. Keep the snapshot, owner state, validity, and reconciliation result as separate fields. `[S2]`
-- **ARCH-60** When the daemon wraps a remote provider, consider one lane per provider account for sync, scheduled work, and mutations. Run the follow-up work of a sync outside the lane. An unscoped sync can block an account. `[S2]`
-- **ARCH-61** When the domain core serves clients over a network, make auth part of the API. Give each client its own user identity (for example a short-lived signed token), not a shared static key or a bypass. `[S2]`
+- **ARCH-60** When coordinating a remote provider, consider per-account scheduling for sync, scheduled work, and mutations. Respect provider-wide quotas as well as account limits; bound occupancy and prioritize interactive work. Schedule follow-up work without holding a lane across recursive requests. `[S2]`
+- **ARCH-61** At every external API boundary, regardless of architecture level, define authentication, caller identity, authorization, and credential lifecycle. Restrict local IPC to its intended principals; authenticate network calls rather than trusting origin tags. Scope credentials to the required authority and keep public unauthenticated operations explicitly limited. `[S2]`
 - **ARCH-62** Consider keeping the local identity check (which account may claim an identity) apart from provider authorization. Call local records "registered", show the resolved identity in previews, and report provider rejections as distinct errors. `[S2]`
 
 ## Mutation pipeline
@@ -165,44 +155,35 @@ Applies at: every CLI with mutations.
 
 CLI-facing rules: CORE-9, CORE-10, CLI-22, CLI-60, CLI-83, CLI-84, CLI-86, CLI-87, CLI-88, CLI-89, CLI-90, CLI-92, CLI-133. CLI-83 decides when a mutation needs a dry run.
 
-- **ARCH-63** Fail closed on mutation targets: `[S2]`
-  - Accept only an exact match, a configured alias, or an owned identity.
-  - Fall back to another target only when the product decides so.
-  - Name the intended and the visible targets in the error.
-  - Treat an operational failure as unknown, not as a policy answer.
+- **ARCH-63** Resolve mutation targets using documented exact identifiers, aliases, selectors, or owned identities. Validate scope and permissions before effects and fail closed when resolution is ambiguous or an operational check fails. Bind dangerous previews to stable target identities and meaningful state preconditions (CLI-83, CLI-86, CLI-89, CLI-133). If state changes, reject or re-plan with the required confirmation. Report the intended and resolved targets without leaking unauthorized data. `[S2]`
 - **ARCH-64** Consider treating optimistic UI as a promise that the intent was accepted. When the effect can happen locally, resolve the command fully first, run the effect as hot work, and reconcile later without a replay. `[S2]`
-- **ARCH-65** Consider bounded retries for transient failures of idempotent mutations while the optimistic state stays. Retry no sends, charges, or validation and permission errors, and show an error after the last retry only for explicit user intent. `[S2]`
+- **ARCH-65** Consider bounded retries for transient mutation failures only when replay is safe, such as an idempotent operation or a provider-supported idempotency key. Reconcile ambiguous outcomes before repeating non-idempotent effects. Show terminal failure for user requests and record it for durable obligations; speculative failures can remain best effort. `[S2]`
 - **ARCH-66** Consider a single-use override token for a safety blocker (a check that stops a mutation): scoped to that blocker, checked again on use, and audited. Allow no session-wide or config override, and keep warnings on CORE-9. `[S2]`
 
 ## Background work
 
-Applies at: every CLI with background or parallel work.
+Applies at: every CLI with background or parallel work. Hot/warm scheduling rules apply only when speculation exists; durable obligations follow their own delivery contract.
 
 CLI-facing rules: CLI-27, CLI-31, CLI-75, CLI-76, CLI-78.
 
-- **ARCH-67** Give hot work first claim on scheduler time, handlers, provider budget, and locks. Give warm work bounded capacity, its own lane, and separate tracing. Warm work that slows the current action has failed. `[S2]`
-- **ARCH-68** Keep hot and warm lanes apart downstream: no shared lock, owner task, rate limit, or long command. Make the state owner read a dedicated hot channel first. Two lanes that wait on one lock are fake parallelism. `[S2]`
-- **ARCH-69** Bound background work and keep it fresh: `[S2]`
-  - Use finite queues, and small units and batches.
-  - Tag each job with the version of its inputs, and drop stale results.
-  - Remove duplicate jobs.
-  - Treat a failure as best effort, unless the user asked for the work.
-  - Start work on demand, after the input stops changing for a moment, and not on every sync tick.
-- **ARCH-70** Default to bounded concurrency for parallel calls, with a tunable limit at every stage (channels, result buffers, retry queues). Size each limit from the real bottleneck, and tighter for warm work. One unbounded stage defeats back-pressure. `[S2]`
-- **ARCH-71** When the program runs async work, classify each task (async I/O, short CPU, bounded blocking, endless loop, saturating CPU), and pick the primitive from its class. Keep shared mutable state in one owner task. `[S2]`
-- **ARCH-72** Run warm work on reusable domain data in the domain core, keyed by durable inputs and not by one client's screen. Seed a new client from that cache with no provider calls. `[S2]`
-- **ARCH-73** Serve hot reads from the cache only, and move repair to an explicit command or a lower-priority background path. Report a missing row that the cache promised as a cache error. `[S2]`
+- **ARCH-67** When speculative warm work exists, prioritize hot work within shared scheduler, provider, and lock limits. Bound warm occupancy, reserve capacity where feasible, and measure interactive latency. Durable obligations need their own completion and fairness policy rather than being treated as disposable speculation. `[S2]`
+- **ARCH-68** When hot and warm work share a quota, state owner, or lock, use bounded batches, short critical sections, priority scheduling, and cancellation where safe. Separate queues alone do not establish isolation. Respect the same external rate limit and define how lower-priority durable work avoids starvation. `[S2]`
+- **ARCH-69** Bound background queues and units of work. For speculative jobs, deduplicate, debounce where useful, tag input versions, discard stale results, and treat failures as best effort. For durable obligations, persist accepted work or use another explicit delivery guarantee, with retry, cancellation, recovery, and recorded terminal outcomes. `[S2]`
+- **ARCH-70** Use bounded concurrency for parallel calls and bounded queues and result buffers at each stage. Size limits from real bottlenecks and apply backpressure or an explicit drop policy. Expose tuning only when callers or operators need it; warm work usually needs tighter limits. `[S2]`
+- **ARCH-71** Choose execution primitives for the kind of work: async I/O, short CPU work, bounded blocking, persistent loops, or saturating CPU work. Protect shared mutable invariants with an explicit ownership, locking, or transaction model. A single owner task is one option, not a requirement for every async program. `[S2]`
+- **ARCH-72** When reusable speculative work is justified, run its effects in the application service and key reusable results by inputs with an invalidation policy. Keep client-specific speculation in the client where appropriate. A second interface or parallel execution does not itself require a cache. `[S2]`
+- **ARCH-73** Choose hot-read behavior per operation: fresh fetch, cache with refresh, or cache-only. Use cache-only reads only with an explicit freshness and missing-data contract, and provide repair or synchronization when needed. A cache miss may be normal; distinguish it from corruption or violated completeness promises. `[S2]`
 - **ARCH-74** Consider requesting preload through the subsystem that owns the resource (player, database, HTTP cache), not through a parallel path. A parallel preload can succeed and still be invisible to the code that uses the resource. `[S2]`
-- **ARCH-75** Show the result of nonblocking work where the user already looks, with a state from the backend (queued, running, ready, failed, stale). Show cached and fresh results, and failures, in the same place. `[S2]`
+- **ARCH-75** Expose the status of user-visible nonblocking operations where the caller can observe it, such as queued, running, ready, failed, or stale. Include freshness and completion semantics for machine callers that need them. Internal timers and speculative tasks need no separate user-visible status unless they affect the result. `[S2]`
 
 ## Enforcement and testing
 
-Applies at: every CLI. ARCH-76 applies with L1, and ARCH-77 with L2.
+Applies at: every CLI. ARCH-76 applies to shared APIs and transport boundaries, and ARCH-77 with L2. Test auto-spawn only when that lifecycle is selected.
 
 CLI-facing rules: CLI-129, CLI-130, CLI-131, CLI-132, CLI-133, CLI-134.
 
-- **ARCH-76** Before the second client exists, enforce module boundaries in the build: client modules depend only on the protocol and shared pure modules. When a feature needs to cross the boundary, change the architecture, not the check. `[S2]`
-- **ARCH-77** Test the daemon path end to end against a fake backend, with isolated IPC and runtime identity: auto-spawn on the first call, respawn after a kill, and the exact readiness signal (ARCH-27). `[S2]`
+- **ARCH-76** For multiple clients or a transport boundary, enforce shared application API boundaries with checks proportionate to the codebase. Client behavior depends on the public API and shared pure types. The composition root may import implementations to wire them behind interfaces. Avoid forcing separate modules on a small single-client tool. `[S2]`
+- **ARCH-77** Test the selected daemon lifecycle end to end against a fake backend with isolated IPC and runtime identity: initial startup, recovery after termination, startup failure, and the exact readiness signal (ARCH-27). Include auto-spawn when the client owns startup. `[S2]`
 - **ARCH-78** Refactor only behind a behavior test on the public interface that passes before and after. Otherwise record a deferral with the fix and the missing test harness. `[S2]`
 - **ARCH-79** Consider enforcing code rules in the build: clean a lint to zero, turn it on as an error, and run lints and tests after every autofix. A lint policy only in a doc is a wish. `[S2]`
 - **ARCH-80** Publish only artifacts whose promise you can defend: current code, clean-machine launch, a packaged smoke test, platform trust, and matching docs. Mark the others as previews. `[S2]`
@@ -211,34 +192,33 @@ CLI-facing rules: CLI-129, CLI-130, CLI-131, CLI-132, CLI-133, CLI-134.
 
 ## Worked example
 
-Example only, not a rule: mxr, a Rust email CLI.
+Illustrative design, not a rule or a claim about an existing product: an email application.
 
 ```
-mxr (L0, L1, L2, L3, no L4)
+Email application (L0, L1, L2, L3, L4 when it stores remote mail)
  CLI | TUI | MCP server | web SPA -> web bridge (HTTP+WS)
-       (the agent skill runs the CLI, so it is not a client program)
+       (an agent invoking the CLI uses the existing CLI contract)
        protocol: length-prefixed JSON (ARCH-17, ARCH-46)
        over an owner-only Unix socket, token-authenticated loopback TCP,
        or a child command (ARCH-43)
                                    v
-       daemon (auto-spawned, owns all state: ARCH-12, ARCH-24)
+       daemon (application services, on-demand lifecycle: ARCH-12, ARCH-24)
        main store (SQLite) | rebuildable index (Tantivy) | provider adapters
- Build rule: clients depend on the domain core and protocol only (ARCH-76)
+ Domain core: pure mail rules and types, called by application services
+ Build rule: client behavior uses the public application API or protocol;
+ composition roots wire implementations behind interfaces (ARCH-76)
 ```
 
 ## Not covered
 
-The sources raise these topics but give no rules.
+These details still require product- and platform-specific design:
 
-- Daemon and CLI version mismatch after an upgrade.
+- Product-specific upgrade and rollback migration strategy.
 - Socket path length limits (`sun_path`) and network home directories.
 - Windows beyond named pipes.
-- Log redaction beyond the skipped-request log (ARCH-41).
-- What the CLI does when it cannot spawn a daemon.
-- A live but stuck daemon (the status request hangs).
-- Event streams: backpressure, slow clients, reconnect, missed events.
-- How a client proves its origin, and socket auth beyond file permissions.
+- Detailed event-stream backpressure and reconnect implementations.
+- Platform-specific credential isolation and peer-identity implementations.
 - How sandboxed agents with no socket access reach the daemon.
 - Adding a level to an existing CLI, and per-user against per-project instances.
-- Background state (stale, syncing) in machine output, and how a script waits for it.
-- L4 sync details: mirror location, edit conflicts, offline writes (an outbox), invalidation, token storage.
+- Product-specific background-status schemas and wait commands.
+- L4 storage placement, product-specific edit-conflict rules, outbox implementation, and token storage.

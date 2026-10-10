@@ -7,145 +7,130 @@ description: Use when designing, building, extending, or reviewing a command-lin
 
 ## Purpose
 
-This skill gives one rule set for command-line tools that people, agents, and scripts use. Cite each rule by its stable ID, for example "CORE-8", in designs, findings, reviews, and commit messages.
+Build predictable interfaces for the tool's actual users: people, scripts, agents, or a combination. Cite stable rule IDs, such as "CORE-8", in designs and findings. Separate shared contracts from product defaults and optional recipes.
 
-## Other rules
+## Scope and references
 
-Read [references/cli.md](references/cli.md) and [references/arch.md](references/arch.md) in full before the Design, Implement, and Extend workflows and before a full review. cli.md covers CLI behavior, and arch.md covers program structure. The L0 rules in arch.md apply to every CLI, and its Mutation pipeline rules apply to every CLI with mutations.
+Before loading detailed rules, record the work and relevant capabilities:
 
-When the CLI has or plans a full-screen TUI, read [references/tui.md](references/tui.md) in full before any workflow. A review limited to topics outside the TUI skips it.
+- Consumers and output roles: structured results, native text/byte streams, generated artifacts, or an existing protocol.
+- Interfaces and lifetime: one or several interfaces, shared in-process operations or independent peers, short-lived commands or persistent work.
+- Interaction and trust: terminal interaction, noninteractive use, mutations, untrusted input, credentials, and external entrypoints.
 
-For a review that the user limits to cli.md topics (for example "flags"), arch.md is out of scope.
+This applicability record does not require every capability. Existing contracts and the requested scope constrain the design.
+
+Read matching sections of [references/cli.md](references/cli.md) for command behavior. For structure changes, read "Choose a level" in [references/arch.md](references/arch.md), then applicable sections. For a new design or full review, inspect both files' section conditions before evaluating rules. L0 permits small functions, not mandatory package hierarchies. Mutation rules apply to mutations. Authorization and untrusted action inputs bring in ARCH-51 to ARCH-53, and external APIs bring in ARCH-61, regardless of levels.
+
+For full-screen TUI work, read applicable sections of [references/tui.md](references/tui.md) and the rules named by their pointers. These pointers do not force unrelated levels. Read language guidance when the language/stack is known.
+
+For a bounded change or review, the scope set contains core rules, affected sections, and their dependencies. Record exclusions. Use that same set for implementation, review, and completion. Consulting one reference does not add every rule in its file to scope.
 
 ## Terms
 
-These terms apply in all files:
-
-- **Agent**: an AI agent that runs the CLI with no person at the keyboard.
-- **Script**: a CI job or shell script that runs the CLI.
-- **TTY**: an interactive terminal on a stream (stdin, stdout, or stderr).
-- **Machine output**: output from `--json` or `--plain`.
-- **Contract**: machine output, the stream it goes to, and exit codes. Agents and scripts depend on it.
-- **Mutation**: a command that changes local or remote state.
-- **Agent opt-in**: agent support that a flag or env var turns on. Defaults stay human-first.
+- **Agent**: an AI agent running the tool without a person at the keyboard.
+- **Script**: a CI job or shell script running the tool.
+- **TTY**: a terminal device on a stream or explicitly opened for interaction. It indicates capabilities, not human presence.
+- **Machine output**: a documented programmatic format, including native formats and explicit modes such as `--json` or `--plain`.
+- **Contract**: accepted input, output format and streams, exit behavior, and compatibility promises.
+- **Mutation**: a command changing local or remote state.
+- **Agent opt-in**: an explicit control for behavior that changes established interaction. It is not authentication or a requirement to hide generally useful automation features.
 
 ## Core rules
 
-- **CORE-1** Design for humans first, and serve agents and scripts from the same commands through agent opt-ins and non-TTY behavior. clig.dev asks this for commands that people mainly use, and this skill applies it to every CLI. This rule fails when agent or script support changes a human default. `[S1,S2,S3,S4]`
-- **CORE-2** Send the primary result and machine output to stdout, and send logs, progress, and errors to stderr. A pipe then carries only the result. Errors go to stderr also with `--json` (CLI-46). `[S1,S2]`
-- **CORE-3** Exit with 0 on success and non-zero on failure, with distinct codes for the most important failure modes. CLI-49 gives the default code map. `[S1,S2,S4]`
-- **CORE-4** Show help for `-h` and `--help` on every command and subcommand, and use these flags only for help. Make `-h` work at the end of any command line, and ignore the other flags and args. `[S1]`
-- **CORE-5** Use the standard flag name when one exists, and give every flag a full-length version. CLI-54 lists the standard names. `[S1]`
-- **CORE-6** Offer `--json` with formatted JSON on every command that prints output, and keep human output the default, even when stdout is not a TTY. Agents and scripts opt in with `--json`. `[S1,S2,S4]`
-- **CORE-7** Treat machine output as a contract from its first release, with stable field names, types, and streams. Human output may change, so tell script users to pass `--plain` or `--json`. `[S1,S2,S4]`
-- **CORE-8** Accept every input as a flag or arg, and prompt only when stdin is a TTY and `--no-input` is not set. When input is required and prompts are off, fail and name the flag that supplies it. `[S1,S2,S4]`
-- **CORE-9** Confirm before dangerous actions: on a TTY, ask for `y` or `yes`. When prompts are off, require `-f, --force`. For a severe action that asks for a typed name (CLI-84), require `--confirm="name"` instead. `[S1,S2]`
-- **CORE-10** Treat `--no-input` as "nothing interactive" (no prompts, no pager), and never as a yes. A needed confirmation then fails the command, and the error names `--force` or `--confirm`. `[S1,S4]`
-- **CORE-11** Catch expected errors and rewrite them as short messages that say how to fix the problem. Keep stack traces and internal codes for debug output (CLI-47). `[S1,S3]`
-- **CORE-12** Turn off color on a stream when it is not a TTY (CLI-23), when `NO_COLOR` is set and not empty, when `TERM=dumb`, or when the user passes `--no-color`. `[S1,S2,S4]`
-- **CORE-13** Accept secrets only through files (for example `--password-file`), stdin, pipes, a Unix socket or other IPC, or a secret manager. Do not accept them through flags or env vars, because these leak into `ps` output, shell history, and logs. `[S1]`
+- **CORE-1** Choose defaults for intended consumers and preserve existing contracts. Prefer human-readable defaults for human-facing administrative commands. Keep machine-native defaults for filters, protocol endpoints, and automation tools whose purpose requires them. Share operations across consumers, with opt-ins where interaction or presentation differs. `[S1,S2,S3,S4]`
+- **CORE-2** Send primary results to stdout and diagnostics to stderr. Follow an existing protocol's channel contract for a protocol endpoint. CLI `--json` uses the complete stderr contract in CLI-46, including unexpected failures. `[S1,S2]`
+- **CORE-3** Exit with 0 on success and non-zero on failure, with distinct codes for important failure modes. Preserve established domain-specific exit semantics. CLI-49 gives a default map for new commands. `[S1,S2,S4]`
+- **CORE-4** Provide `-h` and `--help` on commands and subcommands. Parse them with the normal grammar, respecting values and `--`: `--name -h` may supply a value, and `-- -h` supplies an operand. Parsed help bypasses domain validation, configuration, and execution. Malformed option syntax may still be a usage error; help needs no incompatible second parser. `[S1]`
+- **CORE-5** Use standard flag names where they exist, and give each flag a full-length version. CLI-54 lists standard names. `[S1]`
+- **CORE-6** Offer `--json` for structured results when callers need a machine interface and no suitable native contract exists. Keep the default chosen by CORE-1. Artifacts, generated shell code, native filters, streaming protocols, and terminal sessions retain their declared formats rather than arbitrary JSON wrappers. Define metadata and error channels separately. `[S1,S2,S4]`
+- **CORE-7** Treat machine output as a contract from its first release: stable fields, types, framing, and streams. Human presentation may change. Tell callers which native or explicit machine mode is stable. `[S1,S2,S4]`
+- **CORE-8** Provide a noninteractive path for every required input using args, flags, files, stdin, or credential channels as appropriate. Auto-prompt only with terminal input and a visible terminal prompt destination, never in finite JSON mode (CLI-46). An explicitly requested interactive mode may use a separate controlling terminal while data uses pipes. `--no-input` disables all interaction. If input is missing, name its noninteractive path. `[S1,S2,S4]`
+- **CORE-9** Match confirmation to risk (CLI-84). When required, ask for `y` or `yes` on a usable interaction terminal. With interaction off, require `-f, --force`; for a severe action using a typed resource name, require `--confirm="name"` instead. Confirmation does not bypass authorization or changed-target checks. `[S1,S2]`
+- **CORE-10** Treat `--no-input` as nothing interactive: no prompts, pager, editor, or TUI. It never means yes. A required confirmation fails and names `--force` or `--confirm`. `[S1,S4]`
+- **CORE-11** Render expected errors as short messages with a useful next step and stable machine error kinds where promised. Keep stack traces and internal details in explicitly requested, redacted debug output (CLI-47). `[S1,S3]`
+- **CORE-12** Emit no styling in machine formats. For human output, `--no-color`, nonempty `NO_COLOR`, `TERM=dumb`, or `FORCE_COLOR=0` disable color. Otherwise a supported positive `FORCE_COLOR` setting may enable color off-TTY; without overrides, detect each stream separately. Color overrides do not enable animation or interaction. `[S1,S2,S4]`
+- **CORE-13** Prefer secret references and protected channels: a file flag such as `--password-file`, stdin or a hidden terminal prompt, private IPC, or a secret manager. Keep secret values out of argv. Avoid secret env vars by default; document the exposure and redaction boundary when an existing integration requires them. Process inspection, inheritance, history, and logs have different risks by channel and platform. `[S1]`
 
 ## Rule statuses
 
-Give every rule in scope one status:
+Give each in-scope rule a status:
 
-- `pass`: the CLI or design meets the rule.
-- `fail`: the CLI or design breaks the rule. For a built CLI, a missing behavior that the rule requires is also a `fail`.
-- `open`: a design draft does not address the rule yet.
-- `n/a`: the rule does not apply, or its condition is false (for example "If you collect telemetry" when there is none). Give a short reason.
-- `waived`: the rule applies, but the user, a constraint, or a good reason overrides it. Give the reason.
+- `pass`: the design or observed behavior meets the applicable requirement.
+- `fail`: evidence shows a violation, including missing required behavior.
+- `open`: required design content or a decision is missing.
+- `unverified`: behavior applies but evidence is unavailable or insufficient. Name the missing check and its consequence.
+- `n/a`: a condition is false or an optional suggestion was not selected. Give a short reason, which may cover a section.
+- `waived`: a requirement or default is intentionally overridden by the user or a documented constraint. Give the reason and resulting contract.
 
-A rule, or part of a rule, that says "Consider" is optional. It passes when the CLI does it. In a draft that records no decision, mark it `open`. Otherwise judge a skip by the rule's reason sentence, which names a harm to avoid or a benefit to gain. Mark the skip `pass` when a stated reason answers that sentence, or when the harm cannot occur or the benefit does not matter for this CLI. Mark it `fail` when the harm can occur or the benefit is lost, and no reason answers it. When the rule has no reason sentence, a skip passes.
+"Consider" marks a suggestion. Skipping it is `n/a`, not failure or a mandatory design essay. If selected, check the resulting behavior. "Prefer" and "default" mark defaults: an explicit compatible product choice can replace them, recorded as `waived` with the resulting contract. Other applicable rules are requirements, subject to documented exceptions.
 
-Edge cases:
-
-- A design choice that makes a rule impossible is a `fail`, even if the draft does not mention the rule.
-- An optional ("Consider") rule that the design implements but implements wrongly is a `fail`.
-- A conditional rule (for example "When the TUI suspends ...") is `n/a` only when its condition is false. When the condition holds, the rule applies. A required rule is then judged as usual, and an optional rule stays optional.
-- When the level decision is `open`, the rules of every level that may apply are `open`, not `n/a`.
-- A pointer line in tui.md ("Core rules", "CLI-facing rules", "Structure rules") that names an arch.md rule does not override that rule's "Applies at" line.
-- A draft that defers the CLI fails TUI-1.
-
-Only clig.dev's Basics are essential: CORE-2, CORE-3, and CLI-6. Any other rule may be waived for a good reason.
-
-To keep a checklist short, one line may cover a run of rules with the same status, for example `CLI-120 to CLI-124: n/a (no telemetry)`. Every rule in scope still needs a status.
+An impossible design choice is `fail`, not `open`. Missing architecture decisions leave affected design rules `open`, not inapplicable. Pointers retain the target rule's applicability. Evidence gaps are neither waivers nor passes. Group consecutive rules with the same status and reason to keep checklists compact.
 
 ## Fix order
 
-Sort findings and fix fails in this order: core rules, then the cli.md sections Output contract, Interactivity, Safe changes, Errors and exit codes, Agent discovery, and Testing, then the arch.md sections in file order, then the tui.md sections in file order, then the other cli.md sections in file order, then the go.md sections in file order. For an architecture-scoped review, put the arch.md sections right after the core rules. Put all `fail` findings first, then all `open` findings. Inside each group, sort a finding by its highest-priority rule, and use rule order inside one section.
+Prioritize security, data integrity, and wrong-target behavior, then contract failures and blocked normal use, then maintainability and presentation. Consider exposure and prerequisites. Use file/rule order only as a tie-breaker. Keep unverified high-risk behavior visible.
 
 ## Workflows
 
 ### Design a new CLI
 
-1. List the users (people, agents, scripts) and their high-impact tasks. When agents or scripts are among them, treat the docs as naming them for CLI-83.
-2. Choose the architecture levels with "Choose a level" in arch.md (ARCH-1 to ARCH-7), and record the level decision as that file describes.
-3. Draft the command tree, args, and flags. Shape commands around the tasks.
-4. Define the contract before code (CLI-99).
-5. Define help text, config, env vars, and agent opt-ins.
-6. If a TUI is planned, plan it as a client program of the domain core (TUI-1), and map each durable action (see tui.md Terms) to a CLI command from step 3 (TUI-2).
-7. Give every rule a status.
+1. Record scope, users, high-impact tasks, and compatibility constraints.
+2. Choose architecture capabilities with ARCH-1 to ARCH-7 and record why each applies.
+3. Draft commands, args, flags, and output roles for the planned release.
+4. Define applicable output, error, mutation, and compatibility contracts before code (CLI-99).
+5. Specify help, configuration, env vars, and interaction controls.
+6. For a TUI, identify shared application operations and decide which need CLI parity for the named users (TUI-1, TUI-2). Record terminal channels, lifecycle, and accessibility decisions.
+7. Give in-scope rules statuses and specify tests for promised behavior.
 
-Write the design as one document with these sections: users and tasks, architecture level, command tree, contract, help text, config and env vars, TUI plan (only if a TUI is planned), test plan, rule checklist. The TUI plan lists the CLI command for every durable action, the terminal modes the TUI turns on (TUI-4), and the accessible mode decision (TUI-42).
+Use one document scaled to the work: users/scope, architecture decisions, commands/contracts, help/configuration, TUI decisions if any, test plan, and checklist. A small tool may need only a short design.
 
-Done when the design names every command, flag, env var, and exit code, includes help text and the `--json` schema for each command that prints output, names a CLI command for every durable action in the TUI plan when a TUI is planned, and gives every rule in the files you read a status other than `fail` or `open`.
+Done when planned inputs, output formats/schemas, errors, and interaction are specified; required TUI parity is mapped; and in-scope decisions have no unresolved `fail` or `open`. Native payloads need format contracts, not invented JSON schemas.
 
 ### Implement a CLI
 
-1. Start from a finished design. If there is none, run the design workflow first.
-2. Read the language reference for the CLI's language, if one exists (see Language references), for example go.md for a Go CLI.
-3. Build the contract first (CLI-99).
-4. Add tests for the contract and the schema, and for the dry-run selection when a dry run exists (CLI-133).
-5. Run the review workflow on the result.
+1. Use the scoped design, filling any missing decisions first.
+2. Read applicable language/stack guidance and verify version-sensitive assumptions.
+3. Build the contract first with input/output, error, and mutation tests.
+4. Review and fix accepted defects.
 
-Done when every command in the design exists and its tests pass, the review shows no `fail` on any core rule, and every other `fail` is fixed or `waived` with a reason.
+Done when scoped behavior exists, required available tests pass, and exceptions/evidence gaps are explicit. An unavailable platform check remains `unverified`; do not claim that platform verified.
 
 ### Extend an existing CLI
 
-Use this workflow to add or change a command, a flag, or a TUI feature, or to add a TUI.
+1. Record the change scope and inspect existing inputs, outputs, exit codes, and compatibility.
+2. Read affected reference sections and dependencies.
+3. Design the change to preserve contracts or follow migration rules.
+4. Revisit architecture capabilities only where affected.
+5. Implement with behavior tests and review the in-scope rules.
 
-1. Read the language reference for the CLI's language, if one exists (see Language references), for example go.md for a Go CLI.
-2. Read the current command tree, flags, `--json` schemas, and exit codes.
-3. Design the new or changed command to match them (CLI-66, CLI-67).
-4. Run the level tests for the change (ARCH-1 to ARCH-7), and record any level it adds.
-5. Build it contract first (CLI-99), with tests.
-6. Give a status to every rule in scope: the core rules, "Choose a level", and every rule in the cli.md, arch.md, and language reference sections that the change touches. When the change adds or changes a TUI, also give a status to every tui.md rule.
-
-Done when the new or changed command has no `fail` or `open` on any rule in scope in the files you read, and existing contracts stay unchanged or change only by the Future-proofing rules.
+Done when changed behavior has no unresolved `fail` or `open`, existing contracts remain compatible or have an explicit migration, and verification limits are reported. Unrelated capabilities are not new implementation requirements.
 
 ### Review a CLI or a design
 
-1. Read the language reference for the CLI's language, if one exists (see Language references), for example go.md for a Go CLI.
-2. Set the scope. Review every rule by default. When the user limits the scope (for example "flags"), check the core rules and every rule in the matching sections, language reference sections included, and list the sections you skip. An "architecture" scope means every arch.md rule plus the rules in its "CLI-facing rules" lines. A "TUI" scope means every tui.md rule plus the rules in its pointer lines. When the user excludes a topic, mark the core rules on that topic `waived` with the reason "outside the requested scope".
-3. Collect evidence. For a design draft, use the spec text. For a built CLI, use `--help` for every command, docs, source, and runs.
-4. For a built CLI, run commands through a pipe and on a pseudo-TTY: `script -q /dev/null <cmd>` (macOS) or `script -qc '<cmd>' /dev/null` (Linux). When `script` fails because stdin is a socket (as in some agent shells), append `</dev/null` (checked on macOS only): the command then reads end of input, and the output starts with `^D`. When `script` still fails, use a pseudo-TTY from a test harness (in a Go test, creack/pty, or Python's `pty` module). When no TTY run is possible, read the TTY logic in the source, and say so in the report. A TUI cannot run under `script` without input. Review a TUI from the source, or with a scripted key sequence when the TUI supports one, and say which in the report.
-5. Give every rule in scope a status using Rule statuses. A section whose "Applies at" line rules it out may get `n/a` for all its rules without a full read.
-6. Write one finding per problem, with a code (F1, F2, ...), one or more rule IDs, one or more locations, and a fix. A location is `file:line` or a spec section. For missing content, write `(missing)` and the section where it belongs. Apply the finding-grouping guidance below. Example: `F1 CORE-2 cmd/list.go:42: progress goes to stdout. Fix: write progress to stderr.`
-7. Sort the findings by the fix order.
-8. Write the report in this order: summary (verdict, count of rules per status, top three risks), findings, rule checklist. The top three risks are the three findings with the largest harm, by finding code, not the first three in fix order. Each checklist line with `fail` or `open` names its finding codes.
+1. Define the scope set. Full reviews cover every applicable rule; bounded reviews cover core and matching sections plus dependencies. List exclusions. Pointer lines identify related contracts without forcing unused levels.
+2. Gather design text or implementation evidence: help, docs, source, tests, and representative runs. Missing evidence is `unverified`.
+3. Before executing, choose disposable state and a bounded harness for commands that mutate, contact external systems, prompt, watch, or spawn children. Existing authorization governs execution. Use source inspection when representative runs are unavailable.
+4. Exercise applicable pipe and pseudo-TTY combinations, including independent stdout/stderr redirection. Use `script` or a harness for bounded smoke checks. Interactive tests need scripted input, a deadline, and child cleanup; opening a PTY alone proves neither human presence nor terminal correctness.
+5. Assign rule statuses.
+6. Write one finding per problem with F1, F2, ...; rule IDs; locations; consequence; evidence/confidence; and a correction. Group related open decisions while retaining distinct defects.
+7. Prioritize by harm. Report verdict/evidence limits, status counts, highest risks by finding ID, findings, and the compact checklist.
 
-Finding grouping:
-
-- Group the `open` rules of one section into one finding, in every file. For a draft that leaves out whole sections, one finding may cover the `open` rules of several sections in one file. A finding may cite `fail` and `open` rules together.
-- A finding may list several locations.
-- Group the `open` rules that follow from a missing CLI into one finding that points to the TUI-1 finding.
-
-Done when every rule in scope in the files you read has a status, every `fail` and `open` has a finding with a location and a fix, every `n/a` and `waived` has a reason, and the report lists any skipped sections.
+Done when all in-scope rules are accounted for, `fail`/`open` items have findings, `unverified` items name missing evidence, and exclusions/waivers have reasons. A completed review may retain unverified behavior in its verdict.
 
 ### Make a CLI agent-ready
 
-1. Run the review workflow on the full scope.
-2. Fix the fails in the fix order.
-3. Add every agent feature as an agent opt-in (CORE-1).
-4. Run the review workflow again.
+1. Identify agent tasks and the trust boundary, then review applicable command contracts.
+2. Fix failures by severity. Add discovery and noninteractive paths where tasks need them.
+3. Preserve defaults. Use opt-ins for interaction/presentation changes, not generally useful schemas, validation, or exit behavior.
+4. Review and run representative agent tasks again.
 
-Done when the second review shows no `fail` on any core rule or on any rule in the cli.md sections prioritized before arch.md in the default fix order, and every other `fail` is fixed or `waived` with a reason.
+Done when agreed tasks have discoverable stable contracts, required interaction can be avoided, destructive actions retain authorization/target checks, and verification gaps are explicit.
 
 ## Language references
 
-Language references in `references/` map existing rule IDs to code for one language and its libraries. They may add language rules with new IDs. Available files:
+Language references map shared rules to an implementation stack. They do not mandate that stack or a migration for existing tools.
 
-- When the CLI is written in Go, read [references/go.md](references/go.md) after the other references. It covers Go library defaults, patterns, and tooling.
+- For Go implementation or Go-specific review, read [references/go.md](references/go.md). It describes a minimal Cobra recipe and dependency-specific verification guidance.
 
 ## Sources
 
@@ -169,7 +154,7 @@ Language references in `references/` map existing rule IDs to code for one langu
 - S18: GoReleaser documentation, https://goreleaser.com/
 - S19: Go linters: golangci-lint, https://golangci-lint.run/, and staticcheck, https://staticcheck.dev/
 
-S1 wins every conflict. The other listed sources add rules where S1 is silent, or add agent opt-ins where an S1 default would block agent use. The S1 default then stays.
+Sources explain the guidance; local applicability and contracts govern this skill. Recommendations may be adapted for other command roles. Resolve contradictions here explicitly rather than inferring precedence from a changing external page.
 
 S1 is licensed CC-BY-SA-4.0. These rules paraphrase it.
 
