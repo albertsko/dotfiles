@@ -11,15 +11,15 @@ Build predictable interfaces for the tool's actual users: people, scripts, agent
 
 ## Scope and references
 
-Before loading detailed rules, record the work and relevant capabilities:
+Start with brief reconnaissance of the request, repository entrypoints, and public docs. Scan the section headings and applicability conditions in [references/cli.md](references/cli.md) and [references/arch.md](references/arch.md), then record provisional scope before detailed checks:
 
 - Consumers and output roles: structured results, native text/byte streams, generated artifacts, or an existing protocol.
 - Interfaces and lifetime: one or several interfaces, shared in-process operations or independent peers, short-lived commands or persistent work.
 - Interaction and trust: terminal interaction, noninteractive use, mutations, untrusted input, credentials, and external entrypoints.
 
-This applicability record does not require every capability. Existing contracts and the requested scope constrain the design.
+This applicability record does not require every capability. Existing contracts and the requested scope constrain the design. Update the record when deeper inspection reveals relevant capabilities or dependencies, and reconcile coverage before completion.
 
-Before setting scope, scan the section headings and applicability conditions in [references/cli.md](references/cli.md) and [references/arch.md](references/arch.md). Load detailed rules for affected capabilities, including bounded behavioral changes:
+Load detailed rules for affected capabilities, including bounded behavioral changes:
 
 | Affected capability | Architecture sections or rules to read |
 |---|---|
@@ -40,7 +40,7 @@ For a bounded change or review, consult core rules for compatibility, then scope
 
 ## Terms
 
-- **Agent**: an AI agent running the tool without a person at the keyboard.
+- **Agent**: an AI agent running the tool without a person at the keyboard. Agent-usability rules assess these external caller workflows. If the tool is itself an AI assistant, assessing its internal model's task performance requires separate scope.
 - **Script**: a CI job or shell script running the tool.
 - **TTY**: a terminal device on a stream or explicitly opened for interaction. It indicates capabilities, not human presence.
 - **Machine output**: a documented programmatic format, including native formats and explicit modes such as `--json` or `--plain`.
@@ -68,7 +68,7 @@ For a bounded change or review, consult core rules for compatibility, then scope
 
 Give each in-scope rule a status:
 
-- `pass`: the design or observed behavior meets the applicable requirement.
+- `pass`: evidence supports the applicable requirement across the assessed scope.
 - `fail`: evidence shows a violation, including missing required behavior.
 - `open`: required design content or a decision is missing.
 - `unverified`: behavior applies but evidence is unavailable or insufficient. Name the missing check and its consequence.
@@ -78,6 +78,32 @@ Give each in-scope rule a status:
 "Consider" marks a suggestion. Skipping it is `n/a`, not failure or a mandatory design essay. If selected, check the resulting behavior. "Prefer" and "default" mark defaults: an explicit compatible product choice can replace them, recorded as `waived` with the resulting contract. Other applicable rules are requirements, subject to documented exceptions.
 
 An impossible design choice is `fail`, not `open`. Missing architecture decisions leave affected design rules `open`, not inapplicable. Pointers retain the target rule's applicability. Evidence gaps are neither waivers nor passes. Group consecutive rules with the same status and reason to keep checklists compact.
+
+### Evidence and assessment target
+
+Assess the subject named by the rule: the proposed design, current product behavior, or the product's development/testing/release practice. Reviewer checks supply evidence of behavior and must follow applicable harness safeguards. They do not establish that the product has regression tests or that its authors tested a contract early. For example, a successful review-time `jq` invocation leaves CLI-129's early-testing claim `unverified` without evidence of that practice. A product defect alone does not prove that no tests exist.
+
+Tie evidence to the relevant command, mode, path, platform, or lifecycle phase. Source inspection can establish behavior when the control flow and dependencies support the claim. Test presence establishes coverage intent, while a test result establishes only what its assertions check. A pipe smoke test cannot establish terminal behavior, and one guarded asynchronous path cannot establish that every relevant path rejects stale results. Name material unchecked cases as `unverified`.
+
+### Equivalent implementations and exceptions
+
+An implementation that meets a rule's required outcomes through an equivalent recipe is `pass`, with the equivalence explained. GO-6's function name and call shape are illustrative: an intermediate entrypoint is valid when cleanup and error rendering finish before the final process exit. Equivalence must preserve required public contracts and safety properties. It cannot excuse a missing required flag or bypassed cleanup.
+
+A waived default records an explicit compatible product choice. A waived requirement records the user override or documented constraint, its affected scope, and the resulting contract and consequences. Existing code alone does not demonstrate an intentional exception. If evidence shows a violation without a justified waiver, use `fail`. If behavior cannot be established, use `unverified`.
+
+### Partial coverage and rollup
+
+For a rule with multiple applicable obligations or surfaces, retain each material result and evidence gap. Give the rule one summary status using the first present status in this order: `fail`, `open`, `unverified`, `pass`. Exclude justified waived and inapplicable portions from that ordering, but keep their reasons visible. Use `waived` when every applicable portion is waived, and `n/a` when no portion applies. Count each rule once. A confirmed failure remains a failure even when another surface passes or cannot be checked.
+
+Illustrative GO-10 review of value-taking flag syntax:
+
+| In-scope surface | Evidence | Result |
+|---|---|---|
+| Piped help | Captured help omits a value placeholder | `fail`, with a finding |
+| Terminal help | Required value syntax is visible | `pass` for this surface |
+| Supported Windows help | No source or runtime evidence establishes rendering | `unverified`, name the missing check |
+
+GO-10 rolls up to `fail`, retaining the Windows gap. Readable help alone does not satisfy its value-syntax requirement.
 
 ## Fix order
 
@@ -124,7 +150,7 @@ Done when changed behavior has no unresolved `fail` or `open`, existing contract
 2. Gather design text or implementation evidence: help, docs, source, tests, and representative runs. A required decision omitted from an inspected design is `open`. Unavailable material or insufficient evidence to establish behavior is `unverified`; identify the missing check.
 3. Before executing, choose disposable state and a bounded harness for commands that mutate, contact external systems, prompt, watch, or spawn children. Existing authorization governs execution. Use source inspection when representative runs are unavailable.
 4. Exercise applicable pipe and pseudo-TTY combinations, including independent stdout/stderr redirection. Use `script` or a harness for bounded smoke checks. Interactive tests need scripted input, a deadline, and child cleanup; opening a PTY alone proves neither human presence nor terminal correctness.
-5. Assign rule statuses.
+5. Reconcile the scope record with discovered capabilities. Assign rule statuses using the assessment target, evidence boundaries, and partial-coverage rubric above.
 6. Write one finding per problem with F1, F2, ...; rule IDs; locations; consequence; evidence/confidence; and a correction. Group related open decisions while retaining distinct defects.
 7. Prioritize by harm. Report verdict/evidence limits, status counts, highest risks by finding ID, findings, and the compact checklist.
 
@@ -183,3 +209,4 @@ S1 is licensed CC-BY-SA-4.0. These rules paraphrase it.
 - Keep a removed rule's ID in place, marked "Retired" with the reason.
 - Give a new rule file its own unique prefix.
 - Write one rule per bullet: bold ID, rule text, then source tags in backticks.
+- Give mandatory product requirements outside rule bullets an explicit owning rule ID. Keep recipes and examples attached to their owners. Assign a new ID when the requirement has no existing owner. Reviewer workflows and skill-maintenance instructions do not need product rule IDs.
