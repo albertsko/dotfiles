@@ -1,6 +1,6 @@
 ---
 name: code-cli
-description: Use when designing, building, extending, or reviewing a command-line tool (CLI) or its full-screen terminal UI (TUI), or making one usable by agents. Covers flags, subcommands, help, output, errors, exit codes, config, and program structure: daemons, protocols, and many clients.
+description: Use when designing, building, extending, or reviewing a command-line tool (CLI) or its full-screen terminal UI (TUI), or making one usable by agents.
 ---
 
 # Code CLI
