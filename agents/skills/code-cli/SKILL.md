@@ -26,6 +26,7 @@ Before setting scope, scan the section headings and applicability conditions in 
 | New design or structure change | "Choose a level", then sections for the selected capabilities |
 | Mutation | "Mutation pipeline" |
 | Background or parallel work | "Background work" |
+| Child processes with captured output | ARCH-32, regardless of process lifetime |
 | Transport or untrusted filesystem paths | "Transport and filesystem trust", with ARCH-49 applying wherever confinement is required |
 | Authorization, restricted callers, or untrusted action inputs | ARCH-51 to ARCH-53 |
 | External API | ARCH-61 |
@@ -35,7 +36,7 @@ Read matching CLI sections for command behavior. A new design or full review cov
 
 For full-screen TUI work, read applicable sections of [references/tui.md](references/tui.md) and the rules named by their pointers. These pointers do not force unrelated levels. Read language guidance when the language/stack is known.
 
-For a bounded change or review, the scope set contains core rules, affected sections, and their dependencies. Record exclusions. Use that same set for implementation, review, and completion. Consulting one reference does not add every rule in its file to scope.
+For a bounded change or review, consult core rules for compatibility, then scope the requirements affected by the change or needed for its correctness, including section dependencies. Record exclusions. Report any observed unrelated preexisting failures separately. They need no waiver and do not block completion unless the change depends on or worsens them. Use that same scope set for implementation, review, and completion. Consulting one reference does not add every rule in its file to scope.
 
 ## Terms
 
@@ -57,10 +58,10 @@ For a bounded change or review, the scope set contains core rules, affected sect
 - **CORE-6** Offer `--json` for structured results when callers need a machine interface and no suitable native contract exists. Keep the default chosen by CORE-1. Artifacts, generated shell code, native filters, streaming protocols, and terminal sessions retain their declared formats rather than arbitrary JSON wrappers. Define metadata and error channels separately. `[S1,S2,S4]`
 - **CORE-7** Treat machine output as a contract from its first release: stable fields, types, framing, and streams. Human presentation may change. Tell callers which native or explicit machine mode is stable. `[S1,S2,S4]`
 - **CORE-8** For line-based CLI operations and application actions selected for automation under TUI-2, provide a noninteractive path for every required input using args, flags, files, stdin, or credential channels as appropriate. TUI-2 owns TUI parity; a TUI-only action needs no new CLI path. Auto-prompt only with terminal input and a visible terminal prompt destination, never in finite JSON mode (CLI-46). An explicitly requested interactive mode may use a separate controlling terminal while data uses pipes. `--no-input` disables all interaction and rejects an interactive-only path. If a supported noninteractive operation lacks input, name its input path. `[S1,S2,S4]`
-- **CORE-9** Match confirmation to risk (CLI-84). When required, ask for `y` or `yes` on a usable interaction terminal. With interaction off, require `-f, --force`; for a severe action using a typed resource name, require `--confirm="name"` instead. Confirmation does not bypass authorization or changed-target checks. `[S1,S2]`
+- **CORE-9** Match confirmation to risk (CLI-84). For ordinary confirmation, accept `y` or `yes` on a usable interaction terminal, or require `-f, --force` with interaction off. If a severe action uses typed-name confirmation, accept the resource name interactively or require `--confirm="name"` with interaction off. That name satisfies the selected confirmation without an additional y/yes prompt. Confirmation does not bypass authorization or changed-target checks. `[S1,S2]`
 - **CORE-10** Treat `--no-input` as nothing interactive: no prompts, pager, editor, or TUI. It never means yes. A required confirmation fails and names `--force` or `--confirm`. `[S1,S4]`
 - **CORE-11** Render expected errors as short messages with a useful next step and stable machine error kinds where promised. Keep stack traces and internal details in explicitly requested, redacted debug output (CLI-47). `[S1,S3]`
-- **CORE-12** Emit no styling in machine formats. For human output, `--no-color`, nonempty `NO_COLOR`, `TERM=dumb`, or `FORCE_COLOR=0` disable color. Otherwise a supported positive `FORCE_COLOR` setting may enable color off-TTY; without overrides, detect each stream separately. Color overrides do not enable animation or interaction. `[S1,S2,S4]`
+- **CORE-12** Add no presentation styling to machine output. Preserve bytes belonging to its declared native payload. For human output, `--no-color`, nonempty `NO_COLOR`, `TERM=dumb`, or `FORCE_COLOR=0` disable color. Otherwise a supported positive `FORCE_COLOR` setting may enable color off-TTY. Without overrides, detect each stream separately. Color-only controls leave non-color attributes available where the terminal and output contract support them. Plain/no-style output, redirected output by default, and `TERM=dumb` suppress all presentation styling. Color overrides do not enable animation or interaction. `[S1,S2,S4,S22]`
 - **CORE-13** Prefer secret references and protected channels: a file flag such as `--password-file`, stdin or a hidden terminal prompt, private IPC, or a secret manager. Keep secret values out of argv. Avoid secret env vars by default; document the exposure and redaction boundary when an existing integration requires them. Process inspection, inheritance, history, and logs have different risks by channel and platform. `[S1]`
 
 ## Rule statuses
@@ -119,7 +120,7 @@ Done when changed behavior has no unresolved `fail` or `open`, existing contract
 
 ### Review a CLI or a design
 
-1. Define the scope set. Full reviews cover every applicable rule; bounded reviews cover core and matching sections plus dependencies. List exclusions. Pointer lines identify related contracts without forcing unused levels.
+1. Define the scope set under "Scope and references". Full reviews cover every applicable rule. Bounded reviews cover affected requirements and dependencies. List exclusions. Pointer lines identify related contracts without forcing unused levels.
 2. Gather design text or implementation evidence: help, docs, source, tests, and representative runs. A required decision omitted from an inspected design is `open`. Unavailable material or insufficient evidence to establish behavior is `unverified`; identify the missing check.
 3. Before executing, choose disposable state and a bounded harness for commands that mutate, contact external systems, prompt, watch, or spawn children. Existing authorization governs execution. Use source inspection when representative runs are unavailable.
 4. Exercise applicable pipe and pseudo-TTY combinations, including independent stdout/stderr redirection. Use `script` or a harness for bounded smoke checks. Interactive tests need scripted input, a deadline, and child cleanup; opening a PTY alone proves neither human presence nor terminal correctness.
@@ -165,6 +166,9 @@ Language references map shared rules to an implementation stack. They do not man
 - S17: testscript (go-internal), https://pkg.go.dev/github.com/rogpeppe/go-internal/testscript
 - S18: GoReleaser documentation, https://goreleaser.com/
 - S19: Go linters: golangci-lint, https://golangci-lint.run/, and staticcheck, https://staticcheck.dev/
+- S20: RFC 9110, HTTP conditional requests, https://www.rfc-editor.org/rfc/rfc9110.html#name-conditional-requests
+- S21: RFC 6750, bearer-token transport protection, https://www.rfc-editor.org/rfc/rfc6750.html#section-5.3
+- S22: NO_COLOR convention and attribute scope, https://no-color.org/
 
 Sources explain the guidance; local applicability and contracts govern this skill. Recommendations may be adapted for other command roles. Resolve contradictions here explicitly rather than inferring precedence from a changing external page.
 

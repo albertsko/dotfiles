@@ -25,7 +25,7 @@ Core rules: CORE-2, CORE-3.
 
 Core rules: CORE-4.
 
-- **CLI-8** When a command needs args and gets none, show concise help: a description, one or two examples, key flags, and a pointer to `--help`. Skip this for a command that is interactive by default. `[S1]`
+- **CLI-8** When a command needs args and gets none, give a usage error with concise human help: a description, one or two examples, key flags, and a pointer to `--help`. Machine modes use their error contract and a help pointer instead of human usage text (CLI-46). Skip this for a command that is interactive by default. `[S1]`
 - **CLI-9** For git-like tools, also show help for `app help` and `app help sub`. `[S1,S2]`
 - **CLI-10** Lead help with examples of common and complex uses, and list the most common flags and commands first. Move long example lists to a cheat sheet or web docs. `[S1]`
 - **CLI-11** Consider building examples as a series from simple to complex uses. Show the actual output when it helps and is short. `[S1]`
@@ -61,7 +61,7 @@ Core rules: CORE-6, CORE-12.
 - **CLI-33** Automatically page only human output whose destination is a TTY, with a usable terminal control channel and interaction enabled. Honor PAGER; less -FIRX is a default when available. Never auto-page machine output or redirected results. An explicit pager request needs its own documented channel contract. `[S1]`
 - **CLI-34** Choose default human fields by workflow. Include identifiers, types, and other details needed to distinguish resources or copy safe action targets. Put other low-signal fields in `--json` or a detailed mode; UUIDs and MIME types may be essential for some commands. Agents that need fewer tokens use the controls in CLI-35. `[S3]`
 - **CLI-35** Keep output format separate from human feedback: --json and --plain select formats, -q suppresses routine feedback, and -d requests diagnostics. Consider declared field/detail selectors for large machine results. Quiet/debug must not silently change a promised machine schema. `[S1,S3]`
-- **CLI-36** Offer search, filter, and limit options (for example `--limit`) on commands that can return many records. Agents pay for every line in tokens and time. `[S3,S4]`
+- **CLI-36** For collection/query commands whose supported workflows need selection or bounded retrieval, offer suitable search, filter, limit, or pagination controls. Native filters and complete exports may rely on shell composition and retain complete streams. When limiting output, follow CLI-37. `[S3,S4]`
 - **CLI-37** Say when output is cut, and say how to get the rest or narrow the query. `[S3]`
 - **CLI-38** Consider a default size cap on list and search commands only, and send complete output everywhere else. S3 caps all responses, and this skill narrows that to list and search. `[S3]`
 
@@ -82,6 +82,9 @@ Core rules: CORE-3, CORE-11.
 - **CLI-44** Keep error output high signal. Consider grouping repeated errors of one type under one explanatory header. `[S1]`
 - **CLI-45** Put the most important information at the end of human error output. Users look there first. `[S1]`
 - **CLI-46** For finite CLI --json results (including an equivalent --format=json), stdout carries the documented result and stderr is empty on success or contains one final JSON error object with stable code, message, and documented optional details on failure. Aggregate multiple failures in that envelope. Disable automatic prompts. Missing required input or confirmation returns a JSON error naming its noninteractive input path or the appropriate --force/--confirm flag, never implicit consent. Interaction requires an explicitly selected separate terminal channel, with --no-input unset, and must keep UI bytes off stdout and stderr. Suppress human progress, warnings, signal notices, and raw debug/stack text on these streams; put needed diagnostics in declared fields or an explicitly enabled log. Streaming and native protocols define their own complete result/error framing. Test terminal and redirected confirmation paths and partial-output failures. `[S1,S2]`
+
+CLI-46 governs application-controlled failures while the output destination accepts writes. Forced termination or an output-device failure can prevent a complete document. Stop writing to a failed stream. Consumers must check process status and document completeness. A missing error document is not evidence of success. Parsed explicit help uses its native help format under CORE-4, including alongside a result-format flag.
+
 - **CLI-47** For unexpected failures, return the normal machine error envelope or a concise human bug-report message. Make redacted stack/details available through explicit debug output or a log. Redact credentials and sensitive payloads across errors, traces, previews, and diagnostic exports, including logs revealed after failure. `[S1]`
 - **CLI-48** Make bug reporting easy through the support route in CLI-14, with an inspectable redacted diagnostic bundle where useful. Keep secrets and private payloads out of URL parameters and prefilled reports. `[S1]`
 - **CLI-49** Use the exit code map below as the default, and document it. clig.dev gives no numbers, so the map comes from S2 and S4. `[S2,S4]`
@@ -106,7 +109,7 @@ Core rules: CORE-5, CORE-13.
 - **CLI-54** Use these standard names: `-a, --all`, `-d, --debug` (debug output), `-f, --force`, `--json`, `-h, --help`, `-n, --dry-run`, `--no-input`, `-o, --output` (output file, never a format), `-p, --port`, `-q, --quiet`, `-u, --user`, `--version`. `[S1]`
 - **CLI-55** Give `-v` one clear meaning: use `-d` for debug output and `-v` for version, or leave `-v` unused. `[S1]`
 - **CLI-56** Give unambiguous names to flags that have no standard name, for example `--user-id` for an ID. Keep `-u, --user` where it has the standard meaning. `[S3]`
-- **CLI-57** Support `-` to read from stdin or write to stdout when input or output is a file. Consider accepting JSON on stdin for structured input. `[S1,S2]`
+- **CLI-57** Support `-` for file operands that represent sequential input/output contents when the operation supports streams. Operations requiring file identity, seeking, locking, or in-place mutation may require a real path instead. Define how stream inputs coexist when stdin or stdout already has another role. Consider accepting JSON on stdin for structured input. `[S1,S2]`
 - **CLI-58** Distinguish an absent flag, an omitted optional value, an explicit empty string, and a reset operation. Prefer unambiguous parser syntax such as --flag=value for optional values. --name= and a quoted empty argument are valid explicit empty values; use a sentinel such as none only when the domain reserves it. `[S1]`
 - **CLI-59** Make args, flags, and subcommands order-independent where you can. Users often recall the last command and add a flag at the end. `[S1]`
 - **CLI-60** Give each flag one job. A flag that skips confirmation must not also choose the action. `[S2]`
@@ -151,7 +154,7 @@ Core rules: CORE-9, CORE-10.
 CLI-83 decides when a preview is useful. Once offered, its plan, limits, validation, and tests follow CLI-86 to CLI-89, CLI-92, and CLI-133.
 
 - **CLI-83** Offer -n, --dry-run when a meaningful preview helps validate a risky, complex, or automated mutation. Record whether it is supported and what it can know: observed targets, intended effects, unknown generated values, and remote constraints. Naming scripts as users does not require a fictitious exact preview for every mutation. `[S1,S2,S4]`
-- **CLI-84** Match confirmation to the danger level in the table below, and make severe actions hard to confirm by accident. When a severe action asks for a typed name, offer `--confirm="name"` so it stays scriptable. `[S1]`
+- **CLI-84** Match confirmation to the danger level in the table below, and make severe actions hard to confirm by accident. CORE-9 defines the interactive and noninteractive forms of the selected policy. `[S1]`
 - **CLI-85** Treat non-obvious data loss as severe, for example a lowered config limit that deletes items. `[S1]`
 
 Danger levels (CLI-84), with clig.dev's examples:
@@ -163,9 +166,9 @@ Danger levels (CLI-84), with clig.dev's examples:
 | Severe | Delete a whole remote app or server | Prompt. Consider asking the user to type the resource name. |
 
 - **CLI-86** Share planning and target resolution between preview and execution. In a real run, build one plan, show the relevant intent, confirm when required, then apply that plan. In machine mode, include preview/result information in the documented envelope rather than printing extra documents. Separate invocations observe separate state unless an explicit saved-plan contract says otherwise. `[S2]`
-- **CLI-87** Store action mode, destination, scope, stable target identities, and relevant observed versions/preconditions in the plan. Use the resolved values for validation, preview, and application. Where concurrent changes affect safety, apply conditionally or revalidate and reject/reconfirm a changed plan. `[S2]`
+- **CLI-87** Store action mode, destination, scope, stable target identities, and relevant observed versions/preconditions in the plan. Use those values for validation, preview, and application. Enforce safety-critical preconditions atomically with the authoritative mutation, using a conditional write, transaction, or lock respected by all writers. A separate preflight recheck leaves a race. Reject a failed precondition or rebuild the plan and obtain any required confirmation. If the backend cannot enforce the promised condition, reject the operation or explicitly document and accept a weaker product contract under the waiver rubric. `[S2,S20]`
 - **CLI-88** When confirmation is required, ask after the plan is built and before mutation. A preview alone does not require confirmation for the mutation it does not execute. Keep required validation and authorization checks in the real application path. `[S2]`
-- **CLI-89** State that a preview describes intended effects against observed state, not guaranteed future success. It cannot promise remote acceptance, future target state, or unknown generated values. For dangerous changes, define stale-plan rejection or renewed confirmation rather than relying on an old successful preview. `[S2]`
+- **CLI-89** State that a preview describes intended effects against observed state, not guaranteed future success. It cannot promise remote acceptance, future target state, or unknown generated values. Stale-plan protection follows CLI-87. An old successful preview does not satisfy it. `[S2]`
 - **CLI-90** Make operations idempotent where possible, for example with idempotency keys or natural deduplication on writes. Agents retry. `[S1,S2,S4]`
 - **CLI-91** Consider a separate input-validation mode when callers benefit from checking without execution. Select it alongside preview support under CLI-83 and document which checks it performs. Ordinary execution still validates input under CLI-73 whether or not a separate mode exists. `[S4]`
 - **CLI-92** Return an exit code from a dry run for whether its declared validation succeeded. Success is not authorization or a guarantee that a later mutation is safe or will succeed. Report unresolved checks and unknown effects explicitly. `[S4]`
@@ -182,6 +185,8 @@ Danger levels (CLI-84), with clig.dev's examples:
 - **CLI-100** Version application-owned persistent schemas and migrate older state when supported. Preserve native or externally owned file formats rather than adding arbitrary version fields to artifacts. Consider tracking state lineage so stale local state does not overwrite newer authoritative state. `[S4]`
 
 ## Signals
+
+Raw TUI Ctrl-C keys follow the modal cancellation or quit policy in TUI-8. Once process shutdown begins, CLI-102 requires the emergency escape, including during terminal cleanup (TUI-6).
 
 - **CLI-101** On Ctrl-C, stop or cancel work promptly and begin bounded cleanup. Give immediate human feedback when enabled, but respect machine error framing and active TUI ownership of the terminal. Define interrupt exit behavior. `[S1]`
 - **CLI-102** Bound cleanup and make a second Ctrl-C terminate promptly without blocking on diagnostic I/O. Explain that behavior before or during the first interrupt when the output mode permits it. `[S1]`
@@ -223,7 +228,7 @@ Core rules: CORE-13.
 - **CLI-121** State exactly what you collect, why, how anonymous it is, and how long you keep it, on the website or at first run. `[S1,S4]`
 - **CLI-122** Provide an explicit opt-in and an easy way to inspect and disable collection, for example an env var, config setting, and status command. In deployments already authorized under CLI-120, explain the active policy and available opt-out controls. Until consent exists, keep collection off, including unattended first runs. `[S1,S4]`
 - **CLI-123** Consider other signals before telemetry: instrument web docs and downloads, and talk to users and newcomers. `[S1,S3]`
-- **CLI-124** If you collect telemetry with consent (CLI-120 to CLI-122), count agent usage apart from human and CI usage, and let error and timeout rates set your priorities. `[S4]`
+- **CLI-124** If you collect telemetry with consent (CLI-120 to CLI-122), distinguish caller kinds only through a documented declaration or signal. Retain an unknown category and label estimates. Caller kind and CI environment may overlap. Treat those labels as metadata, not authority (ARCH-52), and use error and timeout rates to set priorities. `[S4]`
 
 ## Agent discovery
 
@@ -240,7 +245,7 @@ CLI-129 to CLI-134 test applicable public contracts. CLI-135 to CLI-140 apply wh
 - **CLI-130** When integrations are part of the product, test against controlled real-system fixtures where available and check fake/real contract parity. Isolate mutations and credentials. Missing access is unverified coverage, not a reason to use live user state. `[S2]`
 - **CLI-131** Test promised CLI features through the public CLI. Test TUI-only presentation or other protocol surfaces at their own public boundaries; missing a CLI path is a gap only when parity was promised. `[S2]`
 - **CLI-132** Keep fault injection inside the product boundary (app network seam, proxy, container), with isolated scope and postcondition checks. Never change host machine state. `[S2]`
-- **CLI-133** Under fixed input/state fixtures, check that preview selection and intended effects match what execution attempts. Separately test intervening target changes, authorization failures, partial effects, and unknown outcomes where applicable. Generated or remote-dependent values follow the declared preview limits. `[S2]`
+- **CLI-133** Under fixed input/state fixtures, check that preview selection and intended effects match what execution attempts. Where CLI-87 promises stale-state protection, test a concurrent change after the last preflight read and before mutation, and verify that enforcement prevents the unsafe effect. Separately test authorization failures, partial effects, and unknown outcomes where applicable. Generated or remote-dependent values follow the declared preview limits. `[S2]`
 - **CLI-134** Keep regression tests (for example with bats-core) for escape hatches and output formats, and validate output against its schema in CI. `[S4]`
 - **CLI-135** Prototype the commands, use them yourself, and collect user feedback on real use cases. `[S3]`
 - **CLI-136** Evaluate supported agent workflows with realistic multi-step tasks and verifiable outcomes. Use the expected normal interaction loop. Request a short action rationale only when it serves the evaluation; measure observable calls and outcomes without requiring private deliberation. `[S3]`
