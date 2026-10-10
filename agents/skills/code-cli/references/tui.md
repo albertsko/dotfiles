@@ -49,7 +49,7 @@ Core rules: CORE-8, CORE-10, CORE-12.
 CLI-facing rules: CLI-8, CLI-17, CLI-23, CLI-47, CLI-64, CLI-80, CLI-101, CLI-102, CLI-103, CLI-113.
 
 - **TUI-3** Start a TUI only with a usable interaction terminal and --no-input unset. For automatic startup, require terminal input and display streams and human output mode. An explicit interactive mode may open a controlling terminal while data uses pipes; keep UI bytes off contracted result/error streams. If interaction is unavailable, return a usage error naming a noninteractive command, or use a documented noninteractive default. TTY presence does not prove a human is present. `[S2]`
-- **TUI-4** Turn on each terminal mode separately, only when the TUI uses it, and turn every one off on exit. Examples: raw mode, alternate screen, mouse capture, bracketed paste, hidden cursor. `[S7,S8]`
+- **TUI-4** Change only the terminal modes the TUI uses, and restore the incoming state for those changes on exit. Save prior state or use supported push/pop mechanisms where available. For modes without state queries or stacks, define ownership and a restoration policy with the caller. Examples: raw mode, alternate screen, mouse capture, bracketed paste, hidden cursor. `[S7,S8]`
 - **TUI-5** Consider drawing the TUI on the alternate screen, and print final results after you leave it. Final results then stay visible in the shell. `[S7]`
 - **TUI-6** Restore terminal modes on every application-controlled exit: normal quit, error, cancellation, and recovered background failure. Uncatchable termination such as SIGKILL is outside this guarantee. Minimize modes and leave a documented recovery path. `[S7,S9]`
 - **TUI-7** In a crash, restore the terminal first and ignore restore errors, then print the report in the shell. Consider also writing the report to a log file (CLI-47). `[S7,S9]`
@@ -126,7 +126,7 @@ The quit key is in TUI-8, and mouse capture is in TUI-4.
 - **TUI-35** Consider one registry entry per application action, with stable ID, label, group, key, an availability check without side effects, and an operation independent of transient UI state. Availability hints do not replace application authorization at execution. `[S2]`
 - **TUI-36** Consider keeping the keys for screen changes (list movement, scroll, pane focus) with the component that owns focus, outside the registry, with their own help text and tests. A registry alone does not prove parity. `[S2]`
 - **TUI-37** Consider documenting keyboard support (what works now, what is a target, and the known gaps), and recording keyboard decisions in a decision record. `[S2]`
-- **TUI-38** Consider handling only key press events, and ignoring release and repeat events unless the UI needs them. Some terminals also report release and repeat events. `[S7]`
+- **TUI-38** Consider ignoring key release events unless the UI needs them, preserving repeats for navigation and text editing, and suppressing repeats for one-shot actions. When enhanced event reporting is supported, test it alongside legacy input where repeated keys arrive as presses. `[S7]`
 
 Notes:
 
@@ -144,7 +144,7 @@ The sources study line-based CLIs, not full-screen TUIs. The rules below apply t
 - **TUI-41** Consider static text progress that names the action, at least in accessible mode. Use it in place of spinners, progress bars, ASCII-art decoration, and constant redraws, because screen readers read glyphs aloud. `[S10,S11]`
 - **TUI-42** Consider an accessible mode, turned on by a flag, setting, or env var, with prompts that screen readers can read, static text progress, and the 16 ANSI colors. `[S11]`
 - **TUI-43** Consider testing the TUI with a screen reader. The study found that a text-based, keyboard-driven CLI is not necessarily fully accessible. `[S10]`
-- **TUI-44** Consider status and error text that makes sense when read aloud, with no regular expressions, domain-specific acronyms, or URLs. `[S10]`
+- **TUI-44** Consider status and error text that makes sense when read aloud: explain unfamiliar acronyms and expression constraints in words, and label useful links. Preserve exact expressions, URLs, and other actionable details alongside the explanation or through a clearly identified accessible surface. `[S10]`
 - **TUI-45** Consider the 16 ANSI colors for default styling, choosing colors that work on light and dark backgrounds. Users can then recolor the TUI in their terminal settings. `[S11]`
 
 Notes:

@@ -2,13 +2,15 @@
 
 This file holds the language-neutral rules for designing, building, and reviewing a CLI. The sections follow clig.dev topic order. The core rules, terms, rule statuses, and fix order live in SKILL.md.
 
+Apply human feedback and presentation rules to modes that offer human feedback. Native filters and silent automation contracts need no routine notices, decoration, or quiet flag solely to suppress feedback they never emit. Machine and protocol output retain their own contracts. Help remains a human-facing surface even when command results are machine-native.
+
 ## Principles
 
 Core rules: CORE-1.
 
 - **CLI-1** Build small, modular commands that use standard streams, signals, and exit codes. People will combine them in ways you did not plan. `[S1]`
 - **CLI-2** Follow existing CLI conventions. Break one only on purpose, when following it clearly hurts usability. `[S1]`
-- **CLI-3** Say just enough: show that work is happening, and keep detail for debug output (`-d, --debug`). Silence and floods of output both leave users lost. `[S1]`
+- **CLI-3** When human feedback is enabled, show useful activity and keep detail for debug output (`-d, --debug`). Scale feedback to the task; a native result or exit status may be sufficient. `[S1]`
 - **CLI-4** Treat the CLI as a conversation: make features easy to discover, suggest corrections and next steps, and show intermediate state in multi-step work. `[S1]`
 - **CLI-5** Write output and errors as if you are on the user's side and want them to succeed. `[S1]`
 
@@ -27,8 +29,8 @@ Core rules: CORE-4.
 - **CLI-9** For git-like tools, also show help for `app help` and `app help sub`. `[S1,S2]`
 - **CLI-10** Lead help with examples of common and complex uses, and list the most common flags and commands first. Move long example lists to a cheat sheet or web docs. `[S1]`
 - **CLI-11** Consider building examples as a series from simple to complex uses. Show the actual output when it helps and is short. `[S1]`
-- **CLI-12** Use formatting in help, such as bold headings, so it is easy to scan. `[S1]`
-- **CLI-13** Make help formatting terminal-independent, with no escape codes when piped, and keep its structure regular. Agents and scripts can then parse it. `[S1,S2]`
+- **CLI-12** Prefer scannable help with clear headings and whitespace. Terminal styling is optional and follows CLI-13. `[S1]`
+- **CLI-13** Keep help readable across terminals and its structure regular. Piped help is plain by default; explicit color overrides follow CORE-12, including when piped. Styling must not carry information unavailable in plain help. `[S1,S2]`
 - **CLI-14** Include a documentation and support route in help, appropriate to the tool: installed docs, a repository, a maintainer contact, a website, or an issue tracker. When web docs exist, link directly to the relevant page or subcommand anchor. Local documentation is sufficient where CLI-20 permits it. `[S1]`
 - **CLI-15** When input is wrong, suggest the likely intended command, for example `brew upgrade jq` for `brew update jq`. You may offer to run it, but only on a TTY. `[S1]`
 - **CLI-16** Avoid running a guessed correction silently, most of all when it changes state. If the tool accepts the mistyped form, support and document that form long term. `[S1]`
@@ -49,7 +51,7 @@ Core rules: CORE-6, CORE-12.
 - **CLI-23** Check separately whether stdout and stderr are TTYs, and use each result to choose color and layout for that stream. Animations follow CLI-31. `[S1]`
 - **CLI-24** Offer --plain with a documented record/field format when human tables or wrapping would break line tools. Specify escaping for embedded delimiters and newlines. A suitable stable native text format needs no duplicate mode. `[S1]`
 - **CLI-25** Consider --format for genuinely distinct formats, such as table, json, and ndjson. Keep --json as an alias for the JSON result mode when offered. Use an explicitly framed stream format for ongoing records; a finite JSON document and an NDJSON stream are different contracts. `[S2]`
-- **CLI-26** Print useful human success feedback and say what changed. Offer -q, --quiet to suppress nonessential human feedback. Preserve the promised machine result and required error behavior; define any mode that intentionally suppresses results. `[S1]`
+- **CLI-26** In modes offering human success feedback, say what changed and offer -q, --quiet to suppress nonessential feedback. Preserve the promised machine result and required error behavior; define any mode that intentionally suppresses results. `[S1]`
 - **CLI-27** Make current state easy to see, for example with a status command for resources the tool owns, and suggest commands to run next. Agents check results with follow-up commands, not only exit codes. `[S1,S4]`
 - **CLI-28** Make non-obvious actions outside the command's stated purpose visible: external files or remote services, for example. Internal caches need not produce routine notices. Escape terminal control characters in untrusted display fields; an explicit raw payload mode may preserve bytes without treating them as presentation. `[S1]`
 - **CLI-29** Consider compact, scannable formats (like the `ls` permission string), and symbols or emoji where they add clarity without clutter. `[S1]`
@@ -57,7 +59,7 @@ Core rules: CORE-6, CORE-12.
 - **CLI-31** Show animations only on their actual terminal destination, normally stderr, with suitable terminal capabilities and human feedback enabled. Redirected diagnostics remain plain. Color overrides never enable animation. `[S1]`
 - **CLI-32** Show developer-only details only in debug output (`-d, --debug`), and print stderr messages without log-level labels (`ERR`, `WARN`) by default. `[S1]`
 - **CLI-33** Automatically page only human output whose destination is a TTY, with a usable terminal control channel and interaction enabled. Honor PAGER; less -FIRX is a default when available. Never auto-page machine output or redirected results. An explicit pager request needs its own documented channel contract. `[S1]`
-- **CLI-34** Show only high-signal fields in default human output, and keep low-level fields (raw UUIDs, MIME types) for `--json` or a detailed mode. Agents that need fewer tokens use the controls in CLI-35. `[S3]`
+- **CLI-34** Choose default human fields by workflow. Include identifiers, types, and other details needed to distinguish resources or copy safe action targets. Put other low-signal fields in `--json` or a detailed mode; UUIDs and MIME types may be essential for some commands. Agents that need fewer tokens use the controls in CLI-35. `[S3]`
 - **CLI-35** Keep output format separate from human feedback: --json and --plain select formats, -q suppresses routine feedback, and -d requests diagnostics. Consider declared field/detail selectors for large machine results. Quiet/debug must not silently change a promised machine schema. `[S1,S3]`
 - **CLI-36** Offer search, filter, and limit options (for example `--limit`) on commands that can return many records. Agents pay for every line in tokens and time. `[S3,S4]`
 - **CLI-37** Say when output is cut, and say how to get the rest or narrow the query. `[S3]`
@@ -70,7 +72,7 @@ Core rules: CORE-7.
 - **CLI-39** Version structured result contracts, in an envelope or a documented format/version selection that preserves native payload shapes. Define compatible major versions and require consumers within a supported major to tolerate unknown optional fields. Adding fields is safe only within that reader contract; test against an older consumer. `[S2,S4]`
 - **CLI-40** Publish schemas and examples for structured results and errors, including framing, optional fields, nesting, and unknown-field compatibility. For artifacts and existing protocols, name their native format contract instead of inventing a result schema. `[S2,S4]`
 - **CLI-41** Treat a move of any output to another stream as a breaking change (CLI-93). Consumers redirect stdout and stderr separately. `[S4]`
-- **CLI-42** Use stable identifiers in structured output, and show a readable name next to each ID. Prefer type-prefixed IDs such as `msg_01HXYZ`. `[S2,S3]`
+- **CLI-42** Use stable identifiers in structured output. Include readable names when the domain provides them and they are available within the command's access and cost contract; unnamed objects and ID-only references are valid. Prefer type-prefixed IDs such as `msg_01HXYZ`. `[S2,S3]`
 - **CLI-43** Reject incompatible schema or state versions clearly. Define which major versions and required capabilities are supported; an unfamiliar compatible minor version or optional field is not automatically an error. `[S2,S4]`
 
 ## Errors and exit codes
@@ -131,12 +133,12 @@ Core rules: CORE-8, CORE-10.
 
 ## Robustness
 
-- **CLI-73** Validate input early and strictly, and stop with a clear error before anything changes. `[S1,S3]`
+- **CLI-73** Validate knowable invocation-wide syntax, scope, and authorization constraints before effects. For incremental or streaming work, validate each unit before its effects and define partial-completion and recovery behavior (CLI-79). Validate the whole operation before effects when its contract promises all-or-nothing behavior. `[S1,S3]`
 - **CLI-74** For interactive human runs with feedback enabled, respond promptly (aim for about 100 ms) and explain work before a potentially slow call. Quiet and machine modes follow their output contracts rather than printing routine notices. Avoid emitting a message for every cheap internal request. `[S1]`
 - **CLI-75** Show progress for long work when feedback is enabled: animation only under CLI-31, otherwise bounded plain diagnostics. Machine modes follow CLI-46 or their declared stream protocol. Keep errors visible even when routine feedback is suppressed. `[S1,S4]`
 - **CLI-76** Run work in parallel where it helps, and keep parallel output robust and free of interleaving. Use a library for it where you can. `[S1]`
 - **CLI-77** When failure hides useful context behind a progress display, restore normal output and expose the relevant redacted diagnostics. Respect the machine-mode framing rather than dumping arbitrary logs. `[S1]`
-- **CLI-78** Give network calls a timeout with a sensible default that users can configure. `[S1]`
+- **CLI-78** Give finite network calls a timeout with a sensible default that users can configure. For persistent streams, bound setup and define liveness, cancellation, and reconnect behavior; a healthy stream need not have a finite total lifetime. `[S1]`
 - **CLI-79** Make retries and interrupted work recoverable where the operation permits it. Document partial completion and unknown outcomes. Avoid replaying non-idempotent effects merely because the previous result was lost. `[S1]`
 - **CLI-80** Design for restart after abrupt termination as well as normal cleanup. Bound cleanup and use transactions or atomic replacement where needed for consistency. Deferred cleanup helps graceful exits but cannot run after every crash or forced kill. `[S1]`
 - **CLI-81** Expect misuse: wrapper scripts, bad networks, parallel instances, and odd environments such as case-insensitive filesystems. `[S1]`
@@ -165,7 +167,7 @@ Danger levels (CLI-84), with clig.dev's examples:
 - **CLI-88** When confirmation is required, ask after the plan is built and before mutation. A preview alone does not require confirmation for the mutation it does not execute. Keep required validation and authorization checks in the real application path. `[S2]`
 - **CLI-89** State that a preview describes intended effects against observed state, not guaranteed future success. It cannot promise remote acceptance, future target state, or unknown generated values. For dangerous changes, define stale-plan rejection or renewed confirmation rather than relying on an old successful preview. `[S2]`
 - **CLI-90** Make operations idempotent where possible, for example with idempotency keys or natural deduplication on writes. Agents retry. `[S1,S2,S4]`
-- **CLI-91** Offer an early check that validates input without running it, such as a syntax-check mode, before destructive actions. `[S4]`
+- **CLI-91** Consider a separate input-validation mode when callers benefit from checking without execution. Select it alongside preview support under CLI-83 and document which checks it performs. Ordinary execution still validates input under CLI-73 whether or not a separate mode exists. `[S4]`
 - **CLI-92** Return an exit code from a dry run for whether its declared validation succeeded. Success is not authorization or a guarantee that a later mutation is safe or will succeed. Report unresolved checks and unknown effects explicitly. `[S4]`
 
 ## Future-proofing
@@ -190,7 +192,7 @@ Danger levels (CLI-84), with clig.dev's examples:
 - **CLI-104** Use flags for per-run choices and declared env/config settings for persistent preferences. Keep confirmation bypasses and one-use authorization out of persistent defaults. Choose a config file when it adds useful structure. `[S1]`
 - **CLI-105** Keep project settings in a tool-specific file when the product has project scope. Define which fields untrusted projects may control; credential routing, executable hooks, and remote endpoints need a deliberate trust boundary. `[S1]`
 - **CLI-106** On Unix, prefer XDG locations for new tools; preserve established platform conventions and existing contracts when required. On other platforms, use native config locations. Document path precedence and fallbacks. `[S1]`
-- **CLI-107** Ask before you change config that belongs to another program, and say exactly what you change. Prefer a new file over appending, and mark edits to shared files with a dated comment. `[S1]`
+- **CLI-107** Ask before you change config that belongs to another program, and say exactly what you change. Prefer a new file over appending when the program supports it. Mark shared-file edits with a dated comment only when the native format and owning program permit comments; otherwise record the change outside the file. Preserve the owning program's schema and parsing contract. `[S1]`
 - **CLI-108** For declared configuration sources, apply this default precedence, highest first: explicit flags, process env, trusted project config, user config, system config, defaults. Only load sources the tool supports. Do not let a project file silently become arbitrary process environment. `[S1,S4]`
 
 ## Environment variables
@@ -217,9 +219,9 @@ Core rules: CORE-13.
 
 ## Analytics
 
-- **CLI-120** Collect usage or crash data only with consent, and prefer opt-in collection (CLI-122). `[S1,S4]`
+- **CLI-120** Collect usage or crash data only after an affirmative opt-in from the user or an administrator authorized to set that deployment's telemetry policy. An announcement alone is not consent. CLI-122 defines the controls. `[S1,S4]`
 - **CLI-121** State exactly what you collect, why, how anonymous it is, and how long you keep it, on the website or at first run. `[S1,S4]`
-- **CLI-122** Ask users to opt in. If collection is opt-out, announce it and make it easy to turn off, for example with `MYAPP_NO_TELEMETRY=1`, a config setting, and a status command. `[S1,S4]`
+- **CLI-122** Provide an explicit opt-in and an easy way to inspect and disable collection, for example an env var, config setting, and status command. In deployments already authorized under CLI-120, explain the active policy and available opt-out controls. Until consent exists, keep collection off, including unattended first runs. `[S1,S4]`
 - **CLI-123** Consider other signals before telemetry: instrument web docs and downloads, and talk to users and newcomers. `[S1,S3]`
 - **CLI-124** If you collect telemetry with consent (CLI-120 to CLI-122), count agent usage apart from human and CI usage, and let error and timeout rates set your priorities. `[S4]`
 

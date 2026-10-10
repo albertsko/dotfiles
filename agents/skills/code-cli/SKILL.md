@@ -19,7 +19,19 @@ Before loading detailed rules, record the work and relevant capabilities:
 
 This applicability record does not require every capability. Existing contracts and the requested scope constrain the design.
 
-Read matching sections of [references/cli.md](references/cli.md) for command behavior. For structure changes, read "Choose a level" in [references/arch.md](references/arch.md), then applicable sections. For a new design or full review, inspect both files' section conditions before evaluating rules. L0 permits small functions, not mandatory package hierarchies. Mutation rules apply to mutations. Authorization and untrusted action inputs bring in ARCH-51 to ARCH-53, and external APIs bring in ARCH-61, regardless of levels.
+Before setting scope, scan the section headings and applicability conditions in [references/cli.md](references/cli.md) and [references/arch.md](references/arch.md). Load detailed rules for affected capabilities, including bounded behavioral changes:
+
+| Affected capability | Architecture sections or rules to read |
+|---|---|
+| New design or structure change | "Choose a level", then sections for the selected capabilities |
+| Mutation | "Mutation pipeline" |
+| Background or parallel work | "Background work" |
+| Transport or untrusted filesystem paths | "Transport and filesystem trust", with ARCH-49 applying wherever confinement is required |
+| Authorization, restricted callers, or untrusted action inputs | ARCH-51 to ARCH-53 |
+| External API | ARCH-61 |
+| Verification, refactoring, or publication | Applicable rules in "Enforcement and testing" |
+
+Read matching CLI sections for command behavior. A new design or full review covers every applicable section. L0 permits small functions, not mandatory package hierarchies. Capability pointers retain their conditions and do not require unused architecture levels.
 
 For full-screen TUI work, read applicable sections of [references/tui.md](references/tui.md) and the rules named by their pointers. These pointers do not force unrelated levels. Read language guidance when the language/stack is known.
 
@@ -44,7 +56,7 @@ For a bounded change or review, the scope set contains core rules, affected sect
 - **CORE-5** Use standard flag names where they exist, and give each flag a full-length version. CLI-54 lists standard names. `[S1]`
 - **CORE-6** Offer `--json` for structured results when callers need a machine interface and no suitable native contract exists. Keep the default chosen by CORE-1. Artifacts, generated shell code, native filters, streaming protocols, and terminal sessions retain their declared formats rather than arbitrary JSON wrappers. Define metadata and error channels separately. `[S1,S2,S4]`
 - **CORE-7** Treat machine output as a contract from its first release: stable fields, types, framing, and streams. Human presentation may change. Tell callers which native or explicit machine mode is stable. `[S1,S2,S4]`
-- **CORE-8** Provide a noninteractive path for every required input using args, flags, files, stdin, or credential channels as appropriate. Auto-prompt only with terminal input and a visible terminal prompt destination, never in finite JSON mode (CLI-46). An explicitly requested interactive mode may use a separate controlling terminal while data uses pipes. `--no-input` disables all interaction. If input is missing, name its noninteractive path. `[S1,S2,S4]`
+- **CORE-8** For line-based CLI operations and application actions selected for automation under TUI-2, provide a noninteractive path for every required input using args, flags, files, stdin, or credential channels as appropriate. TUI-2 owns TUI parity; a TUI-only action needs no new CLI path. Auto-prompt only with terminal input and a visible terminal prompt destination, never in finite JSON mode (CLI-46). An explicitly requested interactive mode may use a separate controlling terminal while data uses pipes. `--no-input` disables all interaction and rejects an interactive-only path. If a supported noninteractive operation lacks input, name its input path. `[S1,S2,S4]`
 - **CORE-9** Match confirmation to risk (CLI-84). When required, ask for `y` or `yes` on a usable interaction terminal. With interaction off, require `-f, --force`; for a severe action using a typed resource name, require `--confirm="name"` instead. Confirmation does not bypass authorization or changed-target checks. `[S1,S2]`
 - **CORE-10** Treat `--no-input` as nothing interactive: no prompts, pager, editor, or TUI. It never means yes. A required confirmation fails and names `--force` or `--confirm`. `[S1,S4]`
 - **CORE-11** Render expected errors as short messages with a useful next step and stable machine error kinds where promised. Keep stack traces and internal details in explicitly requested, redacted debug output (CLI-47). `[S1,S3]`
@@ -91,9 +103,9 @@ Done when planned inputs, output formats/schemas, errors, and interaction are sp
 1. Use the scoped design, filling any missing decisions first.
 2. Read applicable language/stack guidance and verify version-sensitive assumptions.
 3. Build the contract first with input/output, error, and mutation tests.
-4. Review and fix accepted defects.
+4. Review the scope set. Resolve in-scope `fail` and `open` items, or record justified overrides as `waived` under the rubric.
 
-Done when scoped behavior exists, required available tests pass, and exceptions/evidence gaps are explicit. An unavailable platform check remains `unverified`; do not claim that platform verified.
+Done when scoped behavior exists, no in-scope `fail` or `open` remains, required available tests pass, and waivers/evidence gaps are explicit. An unavailable platform check remains `unverified`; do not claim that platform verified.
 
 ### Extend an existing CLI
 
@@ -108,7 +120,7 @@ Done when changed behavior has no unresolved `fail` or `open`, existing contract
 ### Review a CLI or a design
 
 1. Define the scope set. Full reviews cover every applicable rule; bounded reviews cover core and matching sections plus dependencies. List exclusions. Pointer lines identify related contracts without forcing unused levels.
-2. Gather design text or implementation evidence: help, docs, source, tests, and representative runs. Missing evidence is `unverified`.
+2. Gather design text or implementation evidence: help, docs, source, tests, and representative runs. A required decision omitted from an inspected design is `open`. Unavailable material or insufficient evidence to establish behavior is `unverified`; identify the missing check.
 3. Before executing, choose disposable state and a bounded harness for commands that mutate, contact external systems, prompt, watch, or spawn children. Existing authorization governs execution. Use source inspection when representative runs are unavailable.
 4. Exercise applicable pipe and pseudo-TTY combinations, including independent stdout/stderr redirection. Use `script` or a harness for bounded smoke checks. Interactive tests need scripted input, a deadline, and child cleanup; opening a PTY alone proves neither human presence nor terminal correctness.
 5. Assign rule statuses.
