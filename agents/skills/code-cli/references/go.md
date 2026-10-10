@@ -46,13 +46,10 @@ Build order. Each step is done when its check passes:
 - ARCH-8, ARCH-9: Use `cmd/<name>/` for main and the thin CLI layer, `internal/<domain>/` for the domain core (types, rules, and sentinel and typed errors), and one `internal/` package per adapter.
 
 - **GO-1** Import every Charm library that has a v2 line from that line's module path. Mixed lines load two copies of a library with different types, so code fails to compile or behaves differently. `[S15]`
+  - As checked: Bubble Tea, Bubbles, Lip Gloss, huh, log, fang, and Glamour have v2 lines under `charm.land`. Their GitHub paths give v1. Helper modules (colorprofile, `x/...`) stay on GitHub. Check: `go list -m all | grep -E '^github.com/charmbracelet/(bubbletea|bubbles|lipgloss|huh|log|fang|glamour) '` prints nothing.
 - **GO-2** Consider building the command tree in a constructor that takes the app value, in place of package-level commands and `init()` registration. Each test and script run then gets fresh flags and state. `[S12]`
 - **GO-3** Review code from the Cobra generator or user guide. As checked, both read a home dotfile (CLI-106) and exit 1 for every error (CLI-49), and the guide prints a config notice to stdout (CORE-2). `[S12]`
-
-Notes:
-
-- GO-1, as checked: Bubble Tea, Bubbles, Lip Gloss, huh, log, fang, and Glamour have v2 lines under `charm.land`. Their GitHub paths give v1. Helper modules (colorprofile, `x/...`) stay on GitHub. Check: `go list -m all | grep -E '^github.com/charmbracelet/(bubbletea|bubbles|lipgloss|huh|log|fang|glamour) '` prints nothing.
-- GO-3 check: search the code for prints, exits, and config paths.
+  - Check: search the code for prints, exits, and config paths.
 
 ## Architecture
 
@@ -62,11 +59,8 @@ Notes:
 ## The `run` function
 
 - **GO-6** Put the signal handler and the error mapping in `run`, and let main only exit with its code. Below `run`, return errors: an exit there skips deferred cleanup and the code map (CLI-49, CLI-80). `[S13,S15,S16,S17]`
+  - As checked (see `go doc`): fatal log calls and Cobra's check-and-exit helper also exit at once.
 - **GO-7** Recover panics in `run` and in your goroutines: print a bug report with the stack to stderr, and exit 1. An uncaught Go panic exits 2, the usage error code (CORE-3). `[S16]`
-
-Notes:
-
-- GO-6, as checked (see `go doc`): fatal log calls and Cobra's check-and-exit helper also exit at once.
 
 Example (GO-6): the startup sequence in order.
 
@@ -122,20 +116,17 @@ func run(args []string) (code int) {
 - CLI-21: As checked, Cobra adds the completion commands, and fang a hidden man page command, after your guards. So add the completion commands before the guards, and replace fang's man page with your own hidden `man` command, built from the root command with the man page library. Check: `<tool> completion bogus` and `<tool> man extra` exit 2, and `mandoc -T lint` accepts the `<tool> man` output.
 
 - **GO-8** Set an args validator on every command. As checked, Cobra's default accepts any number of args, so an extra or mistyped arg is silently ignored (CLI-52, CLI-73). `[S12]`
+  - Check: an extra arg exits 2.
 - **GO-9** Let `-h` and `--help` win over other flags (CORE-4): prescan for them, and show help from the flag error function. As checked, Cobra parses flags before help, so an unknown flag next to `-h` fails. `[S12]`
+  - Check: `<cmd> <sub> --bogus -h` prints help with exit 0. As checked, Cobra still parses the args, so a `-h` after a value flag stays its value. Check: `<cmd> --<value-flag> -h <arg>` takes `-h` as the value.
 - **GO-10** With fang, say in the usage text of each value flag that it takes a value (CLI-18). As checked, fang's help drops Cobra's value placeholder, so readers cannot tell value flags from switches. `[S13]`
+  - Check: in piped `--help`, each value flag shows that it takes a value.
 - **GO-11** Check fang's help against CLI-13 and CLI-74 on the terminals you support, and use Cobra's help where fang's fails them. `[S13]`
+  - As checked: fang pads piped help lines to 120 columns, and on a TTY it first queries the terminal background (about 4 s on a silent terminal). fang replaces the root's help function as it starts, so for Cobra's help, run the tree with Cobra's execute, not fang, and set the version yourself. Check: trailing spaces in piped help, also after you set Cobra's help function, and `--help` time on a silent pseudo-TTY.
 - **GO-12** Load config and do other shared setup in one persistent pre-run hook on the root command only: as checked, only the nearest one runs. Inside the hook, skip the config load for commands that need no config (help, completion). Put cleanup in deferred calls, because guards skip post-run hooks after an error (CLI-80, GO-19). `[S12]`
+  - As checked: the root hook also runs for `help`, `completion`, and tab completion. Check: they work with `HOME` unset, and a subcommand's persistent pre-run hook hides the root one.
 - **GO-13** Keep completion functions fast, free of side effects, and silent on stdout except for the completions (CORE-2), because they run on every tab. Turn off the file-name fallback where no file name fits (CLI-4). `[S12]`
-
-Notes:
-
-- GO-8 check: an extra arg exits 2.
-- GO-9 check: `<cmd> <sub> --bogus -h` prints help with exit 0. As checked, Cobra still parses the args, so a `-h` after a value flag stays its value. Check: `<cmd> --<value-flag> -h <arg>` takes `-h` as the value.
-- GO-10 check: in piped `--help`, each value flag shows that it takes a value.
-- GO-11, as checked: fang pads piped help lines to 120 columns, and on a TTY it first queries the terminal background (about 4 s on a silent terminal). fang replaces the root's help function as it starts, so for Cobra's help, run the tree with Cobra's execute, not fang, and set the version yourself. Check: trailing spaces in piped help, also after you set Cobra's help function, and `--help` time on a silent pseudo-TTY.
-- GO-12, as checked: the root hook also runs for `help`, `completion`, and tab completion. Check: they work with `HOME` unset, and a subcommand's persistent pre-run hook hides the root one.
-- GO-13, as checked: the file-name fallback is on by default, and fish and PowerShell ignore both Cobra's extension shortcuts and its filter directives. For portable results, filter the file names inside the completion function. Check: press tab in each shell.
+  - As checked: the file-name fallback is on by default, and fish and PowerShell ignore both Cobra's extension shortcuts and its filter directives. For portable results, filter the file names inside the completion function. Check: press tab in each shell.
 
 ## Output and the contract
 
@@ -151,14 +142,11 @@ Notes:
 
 - **GO-16** Map errors to exit codes in one place in `run` with the CLI error type, by sentinel and typed errors, not message text (CORE-3, CLI-49). `[S12,S13]`
 - **GO-17** Make every parser error a usage error (exit 2, CORE-3): wrap each args validator and check required flags and flag groups in it, set a flag error function, and give the root and each group command a run handler. `[S12,S13]`
+  - As checked: Cobra returns parser errors as plain errors (exit 1). Without a root args validator, it reports an unknown command before any hook runs. It checks its own required-flag and flag-group markers after the pre-run hooks, so use no markers. Check: each kind of usage error exits 2.
 - **GO-18** Keep errors from fang: install a no-op error handler, guard every callback (GO-19), and render the error in `run` to stderr, as text with a hint or JSON with `--json` (CORE-2, CORE-11, CLI-46). `[S13]`
+  - As checked: fang's default handler prints a padded, styled block even into a pipe, and ignores `--json`. For any error from Cobra, fang first queries the terminal background on a TTY, also with a no-op handler (CLI-74). Parser errors come before Cobra binds `--json`, so take it from the prescan. Check: a bad flag with `--json`, piped, prints only your JSON error, and time each error path on a silent pseudo-TTY.
 - **GO-19** Guard every callback (see Guard in Terms). Cobra goes on after a callback returns nil, so without a guard a command runs with args that failed validation (CLI-73). `[S12]`
-
-Notes:
-
-- GO-17, as checked: Cobra returns parser errors as plain errors (exit 1). Without a root args validator, it reports an unknown command before any hook runs. It checks its own required-flag and flag-group markers after the pre-run hooks, so use no markers. Check: each kind of usage error exits 2.
-- GO-18, as checked: fang's default handler prints a padded, styled block even into a pipe, and ignores `--json`. For any error from Cobra, fang first queries the terminal background on a TTY, also with a no-op handler (CLI-74). Parser errors come before Cobra binds `--json`, so take it from the prescan. Check: a bad flag with `--json`, piped, prints only your JSON error, and time each error path on a silent pseudo-TTY.
-- GO-19 check: `<tool> rm <id1> <id2> --force` exits 2 and deletes nothing.
+  - Check: `<tool> rm <id1> <id2> --force` exits 2 and deletes nothing.
 
 Example (GO-17 to GO-19): guarded callbacks, and parser errors as usage errors.
 
@@ -233,14 +221,11 @@ func (a *app) rootCmd() *cobra.Command {
 
 - **GO-20** Load config layers lowest first, because each load overrides the earlier ones: defaults, system, user, and project files, env vars, flags (CLI-108). A file named by a flag or env var replaces the default file. `[S14]`
 - **GO-21** Load flags last, and pass the config store to the flag provider, so an unset flag never overrides a lower layer. Keep per-run flags such as `--force` (CLI-104) out of the defaults, and load only flags that have one. `[S12,S14]`
+  - As checked: with the store, an unset flag fills only a key that no lower layer set. Without it, unset flags load nothing. Check: an unset flag keeps a file value.
 - **GO-22** Write your own env var transform: map each name to its flag key, skip empty values, and keep only keys that have a default (CORE-13, CLI-110). `[S14]`
+  - As checked: by default the env provider keeps keys such as `TODO_STORE` unchanged, and keeps empty values. The README transform maps `_` to the key delimiter, so `TODO_NO_INPUT` misses `no-input`. Read `TODO_NO_COLOR`, if offered, in the GO-27 step, before config loads. A list setting gets an env string as one item (`a,b`), unless the decode splits it (the load example). Check: a test per env var, and `TODO_FORCE=1` changes nothing.
 - **GO-23** Resolve the config path yourself: on Unix, an absolute `$XDG_CONFIG_HOME`, else `$HOME/.config`, also on macOS (CLI-106). Fail when `HOME` is empty. Skip only a missing default file, and fail on every other file error. `[S14,S16]`
-
-Notes:
-
-- GO-21, as checked: with the store, an unset flag fills only a key that no lower layer set. Without it, unset flags load nothing. Check: an unset flag keeps a file value.
-- GO-22, as checked: by default the env provider keeps keys such as `TODO_STORE` unchanged, and keeps empty values. The README transform maps `_` to the key delimiter, so `TODO_NO_INPUT` misses `no-input`. Read `TODO_NO_COLOR`, if offered, in the GO-27 step, before config loads. A list setting gets an env string as one item (`a,b`), unless the decode splits it (the load example). Check: a test per env var, and `TODO_FORCE=1` changes nothing.
-- GO-23, as checked: Go's user config dir function returns `~/Library/Application Support` on macOS, and fits Windows. An empty `HOME` gives a relative path. Check: `HOME` unset gives an error, and `env -i <tool> help` exits 0 (GO-12).
+  - As checked: Go's user config dir function returns `~/Library/Application Support` on macOS, and fits Windows. An empty `HOME` gives a relative path. Check: `HOME` unset gives an error, and `env -i <tool> help` exits 0 (GO-12).
 
 Example (CLI-73, GO-20, GO-21, GO-23): load the layers lowest first, flags last, then decode strictly.
 
@@ -291,12 +276,9 @@ func envKey(name, value string) (string, any) {
 - CLI-63: Read a password with echo off, after the TTY check of GO-24. Save the terminal state first, and restore it on a signal: as checked, the read restores echo only when it returns. Check (Unix): SIGINT during the read leaves echo on.
 
 - **GO-24** Run the CORE-8 check yourself before you build the form, and also require a TTY stderr, because a prompt on a redirected stderr is invisible. When prompts are off, fail with a usage error (CORE-10). `[S15]`
+  - As checked: huh runs Bubble Tea, which opens `/dev/tty` on Unix when stdin is not a TTY, so a piped or agent run still prompts. Check (Unix): on a terminal, `</dev/null` and `2>err.log` each give a usage error.
 - **GO-25** Send prompts to stderr, and pick the mode yourself: line mode through the stderr writer for `TERM=dumb` or the accessible setting (CLI-110), else the full-screen form (CORE-2, CORE-12). End line mode when the context ends (CLI-101). `[S15]`
-
-Notes:
-
-- GO-24, as checked: huh runs Bubble Tea, which opens `/dev/tty` on Unix when stdin is not a TTY, so a piped or agent run still prompts. Check (Unix): on a terminal, `</dev/null` and `2>err.log` each give a usage error.
-- GO-25, as checked: for `TERM=dumb`, huh picks line mode itself, but prompts on stdout with raw ANSI codes. Line mode ignores the context, so after Ctrl-C the prompt keeps waiting. The full-screen form returns a user-abort error for Ctrl-C, and a timeout error for SIGTERM. Check: Ctrl-C and SIGTERM give 130 and 143 in both modes.
+  - As checked: for `TERM=dumb`, huh picks line mode itself, but prompts on stdout with raw ANSI codes. Line mode ignores the context, so after Ctrl-C the prompt keeps waiting. The full-screen form returns a user-abort error for Ctrl-C, and a timeout error for SIGTERM. Check: Ctrl-C and SIGTERM give 130 and 143 in both modes.
 
 Example (GO-24, GO-25): the prompt gate and the prompt mode.
 
@@ -326,16 +308,16 @@ case <-ctx.Done():
 - CORE-12: As checked, with `NO_COLOR` colorprofile removes color but keeps bold and faint, which no-color.org allows, and leaves bare reset codes (`ESC[m`) on a TTY. To print no codes, skip styling when the writer's profile has no color. Check: on a pseudo-TTY with `NO_COLOR=1`, look for `ESC[`.
 
 - **GO-26** Print styled output only through the writers, created after the env is final (CORE-12, CLI-23). As checked, a Lip Gloss style with colors or text attributes renders ANSI codes, so plain `fmt` printing leaks them into a pipe. `[S15]`
+  - As checked: colorprofile writers, fang, charm log, huh's full-screen form, and Bubble Tea follow color detection. Rendered style strings, Glamour, huh's line mode on its default output, and Lip Gloss's package-level print functions (they read the env at start) do not. Check: pipe every command into `cat -v`.
 - **GO-27** Before fang runs and before any writer or logger exists, set `NO_COLOR=1` when `NO_COLOR` is not empty or the prescan found `--no-color`. The libraries that detect color then follow CORE-12 from one env value. `[S15]`
+  - As checked: colorprofile reads `NO_COLOR` as a boolean, so `NO_COLOR=yes` keeps color, and no Charm library adds `--no-color`. Check: on a pseudo-TTY, `NO_COLOR=yes`, `NO_COLOR=1`, and `--no-color` give no color codes.
 - **GO-28** Use charm log only for `-d, --debug` output, on your own stderr logger. Write normal messages to stderr with plain `fmt`, because, as checked, log lines carry level labels (CLI-32). `[S15]`
+  - As checked: the package-level logger also adds timestamps. Check: normal messages in a pipe have no label.
 - **GO-29** Query the terminal background only on a TTY when light or dark matters, and prefer colors that work on both. A terminal that does not answer delays output by seconds (CLI-74). `[S15]`
+  - As checked: each query waits up to 2 s. Lip Gloss's compatibility package for adaptive colors reads stdin and stdout globally, so keep it out of new code. Check: time the first styled output on a silent pseudo-TTY.
 
 Notes:
 
-- GO-26, as checked: colorprofile writers, fang, charm log, huh's full-screen form, and Bubble Tea follow color detection. Rendered style strings, Glamour, huh's line mode on its default output, and Lip Gloss's package-level print functions (they read the env at start) do not. Check: pipe every command into `cat -v`.
-- GO-27, as checked: colorprofile reads `NO_COLOR` as a boolean, so `NO_COLOR=yes` keeps color, and no Charm library adds `--no-color`. Check: on a pseudo-TTY, `NO_COLOR=yes`, `NO_COLOR=1`, and `--no-color` give no color codes.
-- GO-28, as checked: the package-level logger also adds timestamps. Check: normal messages in a pipe have no label.
-- GO-29, as checked: each query waits up to 2 s. Lip Gloss's compatibility package for adaptive colors reads stdin and stdout globally, so keep it out of new code. Check: time the first styled output on a silent pseudo-TTY.
 - Windows, as checked: fang turns on escape code processing for stdout and stderr. Without fang, or before it runs, turn it on yourself (Lip Gloss has a helper). Check: the Windows console shows no raw codes.
 
 Example (GO-26, GO-27): one `NO_COLOR` value, then one writer per stream.
@@ -366,14 +348,11 @@ func newApp(pre prescanned) *app {
 
 - **GO-30** Pass the context from `run` down every call that does I/O or waits (CLI-78, CLI-101). A fresh background context below `run` ignores Ctrl-C. `[S16]`
 - **GO-31** Handle SIGINT and SIGTERM in `run`: cancel the root context with the signal as its cause, and exit 128 plus the signal number (CLI-101, CLI-103). `[S13,S16]`
+  - Without a handler, Go exits at once and skips deferred cleanup. As checked, fang's notify option drops which signal arrived, so the run exits 1. Check (Unix): SIGINT and SIGTERM give 130 and 143 after cleanup.
 - **GO-32** To meet CLI-102, after the first signal, stop the notification so the second one gets Go's default exit, or catch it and exit at once. `[S16]`
+  - To test the second-signal path, put a hook that slows cleanup behind a build tag, so release builds lack it.
 - **GO-33** To meet ARCH-11 on Unix, catch SIGPIPE at the start of `run`, in place of ignoring it. A write to a closed stdout or stderr then returns an error, not death by SIGPIPE. Child processes inherit an ignored signal, but not a caught one. `[S16]`
-
-Notes:
-
-- GO-31: without a handler, Go exits at once and skips deferred cleanup. As checked, fang's notify option drops which signal arrived, so the run exits 1. Check (Unix): SIGINT and SIGTERM give 130 and 143 after cleanup.
-- GO-32: to test the second-signal path, put a hook that slows cleanup behind a build tag, so release builds lack it.
-- GO-33: on EPIPE, stop writing and exit quietly, for example with 141 (128 + SIGPIPE). Keep SIGPIPE out of the handler of GO-31. Check (Unix): a long output piped into `head -1` exits with the mapped code, silently, and a child `yes | head -1` exits 141.
+  - On EPIPE, stop writing and exit quietly, for example with 141 (128 + SIGPIPE). Keep SIGPIPE out of the handler of GO-31. Check (Unix): a long output piped into `head -1` exits with the mapped code, silently, and a child `yes | head -1` exits 141.
 
 Example (GO-31, GO-32): the signal handler.
 
@@ -418,13 +397,10 @@ func pipeClosed(err error) bool { return errors.Is(err, syscall.EPIPE) }
 - CLI-101, GO-30: Pass the CLI command's context to the program, and keep it in the model, because, as checked, the model's init takes no context (see `go doc`).
 
 - **GO-34** Run the TUI-3 check yourself before you start a Bubble Tea program. If it fails, return a usage error that names the CLI command for the same data. `[S15]`
+  - As checked: Bubble Tea opens the terminal device when stdin is not a TTY, and with stdout piped it writes escape codes into the pipe. Check: the TUI piped into `cat` gives a usage error.
 - **GO-35** Keep Bubble Tea's panic recovery on, and map its panic error to exit 1 as in GO-7 (TUI-6, TUI-7). In your own goroutines, recover and send the failure to the program as a message. `[S15]`
-
-Notes:
-
-- GO-34, as checked: Bubble Tea opens the terminal device when stdin is not a TTY, and with stdout piped it writes escape codes into the pipe. Check: the TUI piped into `cat` gives a usage error.
-- GO-35, as checked: Bubble Tea restores the terminal and prints the stack for panics in update, view, and TUI commands, but not in goroutines that you start. Check: compare the terminal mode before and after each panic.
-- GO-35, as checked: Bubble Tea also catches SIGINT and SIGTERM, may return nil for SIGTERM, and wraps its panic error in its killed error. So test the signal cause first, then the panic error, then the interrupt error (130). Check (Unix): SIGINT, SIGTERM, and a panic exit 130, 143, and 1.
+  - As checked: Bubble Tea restores the terminal and prints the stack for panics in update, view, and TUI commands, but not in goroutines that you start. Check: compare the terminal mode before and after each panic.
+  - As checked: Bubble Tea also catches SIGINT and SIGTERM, may return nil for SIGTERM, and wraps its panic error in its killed error. So test the signal cause first, then the panic error, then the interrupt error (130). Check (Unix): SIGINT, SIGTERM, and a panic exit 130, 143, and 1.
 
 ## Testing
 
@@ -432,17 +408,14 @@ Notes:
 - TUI-48, TUI-49: teatest runs the real loop in memory with a fixed window size, types keys, and returns the final model (as checked, see `go doc`).
 
 - **GO-36** Test the contract on the built binary, through pipes and a pseudo-TTY: streams, exit codes, no escape codes in pipes, color controls, no prompt or TUI without a TTY, signals, and the terminal mode after exit. `[S16,S17]`
+  - As checked: the testscript child fits streams, exit codes, env, and files. Its stdin is never a TTY and its build info differs, so test TTY behavior, signals, and `--version` against the built binary. Check: `--version` in a script and in the binary.
+  - As checked: pseudo-TTY tests run on Unix only (use the `unix` build constraint), and Bubble Tea's start-up queries show up in captures. On macOS, read the terminal mode through the test's side. Set `TERM`: colorprofile treats a missing `TERM` as no color. Check: `GOOS=windows go vet ./...`, and a pseudo-TTY run without `TERM`.
 - **GO-37** Give every test a child env that starts empty, and a temp HOME and XDG dirs (on Windows `USERPROFILE`, `APPDATA`, `LOCALAPPDATA`). Otherwise `NO_COLOR`, the tool's env vars, and real config leak in (CLI-132). `[S16,S17]`
+  - Set the child's env, not the test's (the set-env helper blocks parallel tests). As checked, testscript gives each script a fake HOME (`exec env` shows it), so set the XDG vars in its setup.
 - **GO-38** Check exact exit codes in script tests with a custom command (CLI-49). As checked, testscript's negation only checks for a non-zero code. `[S17]`
+  - Check: `! exec` passes for exit 1 and 2.
 - **GO-39** Consider comparing the final TUI screen, with escape codes stripped, against a golden file, in place of the raw output. A renderer change then does not break the test (TUI-48). `[S15]`
 - **GO-40** When you fuzz, target pure parse and validation functions of the domain core, not the whole process, because targets must be fast and deterministic. Commit failing inputs in `testdata/fuzz`, and bound fuzz time in CI. `[S16]`
-
-Notes:
-
-- GO-36, as checked: the testscript child fits streams, exit codes, env, and files. Its stdin is never a TTY and its build info differs, so test TTY behavior, signals, and `--version` against the built binary. Check: `--version` in a script and in the binary.
-- GO-36, as checked: pseudo-TTY tests run on Unix only (use the `unix` build constraint), and Bubble Tea's start-up queries show up in captures. On macOS, read the terminal mode through the test's side. Set `TERM`: colorprofile treats a missing `TERM` as no color. Check: `GOOS=windows go vet ./...`, and a pseudo-TTY run without `TERM`.
-- GO-37: set the child's env, not the test's (the set-env helper blocks parallel tests). As checked, testscript gives each script a fake HOME (`exec env` shows it), so set the XDG vars in its setup.
-- GO-38 check: `! exec` passes for exit 1 and 2.
 
 Example (CLI-131, GO-38): register the CLI, and check exact exit codes.
 
@@ -504,12 +477,9 @@ func TestCtrlCAtPrompt(t *testing.T) {
 ## Tooling and checks
 
 - **GO-41** Fail CI on a dirty `go mod tidy` diff (ARCH-81). Consider gating on checks like those in the table, with unchecked errors as lint errors, because a dropped error becomes a wrong exit code (ARCH-79). `[S16,S19]`
+  - As checked: the race detector needs cgo on Linux and Windows. Check: `GOOS=linux CGO_ENABLED=0 go test -race -c` fails. Mark each best-effort stderr write as ignored on purpose, so the unchecked-error check stays at zero.
 - **GO-42** Run govulncheck on all packages in CI, before each release, and on a schedule. Block on findings that your code calls (ARCH-80, ARCH-81). `[S16]`
-
-Notes:
-
-- GO-41, as checked: the race detector needs cgo on Linux and Windows. Check: `GOOS=linux CGO_ENABLED=0 go test -race -c` fails. Mark each best-effort stderr write as ignored on purpose, so the unchecked-error check stays at zero.
-- GO-42: upgrade a vulnerable indirect module itself (`go get <module>@<fixed version>`), not every module with `go get -u ./...`.
+  - Upgrade a vulnerable indirect module itself (`go get <module>@<fixed version>`), not every module with `go get -u ./...`.
 
 Example (GO-41 to GO-43): checks and release commands.
 
@@ -527,11 +497,8 @@ Example (GO-41 to GO-43): checks and release commands.
 - ARCH-81: Scripts read the artifact list, because dist directory names may change between GoReleaser versions (the docs give no guarantee). Check: compare them after an upgrade.
 
 - **GO-43** Build `--version` from build info: a version set at link time, else the main module version, else "(devel)" with the VCS revision and a dirty mark. Pass it to fang (CLI-21). `[S13,S16,S18]`
+  - As checked: `go install`, and `go build` in a VCS checkout, set the main module version. fang's default uses it only with a module checksum, so local builds show "unknown (built from source)". A link-time name that does not match the release config fails silently. Check: `--version` of a stamped build.
 - **GO-44** From v2 on, put the major version suffix in the module path and in every import, also for a CLI-only module. Go module versions follow the Go API. The CLI contract follows CLI-93 and CLI-94. `[S16]`
-
-Notes:
-
-- GO-43, as checked: `go install`, and `go build` in a VCS checkout, set the main module version. fang's default uses it only with a module checksum, so local builds show "unknown (built from source)". A link-time name that does not match the release config fails silently. Check: `--version` of a stamped build.
 
 ## Not covered
 
