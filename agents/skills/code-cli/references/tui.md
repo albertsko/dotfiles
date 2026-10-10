@@ -1,6 +1,6 @@
-# TUI rules: TUI-1 to TUI-51
+# TUI rules
 
-This file holds language-neutral rules for designing, building, and reviewing a full-screen TUI, as a client program of a CLI's domain core or as a TUI-first tool. It defines TUI-1 to TUI-51. The sections follow build order: CLI first, then the terminal, state, loop, screen, input, accessibility, and tests.
+This file holds language-neutral rules for designing, building, and reviewing a full-screen TUI, as a client program of a CLI's domain core or as a TUI-first tool.
 
 ## Terms
 
@@ -9,7 +9,7 @@ The terms in SKILL.md and arch.md apply, for example TTY, Agent, Script, Domain 
 - **TUI**: a full-screen terminal UI that takes over the terminal window and redraws it, for example htop or lazygit. Prompts and progress lines are not a TUI.
 - **TUI-first tool**: a tool whose TUI is the main way people use it, for example htop. A tool with named agent or script users is not TUI-first. Any other tool with a TUI is a **CLI with a TUI**.
 - **Durable action**: a TUI feature that gets new data from the domain core or changes data, for example a search that asks the core for matches, a kill, or an upgrade PR. It needs a CLI path (TUI-2).
-- **Screen change**: a TUI feature that only rearranges data the TUI has already loaded, for example a sort or filter of the loaded list, scroll, focus, or layout. It needs no CLI path.
+- **Screen change**: a TUI feature that only rearranges data the TUI has already loaded, including rows scrolled off screen, for example a sort or filter of the loaded list, scroll, focus, or layout. It needs no CLI path.
 - **Elm Architecture**: a structure that splits a TUI into five parts: model, message, update, view, and command.
 - **Model**: the plain data that holds all TUI state.
 - **TUI message** (short: message): a value that describes one event, for example a key press, a resize, a timer tick, a domain core event, or a command result. Write "TUI message" where a reader could take it for a protocol message.
@@ -35,10 +35,10 @@ TUI-1 applies to every tool: the CLI and the domain core come first, and the TUI
 - For a TUI-first tool, TUI-1 means that the CLI path for each durable action exists before or with the TUI (TUI-2). TUI-1 then passes.
 - A draft that defers the CLI to a later release fails TUI-1.
 
-To sort a TUI feature for TUI-2, ask: does the feature get new data from the domain core, or change data? If yes, it is a durable action. If it only rearranges data the TUI has already loaded, including rows scrolled off screen, it is a screen change. For example, a search that asks the domain core for matches is a durable action, and a filter that hides loaded rows is a screen change.
+Classify each TUI feature for TUI-2 using Durable action and Screen change in Terms.
 
-CLI-facing rules: CLI-72 (in cli.md).
-Structure rules: ARCH-4, ARCH-6, ARCH-12, ARCH-13, ARCH-15, ARCH-19, ARCH-50, ARCH-54, ARCH-76 (in arch.md).
+CLI-facing rules: CLI-72.
+Structure rules: ARCH-4, ARCH-6, ARCH-12, ARCH-13, ARCH-15, ARCH-19, ARCH-50, ARCH-54, ARCH-76.
 
 - **TUI-1** Design the CLI and the domain core first, and add the TUI as one client program of that core. A TUI built first grows features and state that the CLI cannot reach. `[S2]`
 - **TUI-2** Give every durable action a CLI path (CLI-72), built before or with the TUI. When the action works on a selection, the CLI accepts the same items, for example by ID. `[S2]`
@@ -49,8 +49,8 @@ Notes:
 
 ## Terminal lifecycle
 
-Core rules: CORE-8, CORE-10, CORE-12 (in SKILL.md).
-CLI-facing rules: CLI-8, CLI-17, CLI-23, CLI-47, CLI-64, CLI-80, CLI-101, CLI-102, CLI-103, CLI-113 (in cli.md).
+Core rules: CORE-8, CORE-10, CORE-12.
+CLI-facing rules: CLI-8, CLI-17, CLI-23, CLI-47, CLI-64, CLI-80, CLI-101, CLI-102, CLI-103, CLI-113.
 
 - **TUI-3** Open the TUI only when stdin and stdout are both TTYs and `--no-input` is not set (CORE-8, CORE-10, CLI-23). Otherwise follow CLI-8 or CLI-17, so a pipe, a script, or an agent never gets a full-screen UI. `[S2]`
 - **TUI-4** Turn on each terminal mode separately, only when the TUI uses it, and turn every one off on exit. Examples: raw mode, alternate screen, mouse capture, bracketed paste, hidden cursor. `[S7,S8]`
@@ -71,7 +71,7 @@ Notes:
 
 ## State model
 
-Structure rules: ARCH-12, ARCH-19, ARCH-51, ARCH-64, ARCH-65, ARCH-72, ARCH-75 (in arch.md).
+Structure rules: ARCH-12, ARCH-19, ARCH-51, ARCH-64, ARCH-65, ARCH-72, ARCH-75.
 
 - **TUI-11** Structure every TUI as model, message, update, view, and command (the Elm Architecture). A throwaway tool may skip this (`n/a`). `[S2,S7,S8]`
 - **TUI-12** Keep all TUI state in one model of plain data, except buffers under TUI-21. The model holds only view state, including read-only data copied from domain core events (ARCH-12, ARCH-19). `[S2,S7,S8]`
@@ -93,8 +93,8 @@ Notes:
 
 ## Event loop and async work
 
-CLI-facing rules: CLI-78 (in cli.md).
-Structure rules: ARCH-38, ARCH-39, ARCH-67, ARCH-69, ARCH-71, ARCH-72 (in arch.md).
+CLI-facing rules: CLI-78.
+Structure rules: ARCH-38, ARCH-39, ARCH-67, ARCH-69, ARCH-71, ARCH-72.
 
 - **TUI-22** Run one loop: draw the view, block until the next message from any source, run update, start the returned commands, and repeat. The screen changes only when the loop draws. `[S2,S7]`
 - **TUI-23** Read terminal input in one reader that feeds the loop, so key presses stay in order. Text input turns into garbage when key order breaks. `[S7,S9]`
@@ -118,8 +118,8 @@ Notes:
 
 ## Input and keybindings
 
-CLI-facing rules: CLI-4, CLI-64 (in cli.md).
-Structure rules: ARCH-13 (in arch.md).
+CLI-facing rules: CLI-4, CLI-64.
+Structure rules: ARCH-13.
 
 The quit key is in TUI-8, and mouse capture is in TUI-4.
 
@@ -136,8 +136,8 @@ Notes:
 
 ## Color and accessibility
 
-Core rules: CORE-12 (in SKILL.md).
-CLI-facing rules: CLI-5, CLI-20, CLI-24, CLI-25, CLI-26, CLI-29, CLI-30, CLI-31, CLI-33, CLI-40, CLI-44, CLI-75 (in cli.md).
+Core rules: CORE-12.
+CLI-facing rules: CLI-5, CLI-20, CLI-24, CLI-25, CLI-26, CLI-29, CLI-30, CLI-31, CLI-33, CLI-40, CLI-44, CLI-75.
 
 The sources study line-based CLIs, not full-screen TUIs. The rules below apply their findings to TUIs.
 
@@ -159,8 +159,8 @@ Notes:
 
 ## Testing and debugging
 
-CLI-facing rules: CLI-131 (in cli.md).
-Structure rules: ARCH-40, ARCH-78 (in arch.md).
+CLI-facing rules: CLI-131.
+Structure rules: ARCH-40, ARCH-78.
 
 - **TUI-46** Test update with plain values: pass a model and a message, then check the new model and the returned command value, with no terminal and no mocked I/O. `[S2,S7]`
 - **TUI-47** Consider letting the runtime intercept commands, to log them or replace them with fakes in tests, and recording message sequences to replay a session. `[S2]`

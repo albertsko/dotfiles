@@ -1,6 +1,6 @@
-# Architecture rules: ARCH-1 to ARCH-82
+# Architecture rules
 
-This file holds language-neutral rules for the structure of a CLI program, from one process up to a daemon with many client programs. It defines ARCH-1 to ARCH-82.
+This file holds language-neutral rules for the structure of a CLI program, from one process up to a daemon with many client programs.
 
 ## Terms
 
@@ -32,7 +32,7 @@ The terms in SKILL.md apply. New terms:
 
 Applies at: every CLI.
 
-CLI-facing rules: CLI-82 (in cli.md).
+CLI-facing rules: CLI-82.
 
 | Level | Adds | Use when | Requires | Skip when |
 |---|---|---|---|---|
@@ -62,7 +62,7 @@ CLI-facing rules: CLI-82 (in cli.md).
 
 Applies at: every CLI.
 
-CLI-facing rules: CLI-1, CLI-6, CLI-80 (in cli.md).
+CLI-facing rules: CLI-1, CLI-6, CLI-80.
 
 - **ARCH-8** Keep the domain core free of I/O and UI, and put storage and backend details in adapters. Every client can then reuse the domain core unchanged. `[S2]`
 - **ARCH-9** Keep the CLI layer thin: it parses input, calls the domain core, and renders the result. It calls the domain core in process, or through the protocol when the CLI uses L1. `[S2]`
@@ -73,7 +73,7 @@ CLI-facing rules: CLI-1, CLI-6, CLI-80 (in cli.md).
 
 Applies at: CLIs that use L1. ARCH-21 and ARCH-22 apply to every CLI.
 
-CLI-facing rules: CORE-6, CORE-7 (in SKILL.md), CLI-39, CLI-40, CLI-42, CLI-43, CLI-46, CLI-93, CLI-94, CLI-95, CLI-99 (in cli.md).
+CLI-facing rules: CORE-6, CORE-7, CLI-39, CLI-40, CLI-42, CLI-43, CLI-46, CLI-93, CLI-94, CLI-95, CLI-99.
 
 - **ARCH-12** Give state one owner: the domain core (the daemon, with L2) owns domain state, background work, and execution flow. Clients keep only view state, such as focus and scroll. `[S2]`
 - **ARCH-13** Let clients reach the domain core only through protocol types, also when speed tempts you. Store reads, imports of internal modules, and shared memory bypass the protocol. In-process calls through protocol types, with no daemon, are fine. `[S2]`
@@ -92,7 +92,7 @@ CLI-facing rules: CORE-6, CORE-7 (in SKILL.md), CLI-39, CLI-40, CLI-42, CLI-43, 
 
 Applies at: CLIs that use L2.
 
-CLI-facing rules: CORE-13 (in SKILL.md), CLI-78, CLI-79, CLI-80, CLI-81, CLI-100, CLI-101, CLI-102, CLI-103 (in cli.md). The CLI client follows CLI-101 and CLI-102, and the daemon follows ARCH-30.
+CLI-facing rules: CORE-13, CLI-78, CLI-79, CLI-80, CLI-81, CLI-100, CLI-101, CLI-102, CLI-103. The CLI client follows CLI-101 and CLI-102, and the daemon follows ARCH-30.
 
 - **ARCH-24** Auto-spawn the daemon from the client: connect when a daemon answers, and otherwise start the same binary with a daemon subcommand. Use an init-managed service only for a daemon that must run at boot or before login. `[S2]`
 - **ARCH-25** Detach a spawned daemon into its own session and process group, with its working directory at `/` and its standard streams on the null device. Harnesses may kill the whole process group of the client. `[S2]`
@@ -121,7 +121,7 @@ CLI-facing rules: CORE-13 (in SKILL.md), CLI-78, CLI-79, CLI-80, CLI-81, CLI-100
 
 Applies at: CLIs that use L2.
 
-CLI-facing rules: CORE-13 (in SKILL.md).
+CLI-facing rules: CORE-13.
 
 - **ARCH-42** Use local-only IPC for a daemon: a Unix domain socket on Unix, and a named pipe restricted to the owner on Windows (for example through `SECURITY_ATTRIBUTES`). A network port is open to every local process. `[S2]`
 - **ARCH-43** Put one stream interface between the protocol and the transport. Every platform and extra path (for example loopback TCP with a token, or a child command over SSH) then carries the same messages and encoding. `[S2]`
@@ -136,7 +136,7 @@ CLI-facing rules: CORE-13 (in SKILL.md).
 
 Applies at: CLIs that use L3.
 
-CLI-facing rules: CORE-1 (in SKILL.md), CLI-7, CLI-66, CLI-69, CLI-72, CLI-125, CLI-126, CLI-127, CLI-128 (in cli.md).
+CLI-facing rules: CORE-1, CLI-7, CLI-66, CLI-69, CLI-72, CLI-125, CLI-126, CLI-127, CLI-128.
 
 - **ARCH-50** Make every client an equal peer of the same protocol, including your own main UI and every AI integration. A privileged main UI turns the other clients into second-class ones. `[S2]`
 - **ARCH-51** Keep authority in the domain core: account scope, previews, permission checks, checks on outbound actions, and the activity log. New surfaces such as an MCP server enter only through the domain core, never through provider internals. `[S2]`
@@ -148,7 +148,7 @@ CLI-facing rules: CORE-1 (in SKILL.md), CLI-7, CLI-66, CLI-69, CLI-72, CLI-125, 
 
 Applies at: CLIs that use L4.
 
-CLI-facing rules: CLI-78, CLI-89, CLI-98, CLI-100 (in cli.md). CLI-98 still applies: the CLI keeps working on local data when the remote service is gone.
+CLI-facing rules: CLI-78, CLI-89, CLI-98, CLI-100. CLI-98 still applies: the CLI keeps working on local data when the remote service is gone.
 
 - **ARCH-55** Decide who owns each kind of data. Keep user-owned data primary on the device, read and written locally and synced in the background. Leave server-owned facts and judgments with the remote authority. `[S5]`
 - **ARCH-56** Consider treating the local copy of remote data as a disposable mirror that answers facts only. Send judgments (scores, advice, decisions) to the remote authority, and re-sync when the cache version changes. `[S2]`
@@ -163,7 +163,7 @@ CLI-facing rules: CLI-78, CLI-89, CLI-98, CLI-100 (in cli.md). CLI-98 still appl
 
 Applies at: every CLI with mutations.
 
-CLI-facing rules: CORE-9, CORE-10 (in SKILL.md), CLI-22, CLI-60, CLI-83, CLI-84, CLI-86, CLI-87, CLI-88, CLI-89, CLI-90, CLI-92, CLI-133 (in cli.md). CLI-83 decides when a mutation needs a dry run.
+CLI-facing rules: CORE-9, CORE-10, CLI-22, CLI-60, CLI-83, CLI-84, CLI-86, CLI-87, CLI-88, CLI-89, CLI-90, CLI-92, CLI-133. CLI-83 decides when a mutation needs a dry run.
 
 - **ARCH-63** Fail closed on mutation targets: `[S2]`
   - Accept only an exact match, a configured alias, or an owned identity.
@@ -178,7 +178,7 @@ CLI-facing rules: CORE-9, CORE-10 (in SKILL.md), CLI-22, CLI-60, CLI-83, CLI-84,
 
 Applies at: every CLI with background or parallel work.
 
-CLI-facing rules: CLI-27, CLI-31, CLI-75, CLI-76, CLI-78 (in cli.md).
+CLI-facing rules: CLI-27, CLI-31, CLI-75, CLI-76, CLI-78.
 
 - **ARCH-67** Give hot work first claim on scheduler time, handlers, provider budget, and locks. Give warm work bounded capacity, its own lane, and separate tracing. Warm work that slows the current action has failed. `[S2]`
 - **ARCH-68** Keep hot and warm lanes apart downstream: no shared lock, owner task, rate limit, or long command. Make the state owner read a dedicated hot channel first. Two lanes that wait on one lock are fake parallelism. `[S2]`
@@ -199,7 +199,7 @@ CLI-facing rules: CLI-27, CLI-31, CLI-75, CLI-76, CLI-78 (in cli.md).
 
 Applies at: every CLI. ARCH-76 applies with L1, and ARCH-77 with L2.
 
-CLI-facing rules: CLI-129, CLI-130, CLI-131, CLI-132, CLI-133, CLI-134 (in cli.md).
+CLI-facing rules: CLI-129, CLI-130, CLI-131, CLI-132, CLI-133, CLI-134.
 
 - **ARCH-76** Before the second client exists, enforce module boundaries in the build: client modules depend only on the protocol and shared pure modules. When a feature needs to cross the boundary, change the architecture, not the check. `[S2]`
 - **ARCH-77** Test the daemon path end to end against a fake backend, with isolated IPC and runtime identity: auto-spawn on the first call, respawn after a kill, and the exact readiness signal (ARCH-27). `[S2]`

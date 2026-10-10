@@ -9,13 +9,11 @@ description: Use when designing, building, extending, or reviewing a command-lin
 
 This skill gives one rule set for command-line tools that people, agents, and scripts use. Cite each rule by its stable ID, for example "CORE-8", in designs, findings, reviews, and commit messages.
 
-This file defines CORE-1 to CORE-13, the core rules.
-
 ## Other rules
 
-Read [references/cli.md](references/cli.md) and [references/arch.md](references/arch.md) in full before the Design, Implement, and Extend workflows and before a full review. cli.md holds CLI-1 to CLI-140, the rules for CLI behavior. arch.md holds ARCH-1 to ARCH-82, the rules for the structure of the program. The L0 rules in arch.md apply to every CLI, and its Mutation pipeline rules apply to every CLI with mutations.
+Read [references/cli.md](references/cli.md) and [references/arch.md](references/arch.md) in full before the Design, Implement, and Extend workflows and before a full review. cli.md covers CLI behavior, and arch.md covers program structure. The L0 rules in arch.md apply to every CLI, and its Mutation pipeline rules apply to every CLI with mutations.
 
-When the CLI has or plans a full-screen TUI, read [references/tui.md](references/tui.md) in full before any workflow. A review limited to topics outside the TUI skips it. tui.md holds TUI-1 to TUI-51, the rules for full-screen TUIs.
+When the CLI has or plans a full-screen TUI, read [references/tui.md](references/tui.md) in full before any workflow. A review limited to topics outside the TUI skips it.
 
 For a review that the user limits to cli.md topics (for example "flags"), arch.md is out of scope.
 
@@ -66,9 +64,7 @@ Edge cases:
 - A conditional rule (for example "When the TUI suspends ...") is `n/a` only when its condition is false. When the condition holds, the rule applies. A required rule is then judged as usual, and an optional rule stays optional.
 - When the level decision is `open`, the rules of every level that may apply are `open`, not `n/a`.
 - A pointer line in tui.md ("Core rules", "CLI-facing rules", "Structure rules") that names an arch.md rule does not override that rule's "Applies at" line.
-- A draft that defers the CLI fails TUI-1. Group the `open` rules that follow from the missing CLI into one finding that points to the TUI-1 finding.
-- Group the `open` rules of one section into one finding, in every file. For a draft that leaves out whole sections, one finding may cover the `open` rules of several sections in one file. A finding may cite `fail` and `open` rules together.
-- A finding may list several locations.
+- A draft that defers the CLI fails TUI-1.
 
 Only clig.dev's Basics are essential: CORE-2, CORE-3, and CLI-6. Any other rule may be waived for a good reason.
 
@@ -123,10 +119,16 @@ Done when the new or changed command has no `fail` or `open` on any rule in scop
 2. Set the scope. Review every rule by default. When the user limits the scope (for example "flags"), check the core rules and every rule in the matching sections, language reference sections included, and list the sections you skip. An "architecture" scope means every arch.md rule plus the rules in its "CLI-facing rules" lines. A "TUI" scope means every tui.md rule plus the rules in its pointer lines. When the user excludes a topic, mark the core rules on that topic `waived` with the reason "outside the requested scope".
 3. Collect evidence. For a design draft, use the spec text. For a built CLI, use `--help` for every command, docs, source, and runs.
 4. For a built CLI, run commands through a pipe and on a pseudo-TTY: `script -q /dev/null <cmd>` (macOS) or `script -qc '<cmd>' /dev/null` (Linux). When `script` fails because stdin is a socket (as in some agent shells), append `</dev/null` (checked on macOS only): the command then reads end of input, and the output starts with `^D`. When `script` still fails, use a pseudo-TTY from a test harness (in a Go test, creack/pty, or Python's `pty` module). When no TTY run is possible, read the TTY logic in the source, and say so in the report. A TUI cannot run under `script` without input. Review a TUI from the source, or with a scripted key sequence when the TUI supports one, and say which in the report.
-5. Give every rule in scope a status. A section whose "Applies at" line rules it out may get `n/a` for all its rules without a full read. For a draft, mark a rule that the draft does not address `open`, not `fail`, unless a design choice makes the rule impossible (see Rule statuses).
-6. Write one finding per problem, with a code (F1, F2, ...), one or more rule IDs, one or more locations, and a fix. A location is `file:line` or a spec section. For missing content, write `(missing)` and the section where it belongs. Group `open` rules as "Rule statuses" says. Example: `F1 CORE-2 cmd/list.go:42: progress goes to stdout. Fix: write progress to stderr.`
+5. Give every rule in scope a status using Rule statuses. A section whose "Applies at" line rules it out may get `n/a` for all its rules without a full read.
+6. Write one finding per problem, with a code (F1, F2, ...), one or more rule IDs, one or more locations, and a fix. A location is `file:line` or a spec section. For missing content, write `(missing)` and the section where it belongs. Apply the finding-grouping guidance below. Example: `F1 CORE-2 cmd/list.go:42: progress goes to stdout. Fix: write progress to stderr.`
 7. Sort the findings by the fix order.
 8. Write the report in this order: summary (verdict, count of rules per status, top three risks), findings, rule checklist. The top three risks are the three findings with the largest harm, by finding code, not the first three in fix order. Each checklist line with `fail` or `open` names its finding codes.
+
+Finding grouping:
+
+- Group the `open` rules of one section into one finding, in every file. For a draft that leaves out whole sections, one finding may cover the `open` rules of several sections in one file. A finding may cite `fail` and `open` rules together.
+- A finding may list several locations.
+- Group the `open` rules that follow from a missing CLI into one finding that points to the TUI-1 finding.
 
 Done when every rule in scope in the files you read has a status, every `fail` and `open` has a finding with a location and a fix, every `n/a` and `waived` has a reason, and the report lists any skipped sections.
 
@@ -137,13 +139,13 @@ Done when every rule in scope in the files you read has a status, every `fail` a
 3. Add every agent feature as an agent opt-in (CORE-1).
 4. Run the review workflow again.
 
-Done when the second review shows no `fail` on any core rule or on any rule in the six cli.md sections that the fix order names, and every other `fail` is fixed or `waived` with a reason.
+Done when the second review shows no `fail` on any core rule or on any rule in the cli.md sections prioritized before arch.md in the default fix order, and every other `fail` is fixed or `waived` with a reason.
 
 ## Language references
 
 Language references in `references/` map existing rule IDs to code for one language and its libraries. They may add language rules with new IDs. Available files:
 
-- When the CLI is written in Go, read [references/go.md](references/go.md) after the other references. go.md holds GO-1 to GO-44, the Go rules: library defaults that break a rule, and the Go patterns and tooling that the rules need.
+- When the CLI is written in Go, read [references/go.md](references/go.md) after the other references. It covers Go library defaults, patterns, and tooling.
 
 ## Sources
 
@@ -167,7 +169,7 @@ Language references in `references/` map existing rule IDs to code for one langu
 - S18: GoReleaser documentation, https://goreleaser.com/
 - S19: Go linters: golangci-lint, https://golangci-lint.run/, and staticcheck, https://staticcheck.dev/
 
-S1 wins every conflict. S2 to S19 add rules where S1 is silent, or add agent opt-ins where an S1 default would block agent use. The S1 default then stays.
+S1 wins every conflict. The other listed sources add rules where S1 is silent, or add agent opt-ins where an S1 default would block agent use. The S1 default then stays.
 
 S1 is licensed CC-BY-SA-4.0. These rules paraphrase it.
 
@@ -178,6 +180,5 @@ S1 is licensed CC-BY-SA-4.0. These rules paraphrase it.
 - A citation uses the defining file's prefix, even when it appears in another file.
 - Append new rules after the highest number in their namespace. Never renumber or reuse an ID.
 - Keep a removed rule's ID in place, marked "Retired" with the reason.
-- State each file's rule ID range near its top.
-- Give a new rule file its own unique prefix and start its sequence at 1.
+- Give a new rule file its own unique prefix.
 - Write one rule per bullet: bold ID, rule text, then source tags in backticks.

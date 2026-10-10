@@ -1,10 +1,10 @@
-# CLI rules: CLI-1 to CLI-140
+# CLI rules
 
-This file holds the language-neutral rules for designing, building, and reviewing a CLI. It defines CLI-1 to CLI-140. The sections follow clig.dev topic order, with added sections for Output contract, Safe changes, Agent discovery, and Testing. The core rules, terms, rule statuses, and fix order live in SKILL.md.
+This file holds the language-neutral rules for designing, building, and reviewing a CLI. The sections follow clig.dev topic order. The core rules, terms, rule statuses, and fix order live in SKILL.md.
 
 ## Principles
 
-Core rules: CORE-1 (in SKILL.md).
+Core rules: CORE-1.
 
 - **CLI-1** Build small, modular commands that use standard streams, signals, and exit codes. People will combine them in ways you did not plan. `[S1]`
 - **CLI-2** Follow existing CLI conventions. Break one only on purpose, when following it clearly hurts usability. `[S1]`
@@ -14,14 +14,14 @@ Core rules: CORE-1 (in SKILL.md).
 
 ## Basics
 
-Core rules: CORE-2, CORE-3 (in SKILL.md).
+Core rules: CORE-2, CORE-3.
 
 - **CLI-6** Use an argument parsing library for args, flags, help text, and spelling suggestions. `[S1]`
 - **CLI-7** Make the default behavior right for most users, and ship working defaults so first use needs no setup. Power users can override the defaults. `[S1,S2]`
 
 ## Help
 
-Core rules: CORE-4 (in SKILL.md).
+Core rules: CORE-4.
 
 - **CLI-8** When a command needs args and gets none, show concise help: a description, one or two examples, key flags, and a pointer to `--help`. Skip this for a command that is interactive by default. `[S1]`
 - **CLI-9** For git-like tools, also show help for `app help` and `app help sub`. `[S1,S2]`
@@ -44,7 +44,7 @@ Core rules: CORE-4 (in SKILL.md).
 
 ## Output
 
-Core rules: CORE-6, CORE-12 (in SKILL.md).
+Core rules: CORE-6, CORE-12.
 
 - **CLI-23** Check separately whether stdout and stderr are TTYs, and use each result to choose color and layout for that stream. Animations follow CLI-31. `[S1]`
 - **CLI-24** Offer `--plain` with one record per line when human formatting (tables, wrapped cells) would break `grep` and other line tools. `[S1]`
@@ -65,7 +65,7 @@ Core rules: CORE-6, CORE-12 (in SKILL.md).
 
 ## Output contract
 
-Core rules: CORE-7 (in SKILL.md).
+Core rules: CORE-7.
 
 - **CLI-39** Version structured output with a field such as `schema_version`. Treat additive changes (new optional fields) as safe, and bump the major version for breaking changes (CLI-94). `[S2,S4]`
 - **CLI-40** Publish an explicit schema (JSON Schema or CUE) with examples for every structured output, in a documented location. Cover optional fields, error shapes, and nesting. `[S2,S4]`
@@ -75,7 +75,7 @@ Core rules: CORE-7 (in SKILL.md).
 
 ## Errors and exit codes
 
-Core rules: CORE-3, CORE-11 (in SKILL.md).
+Core rules: CORE-3, CORE-11.
 
 - **CLI-44** Keep error output high signal. Consider grouping repeated errors of one type under one explanatory header. `[S1]`
 - **CLI-45** Put the most important information at the end of human error output. Users look there first. `[S1]`
@@ -96,7 +96,7 @@ Default exit code map (CLI-49):
 
 ## Arguments and flags
 
-Core rules: CORE-5, CORE-13 (in SKILL.md).
+Core rules: CORE-5, CORE-13.
 
 - **CLI-51** Prefer flags to positional args. Flags are clearer and easier to extend. `[S1]`
 - **CLI-52** Keep args to one kind of thing: one arg, or several of the same kind, as in `rm a b`. Args with different meanings fit only a common primary action, as in `cp <src> <dst>`. `[S1]`
@@ -112,7 +112,7 @@ Core rules: CORE-5, CORE-13 (in SKILL.md).
 
 ## Interactivity
 
-Core rules: CORE-8, CORE-10 (in SKILL.md).
+Core rules: CORE-8, CORE-10.
 
 - **CLI-62** Prompt for a missing arg or flag when stdin is a TTY, within the limits of CORE-8. `[S1]`
 - **CLI-63** Hide a password while the user types it by turning off terminal echo. `[S1]`
@@ -144,7 +144,7 @@ Core rules: CORE-8, CORE-10 (in SKILL.md).
 
 ## Safe changes
 
-Core rules: CORE-9, CORE-10 (in SKILL.md).
+Core rules: CORE-9, CORE-10.
 
 CLI-83 decides when a command needs a dry run. Once a command has one, CLI-86 to CLI-89, CLI-92, and CLI-133 apply in full.
 
@@ -195,7 +195,7 @@ Danger levels (CLI-84), with clig.dev's examples:
 
 ## Environment variables
 
-Core rules: CORE-13 (in SKILL.md).
+Core rules: CORE-13.
 
 - **CLI-109** Use env vars for behavior that depends on where the command runs, such as a profile set once for a whole session. `[S1,S4]`
 - **CLI-110** Name env vars with uppercase letters, digits, and underscores, with a letter or underscore first, and prefix your own vars with the tool name (for example `MYAPP_PROFILE`, `MYAPP_NO_COLOR`). `[S1,S4]`

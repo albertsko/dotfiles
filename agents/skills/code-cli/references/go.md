@@ -1,6 +1,6 @@
-# Go rules: GO-1 to GO-44
+# Go rules
 
-This file explains how to build a CLI in Go, from layout to release, with Cobra, fang, koanf, and the Charm libraries. It maps existing rules to Go, and defines GO-1 to GO-44: library defaults that break a rule, and the Go patterns and tooling the rules need.
+This file explains how to build a CLI in Go, from layout to release, with Cobra, fang, koanf, and the Charm libraries. It maps existing rules to Go and adds rules for library defaults, patterns, and tooling.
 
 ## Terms
 
