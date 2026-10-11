@@ -65,6 +65,13 @@ Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brev
 - Use comments only for intent, constraints, tradeoffs, surprising choices, and assumptions that code cannot express.
 - Write any text related to code for a future maintainer that has the code, but doesn't have this session.
 - Write tests around correctness, behavior, and important edge cases, not implementation details.
+- Optimize for human-comprehensible decomposition, not compactness. For non-trivial logic:
+  - separate normalization, parsing, validation, transformation, and side effects when they are distinct concerns;
+  - prefer a sequence of simple transformations over one clever expression;
+  - keep regexes narrow and purpose-specific;
+  - make intermediate representations explicit when they improve readability;
+  - before implementing complex logic, describe the decomposition;
+  - avoid abstractions that merely hide complexity rather than reduce it.
 
 ### Aliases
 
