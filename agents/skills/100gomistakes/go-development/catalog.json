@@ -1,0 +1,3372 @@
+{
+  "schema_version": 1,
+  "source_scope": "100 Go Mistakes plus official Go 1.18-1.27 major release notes, captured 2026-10-11",
+  "topics": [
+    {
+      "id": "design-and-measurement-principles",
+      "title": "Design and measurement",
+      "trigger": "architecture, readability, speculative abstractions, optimization tradeoffs or contextual advice"
+    },
+    {
+      "id": "code-and-api-design",
+      "title": "Code and API design",
+      "trigger": "scope, initialization, interfaces, generics, embedding, options, packages, documentation or logging"
+    },
+    {
+      "id": "numeric-correctness",
+      "title": "Numeric correctness",
+      "trigger": "integer ranges, numeric literals, floating-point calculations or numerical comparisons"
+    },
+    {
+      "id": "collections-and-ownership",
+      "title": "Collections and ownership",
+      "trigger": "slice/map allocation, copying, aliasing, retention, comparison or pointer collections"
+    },
+    {
+      "id": "iteration-and-control-flow",
+      "title": "Iteration and control flow",
+      "trigger": "range semantics, iteration addresses, map order, loop exits, per-iteration cleanup or iterators"
+    },
+    {
+      "id": "functions-methods-and-interfaces",
+      "title": "Functions, methods and interfaces",
+      "trigger": "receivers, named results, typed nil, stream APIs or deferred argument/receiver evaluation"
+    },
+    {
+      "id": "errors-and-cleanup",
+      "title": "Errors and cleanup",
+      "trigger": "panic/recover, error contracts, wrapping/matching, logging, ignored errors or cleanup failures"
+    },
+    {
+      "id": "concurrency-and-lifecycles",
+      "title": "Concurrency and lifecycles",
+      "trigger": "goroutine structure, worker bounds, contexts, cancellation, joins, channels or leak prevention"
+    },
+    {
+      "id": "shared-state-and-synchronization",
+      "title": "Shared state and synchronization",
+      "trigger": "shared memory, happens-before, mutexes, snapshots, WaitGroup, Cond, errgroup or atomics"
+    },
+    {
+      "id": "resource-and-http-lifecycles",
+      "title": "Resources, HTTP and subprocesses",
+      "trigger": "files, durability, HTTP bodies/timeouts/routes, proxies, filesystem confinement or subprocesses"
+    },
+    {
+      "id": "database-access",
+      "title": "Database access",
+      "trigger": "database readiness, sql.DB pools, parameterization, NULL or Rows lifecycle"
+    },
+    {
+      "id": "text-and-bytes",
+      "title": "Text and bytes",
+      "trigger": "Unicode/encoding, byte versus rune indexes, trimming, building strings or retained substrings"
+    },
+    {
+      "id": "time-and-serialization",
+      "title": "Time and serialization",
+      "trigger": "duration units, timers, JSON, monotonic time, time zones or omission/presence semantics"
+    },
+    {
+      "id": "testing",
+      "title": "Testing",
+      "trigger": "test selection/isolation, concurrency, clocks, HTTP/I/O tests, fuzzing, coverage or test cleanup"
+    },
+    {
+      "id": "benchmarking",
+      "title": "Benchmarking",
+      "trigger": "benchmark timing, optimization elimination, representative inputs or statistical comparison"
+    },
+    {
+      "id": "performance-and-diagnostics",
+      "title": "Performance and diagnostics",
+      "trigger": "measured hot paths, cache/layout, escape analysis, pools, profiling, traces, GC or container quotas"
+    },
+    {
+      "id": "versions-and-tooling",
+      "title": "Versions and tooling",
+      "trigger": "any Go build/review/upgrade, baseline selection, modules/workspaces, platforms, experiments or developer tools"
+    },
+    {
+      "id": "security-and-compatibility",
+      "title": "Security and compatibility",
+      "trigger": "randomness, reproducible simulations/sampling/replay, crypto/TLS/trust policy, external compatibility or exact implementation-output assertions"
+    }
+  ],
+  "rules": [
+    {
+      "id": "G1",
+      "topic": "design-and-measurement-principles",
+      "when": "designing for possible future requirements",
+      "then": "Solve concrete current problems before adding abstractions. Reassess as demonstrated needs emerge, including credible future compatibility requirements.",
+      "because": "Speculative flexibility adds complexity without demonstrated value.",
+      "sources": [
+        "BP1"
+      ],
+      "reference": "references/rules/design-and-measurement-principles.md#g1"
+    },
+    {
+      "id": "G2",
+      "topic": "design-and-measurement-principles",
+      "when": "maintaining code over years",
+      "then": "Optimize code for future readers through clear names, representations, and structure. Readability is contextual, not a single syntax rule. Readability includes names, representation and structure, not formatting alone.",
+      "because": "Reading greatly outnumbers writing and maintenance spans time.",
+      "sources": [
+        "BP2"
+      ],
+      "reference": "references/rules/design-and-measurement-principles.md#g2"
+    },
+    {
+      "id": "G3",
+      "topic": "code-and-api-design",
+      "when": "assigning an outer variable inside a nested block",
+      "then": "Use assignment to the existing variable, or assign a distinctly named temporary back to it. Intentional shadowing, including err, can be acceptable. Inspect scope and use shadow analysis.",
+      "because": "Short declarations can silently create a different variable and leave the outer value unchanged.",
+      "sources": [
+        "BP3"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g3"
+    },
+    {
+      "id": "G4",
+      "topic": "code-and-api-design",
+      "when": "branches handle errors or exceptional inputs",
+      "then": "Return early, omit else after returning branches, and keep normal execution aligned left. Apply to simplify actual flow. Preserve observable behavior when restructuring control flow.",
+      "because": "Less nesting reduces the mental model required to follow the function.",
+      "sources": [
+        "BP4"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g4"
+    },
+    {
+      "id": "G5",
+      "topic": "code-and-api-design",
+      "when": "using several init functions",
+      "then": "Express initialization dependencies explicitly. Keep within-package initialization independent of source-file order, which renaming can change. Use blank imports deliberately for intended registration side effects. From Go 1.21, independent packages initialize in import-path order when their dependencies are ready.",
+      "because": "Renaming source files may change initialization order.",
+      "sources": [
+        "BP5",
+        "RV179",
+        "RV208"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g5"
+    },
+    {
+      "id": "G6",
+      "topic": "code-and-api-design",
+      "when": "initialization can fail or depends on external systems",
+      "then": "Use an explicit initialization function that accepts dependencies and returns values and errors. Nonfailing static configuration is a reasonable init use. Return initialized values as well as errors so state ownership remains explicit. Retry and fallback remain caller decisions.",
+      "because": "Callers retain retry and fallback choices, tests avoid automatic external setup, and state can be encapsulated.",
+      "sources": [
+        "BP6"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g6"
+    },
+    {
+      "id": "G7",
+      "topic": "code-and-api-design",
+      "when": "storing initialized state",
+      "then": "Encapsulate state instead of assigning mutable package globals. Static initialization need not create globals.",
+      "because": "Global mutation couples functions and prevents isolated tests.",
+      "sources": [
+        "BP7"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g7"
+    },
+    {
+      "id": "G8",
+      "topic": "code-and-api-design",
+      "when": "exposing struct data",
+      "then": "Use direct fields unless accessor methods add useful behavior or representation hiding. Validation, computed values, debugging, locking or other synchronization, and credible forward compatibility can justify accessors even before the field representation changes.",
+      "because": "Mechanical getters and setters add unnecessary code.",
+      "sources": [
+        "BP8"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g8"
+    },
+    {
+      "id": "G9",
+      "topic": "code-and-api-design",
+      "when": "naming accessor methods",
+      "then": "Name getters after the property and setters SetProperty. Example Balance and SetBalance.",
+      "because": "These names follow Go conventions.",
+      "sources": [
+        "BP9"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g9"
+    },
+    {
+      "id": "G10",
+      "topic": "code-and-api-design",
+      "when": "several implementations share meaningful behavior",
+      "then": "Extract a small behavioral interface to factor common logic. Choose a demonstrated abstraction such as io.Reader or sort.Interface. Examples such as io.Reader, io.Writer and sort.Interface illustrate useful behavior boundaries, not an exhaustive set of interface uses.",
+      "because": "Algorithms become reusable across compatible concrete types.",
+      "sources": [
+        "BP10"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g10"
+    },
+    {
+      "id": "G11",
+      "topic": "code-and-api-design",
+      "when": "tests or other callers need replaceable dependencies",
+      "then": "Depend on an interface covering the required behavior and inject its implementation. Integration tests remain useful alongside unit tests. An injected test double does not verify the actual external implementation. Retain integration tests when needed.",
+      "because": "Production implementations and test doubles can be substituted.",
+      "sources": [
+        "BP11"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g11"
+    },
+    {
+      "id": "G12",
+      "topic": "code-and-api-design",
+      "when": "a component must only use part of another type's behavior",
+      "then": "Accept a restricted interface, such as a configuration getter. The concrete object can still expose other behavior elsewhere. A narrow consumer interface restricts the local API, not mutation through other aliases. The same concrete object may expose more capabilities elsewhere.",
+      "because": "The component cannot accidentally invoke mutation through that interface.",
+      "sources": [
+        "BP12"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g12"
+    },
+    {
+      "id": "G13",
+      "topic": "code-and-api-design",
+      "when": "considering a new interface",
+      "then": "Create interfaces for present, demonstrable needs and remove interfaces with no clear benefit. A proven reusable abstraction can be designed upfront. Usually small interface dispatch overhead is not the main reason to reject a purposeless interface. One existing implementation does not invalidate an established abstraction.",
+      "because": "Unneeded indirection makes code harder to follow.",
+      "sources": [
+        "BP13"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g13"
+    },
+    {
+      "id": "G14",
+      "topic": "code-and-api-design",
+      "when": "a consumer needs to abstract a producer",
+      "then": "Define a minimal interface in the consumer package and keep it unexported when local. Producer-side abstractions are valid when their reuse is already proven. Keep those minimal too. An established producer-side contract, including encoding interfaces, can be appropriate when usefulness across consumers is already demonstrated.",
+      "because": "Each consumer chooses its own methods without forcing unused methods on others.",
+      "sources": [
+        "BP14"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g14"
+    },
+    {
+      "id": "G15",
+      "topic": "code-and-api-design",
+      "when": "designing function signatures",
+      "then": "Usually return concrete types and accept useful interfaces. error and established abstractions such as io.Reader are legitimate interface returns.",
+      "because": "Clients retain flexibility and dependency cycles are less likely.",
+      "sources": [
+        "BP15"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g15"
+    },
+    {
+      "id": "G16",
+      "topic": "code-and-api-design",
+      "when": "inputs or outputs belong to known types",
+      "then": "Use explicit types rather than any, even if this requires separate methods. Use any for truly arbitrary values, such as serialization, formatting, or query parameters.",
+      "because": "Signatures communicate behavior and preserve compile-time safeguards.",
+      "sources": [
+        "BP16"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g16"
+    },
+    {
+      "id": "G17",
+      "topic": "code-and-api-design",
+      "when": "writing generic APIs",
+      "then": "Constrain type parameters to needed operations. Use ~T to admit types with underlying type T, and comparable for map keys. Generic functions and types require Go 1.18 language support. Methods with their own type parameters require Go 1.27 language support. Interface methods still cannot declare type parameters, and generic methods do not implement interface methods. Go 1.20 permits interface-containing comparable arguments, but dynamic comparisons can still panic.",
+      "because": "Constraints retain compile-time safety while admitting intended types.",
+      "sources": [
+        "BP17",
+        "RV1",
+        "RV115",
+        "RV502"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g17"
+    },
+    {
+      "id": "G18",
+      "topic": "code-and-api-design",
+      "when": "typed collections or common algorithms would duplicate code",
+      "then": "Use generics to factor reusable data structures or behavior without sacrificing type safety. Wait for concrete duplication or a real need. Examples include typed data structures, channel/slice/map operations and shared behavior with comparison functions.",
+      "because": "Avoids repeated implementations and runtime type checks.",
+      "sources": [
+        "BP18"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g18"
+    },
+    {
+      "id": "G19",
+      "topic": "code-and-api-design",
+      "when": "a function only calls a required interface method",
+      "then": "Accept the interface directly instead of introducing a type parameter. Reconsider any generic design that makes code less clear.",
+      "because": "The type parameter adds abstraction without value.",
+      "sources": [
+        "BP19"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g19"
+    },
+    {
+      "id": "G20",
+      "topic": "code-and-api-design",
+      "when": "considering an embedded struct field",
+      "then": "Embed only to intentionally promote useful behavior. Use named fields for private implementation details. Embedding is composition, not subclassing. The embedded object remains the receiver. Removing forwarding boilerplate is useful only when promotion belongs to the intended API. Shorter selectors alone do not justify embedding. Intentional promotion can implement interfaces without repetitive forwarding methods.",
+      "because": "Embedding exports promoted methods and can leak locking or other internals.",
+      "sources": [
+        "BP20"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g20"
+    },
+    {
+      "id": "G21",
+      "topic": "code-and-api-design",
+      "when": "an exported type embeds another evolving type",
+      "then": "Review additions to the embedded type for unintended API exposure. A team can choose to avoid embedding in public structs to avoid this maintenance burden.",
+      "because": "New inner methods are promoted automatically.",
+      "sources": [
+        "BP21"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g21"
+    },
+    {
+      "id": "G22",
+      "topic": "code-and-api-design",
+      "when": "designing optional API configuration",
+      "then": "Keep required constructor arguments explicit, and choose an extensible option mechanism with clear defaults. Configuration structs, builders and functional options are valid alternatives. Distinguish omitted and explicit zero options as BP240 specifies.",
+      "because": "Growing positional argument lists break existing callers and obscure which options are required.",
+      "sources": [
+        "BP22"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g22"
+    },
+    {
+      "id": "G23",
+      "topic": "code-and-api-design",
+      "when": "options should be convenient and extensible",
+      "then": "Use variadic functional options that update private configuration, validate inputs, and return errors before construction. WithX is a convention, not a universal requirement. Preserve meaningful zero values. Apply and validate options before creating the resource. WithX naming is conventional, not mandatory.",
+      "because": "Callers can omit all options for defaults and add options without changing existing calls.",
+      "sources": [
+        "BP23"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g23"
+    },
+    {
+      "id": "G24",
+      "topic": "code-and-api-design",
+      "when": "choosing repository structure",
+      "then": "Choose and consistently apply a layout suited to the project and organization. project-layout is optional and unofficial. Small projects and established organization layouts need no migration.",
+      "because": "Consistency reduces navigation costs across repositories.",
+      "sources": [
+        "BP24"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g24"
+    },
+    {
+      "id": "G25",
+      "topic": "code-and-api-design",
+      "when": "separating programs, private implementation, and assets",
+      "then": "Use purposeful directories such as cmd for executables and internal for code other applications must not import. The book's broader pkg/test/assets layout is an example rather than a Go standard. The optional example also places contracts, documentation, examples, configuration, tests, scripts and build assets in purposeful directories. Do not add a generic src directory by habit.",
+      "because": "Directory meaning aids navigation and internal controls import visibility.",
+      "sources": [
+        "BP25"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g25"
+    },
+    {
+      "id": "G26",
+      "topic": "code-and-api-design",
+      "when": "splitting packages",
+      "then": "Delay packaging until responsibilities are understood and balance cohesion against oversized or tiny fragmented packages. Small highly cohesive packages can be valid. Nested directories do not confer privileged access. Both context-based and layer-based package organization can work if used consistently.",
+      "because": "Premature and excessive splitting obscures logical connections.",
+      "sources": [
+        "BP26"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g26"
+    },
+    {
+      "id": "G27",
+      "topic": "code-and-api-design",
+      "when": "naming packages",
+      "then": "Use short meaningful lowercase names describing what a package provides. Keep context-based or layer-based organization consistent.",
+      "because": "Names tell clients the package's purpose.",
+      "sources": [
+        "BP27"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g27"
+    },
+    {
+      "id": "G28",
+      "topic": "code-and-api-design",
+      "when": "deciding what to export",
+      "then": "Default to unexported elements and expose only required API. Serialization may require exported fields.",
+      "because": "A small public surface reduces coupling.",
+      "sources": [
+        "BP28"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g28"
+    },
+    {
+      "id": "G29",
+      "topic": "code-and-api-design",
+      "when": "a package is named utils, common, shared, or base",
+      "then": "Move functions to cohesive packages with meaningful names, or combine logically connected packages. Avoid replacing one utility package with arbitrary nano packages. A small naturally independent and cohesive package remains valid.",
+      "because": "Generic names hide responsibilities.",
+      "sources": [
+        "BP29"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g29"
+    },
+    {
+      "id": "G30",
+      "topic": "code-and-api-design",
+      "when": "a package name already supplies type context",
+      "then": "Remove redundant name fragments and consider methods on a meaningful type. Use types when they clarify the API, not merely to reduce characters.",
+      "because": "Qualified names become concise and expressive.",
+      "sources": [
+        "BP30"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g30"
+    },
+    {
+      "id": "G31",
+      "topic": "code-and-api-design",
+      "when": "representing a set",
+      "then": "Use map[K]struct{} when values carry no information. K must be an allowed map key.",
+      "because": "The empty value communicates that only key membership matters.",
+      "sources": [
+        "BP31"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g31"
+    },
+    {
+      "id": "G32",
+      "topic": "code-and-api-design",
+      "when": "a local name matches an imported package or builtin",
+      "then": "Choose another meaningful variable name or alias the import. Avoid dot imports in most cases because they obscure provenance.",
+      "because": "Shadowing blocks the original name and confuses readers.",
+      "sources": [
+        "BP32"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g32"
+    },
+    {
+      "id": "G33",
+      "topic": "code-and-api-design",
+      "when": "exporting an API element",
+      "then": "Document it with a complete sentence beginning with its name and explain intent and usage. Implementation mechanics belong in internal comments.",
+      "because": "Consumers should not need implementation reading to use the API.",
+      "sources": [
+        "BP33"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g33"
+    },
+    {
+      "id": "G34",
+      "topic": "code-and-api-design",
+      "when": "deprecating an API",
+      "then": "Add a Deprecated: comment that identifies the preferred replacement. Retain useful ordinary documentation.",
+      "because": "Tools can surface deprecation to users.",
+      "sources": [
+        "BP34"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g34"
+    },
+    {
+      "id": "G35",
+      "topic": "code-and-api-design",
+      "when": "documenting constants or variables",
+      "then": "Put purpose in public documentation and implementation-specific content explanations beside the declaration. Avoid exposing irrelevant representation details.",
+      "because": "Clients and maintainers need different information.",
+      "sources": [
+        "BP35"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g35"
+    },
+    {
+      "id": "G36",
+      "topic": "code-and-api-design",
+      "when": "documenting a package",
+      "then": "Add an adjacent Package name comment with a concise first line and details after it. Use a relevant source file or doc.go. Detached comments are omitted.",
+      "because": "Generated documentation makes scope and constraints discoverable.",
+      "sources": [
+        "BP36"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g36"
+    },
+    {
+      "id": "G37",
+      "topic": "code-and-api-design",
+      "when": "maintaining a Go project",
+      "then": "Choose useful analyzers and automate them in CI or hooks. Linters cannot detect every mistake. Tools listed in the book are examples. Book tool examples include vet/shadow, errcheck, gocyclo, goconst and golangci-lint. Select useful checks rather than mandating historical tools.",
+      "because": "Checks find avoidable bugs such as shadowing and unchecked errors.",
+      "sources": [
+        "BP37"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g37"
+    },
+    {
+      "id": "G38",
+      "topic": "code-and-api-design",
+      "when": "maintaining formatting consistency",
+      "then": "Run gofmt and an import formatter such as goimports automatically. An aggregator can coordinate linters and formatters.",
+      "because": "Consistent formatting reduces review noise.",
+      "sources": [
+        "BP38"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g38"
+    },
+    {
+      "id": "G39",
+      "topic": "numeric-correctness",
+      "when": "writing octal literals such as permissions",
+      "then": "Use the explicit lowercase 0o prefix. Other bases have explicit prefixes too. Recognize legacy leading-zero octal when reviewing existing code.",
+      "because": "A leading zero alone is easily mistaken for decimal and uppercase O resembles zero.",
+      "sources": [
+        "BP39"
+      ],
+      "reference": "references/rules/numeric-correctness.md#g39"
+    },
+    {
+      "id": "G40",
+      "topic": "numeric-correctness",
+      "when": "writing long numeric literals",
+      "then": "Use underscore separators to improve readability. Choose meaningful grouping for the representation.",
+      "because": "Digit grouping makes magnitude or bit groups easier to inspect.",
+      "sources": [
+        "BP40"
+      ],
+      "reference": "references/rules/numeric-correctness.md#g40"
+    },
+    {
+      "id": "G41",
+      "topic": "numeric-correctness",
+      "when": "choosing integer types or converting large values",
+      "then": "Choose a sufficient range and check runtime overflow where values may exceed it. int and uint widths depend on the platform. Small types, large numbers, and conversions deserve particular attention. Do not add elaborate guards to ordinary counters whose chosen type safely covers the known domain.",
+      "because": "Runtime overflow and underflow are silent, unlike invalid constants.",
+      "sources": [
+        "BP41"
+      ],
+      "reference": "references/rules/numeric-correctness.md#g41"
+    },
+    {
+      "id": "G42",
+      "topic": "numeric-correctness",
+      "when": "incrementing a bounded integer",
+      "then": "Check against the matching maximum before incrementing when overflow must be detected. The example panics, but error policy depends on the API. Use matching math limits, including architecture-dependent MaxInt or MaxUint where relevant.",
+      "because": "The maximum plus one wraps rather than panics.",
+      "sources": [
+        "BP42"
+      ],
+      "reference": "references/rules/numeric-correctness.md#g42"
+    },
+    {
+      "id": "G43",
+      "topic": "numeric-correctness",
+      "when": "adding bounded integers",
+      "then": "Check both upper and lower bounds before signed addition when the input domain can overflow. A check of a > MaxInt-b is only safe under suitable positive-operand assumptions. Choose panic or an error according to the API contract.",
+      "because": "Positive addition can wrap to a negative result.",
+      "sources": [
+        "BP43"
+      ],
+      "reference": "references/rules/numeric-correctness.md#g43"
+    },
+    {
+      "id": "G44",
+      "topic": "numeric-correctness",
+      "when": "multiplying bounded integers",
+      "then": "Validate the result range, handling zero, one and minimum-integer edge cases before any division-based verification. The book's minimum-value guard is conservative, not a complete reusable validator. Use math/big when the domain exceeds fixed-width integers. Choose error or panic policy for the API.",
+      "because": "A wrapped result can silently corrupt arithmetic.",
+      "sources": [
+        "BP44"
+      ],
+      "reference": "references/rules/numeric-correctness.md#g44"
+    },
+    {
+      "id": "G45",
+      "topic": "numeric-correctness",
+      "when": "comparing approximate floating-point results",
+      "then": "Compare within an acceptable delta instead of assuming exact equality. Choose tolerance for the domain. The book gives InDelta as a test example.",
+      "because": "Representation and accumulated errors can differ, including across processors.",
+      "sources": [
+        "BP45"
+      ],
+      "reference": "references/rules/numeric-correctness.md#g45"
+    },
+    {
+      "id": "G46",
+      "topic": "numeric-correctness",
+      "when": "a numeric domain can produce special floating values",
+      "then": "Check math.IsInf and math.IsNaN explicitly. Special values are not ordinary finite numbers.",
+      "because": "NaN does not equal itself and undefined operations need deliberate handling.",
+      "sources": [
+        "BP46"
+      ],
+      "reference": "references/rules/numeric-correctness.md#g46"
+    },
+    {
+      "id": "G47",
+      "topic": "numeric-correctness",
+      "when": "accumulating floating-point additions and subtractions",
+      "then": "Group similar magnitudes before combining different magnitudes. Evaluate actual numerical behavior for the domain. Similar-magnitude grouping remains an accuracy heuristic. Results still approximate real arithmetic.",
+      "because": "Operation order affects rounding error.",
+      "sources": [
+        "BP47"
+      ],
+      "reference": "references/rules/numeric-correctness.md#g47"
+    },
+    {
+      "id": "G48",
+      "topic": "numeric-correctness",
+      "when": "reordering mixed floating-point operations for accuracy",
+      "then": "Consider algebraic regrouping, including multiplication/division before addition/subtraction, only after checking numerical error and cost for the actual expression. The source example has an inconsistent exact-result sentence, so it supplies no universal accuracy guarantee.",
+      "because": "The book's example shows different rounding after algebraic regrouping.",
+      "sources": [
+        "BP48"
+      ],
+      "reference": "references/rules/numeric-correctness.md#g48"
+    },
+    {
+      "id": "G49",
+      "topic": "collections-and-ownership",
+      "when": "indexing or appending slices",
+      "then": "Reason separately about length, capacity, and the shared backing array, and retain append's returned slice. Growth factors are runtime details, not a correctness contract. Only the slice returned by append gets the updated length. Copying or reassigning a header does not update other headers.",
+      "because": "Indexes are limited by length. Append may reuse storage or allocate and copy, changing alias relationships.",
+      "sources": [
+        "BP49"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g49"
+    },
+    {
+      "id": "G50",
+      "topic": "collections-and-ownership",
+      "when": "the output slice size is known",
+      "then": "Preallocate length and assign by index, or preallocate capacity and append. Index assignment can be faster. Capacity plus append can be clearer for complex index mappings.",
+      "because": "Avoids repeated allocation and copying during growth.",
+      "sources": [
+        "BP50"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g50"
+    },
+    {
+      "id": "G51",
+      "topic": "collections-and-ownership",
+      "when": "filtering yields an uncertain output size",
+      "then": "Choose preallocation based on expected retained proportion and CPU versus memory cost. Benchmark performance-sensitive choices. There is no strict rule.",
+      "because": "Full preallocation may waste memory, while repeated growth costs work.",
+      "sources": [
+        "BP51"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g51"
+    },
+    {
+      "id": "G52",
+      "topic": "collections-and-ownership",
+      "when": "building an initially empty result of unknown final length",
+      "then": "Prefer the zero-value nil slice and append as needed. Use make for known size, and literals for initial elements. Book allocation claims need implementation review. Nil slices also support len and range. A non-nil empty result may still be necessary to honor a boundary contract.",
+      "because": "Nil slices are usable without defensive non-nil initialization.",
+      "sources": [
+        "BP52"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g52"
+    },
+    {
+      "id": "G53",
+      "topic": "collections-and-ownership",
+      "when": "passing slices to serializers, reflect, or libraries",
+      "then": "Preserve the boundary contract for nil and non-nil empty values. encoding/json v1 emits null versus [] and reflect.DeepEqual distinguishes them. Go 1.27 JSON v2 is a separate API with different defaults, so test its chosen options rather than transferring v1 assumptions.",
+      "because": "JSON emits null versus [] and DeepEqual distinguishes them.",
+      "sources": [
+        "BP53",
+        "RV518"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g53"
+    },
+    {
+      "id": "G54",
+      "topic": "collections-and-ownership",
+      "when": "checking whether slices or maps contain elements",
+      "then": "Test len(collection), not collection != nil. Nil checks answer a different question.",
+      "because": "Both nil and non-nil empty collections have no elements.",
+      "sources": [
+        "BP54"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g54"
+    },
+    {
+      "id": "G55",
+      "topic": "collections-and-ownership",
+      "when": "designing collection-returning APIs",
+      "then": "Avoid giving nil and empty collections different meanings unless the contract requires it. Serialization contracts can require the difference.",
+      "because": "Callers otherwise face subtle unnecessary distinctions.",
+      "sources": [
+        "BP55"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g55"
+    },
+    {
+      "id": "G56",
+      "topic": "collections-and-ownership",
+      "when": "copying a slice",
+      "then": "Allocate enough destination length and call copy(destination, source). Appending source elements to a nil slice is an alternative. Prefer copy for readability. Element copying does not recursively clone referenced objects.",
+      "because": "copy transfers only min(len(dst), len(src)) elements, regardless of capacity.",
+      "sources": [
+        "BP56"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g56"
+    },
+    {
+      "id": "G57",
+      "topic": "collections-and-ownership",
+      "when": "passing a subslice to code that may append",
+      "then": "Limit capacity with a full slice expression or pass a copy. Capacity limiting still shares in-range elements. Copy when full independence is needed. A full slice expression also does not release the original backing allocation.",
+      "because": "Appending within spare capacity can overwrite elements outside the subslice's length.",
+      "sources": [
+        "BP57"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g57",
+      "example": {
+        "label": "Slice aliasing and capacity",
+        "path": "../../examples/ownership_test.go"
+      }
+    },
+    {
+      "id": "G58",
+      "topic": "collections-and-ownership",
+      "when": "keeping a small portion of a large slice long term",
+      "then": "Copy retained elements to a new small slice. A full slice expression restricts append but does not release the old allocation.",
+      "because": "A subslice keeps the full backing allocation reachable.",
+      "sources": [
+        "BP58"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g58"
+    },
+    {
+      "id": "G59",
+      "topic": "collections-and-ownership",
+      "when": "removing elements containing pointers from a retained backing array",
+      "then": "Copy retained elements or clear unused pointer-bearing slots before reslicing. Choose by future capacity, number of elements touched, measured cost and alias ownership. clear requires Go 1.21. From Go 1.22, slices.Delete/DeleteFunc/Compact/CompactFunc/Replace zero their obsolete tail. Retain the returned slice and account for aliases observing that clearing.",
+      "because": "Unreachable-by-length elements still retain referenced objects through the live backing array.",
+      "sources": [
+        "BP59",
+        "RV179",
+        "RV279"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g59"
+    },
+    {
+      "id": "G60",
+      "topic": "collections-and-ownership",
+      "when": "the expected map population is known",
+      "then": "Provide the expected size to make. The size is a hint. Internal bucket details can change. A size hint is neither an initial length nor a maximum map size.",
+      "because": "Avoids repeated map growth and redistribution.",
+      "sources": [
+        "BP60"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g60"
+    },
+    {
+      "id": "G61",
+      "topic": "collections-and-ownership",
+      "when": "a long-lived map remains large after a temporary spike",
+      "then": "Consider rebuilding a smaller map and releasing the old one. Copying temporarily requires additional memory until collection. Fixed-size caches may not need this. The temporary peak can approach the storage for two maps until collection. Rebuild only when retention matters.",
+      "because": "Deleting entries does not necessarily release the map's backing storage.",
+      "sources": [
+        "BP61"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g61"
+    },
+    {
+      "id": "G62",
+      "topic": "collections-and-ownership",
+      "when": "map values make retained storage expensive",
+      "then": "Measure whether pointer values reduce retained storage enough to justify extra allocations and indirection. Deleting an entry can release its separate referent while map storage remains. The book's bucket counts and 128-byte indirection threshold are historical implementation details. Go 1.24 changed built-in maps to Swiss tables, so measure on the target runtime.",
+      "because": "Pointer-sized slots can be much smaller than large inline values.",
+      "sources": [
+        "BP62",
+        "RV338"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g62"
+    },
+    {
+      "id": "G63",
+      "topic": "collections-and-ownership",
+      "when": "comparing values with == or !=",
+      "then": "Verify comparability recursively and inspect dynamic interface values. Slices and maps support nil comparison but not ordinary equality. Pointers and channels compare identity. Go 1.20 comparable constraint satisfaction can admit interfaces whose dynamic values still panic on comparison. Struct/array comparison proceeds in order and short-circuits.",
+      "because": "Slices and maps cannot be compared this way, and interfaces holding noncomparable types can panic.",
+      "sources": [
+        "BP63",
+        "RV115"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g63"
+    },
+    {
+      "id": "G64",
+      "topic": "collections-and-ownership",
+      "when": "comparing composite values",
+      "then": "Choose comparison semantics deliberately and read DeepEqual's type-specific behavior. For tests, go-cmp or testify can help. Performance-sensitive paths may need a custom comparison. Choose explicit equality semantics for floating fields, including a domain-appropriate tolerance where needed.",
+      "because": "DeepEqual supports composites but distinguishes nil and empty and incurs reflection overhead.",
+      "sources": [
+        "BP64"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g64"
+    },
+    {
+      "id": "G65",
+      "topic": "collections-and-ownership",
+      "when": "implementing a performance-sensitive comparator",
+      "then": "Check standard library comparisons before writing a custom field-by-field comparator. The book names bytes.Compare. Ensure floating fields use domain-appropriate semantics. Test-oriented comparison libraries and production comparators have different cost requirements.",
+      "because": "Existing optimized operations avoid reinvention, while explicit comparisons avoid reflection costs.",
+      "sources": [
+        "BP65"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g65"
+    },
+    {
+      "id": "G66",
+      "topic": "iteration-and-control-flow",
+      "when": "mutating slice elements in a loop",
+      "then": "Iterate indexes and update the original element. Pointer elements or pointer-valued fields share referents. Pointer slices may cost cache locality.",
+      "because": "The range value is a copy and assigning its fields does not replace the stored struct.",
+      "sources": [
+        "BP66"
+      ],
+      "reference": "references/rules/iteration-and-control-flow.md#g66"
+    },
+    {
+      "id": "G67",
+      "topic": "iteration-and-control-flow",
+      "when": "iterating every collection element",
+      "then": "Use range and omit unused values or use the blank identifier. Use a traditional for loop when controlling step or termination is useful.",
+      "because": "Avoids unnecessary index management and off-by-one mistakes.",
+      "sources": [
+        "BP67"
+      ],
+      "reference": "references/rules/iteration-and-control-flow.md#g67"
+    },
+    {
+      "id": "G68",
+      "topic": "iteration-and-control-flow",
+      "when": "a range loop changes its input expression",
+      "then": "Reason from the initially evaluated range expression, including original slice length or channel. Reassignment or append does not retarget the active range. If at most one iteration variable is present and x or len(x) is constant, the range expression x is not evaluated. See the [range specification](https://go.dev/ref/spec#For_range). Use a traditional loop for a changing condition, checking termination when appending. Later operations on a reassigned channel use its new value.",
+      "because": "The loop works from the evaluated expression, such as the original slice length or channel.",
+      "sources": [
+        "BP68"
+      ],
+      "reference": "references/rules/iteration-and-control-flow.md#g68"
+    },
+    {
+      "id": "G69",
+      "topic": "iteration-and-control-flow",
+      "when": "ranging over an array while observing mutations",
+      "then": "Use direct index access or range over the array pointer when later updates must be seen. A pointer also avoids copying a large array. Source prose has an apparent reversed-output typo in the index example.",
+      "because": "Ranging values over an array copies the array.",
+      "sources": [
+        "BP69"
+      ],
+      "reference": "references/rules/iteration-and-control-flow.md#g69"
+    },
+    {
+      "id": "G70",
+      "topic": "iteration-and-control-flow",
+      "when": "retaining addresses of slice or map iteration values",
+      "then": "Check the effective module/file language version. Go 1.22+ gives fresh per-iteration variables when the loop declares them with :=, including three-clause loops. Assignment with = still reuses existing variables. In older language modes or with explicitly shared variables, copy the value or pass it as an argument. Distinct value copies differ from pointers to original slice elements obtained by index. Slice range visits increasing indexes. Map iteration order is unspecified. Fresh variables do not determine goroutine scheduling order.",
+      "because": "Loop declaration semantics control variable identity, while pointers into a slice intentionally share its elements.",
+      "sources": [
+        "BP70",
+        "RV239",
+        "RV242"
+      ],
+      "reference": "references/rules/iteration-and-control-flow.md#g70",
+      "example": {
+        "label": "Declared versus assigned range variables",
+        "path": "../../examples/loops-go122/loop_test.go"
+      }
+    },
+    {
+      "id": "G71",
+      "topic": "iteration-and-control-flow",
+      "when": "depending on order from a map",
+      "then": "Do not assume key, insertion, stable, or uniformly random iteration order. Choose an ordered representation when required. A serializer may impose its own ordering, which is not a map property. Unspecified ordering supplies no fairness or uniform-randomness guarantee.",
+      "because": "Map iteration is unspecified and can vary across loops.",
+      "sources": [
+        "BP71"
+      ],
+      "reference": "references/rules/iteration-and-control-flow.md#g71"
+    },
+    {
+      "id": "G72",
+      "topic": "iteration-and-control-flow",
+      "when": "adding map entries while iterating",
+      "then": "Separate the map being read from the map being written when deterministic inclusion matters. The book uses a copy as the destination. Single-goroutine mutation permission is not concurrency safety. Adding entries within the same goroutine is legal but does not control whether the new entries are visited.",
+      "because": "New entries may be visited or skipped unpredictably.",
+      "sources": [
+        "BP72"
+      ],
+      "reference": "references/rules/iteration-and-control-flow.md#g72"
+    },
+    {
+      "id": "G73",
+      "topic": "iteration-and-control-flow",
+      "when": "breaking or continuing an outer loop containing switch or select",
+      "then": "Use a meaningful label to target the intended loop. Labels for structured loop control are idiomatic.",
+      "because": "An unlabeled break exits the innermost for, switch, or select.",
+      "sources": [
+        "BP73"
+      ],
+      "reference": "references/rules/iteration-and-control-flow.md#g73"
+    },
+    {
+      "id": "G74",
+      "topic": "iteration-and-control-flow",
+      "when": "each loop iteration acquires a resource needing cleanup",
+      "then": "Extract iteration work into a function and defer cleanup there. A closure also works. If measured call overhead matters, clean up explicitly on every path. An extracted helper also makes iteration work independently testable.",
+      "because": "Defers run on function return, not on each iteration.",
+      "sources": [
+        "BP74"
+      ],
+      "reference": "references/rules/iteration-and-control-flow.md#g74"
+    },
+    {
+      "id": "G75",
+      "topic": "text-and-bytes",
+      "when": "processing text or binary data represented as a string",
+      "then": "Distinguish bytes, Unicode code points, and encoding. Do not assume arbitrary input is UTF-8. The book's literal discussion is simplified. External encodings may need dedicated decoding. A Unicode code point is not necessarily a whole user-perceived character. Source-literal UTF-8 statements have escape-related limits.",
+      "because": "Strings hold arbitrary bytes and len counts bytes, while runes are code points.",
+      "sources": [
+        "BP75"
+      ],
+      "reference": "references/rules/text-and-bytes.md#g75"
+    },
+    {
+      "id": "G76",
+      "topic": "text-and-bytes",
+      "when": "iterating UTF-8 runes",
+      "then": "Use the range value as the rune and treat the index as a byte offset. Range avoids an unnecessary []rune allocation. Known single-byte text may be accessed directly as bytes without rune conversion.",
+      "because": "s[i] accesses a byte, not a complete multibyte rune.",
+      "sources": [
+        "BP76"
+      ],
+      "reference": "references/rules/text-and-bytes.md#g76"
+    },
+    {
+      "id": "G77",
+      "topic": "text-and-bytes",
+      "when": "counting or indexing Unicode code points",
+      "then": "Use utf8.RuneCountInString for rune counts and a rune slice for rune-indexed access. Rune slices allocate and decode. Direct byte access is valid for known single-byte text. For traversal rather than random rune indexing, direct range avoids a rune-slice allocation.",
+      "because": "Byte length and byte indexes do not describe variable-width code points.",
+      "sources": [
+        "BP77"
+      ],
+      "reference": "references/rules/text-and-bytes.md#g77"
+    },
+    {
+      "id": "G78",
+      "topic": "text-and-bytes",
+      "when": "removing exact leading or trailing text",
+      "then": "Use TrimPrefix or TrimSuffix for one exact affix, and TrimLeft/Right/Trim for a set of runes. TrimSuffix and TrimPrefix remove at most one matching affix.",
+      "because": "Cutset trimming repeatedly removes any member, not an exact substring.",
+      "sources": [
+        "BP78"
+      ],
+      "reference": "references/rules/text-and-bytes.md#g78"
+    },
+    {
+      "id": "G79",
+      "topic": "text-and-bytes",
+      "when": "concatenating many strings, especially in a loop",
+      "then": "Use strings.Builder for repeated concatenation, and Grow when the total byte count is known. For a few fixed strings, + or formatting may be clearer. Measure performance-sensitive cases rather than treating the book's five-string heuristic as a threshold.",
+      "because": "Repeated concatenation allocates and copies immutable strings.",
+      "sources": [
+        "BP79"
+      ],
+      "reference": "references/rules/text-and-bytes.md#g79"
+    },
+    {
+      "id": "G80",
+      "topic": "text-and-bytes",
+      "when": "writing through a strings.Builder",
+      "then": "Confine a strings.Builder to one goroutine or synchronize access. Use WriteString, Write, WriteByte or WriteRune for the actual input. WriteString's error is always nil, so deliberate omission is justified. Do not copy a non-zero Builder.",
+      "because": "Its internal append operations are not safe for concurrent mutation.",
+      "sources": [
+        "BP80"
+      ],
+      "reference": "references/rules/text-and-bytes.md#g80"
+    },
+    {
+      "id": "G81",
+      "topic": "text-and-bytes",
+      "when": "a workflow starts and ends with byte slices",
+      "then": "Use bytes package operations throughout instead of converting to strings and back. Check available operations before assuming strings are more convenient. Compiler optimizations may alter allocation details. Evaluate the whole workflow, including byte-oriented I/O at either boundary. Preserve string immutability when reasoning about conversion optimizations. Choose the byte/string representation for the complete workflow. This is not a universal ban on strings.",
+      "because": "Conversions can add allocation and copying.",
+      "sources": [
+        "BP81"
+      ],
+      "reference": "references/rules/text-and-bytes.md#g81"
+    },
+    {
+      "id": "G82",
+      "topic": "text-and-bytes",
+      "when": "slicing a string by textual position",
+      "then": "Use rune-aware handling for rune boundaries instead of arbitrary byte slicing. Byte slicing is appropriate for fixed ASCII fields such as UUIDs. Validate the length of a fixed-byte format before indexing it, as with a UUID field.",
+      "because": "String slice indexes count bytes and may split multibyte encodings.",
+      "sources": [
+        "BP82"
+      ],
+      "reference": "references/rules/text-and-bytes.md#g82"
+    },
+    {
+      "id": "G83",
+      "topic": "text-and-bytes",
+      "when": "retaining a small substring of a large string",
+      "then": "Use strings.Clone (Go 1.18+) when independent backing storage is needed. Passing by value copies the string header, not its bytes. Storage sharing is implementation-dependent. Preserve intentional copies and verify older string([]byte(fragment)) copy idioms against compiler optimization.",
+      "because": "Substring storage can retain the entire source allocation.",
+      "sources": [
+        "BP83",
+        "RV57"
+      ],
+      "reference": "references/rules/text-and-bytes.md#g83"
+    },
+    {
+      "id": "G84",
+      "topic": "functions-methods-and-interfaces",
+      "when": "a method changes receiver state or contains noncopyable synchronization state",
+      "then": "Use a pointer receiver. Appending to a slice receiver requires updating its header. Indirect fields can mutate even through a value receiver.",
+      "because": "Value receivers copy the receiver and can lose mutations or duplicate synchronization objects.",
+      "sources": [
+        "BP84"
+      ],
+      "reference": "references/rules/functions-methods-and-interfaces.md#g84"
+    },
+    {
+      "id": "G85",
+      "topic": "functions-methods-and-interfaces",
+      "when": "choosing receivers for naturally small value types",
+      "then": "Prefer value receivers for small natural value types, immutable structs/arrays, and slices whose header need not change. Copying a slice, map or pointer still shares referents. Choose receiver semantics deliberately. The source's claim that named map/function/channel types cannot have pointer receivers is not adopted.",
+      "because": "Value receivers express direct value semantics without unnecessary pointers.",
+      "sources": [
+        "BP85"
+      ],
+      "reference": "references/rules/functions-methods-and-interfaces.md#g85"
+    },
+    {
+      "id": "G86",
+      "topic": "functions-methods-and-interfaces",
+      "when": "choosing receiver kinds and consistency across a type",
+      "then": "Keep receiver kinds consistent unless interface requirements or actual semantics justify mixing, as with time.Time unmarshaling. Consider mutation, noncopyable state, size and indirect sharing. Pointer receivers can signal indirect mutation. Resolve uncertainty from these conditions rather than the book's conflicting value-default and pointer-when-unsure heuristics.",
+      "because": "Consistency makes mutation expectations clearer.",
+      "sources": [
+        "BP86"
+      ],
+      "reference": "references/rules/functions-methods-and-interfaces.md#g86"
+    },
+    {
+      "id": "G87",
+      "topic": "functions-methods-and-interfaces",
+      "when": "several return values have unclear meanings, especially identical types",
+      "then": "Name result parameters to document their meanings, or return a struct with meaningful fields. Naming an obvious error alone may add no value. Existing interfaces may preclude changing results to a struct.",
+      "because": "A signature can distinguish latitude from longitude without reading implementation.",
+      "sources": [
+        "BP87"
+      ],
+      "reference": "references/rules/functions-methods-and-interfaces.md#g87"
+    },
+    {
+      "id": "G88",
+      "topic": "functions-methods-and-interfaces",
+      "when": "using named results in an implementation",
+      "then": "Use them sparingly for clear readability or convenience benefits and keep naked returns confined to short functions. Be consistent about explicit versus naked returns within a function. Named results do not require naked returns. Named result zero initialization can occasionally simplify a short implementation. Naming an obvious error alone need not improve the signature.",
+      "because": "Long functions force readers to track hidden result state.",
+      "sources": [
+        "BP88"
+      ],
+      "reference": "references/rules/functions-methods-and-interfaces.md#g88"
+    },
+    {
+      "id": "G89",
+      "topic": "functions-methods-and-interfaces",
+      "when": "returning a named result after a failing call or condition",
+      "then": "Assign or return the actual error instead of an untouched named error variable. An explicit local assignment can prevent the mistake.",
+      "because": "Named results start at zero and can silently return nil despite failure.",
+      "sources": [
+        "BP89"
+      ],
+      "reference": "references/rules/functions-methods-and-interfaces.md#g89"
+    },
+    {
+      "id": "G90",
+      "topic": "functions-methods-and-interfaces",
+      "when": "returning an interface, particularly error, from a pointer value",
+      "then": "Return literal nil explicitly when the underlying pointer is nil. Applies to all pointer-implemented interfaces. Nil receiver methods are allowed but must avoid unsafe dereferences.",
+      "because": "A typed nil pointer inside an interface makes the interface non-nil.",
+      "sources": [
+        "BP90"
+      ],
+      "reference": "references/rules/functions-methods-and-interfaces.md#g90",
+      "example": {
+        "label": "Typed-nil interface boundary",
+        "path": "../../examples/ownership_test.go"
+      }
+    },
+    {
+      "id": "G91",
+      "topic": "functions-methods-and-interfaces",
+      "when": "a function processes stream content",
+      "then": "Accept io.Reader instead of a filename or concrete file type. Filesystem-opening functions such as os.Open appropriately accept filenames. Move resource opening and closure ownership to the caller or resource boundary.",
+      "because": "The algorithm works with files, network bodies, and in-memory test inputs.",
+      "sources": [
+        "BP91"
+      ],
+      "reference": "references/rules/functions-methods-and-interfaces.md#g91"
+    },
+    {
+      "id": "G92",
+      "topic": "functions-methods-and-interfaces",
+      "when": "deferred work must see a variable's final value",
+      "then": "Use a closure reading the variable at execution, or deliberately pass a pointer. Passing a closure argument still evaluates that argument immediately. Pointer-based changes may require API changes.",
+      "because": "Ordinary defer arguments are evaluated immediately.",
+      "sources": [
+        "BP92"
+      ],
+      "reference": "references/rules/functions-methods-and-interfaces.md#g92"
+    },
+    {
+      "id": "G93",
+      "topic": "functions-methods-and-interfaces",
+      "when": "deferring a method call before modifying its receiver",
+      "then": "Account for immediate receiver evaluation and value versus pointer copying. Reassigning a pointer variable does not retarget the already captured pointer.",
+      "because": "A value receiver sees the captured copy, while a captured pointer sees later changes to its referent.",
+      "sources": [
+        "BP93"
+      ],
+      "reference": "references/rules/functions-methods-and-interfaces.md#g93"
+    },
+    {
+      "id": "G94",
+      "topic": "errors-and-cleanup",
+      "when": "reporting normal operational failure",
+      "then": "Return an error as the final result rather than emulating exceptions with panic and recover. Reserve panic for exceptional programmer errors or unusable mandatory dependencies. The error belongs last in an ordinary result list. A mandatory dependency may justify panic when failure leaves the operation unusable, as in a fixed regular expression.",
+      "because": "Callers can handle expected failures explicitly.",
+      "sources": [
+        "BP94"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g94"
+    },
+    {
+      "id": "G95",
+      "topic": "errors-and-cleanup",
+      "when": "a deliberate panic recovery boundary is needed",
+      "then": "Call recover directly in a deferred function executing in the panicking goroutine. A helper called by that function does not provide direct recovery, and another goroutine cannot recover the panic. Use errors for normal failures. Go 1.21 defaults turn panic(nil) into *runtime.PanicNilError, but panicnil=1 or program compatibility defaults for Go <=1.20 preserve the old nil result. Inspect the active workspace or work-module defaults and explicit overrides. Per-file language gates do not select these runtime defaults.",
+      "because": "Ordinary recover calls do not intercept a panic.",
+      "sources": [
+        "BP95",
+        "RV179"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g95"
+    },
+    {
+      "id": "G96",
+      "topic": "errors-and-cleanup",
+      "when": "returning an error from a lower layer",
+      "then": "Return it directly when no context or classification is useful, or add useful context with %w. Avoid noisy redundant context.",
+      "because": "Context improves diagnosis while preserving the underlying error.",
+      "sources": [
+        "BP96"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g96"
+    },
+    {
+      "id": "G97",
+      "topic": "errors-and-cleanup",
+      "when": "callers need an error category or extra structured information",
+      "then": "Use a custom error type with the required context and deliberate source access. Expose or unwrap the cause only when it is part of the contract.",
+      "because": "A type supports classification beyond a message.",
+      "sources": [
+        "BP97"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g97"
+    },
+    {
+      "id": "G98",
+      "topic": "errors-and-cleanup",
+      "when": "the underlying error is an implementation detail",
+      "then": "Transform the error, for example with %v, rather than exposing it through wrapping. Use %w when cause inspection is intentionally supported. A transformed message can still add diagnostic context. Error classification and exposure of an underlying cause are separate API decisions.",
+      "because": "Wrapping lets callers depend on the cause and couples them to implementation choices.",
+      "sources": [
+        "BP98"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g98"
+    },
+    {
+      "id": "G99",
+      "topic": "errors-and-cleanup",
+      "when": "matching an error type that may be wrapped",
+      "then": "Use errors.As with a non-nil pointer target whose element is an error-implementing type or an interface. A *error variable passed directly as the target is a common misuse diagnosed by vet. Go 1.26+ offers errors.AsType[T] for typed extraction. Is/As traverse multi-error trees from Go 1.20. A type switch only examines the outer error.",
+      "because": "A type switch only sees the outer error and can misclassify wrapped failures.",
+      "sources": [
+        "BP99",
+        "RV72",
+        "RV130",
+        "RV474"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g99"
+    },
+    {
+      "id": "G100",
+      "topic": "errors-and-cleanup",
+      "when": "matching a sentinel error that may be wrapped",
+      "then": "Use errors.Is instead of direct equality. Direct comparison can be valid where an API explicitly returns the sentinel unwrapped. Matching error text is not a substitute for error identity.",
+      "because": "The sentinel may live inside a wrapper.",
+      "sources": [
+        "BP100"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g100"
+    },
+    {
+      "id": "G101",
+      "topic": "errors-and-cleanup",
+      "when": "designing recognizable errors",
+      "then": "Use named sentinel values for expected conditions and custom types for richer unexpected failures. The book gives this as a general guideline, not an exhaustive taxonomy. Use recognizable Err-prefixed names. Structured expected errors can also be legitimate. A non-error sentinel result, such as an absent collection, may fit a domain contract.",
+      "because": "Callers can check stable expected conditions and inspect structured error information.",
+      "sources": [
+        "BP101"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g101"
+    },
+    {
+      "id": "G102",
+      "topic": "errors-and-cleanup",
+      "when": "propagating a failure through layers",
+      "then": "Handle it once: return it with useful context or log it at the handling boundary. Preserve source/target distinctions through contextual wrapping. The single-handling rule addresses the same propagated failure, not a separate failure during cleanup.",
+      "because": "Repeated logging duplicates events and can interleave confusingly under concurrency.",
+      "sources": [
+        "BP102"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g102"
+    },
+    {
+      "id": "G103",
+      "topic": "errors-and-cleanup",
+      "when": "an error is intentionally safe to ignore",
+      "then": "Assign it to the blank identifier and explain a non-obvious reason. Ignoring should be exceptional. Comments should explain why, not repeat syntax.",
+      "because": "Readers can distinguish intentional omission from forgotten handling.",
+      "sources": [
+        "BP103"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g103"
+    },
+    {
+      "id": "G104",
+      "topic": "errors-and-cleanup",
+      "when": "a deferred cleanup can fail",
+      "then": "Choose explicitly to handle, propagate, or deliberately ignore its error, often using a deferred closure. Logging may be appropriate for a cleanup-only failure. Returning from a deferred closure does not return from the surrounding function.",
+      "because": "A plain deferred call silently drops the returned error.",
+      "sources": [
+        "BP104"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g104"
+    },
+    {
+      "id": "G105",
+      "topic": "errors-and-cleanup",
+      "when": "propagating cleanup failure through named results",
+      "then": "Preserve the primary error and report meaningful cleanup failure separately or combine them. On Go 1.20+, errors.Join retains multiple causes for Is/As traversal. Otherwise use a deliberate custom aggregate or retain the primary error and log cleanup failure. Never overwrite a primary error with a nil cleanup result, and log closeErr rather than the unrelated primary variable.",
+      "because": "Unconditional assignment can replace a real failure with nil.",
+      "sources": [
+        "BP105",
+        "RV130",
+        "RV148",
+        "RV149"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g105",
+      "example": {
+        "label": "Preserving cleanup and primary errors",
+        "path": "../../examples/ownership_test.go"
+      }
+    },
+    {
+      "id": "G106",
+      "topic": "concurrency-and-lifecycles",
+      "when": "designing concurrent work",
+      "then": "Separate work structure and coordination from simultaneous execution, and parallelize actual bottlenecks. Adding workers to a non-bottleneck stage may not improve throughput.",
+      "because": "Concurrency enables independent stages, while parallelism adds execution capacity.",
+      "sources": [
+        "BP106"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g106"
+    },
+    {
+      "id": "G107",
+      "topic": "concurrency-and-lifecycles",
+      "when": "considering parallel execution",
+      "then": "Begin with a simple sequential version unless measurements justify concurrency. Goroutines are lightweight, not free. Profile and benchmark in a production-like environment. Scheduling, queuing, stack memory, context switches and contention all contribute overhead. BOOK-ERA scheduler timings, initial stack sizes and G/M/P descriptions are explanatory, not tuning contracts.",
+      "because": "Goroutine creation, scheduling, contention, and coordination can outweigh work.",
+      "sources": [
+        "BP107"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g107"
+    },
+    {
+      "id": "G108",
+      "topic": "concurrency-and-lifecycles",
+      "when": "recursively splitting or scheduling very small jobs",
+      "then": "Use a measured granularity threshold and keep small jobs sequential. The threshold is machine- and workload-dependent, not the example's fixed 2048 universally.",
+      "because": "Tiny tasks can cost less than their scheduling overhead.",
+      "sources": [
+        "BP108"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g108"
+    },
+    {
+      "id": "G109",
+      "topic": "concurrency-and-lifecycles",
+      "when": "choosing a concurrency primitive",
+      "then": "Use mutexes for exclusive access to shared state and channels for communication, coordination, or ownership transfer. They are complementary. The book's parallel/concurrent classification is a heuristic, not a channel synchronization prohibition.",
+      "because": "The primitives express different responsibilities.",
+      "sources": [
+        "BP109"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g109"
+    },
+    {
+      "id": "G110",
+      "topic": "concurrency-and-lifecycles",
+      "when": "multiple goroutines access shared memory and one writes",
+      "then": "Use suitable atomic operations, one mutex protecting the critical section, or a single owner receiving messages. Atomicity of an individual operation does not make a whole algorithm correct. Protect reads as well as writes and synchronize before observing completion. Multiple individually atomic operations do not automatically protect a compound invariant.",
+      "because": "Unsynchronized read/write combinations cause data races and invalid results.",
+      "sources": [
+        "BP110"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g110"
+    },
+    {
+      "id": "G111",
+      "topic": "concurrency-and-lifecycles",
+      "when": "output depends on execution ordering",
+      "then": "Coordinate the required sequence explicitly, even after removing data races. Use channels or another sequencing design when state transitions must happen in order. Mutual exclusion alone does not choose which independently scheduled assignment should win.",
+      "because": "A race-free program can still have timing-dependent logical results.",
+      "sources": [
+        "BP111"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g111"
+    },
+    {
+      "id": "G112",
+      "topic": "concurrency-and-lifecycles",
+      "when": "publishing data between goroutines",
+      "then": "Establish an actual happens-before path through synchronization. Reason about channel send/receive and observed closure precisely. A send happens before completion of its matching receive. Closing a channel happens before a receive that observes closure.",
+      "because": "Launching establishes startup ordering, but goroutine exit alone does not publish completion.",
+      "sources": [
+        "BP112"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g112"
+    },
+    {
+      "id": "G113",
+      "topic": "concurrency-and-lifecycles",
+      "when": "changing an unbuffered channel to a buffered one",
+      "then": "Recheck ordering assumptions in both directions. A send still precedes completion of its corresponding receive. Closing precedes a receive observing closure.",
+      "because": "Unbuffered receive-before-send-completion guarantees do not simply carry over to arbitrary buffering.",
+      "sources": [
+        "BP113"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g113"
+    },
+    {
+      "id": "G114",
+      "topic": "concurrency-and-lifecycles",
+      "when": "processing many tasks concurrently",
+      "then": "Use a bounded worker pool rather than unbounded per-task goroutines. Close the job channel and wait for workers when work finishes.",
+      "because": "Limits resource use and pressure on downstream systems.",
+      "sources": [
+        "BP114"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g114"
+    },
+    {
+      "id": "G115",
+      "topic": "concurrency-and-lifecycles",
+      "when": "choosing worker count",
+      "then": "Start CPU worker counts near runtime.GOMAXPROCS(0), then measure. Size I/O work around downstream sustainable capacity. NumCPU may differ. Go 1.25+ runtime defaults can track CPU availability and Linux quotas, but older module defaults and explicit overrides affect that behavior. Mixed workloads need measurements.",
+      "because": "CPU work is limited by available execution capacity, while I/O work waits on external systems.",
+      "sources": [
+        "BP115",
+        "RV396",
+        "RV433"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g115"
+    },
+    {
+      "id": "G116",
+      "topic": "concurrency-and-lifecycles",
+      "when": "an operation becomes useless after a time limit",
+      "then": "Derive a deadline or timeout context from the existing parent and pass it to context-aware operations. Use Background only for a deliberate root when no parent exists. Cancellation is cooperative.",
+      "because": "Allows stale or stalled work to stop.",
+      "sources": [
+        "BP116"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g116"
+    },
+    {
+      "id": "G117",
+      "topic": "concurrency-and-lifecycles",
+      "when": "creating a cancelable or timed context",
+      "then": "Call the returned cancel function on every exit path when the owning work is done, commonly with defer. Do not assume that creating a cancellable context always creates a goroutine.",
+      "because": "Releases associated resources earlier than eventual timeout.",
+      "sources": [
+        "BP117"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g117"
+    },
+    {
+      "id": "G118",
+      "topic": "concurrency-and-lifecycles",
+      "when": "a long-running activity must stop with its owner",
+      "then": "Propagate a cancellation context and arrange graceful resource cleanup. Signaling cancellation alone does not prove cleanup completed.",
+      "because": "Cancellation communicates lifecycle termination.",
+      "sources": [
+        "BP118"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g118"
+    },
+    {
+      "id": "G119",
+      "topic": "concurrency-and-lifecycles",
+      "when": "context values need stable keys across packages",
+      "then": "Use an unexported custom key type and controlled key values. Values are suited to cross-boundary information such as tracing or middleware metadata. WithValue derives a child context instead of mutating its parent. Keep key values controlled as well as using a private key type.",
+      "because": "Plain string keys can collide between packages.",
+      "sources": [
+        "BP119"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g119"
+    },
+    {
+      "id": "G120",
+      "topic": "concurrency-and-lifecycles",
+      "when": "implementing context-aware channel operations",
+      "then": "Select between the send or receive and ctx.Done, then report ctx.Err on cancellation. Done is a broadcast closure signal. Err distinguishes deadline from cancellation. Check channel closure and other protocol conditions separately from cancellation. Standard contexts can be shared concurrently.",
+      "because": "A blocking channel operation otherwise prevents prompt cancellation.",
+      "sources": [
+        "BP120"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g120"
+    },
+    {
+      "id": "G121",
+      "topic": "concurrency-and-lifecycles",
+      "when": "designing a function callers may wait for",
+      "then": "Accept a context so upstream callers can control cancellation. Use TODO when the right context is not yet clear, rather than disguising the uncertainty as Background. TODO identifies incomplete propagation. Background states an intentional root.",
+      "because": "Long-running work needs caller-controlled lifetime.",
+      "sources": [
+        "BP121"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g121"
+    },
+    {
+      "id": "G122",
+      "topic": "concurrency-and-lifecycles",
+      "when": "launching work that must outlive an HTTP request",
+      "then": "Give detached work an explicit owner, lifetime bound and completion path. From Go 1.21, context.WithoutCancel preserves values while removing cancellation and deadline, and its Done channel is nil. Add a fresh cancelable/timeout context when needed. On older versions, choose a deliberate root or a carefully defined value-preserving wrapper. Request completion must not accidentally terminate required background work.",
+      "because": "Request cancellation or handler completion can abort asynchronous publication.",
+      "sources": [
+        "BP122",
+        "RV195"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g122"
+    },
+    {
+      "id": "G123",
+      "topic": "concurrency-and-lifecycles",
+      "when": "starting any goroutine",
+      "then": "Identify its exit condition and the owner responsible for stopping it. A receive loop requires a known channel closure or cancellation path.",
+      "because": "Leaked goroutines retain stacks, referenced memory, and external resources.",
+      "sources": [
+        "BP123"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g123"
+    },
+    {
+      "id": "G124",
+      "topic": "concurrency-and-lifecycles",
+      "when": "shutting down a service or goroutine owning resources",
+      "then": "Wait for cleanup to finish before the parent or application exits. Provide a close/join lifecycle appropriate to the component. A synchronous Close can provide the join guarantee when it actually releases owned resources before returning.",
+      "because": "A cancellation signal alone does not guarantee cleanup completes.",
+      "sources": [
+        "BP124"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g124"
+    },
+    {
+      "id": "G125",
+      "topic": "concurrency-and-lifecycles",
+      "when": "goroutines capture loop variables",
+      "then": "Check the effective module/file language version. Go 1.22+ gives fresh per-iteration variables when the loop declares them with :=, including three-clause loops. Assignment with = still reuses existing variables. In older language modes or with explicitly shared variables, copy the value or pass it as an argument. Distinct value copies differ from pointers to original slice elements obtained by index. Fresh loop variables do not determine goroutine or parallel-subtest execution order.",
+      "because": "Capturing a shared variable can observe a later value and race. A new toolchain alone does not change an older file language mode.",
+      "sources": [
+        "BP125",
+        "RV239",
+        "RV242"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g125",
+      "example": {
+        "label": "Older language-mode loop captures",
+        "path": "../../examples/loops-go121/loop_test.go"
+      }
+    },
+    {
+      "id": "G126",
+      "topic": "concurrency-and-lifecycles",
+      "when": "selecting among multiple ready channels",
+      "then": "Do not use case source order to express priority. A default branch only runs when none can proceed. A ready case is chosen pseudo-randomly. This does not make case order a priority mechanism. Default runs only when no other case can proceed.",
+      "because": "select chooses among ready operations rather than taking the first textual case.",
+      "sources": [
+        "BP126"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g126"
+    },
+    {
+      "id": "G127",
+      "topic": "concurrency-and-lifecycles",
+      "when": "one producer must deliver data before a termination event",
+      "then": "Use one ordered event channel or a suitable unbuffered handoff. This ordering argument assumes a single producer. More than one producer needs additional coordination. A single-producer ordering argument is not enough.",
+      "because": "A separate buffered data channel can retain messages when termination is selected.",
+      "sources": [
+        "BP127"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g127"
+    },
+    {
+      "id": "G128",
+      "topic": "concurrency-and-lifecycles",
+      "when": "a termination signal should allow draining already available messages",
+      "then": "After termination, drain messages with an inner select and default before returning. Messages arriving after the drain can be missed. Handle closed channels and producer coordination deliberately. A closed channel remains ready and must be handled with the receive ok result to avoid endless zero-value draining.",
+      "because": "The drain consumes currently ready data without blocking indefinitely.",
+      "sources": [
+        "BP128"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g128"
+    },
+    {
+      "id": "G129",
+      "topic": "concurrency-and-lifecycles",
+      "when": "a channel conveys notification with no payload",
+      "then": "Use chan struct{}. Choose actual data types when values do have meaning.",
+      "because": "The type communicates absence of data meaning and empty elements require no payload storage.",
+      "sources": [
+        "BP129"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g129"
+    },
+    {
+      "id": "G130",
+      "topic": "concurrency-and-lifecycles",
+      "when": "a select loop consumes channels that can close",
+      "then": "Use the two-result receive and set closed input channels to nil to disable their cases. Exit when all inputs are disabled. Sending or receiving on a nil channel outside select blocks forever. Plan output consumption and cancellation too. Finish and close an owned output after all input channels are disabled.",
+      "because": "Closed channels remain ready and can cause zero-value streams or busy loops.",
+      "sources": [
+        "BP130"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g130"
+    },
+    {
+      "id": "G131",
+      "topic": "concurrency-and-lifecycles",
+      "when": "choosing buffered versus unbuffered channels",
+      "then": "Use unbuffered channels when the protocol needs a rendezvous and buffering when justified by decoupling or bounded capacity. Buffered channels also have memory-model guarantees. The book's synchronization wording should not be treated as an absolute. An unbuffered channel is also sufficient for closure-only notifications because there is no payload queue to buffer.",
+      "because": "Buffering changes blocking and ordering behavior and may obscure deadlocks.",
+      "sources": [
+        "BP131"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g131"
+    },
+    {
+      "id": "G132",
+      "topic": "concurrency-and-lifecycles",
+      "when": "sizing a buffered channel",
+      "then": "Start with a small justified capacity and tie larger capacities to worker count, a resource limit, or measurements. The book proposes 1 as a default heuristic. Explain non-obvious sizes. Burst requirements can justify more capacity. Tie a buffer used for workers or rate limiting to the corresponding bound.",
+      "because": "Queue capacity trades memory against contention and rarely stays perfectly balanced.",
+      "sources": [
+        "BP132"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g132"
+    },
+    {
+      "id": "G133",
+      "topic": "shared-state-and-synchronization",
+      "when": "formatting a context or object in concurrent code",
+      "then": "Inspect what formatting traverses or calls, and prefer a stable explicit key over formatting mutable state. Mutable context values need their own synchronization.",
+      "because": "Formatting can read shared values and introduce data races.",
+      "sources": [
+        "BP133"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g133"
+    },
+    {
+      "id": "G134",
+      "topic": "shared-state-and-synchronization",
+      "when": "formatting an object while holding its lock",
+      "then": "Avoid invoking a String method that reacquires the same lock. Format safe fields directly or narrow lock scope. Test error branches that trigger formatting. Formatting can call methods implicitly. Test error branches that perform the formatting, even when validation looks trivial.",
+      "because": "The indirect method call can deadlock.",
+      "sources": [
+        "BP134"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g134"
+    },
+    {
+      "id": "G135",
+      "topic": "shared-state-and-synchronization",
+      "when": "validation does not require shared mutable state",
+      "then": "Validate before acquiring a mutex and keep critical sections focused. Validation that depends on protected state must remain synchronized.",
+      "because": "Avoids unnecessary locking and reduces indirect side effects.",
+      "sources": [
+        "BP135"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g135"
+    },
+    {
+      "id": "G136",
+      "topic": "shared-state-and-synchronization",
+      "when": "concurrent goroutines append from a shared slice",
+      "then": "Isolate backing storage or synchronize instead of relying on current spare capacity. A full slice can allocate separate arrays, but this fragile condition should not dictate correctness. Shared headers and elements need separate analysis. Synchronize shared slice-header writes as well as backing-array writes.",
+      "because": "Append can mutate shared backing storage when capacity remains.",
+      "sources": [
+        "BP136"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g136"
+    },
+    {
+      "id": "G137",
+      "topic": "shared-state-and-synchronization",
+      "when": "partitioning concurrent collection access",
+      "then": "Disjoint slice indexes may be handled independently, but synchronize concurrent map access involving writes. Pointer-referenced data or shared slice headers can reintroduce races. Different map keys do not provide isolation.",
+      "because": "Different slice cells are separate memory locations while map writes affect shared state.",
+      "sources": [
+        "BP137"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g137"
+    },
+    {
+      "id": "G138",
+      "topic": "shared-state-and-synchronization",
+      "when": "reading shared slices or maps under a mutex",
+      "then": "Protect the entire use or copy actual elements while locked, then work on the snapshot. Snapshots cost memory and copying. For pointer elements, copy depth must match mutation needs. For light work, holding the lock may be simpler than making a snapshot. For expensive processing, copying can reduce lock contention.",
+      "because": "Assigning the slice or map only copies a descriptor and leaves shared storage.",
+      "sources": [
+        "BP138"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g138"
+    },
+    {
+      "id": "G139",
+      "topic": "shared-state-and-synchronization",
+      "when": "using WaitGroup with newly started goroutines",
+      "then": "Register Add before launch and call Done on every worker exit, with consistent counts. On Go 1.25+, WaitGroup.Go combines registration and launch when its callback obeys the no-panic contract. When the group is empty, start work before Wait. Reuse only after the previous Wait returns. Wait joins work but does not itself cancel it.",
+      "because": "Wait may otherwise see zero and return before workers register.",
+      "sources": [
+        "BP139",
+        "RV395",
+        "RV435"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g139",
+      "example": {
+        "label": "Cancellation and join",
+        "path": "../../examples/lifecycle_test.go"
+      }
+    },
+    {
+      "id": "G140",
+      "topic": "shared-state-and-synchronization",
+      "when": "many goroutines repeatedly wait for changing shared conditions",
+      "then": "Consider sync.Cond instead of busy polling or assuming channel sends broadcast. Notifications are not queued for future waiters. Signal wakes one waiter. Channel closure broadcasts only once. One channel send reaches one receiver. The source's round-robin receiver distribution statement is not adopted as an ordering guarantee.",
+      "because": "Broadcast wakes all current waiters without a busy loop.",
+      "sources": [
+        "BP140"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g140"
+    },
+    {
+      "id": "G141",
+      "topic": "shared-state-and-synchronization",
+      "when": "waiting on a sync.Cond",
+      "then": "Hold its lock, test the predicate in a loop, call Wait, and recheck after waking. Update the condition under the same lock and signal/broadcast as appropriate.",
+      "because": "Wait unlocks while waiting and relocks before returning, while state can change before the waiter runs.",
+      "sources": [
+        "BP141"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g141"
+    },
+    {
+      "id": "G142",
+      "topic": "shared-state-and-synchronization",
+      "when": "running several tasks with error propagation and cancellation",
+      "then": "Use errgroup.WithContext, return errors from Go callbacks, and check Wait. Tasks must observe the derived context. Wait waits for all tasks, not merely the first failure. The group returns the first non-nil error rather than an aggregate. Cancellation is cooperative and Wait still joins every task.",
+      "because": "It coordinates completion and returns a failure while canceling shared work.",
+      "sources": [
+        "BP142"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g142"
+    },
+    {
+      "id": "G143",
+      "topic": "shared-state-and-synchronization",
+      "when": "concurrent tasks produce ordered independent results",
+      "then": "Preallocate a results slice and assign each task its own index. Read results only after task completion and avoid shared element referents. Index/value capture still must follow the applicable loop semantics.",
+      "because": "Preserves input ordering without a separate reorder stage and avoids overlapping writes.",
+      "sources": [
+        "BP143"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g143"
+    },
+    {
+      "id": "G144",
+      "topic": "shared-state-and-synchronization",
+      "when": "passing, returning, or calling methods on synchronization-containing values",
+      "then": "Share the same synchronization instance and avoid copying active Mutex, RWMutex, Cond, Map, Once, Pool or WaitGroup values. Inspect assignments, arguments, returns and receivers, including structs that contain them. Use initialized pointers where appropriate. Go 1.22 three-clause loops can implicitly copy newly declared variables each iteration, so keep no-copy state outside the loop.",
+      "because": "Copies create unrelated locks or corrupt coordination expectations.",
+      "sources": [
+        "BP144",
+        "RV239",
+        "RV336"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g144"
+    },
+    {
+      "id": "G145",
+      "topic": "shared-state-and-synchronization",
+      "when": "reviewing code that uses sync types",
+      "then": "Run go vet and inspect value receivers and arguments for accidental copies. Covers Mutex, RWMutex, Cond, Map, Once, Pool, and WaitGroup as discussed.",
+      "because": "Copies can be hidden inside enclosing structs.",
+      "sources": [
+        "BP145"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g145"
+    },
+    {
+      "id": "G146",
+      "topic": "time-and-serialization",
+      "when": "supplying a duration",
+      "then": "Use explicit time units such as time.Second or 100*time.Millisecond. time.Duration is a defined integer type, despite the source calling it an alias.",
+      "because": "Bare integers are nanoseconds and easily mistaken for milliseconds.",
+      "sources": [
+        "BP146"
+      ],
+      "reference": "references/rules/time-and-serialization.md#g146"
+    },
+    {
+      "id": "G147",
+      "topic": "time-and-serialization",
+      "when": "a hot loop or frequently called handler needs timeout logic",
+      "then": "Determine program compatibility settings from the active workspace or work module and explicit overrides, as well as the runtime version. Before Go 1.23, and on Go 1.23-1.26 with older program defaults or asynctimerchan=1, coordinate Stop, any required drain and Reset with the sole receiver to prevent stale values and races. With Go 1.23 synchronous timer semantics (program defaults for Go >=1.23 unless overridden), Stop/Reset prevent later stale receives and unreachable timers/tickers can be collected. Go 1.27 removes asynctimerchan and uses synchronous channels even for old modules. Use nonblocking receive, not len/cap, to inspect readiness. Reuse only when measurement justifies the complexity.",
+      "because": "Repeated timers can add allocation work, but retention and channel-reset correctness depend on the active timer semantics.",
+      "sources": [
+        "BP147",
+        "RV295",
+        "RV513"
+      ],
+      "reference": "references/rules/time-and-serialization.md#g147"
+    },
+    {
+      "id": "G148",
+      "topic": "time-and-serialization",
+      "when": "a long-running timer consumer can terminate",
+      "then": "Provide cancellation or another exit protocol and stop timers when their work should cease. Cancel recreated timeout contexts on every path. Under Go 1.23 synchronous timer semantics and all Go 1.27 runtimes, Stop is no longer needed solely to make an unreachable timer collectible. It remains useful for lifecycle control.",
+      "because": "The example's endless loop is not a production lifecycle.",
+      "sources": [
+        "BP148",
+        "RV295",
+        "RV513"
+      ],
+      "reference": "references/rules/time-and-serialization.md#g148"
+    },
+    {
+      "id": "G149",
+      "topic": "time-and-serialization",
+      "when": "a serialized struct embeds a type with custom JSON methods",
+      "then": "Use a named field or explicitly implement the parent marshaling behavior. Custom marshaling must stay synchronized with added fields.",
+      "because": "Promoted MarshalJSON/UnmarshalJSON methods can silently replace the parent object's representation.",
+      "sources": [
+        "BP149"
+      ],
+      "reference": "references/rules/time-and-serialization.md#g149"
+    },
+    {
+      "id": "G150",
+      "topic": "time-and-serialization",
+      "when": "comparing times after JSON round trips",
+      "then": "Use time.Time.Equal for instant comparison. Equal uses monotonic readings if both operands have them, otherwise wall time. JSON removes monotonic metadata. If raw struct equality is deliberately required, normalize both monotonic metadata and location. Truncate(0) alone does not normalize location.",
+      "because": "Serialization drops monotonic metadata and representations may differ.",
+      "sources": [
+        "BP150"
+      ],
+      "reference": "references/rules/time-and-serialization.md#g150"
+    },
+    {
+      "id": "G151",
+      "topic": "time-and-serialization",
+      "when": "output must use a consistent time zone",
+      "then": "Convert times to the chosen location or UTC before serialization. Handle LoadLocation errors.",
+      "because": "Local environment otherwise affects representation.",
+      "sources": [
+        "BP151"
+      ],
+      "reference": "references/rules/time-and-serialization.md#g151"
+    },
+    {
+      "id": "G152",
+      "topic": "time-and-serialization",
+      "when": "measuring elapsed time",
+      "then": "Use monotonic clock behavior rather than wall-clock-only arithmetic. The source explains time.Time can carry both components. Use monotonic-aware time operations. Serialization discards that metadata, so serialized timestamps cannot preserve the same elapsed-time evidence.",
+      "because": "Wall clocks can jump forward or backward after synchronization.",
+      "sources": [
+        "BP152"
+      ],
+      "reference": "references/rules/time-and-serialization.md#g152"
+    },
+    {
+      "id": "G153",
+      "topic": "time-and-serialization",
+      "when": "decoding JSON into map[string]any",
+      "then": "For encoding/json v1 decoding into map[string]any, expect float64 numbers by default and check dynamic types before assertions. Prefer typed decoding for known schemas. Select a decoder number mode when exact numeric handling requires it. Go 1.27 v2 has its own options and behavior, which require boundary tests.",
+      "because": "An integer-looking JSON number is not automatically a Go int.",
+      "sources": [
+        "BP153",
+        "RV518"
+      ],
+      "reference": "references/rules/time-and-serialization.md#g153"
+    },
+    {
+      "id": "G154",
+      "topic": "database-access",
+      "when": "startup readiness requires a reachable database",
+      "then": "After sql.Open, call Ping or PingContext and handle failure. Behavior varies by driver. A context bounds the readiness check.",
+      "because": "Open can validate configuration without establishing any connection.",
+      "sources": [
+        "BP154"
+      ],
+      "reference": "references/rules/database-access.md#g154"
+    },
+    {
+      "id": "G155",
+      "topic": "database-access",
+      "when": "operating a database client in production",
+      "then": "Reuse sql.DB as the connection pool and configure maximum open connections to match database capacity. Multiple pools may be appropriate for distinct workloads. Do not build a redundant manual pool around sql.DB or close the pool after every query.",
+      "because": "sql.DB is not a single connection and unlimited growth can overload the database.",
+      "sources": [
+        "BP155"
+      ],
+      "reference": "references/rules/database-access.md#g155"
+    },
+    {
+      "id": "G156",
+      "topic": "database-access",
+      "when": "tuning database connection reuse",
+      "then": "Set idle count, idle time, and maximum lifetime for request concurrency, bursts, and load balancing. Select values for the actual workload. Tune idle count for concurrency, idle age to release post-burst capacity, and lifetime for rotation or balanced use of connections.",
+      "because": "Too few idle connections cause reconnects, while stale idle or long-lived connections consume resources or concentrate load.",
+      "sources": [
+        "BP156"
+      ],
+      "reference": "references/rules/database-access.md#g156"
+    },
+    {
+      "id": "G157",
+      "topic": "database-access",
+      "when": "repeating SQL or handling untrusted values",
+      "then": "Use parameterized prepared statements where appropriate and keep values separate from SQL text. The book emphasizes Prepare, but parameterization and explicit preparation are separate concerns for later review. Statements must be closed. Stmt is reusable and safe for concurrent calls in the source API. Use context variants when cancellation matters and account for driver behavior. Explicit Prepare is not required merely to separate bound parameters from SQL text.",
+      "because": "Avoids repeated compilation and reduces injection risk.",
+      "sources": [
+        "BP157"
+      ],
+      "reference": "references/rules/database-access.md#g157"
+    },
+    {
+      "id": "G158",
+      "topic": "database-access",
+      "when": "scanning nullable database columns",
+      "then": "Use pointer destinations or sql.NullXXX and check nil or Valid before using the value. Go 1.22+ also provides sql.Null[T]. Handle Scan errors separately from a valid SQL NULL.",
+      "because": "Scanning NULL into a plain scalar can fail.",
+      "sources": [
+        "BP158",
+        "RV259"
+      ],
+      "reference": "references/rules/database-access.md#g158"
+    },
+    {
+      "id": "G159",
+      "topic": "database-access",
+      "when": "finishing a rows.Next loop",
+      "then": "Check rows.Err after iteration. Also handle query and Scan errors and close Rows. Handle query, Scan and meaningful Close errors as well as the iteration error.",
+      "because": "Next returning false means either exhaustion or failure.",
+      "sources": [
+        "BP159"
+      ],
+      "reference": "references/rules/database-access.md#g159"
+    },
+    {
+      "id": "G160",
+      "topic": "resource-and-http-lifecycles",
+      "when": "an HTTP client call succeeds",
+      "then": "Close the response body even when its contents are ignored. Check the request error first. A non-nil response returned with an error need not be closed under the documented client contract. The non-nil response with a client redirect error has an already closed body under the described contract. Server-owned request bodies have a separate ownership rule. Server request bodies are closed by the server rather than owned like client response bodies.",
+      "because": "An unclosed body retains resources and can prevent connection reuse.",
+      "sources": [
+        "BP160"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g160"
+    },
+    {
+      "id": "G161",
+      "topic": "resource-and-http-lifecycles",
+      "when": "only status matters and connection reuse is desired",
+      "then": "Choose a bounded time/resource policy before draining an ignored body to io.Discard, and always close a successful client response body. Reading to EOF can permit reuse without storing the body. Go 1.27 HTTP/1 Close attempts only bounded draining, so unread arbitrary bodies do not guarantee reuse. Server request bodies remain server-owned.",
+      "because": "Reading to completion permits reuse without allocating the whole body.",
+      "sources": [
+        "BP161",
+        "RV540"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g161"
+    },
+    {
+      "id": "G162",
+      "topic": "resource-and-http-lifecycles",
+      "when": "a database query returns Rows",
+      "then": "Arrange Rows.Close after successful acquisition, commonly with defer. sql.DB itself is intended to be long-lived and shared, with closure owned by its lifecycle.",
+      "because": "Returns the connection to the pool on early exits.",
+      "sources": [
+        "BP162"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g162"
+    },
+    {
+      "id": "G163",
+      "topic": "resource-and-http-lifecycles",
+      "when": "opening files",
+      "then": "Close them explicitly and handle meaningful close errors. Propagate a close error if the primary write succeeded. Preserve prior failures. For a writable file, report Close failure when the primary write succeeded and preserve a preexisting write failure.",
+      "because": "Relying on garbage collection delays release and hides errors from pending writes.",
+      "sources": [
+        "BP163"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g163"
+    },
+    {
+      "id": "G164",
+      "topic": "resource-and-http-lifecycles",
+      "when": "file durability is required before return",
+      "then": "Call Sync and handle its error. Sync costs performance. The source's suggestion to ignore Close after Sync deserves contract-specific review.",
+      "because": "A successful Write or Close does not ensure data reached durable storage.",
+      "sources": [
+        "BP164"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g164"
+    },
+    {
+      "id": "G165",
+      "topic": "resource-and-http-lifecycles",
+      "when": "an HTTP error response should terminate a handler",
+      "then": "Return immediately after http.Error. Test failing paths. Assert status and body on failure paths so repeated status writes, mixed success/error bodies and nil dereferences are detected.",
+      "because": "Writing a response does not stop execution and later code can append success data or dereference invalid values.",
+      "sources": [
+        "BP165"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g165"
+    },
+    {
+      "id": "G166",
+      "topic": "resource-and-http-lifecycles",
+      "when": "configuring a production HTTP client",
+      "then": "Set request and relevant dial, TLS handshake, and response-header timeouts. Choose values for the workload, especially long-running responses. Client.Timeout includes reading the response body. The source's one/five-second examples are not universal values.",
+      "because": "Unbounded waits can exhaust resources.",
+      "sources": [
+        "BP166"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g166"
+    },
+    {
+      "id": "G167",
+      "topic": "resource-and-http-lifecycles",
+      "when": "an HTTP client makes many concurrent calls",
+      "then": "Tune idle timeout, global idle count, and per-host idle count, and reuse connections. Distinguish idle limits from total active connection limits. Avoid losing useful transport defaults when customizing. Keep-alives should not be disabled casually. Preserve useful transport defaults and distinguish idle-pool limits from active-connection limits.",
+      "because": "Default per-host idle limits can force repeated reconnects.",
+      "sources": [
+        "BP167"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g167"
+    },
+    {
+      "id": "G168",
+      "topic": "resource-and-http-lifecycles",
+      "when": "serving untrusted or production HTTP traffic",
+      "then": "Set ReadHeaderTimeout and appropriate request/body limits, then choose a handler-duration policy for the protocol. TimeoutHandler sends 503 and cancels its context, but does not stop arbitrary work and is unsuitable for streaming that needs its unsupported interfaces. Evaluate WriteTimeout and per-request ResponseController deadlines (Go 1.20+) for the actual response protocol. Avoid copying the book's blanket dismissal of WriteTimeout.",
+      "because": "Slow or never-ending requests otherwise retain server resources.",
+      "sources": [
+        "BP168",
+        "RV131"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g168"
+    },
+    {
+      "id": "G169",
+      "topic": "resource-and-http-lifecycles",
+      "when": "keeping HTTP server connections alive",
+      "then": "Configure IdleTimeout deliberately. Choose a value that balances reuse and resource limits.",
+      "because": "Otherwise ReadTimeout is used, or connections may have no idle bound.",
+      "sources": [
+        "BP169"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g169"
+    },
+    {
+      "id": "G170",
+      "topic": "testing",
+      "when": "organizing a testing strategy",
+      "then": "Categorize tests so fast isolated tests and more expensive integration or end-to-end tests can be selected intentionally. The testing pyramid favors many fast deterministic unit tests but is a model, not a numeric quota.",
+      "because": "Unclassified suites waste time and hide the scope of verification.",
+      "sources": [
+        "BP170"
+      ],
+      "reference": "references/rules/testing.md#g170"
+    },
+    {
+      "id": "G171",
+      "topic": "testing",
+      "when": "a whole test file belongs to an optional category",
+      "then": "Use a build constraint with the corresponding go test -tags invocation. Tagged runs also include untagged files. Negated tags can separate mutually exclusive categories. Excluded tests are not reported as skips. The available build-tag syntax depends on the supported Go version.",
+      "because": "Allows category-specific compilation and execution.",
+      "sources": [
+        "BP171"
+      ],
+      "reference": "references/rules/testing.md#g171"
+    },
+    {
+      "id": "G172",
+      "topic": "testing",
+      "when": "individual optional tests should report why they did not run",
+      "then": "Check an explicit environment variable and call t.Skip with a reason. This differs from compile-time file exclusion and can coexist with tags. Arrange CI jobs so optional test categories actually run instead of remaining silently excluded indefinitely.",
+      "because": "Visible skips reduce the chance of forgotten tests.",
+      "sources": [
+        "BP172"
+      ],
+      "reference": "references/rules/testing.md#g172"
+    },
+    {
+      "id": "G173",
+      "topic": "testing",
+      "when": "some tests are slow even within a category",
+      "then": "Use testing.Short and t.Skip, selected with go test -short. Per-test classification can combine with tags or environment gating. Short mode classifies speed, not unit-versus-integration scope.",
+      "because": "Provides a quick feedback mode without redefining test categories.",
+      "sources": [
+        "BP173"
+      ],
+      "reference": "references/rules/testing.md#g173"
+    },
+    {
+      "id": "G174",
+      "topic": "testing",
+      "when": "testing concurrent code",
+      "then": "Run go test -race ./... in local testing or CI and investigate reports. It adds substantial overhead and does not prove absence of races. Broad production use is usually inappropriate. Inspect conflicting access and goroutine-creation stacks. The source treats detector warnings as real race evidence while emphasizing that clean runs can miss races.",
+      "because": "The runtime detector catches unsynchronized accesses on exercised paths.",
+      "sources": [
+        "BP174"
+      ],
+      "reference": "references/rules/testing.md#g174"
+    },
+    {
+      "id": "G175",
+      "topic": "testing",
+      "when": "a concurrency test only occasionally exercises the relevant schedule",
+      "then": "Exercise concurrent paths thoroughly and consider repeated runs or iterations. Repetition improves chances but is not a correctness proof. !race can exclude incompatible tests, but exclusions reduce coverage and need justification. A !race tag removes validation coverage, not the underlying race.",
+      "because": "Dynamic detection can miss unexecuted or unsurfaced races.",
+      "sources": [
+        "BP175"
+      ],
+      "reference": "references/rules/testing.md#g175"
+    },
+    {
+      "id": "G176",
+      "topic": "testing",
+      "when": "independent tests spend meaningful time running",
+      "then": "Mark appropriate tests with t.Parallel and tune -parallel for the workload. Parallel tests are paused until sequential work completes in the relevant scope. Shared state may prevent safe parallelism. Parallel tests pause until their parent scope releases them. The source default concurrency follows GOMAXPROCS.",
+      "because": "Can reduce total suite duration, especially for I/O-heavy tests.",
+      "sources": [
+        "BP176"
+      ],
+      "reference": "references/rules/testing.md#g176"
+    },
+    {
+      "id": "G177",
+      "topic": "testing",
+      "when": "checking test isolation",
+      "then": "Run with -shuffle=on and preserve the reported seed when reproducing a failure. Use the numeric seed for the same ordering. Keep informed about available test modes. A shuffle seed reproduces ordering, not arbitrary goroutine scheduling or external-service state.",
+      "because": "Randomized order exposes hidden dependencies on execution order or shared variables.",
+      "sources": [
+        "BP177"
+      ],
+      "reference": "references/rules/testing.md#g177"
+    },
+    {
+      "id": "G178",
+      "topic": "testing",
+      "when": "many cases use the same assertion structure",
+      "then": "Use table-driven tests with meaningful case names and t.Run subtests. A map is one possible table structure. Use -run=Parent/Subtest to focus diagnosis. Tables should contain related cases with shared assertions, not force unrelated behavior into complex branching.",
+      "because": "Reduces boilerplate and makes new cases and shared improvements easier.",
+      "sources": [
+        "BP178"
+      ],
+      "reference": "references/rules/testing.md#g178"
+    },
+    {
+      "id": "G179",
+      "topic": "testing",
+      "when": "parallel table subtests capture iteration variables",
+      "then": "Check the effective module/file language version. Go 1.22+ gives fresh per-iteration variables when the loop declares them with :=, including three-clause loops. Assignment with = still reuses existing variables. In older language modes or with explicitly shared variables, copy the value or pass it as an argument. Distinct value copies differ from pointers to original slice elements obtained by index. Fresh loop variables do not determine goroutine or parallel-subtest execution order.",
+      "because": "Parallel subtests resume after the parent releases them. Shared loop variables can make several cases test the same value.",
+      "sources": [
+        "BP179",
+        "RV123",
+        "RV239",
+        "RV242"
+      ],
+      "reference": "references/rules/testing.md#g179",
+      "example": {
+        "label": "Loop identity under Go 1.22",
+        "path": "../../examples/loops-go122/loop_test.go"
+      }
+    },
+    {
+      "id": "G180",
+      "topic": "testing",
+      "when": "testing asynchronous completion",
+      "then": "Synchronize with an observable event or channel instead of sleeping a guessed duration. Bound waits to prevent hung tests. A test-friendly design should expose useful completion behavior.",
+      "because": "Scheduling and machine load make fixed sleeps flaky.",
+      "sources": [
+        "BP180"
+      ],
+      "reference": "references/rules/testing.md#g180"
+    },
+    {
+      "id": "G181",
+      "topic": "testing",
+      "when": "synchronization is truly unavailable in an asynchronous test",
+      "then": "Use a bounded eventual assertion with a short retry interval. Reconsider design first. Polling is still a fallback rather than a deterministic guarantee.",
+      "because": "Can finish as soon as the condition succeeds and is less brittle than one long sleep.",
+      "sources": [
+        "BP181"
+      ],
+      "reference": "references/rules/testing.md#g181"
+    },
+    {
+      "id": "G182",
+      "topic": "testing",
+      "when": "testing behavior based on current time",
+      "then": "Inject a clock function or small clock interface and supply deterministic times in tests. Keep the dependency on the instance rather than a mutable global so tests remain isolated and parallelizable. The clock example also contains mutation under RLock and an all-expired boundary issue. Preserve dependency injection, not that implementation.",
+      "because": "Direct time.Now calls make results depend on execution timing.",
+      "sources": [
+        "BP182"
+      ],
+      "reference": "references/rules/testing.md#g182"
+    },
+    {
+      "id": "G183",
+      "topic": "testing",
+      "when": "the API can naturally accept a time boundary",
+      "then": "Let callers supply the current time or cutoff time. Simpler but less general than a clock dependency. Useful for external-package tests that cannot set private fields. A caller-supplied cutoff shifts time-selection responsibility into the API contract.",
+      "because": "This makes tests deterministic without a clock stub.",
+      "sources": [
+        "BP183"
+      ],
+      "reference": "references/rules/testing.md#g183"
+    },
+    {
+      "id": "G184",
+      "topic": "testing",
+      "when": "testing HTTP handler behavior",
+      "then": "Use httptest.NewRequest and NewRecorder and assert headers, body, and status. This does not test transport. Source sample contains incidental status/order and transcription defects.",
+      "because": "Direct calls are fast and capture handler behavior.",
+      "sources": [
+        "BP184"
+      ],
+      "reference": "references/rules/testing.md#g184"
+    },
+    {
+      "id": "G185",
+      "topic": "testing",
+      "when": "testing an HTTP client",
+      "then": "Use httptest.NewServer with a controlled handler, its URL, and cleanup. Use NewTLSServer for TLS and NewUnstartedServer when setup must precede startup. Assert outgoing requests as well as response parsing when those requests are part of the client contract.",
+      "because": "Exercises real local HTTP requests without an external service or container.",
+      "sources": [
+        "BP185"
+      ],
+      "reference": "references/rules/testing.md#g185"
+    },
+    {
+      "id": "G186",
+      "topic": "testing",
+      "when": "implementing a custom reader",
+      "then": "Validate the reader contract with iotest.TestReader. Supply the actual expected output. Exercise the reader contract beyond one successful read, including supported optional interfaces.",
+      "because": "Tests returned byte counts, delivered data, and optional reader capabilities.",
+      "sources": [
+        "BP186"
+      ],
+      "reference": "references/rules/testing.md#g186"
+    },
+    {
+      "id": "G187",
+      "topic": "testing",
+      "when": "testing I/O consumers against partial reads and failures",
+      "then": "Use iotest.ErrReader, HalfReader, OneByteReader, TimeoutReader, or TruncateWriter as appropriate. Retry only when the operation contract allows it. The book's retrying readAll is an example, not a universal policy. ErrReader, HalfReader, OneByteReader, TimeoutReader and TruncateWriter cover different failure/partial-I/O behaviors. A retry-all-errors read loop is illustrative, not a universal contract.",
+      "because": "Simulates important I/O behaviors without bespoke fakes.",
+      "sources": [
+        "BP187"
+      ],
+      "reference": "references/rules/testing.md#g187"
+    },
+    {
+      "id": "G188",
+      "topic": "benchmarking",
+      "when": "benchmark setup is outside the work being measured",
+      "then": "With traditional b.N loops, ResetTimer after one-time setup and StopTimer/StartTimer around unrelated per-iteration work. On Go 1.24+, consider the prescribed for b.Loop() form, which excludes surrounding setup/cleanup and runs them once. Untimed setup still consumes wall-clock time, so select benchtime deliberately.",
+      "because": "Otherwise reported time and allocation costs include unrelated work.",
+      "sources": [
+        "BP188",
+        "RV343"
+      ],
+      "reference": "references/rules/benchmarking.md#g188"
+    },
+    {
+      "id": "G189",
+      "topic": "benchmarking",
+      "when": "interpreting small benchmark differences",
+      "then": "Repeat runs, inspect variation with benchstat, and use adequate benchtime on a quiet representative machine. Conclusions apply to the measured compiler, architecture, and workload. Production can differ. Power state, code/data alignment and cache layout can influence tiny differences. The book names perflock as an optional way to limit competing machine activity.",
+      "because": "Thermal, scheduling, cache, and other effects can reverse apparent results.",
+      "sources": [
+        "BP189"
+      ],
+      "reference": "references/rules/benchmarking.md#g189"
+    },
+    {
+      "id": "G190",
+      "topic": "benchmarking",
+      "when": "a benchmark calls a pure function whose result is unused",
+      "then": "Make results observable in traditional b.N benchmarks, for example keep a local result and publish it to a sink after the loop to limit sink overhead. Go 1.24+ B.Loop protects call inputs/results in its prescribed loop form. Go 1.24-1.25 inhibited inlining there, while Go 1.26 restores normal inlining and protects assigned variables too. Compare compiler versions explicitly rather than disabling valid optimization.",
+      "because": "Inlining and dead-code elimination can turn the measurement into an empty loop.",
+      "sources": [
+        "BP190",
+        "RV343",
+        "RV492"
+      ],
+      "reference": "references/rules/benchmarking.md#g190"
+    },
+    {
+      "id": "G191",
+      "topic": "benchmarking",
+      "when": "repeated benchmark iterations reuse input data",
+      "then": "Match warm versus fresh input and cache state to the intended use, recreating data when needed. Recreating data is not universally correct if production intentionally reuses it. Keep setup outside measured time.",
+      "because": "Repeated observation can warm caches and produce misleading results for fresh-input workloads.",
+      "sources": [
+        "BP191"
+      ],
+      "reference": "references/rules/benchmarking.md#g191"
+    },
+    {
+      "id": "G192",
+      "topic": "testing",
+      "when": "identifying untested behavior",
+      "then": "Generate a coverage profile and inspect it, including -coverpkg when tests cover other packages. Coverage percentage does not establish assertion quality or correctness. Do not chase 100% blindly. Inspect the coverage HTML report for missing paths. Coverage counts execution, not useful assertions.",
+      "because": "Default reporting can miss coverage exercised from another package.",
+      "sources": [
+        "BP192"
+      ],
+      "reference": "references/rules/testing.md#g192"
+    },
+    {
+      "id": "G193",
+      "topic": "testing",
+      "when": "tests should constrain public behavior rather than implementation",
+      "then": "Use an external package_name_test package. Same-package tests remain useful where internal behavior needs inspection.",
+      "because": "Prevents direct access to private details and keeps tests stable during internal refactoring.",
+      "sources": [
+        "BP193"
+      ],
+      "reference": "references/rules/testing.md#g193"
+    },
+    {
+      "id": "G194",
+      "topic": "testing",
+      "when": "repeated test setup can fail",
+      "then": "Pass *testing.T to test helpers and fail the test there when setup cannot succeed. Keep this behavior in testing helpers, not production APIs.",
+      "because": "Removes repeated production-style error plumbing from each test.",
+      "sources": [
+        "BP194"
+      ],
+      "reference": "references/rules/testing.md#g194"
+    },
+    {
+      "id": "G195",
+      "topic": "testing",
+      "when": "test helpers acquire resources",
+      "then": "Register teardown with t.Cleanup or defer in the owning test. Cleanup callbacks run in reverse registration order.",
+      "because": "Ensures lifecycle responsibility is not forgotten by callers.",
+      "sources": [
+        "BP195"
+      ],
+      "reference": "references/rules/testing.md#g195"
+    },
+    {
+      "id": "G196",
+      "topic": "testing",
+      "when": "a package needs shared expensive environment setup",
+      "then": "Use TestMain to set up, run m.Run, tear down, and preserve the result code. Run teardown before os.Exit, which does not run defers. Shared package infrastructure must not compromise individual test isolation.",
+      "because": "Avoids repeated setup while guaranteeing orderly package-level teardown.",
+      "sources": [
+        "BP196"
+      ],
+      "reference": "references/rules/testing.md#g196"
+    },
+    {
+      "id": "G197",
+      "topic": "design-and-measurement-principles",
+      "when": "optimizing a codebase",
+      "then": "Prioritize correctness and clarity, then optimize measured paths with a concrete benefit. Performance work is justified by actual user, capacity, or cost needs. Prefer readability to speculative speed. Benchmark representative changes because compiler, hardware and data behavior can defeat intuition.",
+      "because": "Complexity has a maintenance cost and guessed optimization may solve no real problem.",
+      "sources": [
+        "BP197"
+      ],
+      "reference": "references/rules/design-and-measurement-principles.md#g197"
+    },
+    {
+      "id": "G198",
+      "topic": "code-and-api-design",
+      "when": "designing interface granularity",
+      "then": "Keep interfaces small and compose them when a larger combined behavior is required. Choose sufficient granularity for the real behavior, not minimalism for its own sake. Compose small interfaces when combined behavior is needed. Granularity should match actual meaning, not an arbitrary one-method rule.",
+      "because": "Fewer required methods increase reuse and composability.",
+      "sources": [
+        "BP198"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g198"
+    },
+    {
+      "id": "G199",
+      "topic": "performance-and-diagnostics",
+      "when": "optimizing data-heavy loops",
+      "then": "Arrange access to reuse nearby data and exploit temporal and spatial locality. Cache sizes and line widths depend on hardware. Counted operations alone do not predict running time. Machine cache sizes, latency ratios and typical 64-byte lines are illustrative. Consider the machine model only for measured bottlenecks.",
+      "because": "CPUs fetch cache lines, so useful adjacent data can amortize memory access cost.",
+      "sources": [
+        "BP199"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g199"
+    },
+    {
+      "id": "G200",
+      "topic": "performance-and-diagnostics",
+      "when": "hot code scans only a subset of record fields",
+      "then": "Consider a struct of slices instead of a slice of structs for the hot fields. This is an access-pattern tradeoff, not a universal preferred representation. Total bytes may stay unchanged while useful fields per cache line increase. Whole-record operations can favor the opposite representation.",
+      "because": "More useful values fit in each fetched cache line.",
+      "sources": [
+        "BP200"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g200"
+    },
+    {
+      "id": "G201",
+      "topic": "performance-and-diagnostics",
+      "when": "choosing data structures for hot traversal",
+      "then": "Prefer predictable contiguous or constant-stride access when suitable. Semantics and other operation costs may require linked structures. Measure target hardware. Even contiguous allocation of a linked structure leaves dependent pointer loads. The source's claim about non-unit strides never being prefetched is too strong to treat as a contract.",
+      "because": "CPUs can prefetch predictable accesses more effectively than pointer chasing.",
+      "sources": [
+        "BP201"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g201"
+    },
+    {
+      "id": "G202",
+      "topic": "performance-and-diagnostics",
+      "when": "a hot strided access pattern has unexpected cache misses",
+      "then": "Investigate cache-set conflicts and avoid critical strides when measurements justify a layout change. Architecture-specific optimization. The source's illustrative bit/byte arithmetic has inconsistencies and should not become a copied formula. Input reuse and the actual cache geometry determine whether a critical stride matters.",
+      "because": "Addresses mapping repeatedly to one cache set evict each other.",
+      "sources": [
+        "BP202"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g202"
+    },
+    {
+      "id": "G203",
+      "topic": "performance-and-diagnostics",
+      "when": "independent concurrent writers update nearby fields",
+      "then": "Check for false sharing and consider padding or independent local results passed through channels. Data-race freedom does not eliminate false sharing. Padding size depends on cache architecture and costs memory. The sample 56-byte padding assumes an 8-byte field and 64-byte cache line. Do not hardcode that geometry for all targets.",
+      "because": "Coherence works at cache-line granularity, so unrelated fields can invalidate each other's caches.",
+      "sources": [
+        "BP203"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g203"
+    },
+    {
+      "id": "G204",
+      "topic": "performance-and-diagnostics",
+      "when": "a measured CPU-bound loop has dependent operations",
+      "then": "Inspect generated code and consider equivalent transformations that reduce data dependencies. Maintain correctness and clarity. Compiler and processor changes can invalidate a micro-optimization. A temporary pre-update value can expose independence, but preserve the branch semantics as well as arithmetic results.",
+      "because": "Independent instruction paths allow instruction-level parallelism.",
+      "sources": [
+        "BP204"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g204"
+    },
+    {
+      "id": "G205",
+      "topic": "performance-and-diagnostics",
+      "when": "many copies of a struct consume substantial memory",
+      "then": "Inspect field layout and consider grouping fields by decreasing alignment/size to reduce padding. Do not assume the source's alignment table is universally correct. Alignment varies by type/architecture and layout changes can have API implications. Treat descending size/alignment as a layout heuristic. Verify the actual target layout before accepting byte/bit or word-size claims from the source. Do not sacrifice a clear public API merely to remove padding without a measured benefit.",
+      "because": "Smaller structs reduce memory traffic, GC pressure, and cache-line use.",
+      "sources": [
+        "BP205"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g205"
+    },
+    {
+      "id": "G206",
+      "topic": "performance-and-diagnostics",
+      "when": "choosing values versus pointers for performance",
+      "then": "Choose semantics first and benchmark allocation and copy costs before replacing values with pointers. A pointer is not automatically faster. Stack and heap behavior depends on escape analysis and inlining.",
+      "because": "Pointers can force heap allocation and GC work while value copies can be cheap.",
+      "sources": [
+        "BP206"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g206"
+    },
+    {
+      "id": "G207",
+      "topic": "performance-and-diagnostics",
+      "when": "measuring allocation-sensitive work",
+      "then": "Use benchmark allocation reporting to inspect bytes and allocations per operation. ReportAllocs measures heap allocations, not ordinary stack allocations. Heap allocation adds allocator and GC work that ordinary stack-frame reuse does not incur.",
+      "because": "Time alone can hide heap pressure.",
+      "sources": [
+        "BP207"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g207"
+    },
+    {
+      "id": "G208",
+      "topic": "performance-and-diagnostics",
+      "when": "a change may make objects escape",
+      "then": "Inspect compiler decisions with go build -gcflags '-m=2'. The book's sharing-up/down rules are heuristics. Compiler behavior evolves. Sending references through channels, appending and variable or large allocations are contextual examples, not an exhaustive escape law.",
+      "because": "Escape analysis is contextual, and returning references, sending references, dynamic sizes, or large objects may escape.",
+      "sources": [
+        "BP208"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g208"
+    },
+    {
+      "id": "G209",
+      "topic": "performance-and-diagnostics",
+      "when": "a hot API produces buffers repeatedly",
+      "then": "Consider accepting caller-provided storage instead of always allocating and returning it. Passing storage down does not guarantee stack allocation. Check escape analysis.",
+      "because": "Callers can reuse storage and avoid forcing a fresh escaping allocation.",
+      "sources": [
+        "BP209"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g209"
+    },
+    {
+      "id": "G210",
+      "topic": "performance-and-diagnostics",
+      "when": "using byte data to look up string-keyed maps",
+      "then": "Consider direct m[string(bytes)] lookup and verify compiler allocation behavior. Optimization details change by compiler version. Do not generalize to map insertion or retained strings. A separately stored conversion may compile differently from direct lookup. Do not extrapolate the optimization to insertion, retained strings or unsafe mutation.",
+      "because": "The compiler can avoid a temporary conversion allocation in this expression.",
+      "sources": [
+        "BP210"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g210"
+    },
+    {
+      "id": "G211",
+      "topic": "performance-and-diagnostics",
+      "when": "a profile shows repeated allocations of interchangeable temporary objects",
+      "then": "Consider sync.Pool with a factory, reset acquired objects, and return them after use. A pool is not a durable cache or a bounded resource pool. Objects may disappear and concurrent pool safety does not make checked-out objects safe to share. Do not access an object after returning it to the pool. A creation path must handle empty pools. BOOK-ERA GC-removal timing is simplified and retention is never guaranteed.",
+      "because": "Reuse can lower amortized allocations and GC pressure.",
+      "sources": [
+        "BP211"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g211"
+    },
+    {
+      "id": "G212",
+      "topic": "performance-and-diagnostics",
+      "when": "designing pooled buffer ownership",
+      "then": "Ensure the active slice length and state are reset and subsequent writes are reflected in the object actually used and returned. The source's getResponse(buffer) sketch does not show how updated length is returned. Treat it as illustrative, not runnable final code. Reset logical slice length and all other reusable state. Return ownership only after the active operation finishes.",
+      "because": "Stale state or a lost updated slice header defeats correctness despite lower allocations.",
+      "sources": [
+        "BP212"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g212"
+    },
+    {
+      "id": "G213",
+      "topic": "performance-and-diagnostics",
+      "when": "a frequently used function has a tiny fast path and complex slow path",
+      "then": "Consider extracting the slow path so the fast wrapper can inline, then verify compiler output and benchmarks. Inlining budgets and compiler decisions are version-dependent. Avoid refactoring without evidence. Use -gcflags=-m=2 diagnostics to verify inlining decisions. Fast-path inlining may enable escape and constant optimizations beyond removing a call.",
+      "because": "Inlining removes call overhead and can enable further escape and constant optimizations.",
+      "sources": [
+        "BP213"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g213"
+    },
+    {
+      "id": "G214",
+      "topic": "performance-and-diagnostics",
+      "when": "diagnosing performance rather than guessing",
+      "then": "Collect the relevant pprof profile and inspect hot functions, call chains, and source lines. Choose sampling rates deliberately. Profile overhead and representative load matter.",
+      "because": "Profiling identifies actual CPU, allocation, goroutine, and contention costs.",
+      "sources": [
+        "BP214"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g214"
+    },
+    {
+      "id": "G215",
+      "topic": "performance-and-diagnostics",
+      "when": "cPU time is the suspected bottleneck",
+      "then": "Use a bounded CPU profile, including -cpuprofile for benchmarks, and inspect call graph, top, or flame graph views. Sampling is statistical, not exact per-call timing. Labels can separate callers sharing a function. A sampling interval is not a hard minimum function duration visible in a CPU profile. Shorter intervals increase overhead. The source assertion that work shorter than a 10 ms sampling interval cannot appear is overbroad.",
+      "because": "Locates expensive paths and suggests allocation, contention, or I/O-buffering work.",
+      "sources": [
+        "BP215"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g215"
+    },
+    {
+      "id": "G216",
+      "topic": "performance-and-diagnostics",
+      "when": "analyzing memory cost",
+      "then": "Distinguish cumulative allocation count/bytes from in-use object count/bytes. Profiles concern heap allocations and are sampled. The source profile keys are alloc_objects, alloc_space, inuse_objects and inuse_space. Heap sampling trades precision against overhead and does not count stack storage.",
+      "because": "High allocation churn and retained memory are different problems.",
+      "sources": [
+        "BP216"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g216"
+    },
+    {
+      "id": "G217",
+      "topic": "performance-and-diagnostics",
+      "when": "investigating a suspected memory leak",
+      "then": "Compare heap profiles over time after GC and look for sustained retained growth. A single increase can reflect an in-flight request. Repeat under comparable workloads. Forced GC perturbs execution. Compare meaningful intervals and comparable load, and state the direction of the diff-base comparison.",
+      "because": "A pre-GC spike may merely be collectible garbage.",
+      "sources": [
+        "BP217"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g217"
+    },
+    {
+      "id": "G218",
+      "topic": "performance-and-diagnostics",
+      "when": "investigating leaked or stuck goroutines",
+      "then": "Inspect goroutine profiles or a full goroutine stack dump. Use debug=2 for a full textual dump and compare lifecycle expectations. Inspect wait states, durations and creation sites against expected lifecycle. One blocked-stack snapshot is a diagnostic lead, not proof of a leak.",
+      "because": "Stacks reveal where goroutines remain active or blocked.",
+      "sources": [
+        "BP218"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g218"
+    },
+    {
+      "id": "G219",
+      "topic": "performance-and-diagnostics",
+      "when": "synchronization appears to limit throughput",
+      "then": "Enable SetBlockProfileRate or SetMutexProfileFraction deliberately before the interval of interest. Use block profiles for supported synchronization waits rather than assuming they cover arbitrary network/filesystem I/O. Go 1.22+ mutex samples sum goroutine delay: 100 goroutines waiting 10 ms can contribute 1 second. Go 1.25 improves runtime-lock attribution. Rates affect overhead and CPU samples alone may hide waiting.",
+      "because": "Attributes waits and contention to relevant code.",
+      "sources": [
+        "BP219",
+        "RV277",
+        "RV434"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g219"
+    },
+    {
+      "id": "G220",
+      "topic": "performance-and-diagnostics",
+      "when": "collecting multiple diagnostic signals",
+      "then": "Collect intrusive diagnostic profiles separately when simultaneous instrumentation could distort measurements. The book says one profiler at a time. Treat as a measurement precaution, not a claim that default heap data must be disabled. Default heap data need not be disabled merely because another diagnostic is active. The concern is observer interference from simultaneous expensive instrumentation.",
+      "because": "Observation can perturb the behavior being measured.",
+      "sources": [
+        "BP220"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g220"
+    },
+    {
+      "id": "G221",
+      "topic": "performance-and-diagnostics",
+      "when": "understanding scheduling, GC pauses, or poor parallelism",
+      "then": "Capture an execution trace and inspect goroutine activity across processors. Do not equate every blank interval with one cause without investigation. Many tiny execution segments and orchestration gaps can suggest scheduling overhead. Trace overhead and representative workload still matter.",
+      "because": "Trace events reveal scheduling overhead and runtime pauses that aggregate profiles obscure.",
+      "sources": [
+        "BP221"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g221"
+    },
+    {
+      "id": "G222",
+      "topic": "performance-and-diagnostics",
+      "when": "trace data needs application-level meaning",
+      "then": "Annotate tasks and regions with runtime/trace and end tasks appropriately. Instrumentation adds work and should target useful boundaries. Execution trace is event-based while CPU profiling is sampled. Their evidence is complementary.",
+      "because": "Connects runtime events to operations and duration distributions.",
+      "sources": [
+        "BP222"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g222"
+    },
+    {
+      "id": "G223",
+      "topic": "performance-and-diagnostics",
+      "when": "gC cost appears significant",
+      "then": "Measure GC behavior, using gctrace or diagnostics, before tuning. Runtime internals and defaults are version-sensitive. The source's mark/sweep wording is simplified. GODEBUG=gctrace=1 exposes collection frequency and costs. Live references, allocation rate, concurrent work and brief stop-the-world phases matter. Fixed CPU percentages and pause figures in the source are historical simplifications.",
+      "because": "Heap size, allocation rate, and collection effort interact.",
+      "sources": [
+        "BP223"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g223"
+    },
+    {
+      "id": "G224",
+      "topic": "performance-and-diagnostics",
+      "when": "balancing memory use against GC CPU and latency",
+      "then": "Tune GOGC only under representative load. Higher values generally allow more heap growth and fewer collections, with memory and per-cycle cost tradeoffs. Go 1.19+ GOMEMLIMIT provides a separate soft Go-managed-memory limit even with GOGC=off. Leave headroom for non-Go allocations and OS memory. Near the live-heap size the runtime can exceed the limit to make progress.",
+      "because": "More growth between collections reduces frequency but increases memory and potentially cycle cost.",
+      "sources": [
+        "BP224",
+        "RV73"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g224"
+    },
+    {
+      "id": "G225",
+      "topic": "performance-and-diagnostics",
+      "when": "memory remains after a temporary allocation peak",
+      "then": "Allow the scavenger to return unused memory, and consider debug.FreeOSMemory only for a demonstrated need. Manual collection/scavenging has costs and is not routine application logic. Distinguish retained live objects, reusable heap space and memory actually returned to the OS. Forced release does not fix unwanted live references.",
+      "because": "Heap capacity and OS-reported memory do not immediately track live objects.",
+      "sources": [
+        "BP225"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g225"
+    },
+    {
+      "id": "G226",
+      "topic": "performance-and-diagnostics",
+      "when": "evaluating the book's exceptional burst workaround",
+      "then": "Prefer measuring GOGC and, from Go 1.19, GOMEMLIMIT before considering retained ballast. Ballast is a historical exceptional technique, not a default. Its address-space use, physical pages touched, OS lazy allocation and container accounting need dedicated validation. The book's 1 GB size is not reusable configuration.",
+      "because": "The book proposes increasing the minimum live heap to reduce burst-triggered GC frequency.",
+      "sources": [
+        "BP226",
+        "RV73"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g226"
+    },
+    {
+      "id": "G227",
+      "topic": "performance-and-diagnostics",
+      "when": "deploying Go under container CPU quotas",
+      "then": "Inspect runtime.GOMAXPROCS(0), CPU affinity/quota and program GODEBUG settings. On Go 1.25+, Linux quota awareness and periodic updates on all platforms default on for program compatibility defaults >=1.25, and off for defaults <=1.24. These defaults follow the active workspace or work module, then godebug and main-package //go:debug overrides. Per-file language gates do not select them. Inspect go list -f '{{.DefaultGODEBUG}}' for the main package and runtime GODEBUG environment overrides. A positive GOMAXPROCS environment override or value-setting runtime.GOMAXPROCS call disables automatic updates. runtime.SetDefaultGOMAXPROCS (Go 1.25+) restores managed defaults. Quotas differ from Kubernetes CPU requests, and matching them does not guarantee zero throttling. Measure throttling and tail latency before changing settings.",
+      "because": "Host-core-based concurrency can exhaust a quota early and cause pauses.",
+      "sources": [
+        "BP227",
+        "RV396",
+        "RV433"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g227"
+    },
+    {
+      "id": "G228",
+      "topic": "performance-and-diagnostics",
+      "when": "the runtime does not derive execution capacity from the container quota",
+      "then": "First inspect actual runtime and module behavior using the container rule. If quota-aware defaults are unavailable or intentionally disabled, consider an explicit quota-aware adjustment such as automaxprocs. Measure its effect and avoid an unnecessary override of working Go 1.25+ managed defaults.",
+      "because": "Bounds simultaneous execution to the container's intended capacity.",
+      "sources": [
+        "BP228",
+        "RV396",
+        "RV433"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g228"
+    },
+    {
+      "id": "G229",
+      "topic": "code-and-api-design",
+      "when": "initializing static configuration",
+      "then": "Consider init for non-failing static setup that does not compromise tests. Assess failure and global-state behavior, init is not universally forbidden. Registration or static configuration can fit init if it introduces no failure, mutable-global or test-isolation problem.",
+      "because": "Some registration and configuration side effects fit package initialization.",
+      "sources": [
+        "BP229"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g229"
+    },
+    {
+      "id": "G230",
+      "topic": "code-and-api-design",
+      "when": "using a builder with chaining",
+      "then": "When chained setters cannot return validation errors, perform validation and default resolution explicitly in Build. Builder patterns are valid, but deferred validation and extra construction steps can complicate clients. Builders are valid alternatives but can make default construction and precise per-option errors less convenient.",
+      "because": "Chained setters returning the builder cannot also provide ordinary Go error handling.",
+      "sources": [
+        "BP230"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g230"
+    },
+    {
+      "id": "G231",
+      "topic": "iteration-and-control-flow",
+      "when": "choosing pointer collections",
+      "then": "Use pointers when sharing is intended, pointers already exist, or large frequently mutated values justify avoiding copies. Do not choose pointers automatically, clarify who shares the pointee. Pointer elements can worsen locality and make ownership/sharing less obvious. Avoid pointers merely by habit.",
+      "because": "Pointer storage changes semantics and mutation cost.",
+      "sources": [
+        "BP231"
+      ],
+      "reference": "references/rules/iteration-and-control-flow.md#g231"
+    },
+    {
+      "id": "G232",
+      "topic": "concurrency-and-lifecycles",
+      "when": "carrying request metadata across API boundaries",
+      "then": "Use context values for cross-cutting information such as correlation IDs or middleware metadata. Mutable values require their own synchronization, context concurrency safety does not protect pointees. Standard context concurrency safety does not synchronize mutable values or pointees stored in that context.",
+      "because": "Related operations can share metadata without invasive plumbing.",
+      "sources": [
+        "BP232"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g232"
+    },
+    {
+      "id": "G233",
+      "topic": "concurrency-and-lifecycles",
+      "when": "choosing a root context",
+      "then": "Use Background for a deliberate root and TODO when the correct context is unresolved.",
+      "because": "TODO documents incomplete context propagation.",
+      "sources": [
+        "BP233"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g233"
+    },
+    {
+      "id": "G234",
+      "topic": "performance-and-diagnostics",
+      "when": "the same function serves several workloads",
+      "then": "Attach pprof labels where differentiation matters. Label selection should support the diagnostic question.",
+      "because": "Separates costs by logical caller or workload.",
+      "sources": [
+        "BP234"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g234"
+    },
+    {
+      "id": "G235",
+      "topic": "performance-and-diagnostics",
+      "when": "enabling production diagnostics",
+      "then": "Consider net/http/pprof or programmatic/benchmark profile collection with awareness of sampling cost. Profiles such as CPU are collected for a chosen interval. Endpoint exposure/security is outside this local-source investigation. The source pprof endpoint example establishes a diagnostic mechanism, not a production endpoint-exposure policy.",
+      "because": "Provides actionable diagnostics without continuously enabling every expensive profile.",
+      "sources": [
+        "BP235"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g235"
+    },
+    {
+      "id": "G236",
+      "topic": "performance-and-diagnostics",
+      "when": "cPU profiles show allocation, synchronization or syscall overhead",
+      "then": "Reduce unnecessary allocations, investigate contention, or consider I/O buffering based on the observed hotspot. These are diagnostic hypotheses, not automatic fixes.",
+      "because": "Targets the runtime cost actually dominating execution.",
+      "sources": [
+        "BP236"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g236"
+    },
+    {
+      "id": "G237",
+      "topic": "performance-and-diagnostics",
+      "when": "built-in profiles do not cover a resource of interest",
+      "then": "Consider a custom pprof.Profile. The book's threadcreate broken-status note is historical, not a current recommendation. BOOK-ERA: the threadcreate broken-status observation is historical and must not be carried forward as current tool behavior.",
+      "because": "Extends diagnostics to application-specific accounting.",
+      "sources": [
+        "BP237"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g237"
+    },
+    {
+      "id": "G238",
+      "topic": "design-and-measurement-principles",
+      "when": "applying advice from the book",
+      "then": "Retain the specific context and alternatives instead of treating every recommendation as a dogmatic rule. The book assumes existing Go knowledge and concentrates on core language/standard library.",
+      "because": "The author explicitly frames solutions as contextual.",
+      "sources": [
+        "BP238"
+      ],
+      "reference": "references/rules/design-and-measurement-principles.md#g238"
+    },
+    {
+      "id": "G239",
+      "topic": "functions-methods-and-interfaces",
+      "when": "a receiver is large",
+      "then": "Consider a pointer receiver and benchmark the copy-versus-pointer tradeoff. No universal size cutoff is given, semantics take priority over speculative optimization. There is no universal size cutoff. The source prefers pointers when otherwise undecided, but receiver semantics and measurement govern the choice.",
+      "because": "Large copies can be costly.",
+      "sources": [
+        "BP239"
+      ],
+      "reference": "references/rules/functions-methods-and-interfaces.md#g239"
+    },
+    {
+      "id": "G240",
+      "topic": "code-and-api-design",
+      "when": "zero is a valid explicit option",
+      "then": "Represent absence separately from zero, for example with a pointer in configuration. Pointer configuration adds caller friction. A pointer field is one way to distinguish omission from explicit zero, but it adds caller friction. Apply domain-specific invalid-value validation separately.",
+      "because": "A missing value and an explicitly supplied zero otherwise become indistinguishable.",
+      "sources": [
+        "BP240"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g240"
+    },
+    {
+      "id": "G241",
+      "topic": "versions-and-tooling",
+      "when": "building, reviewing or upgrading a Go module",
+      "then": "Record the supported minimum Go version, go.mod/go.work directives, per-file build constraints, actual selected toolchain, GOTOOLCHAIN and target platforms. From Go 1.21 the go directive is a strict minimum and toolchain selection may download another compiler. A newer compiler alone does not enable newer language semantics in an older module. Validate the minimum with an actual baseline toolchain when compatibility is claimed.",
+      "because": "Language permission, library availability and runtime compatibility defaults are separate inputs.",
+      "sources": [
+        "RV180",
+        "RV239",
+        "RV289",
+        "RV506"
+      ],
+      "reference": "references/rules/versions-and-tooling.md#g241"
+    },
+    {
+      "id": "G242",
+      "topic": "versions-and-tooling",
+      "when": "upgrading a runtime or changing GODEBUG settings",
+      "then": "Inspect relevant release entries for all crossed versions and their patch, module and experiment gates. On Go 1.27, asynctimerchan, gotypesalias, tlsunsafeekm, tlsrsakex, tls3des, tls10server and x509keypairleaf are removed. Removed keys in module/source declarations only accept their final values. Test behavior instead of prescribing a removed workaround.",
+      "because": "Compatibility switches can expire and source-era advice can become invalid.",
+      "sources": [
+        "RV505",
+        "RV513",
+        "RV527",
+        "RV535"
+      ],
+      "reference": "references/rules/versions-and-tooling.md#g242"
+    },
+    {
+      "id": "G243",
+      "topic": "versions-and-tooling",
+      "when": "modernizing Go source or verification tooling",
+      "then": "Run the target toolchain's go fix and vet checks as appropriate, then review the diff and relevant behavioral tests. Go 1.26 rebuilds go fix around modernizers, and Go 1.27 changes modernizer names and defaults stdversion into go test. Account for output/JSON changes in tool consumers.",
+      "because": "Automated migration and diagnostics help locate changes but do not establish application semantics.",
+      "sources": [
+        "RV446",
+        "RV506",
+        "RV508",
+        "RV511"
+      ],
+      "reference": "references/rules/versions-and-tooling.md#g243"
+    },
+    {
+      "id": "G244",
+      "topic": "versions-and-tooling",
+      "when": "installing tools or updating module dependencies",
+      "then": "In module mode on Go 1.18+, use go install path@version for executables and go get for dependencies. Use deliberate tidy/download updates, and review go.mod/go.sum changes. Go 1.24+ tool directives and go tool can track executable dependencies. A go1.27+ module may have require blocks consolidated by tidy.",
+      "because": "Tool installation, dependency changes and reproducible build inputs have different ownership.",
+      "sources": [
+        "RV13",
+        "RV14",
+        "RV16",
+        "RV18",
+        "RV333",
+        "RV509"
+      ],
+      "reference": "references/rules/versions-and-tooling.md#g244"
+    },
+    {
+      "id": "G245",
+      "topic": "versions-and-tooling",
+      "when": "working in a multi-module checkout",
+      "then": "Inspect go env GOWORK and the discovered go.work before interpreting dependency resolution. Go 1.18 workspaces select multiple main modules. Go 1.22 adds workspace vendor trees. Verify intended module-only behavior with GOWORK=off when publishing or testing a module independently.",
+      "because": "An enclosing workspace or its vendor tree can hide a missing module requirement.",
+      "sources": [
+        "RV19",
+        "RV240"
+      ],
+      "reference": "references/rules/versions-and-tooling.md#g245"
+    },
+    {
+      "id": "G246",
+      "topic": "versions-and-tooling",
+      "when": "building for different operating systems, CPU levels or cgo environments",
+      "then": "Consult the platform entries for the selected release and verify GOOS, GOARCH, architecture feature levels, OS minimums, C compiler/linker and external library ABI. Higher GOAMD64/GOARM64/GORISCV64 settings constrain deployment hardware. Go 1.27 requires macOS 13+, and linux/ppc64 uses ELFv2 with compatible libc/libraries for cgo.",
+      "because": "A successful host build does not prove deployment compatibility.",
+      "sources": [
+        "RV6",
+        "RV329",
+        "RV330",
+        "RV548",
+        "RV549",
+        "RV121"
+      ],
+      "reference": "references/rules/versions-and-tooling.md#g246"
+    },
+    {
+      "id": "G247",
+      "topic": "versions-and-tooling",
+      "when": "using experimental Go features",
+      "then": "Record the exact toolchain and GOEXPERIMENT settings and isolate unstable APIs. Go 1.24 synctest.Run and Go 1.25 JSON v2 are historical experiments, not their later stable APIs. Go 1.27 simd/archsimd and runtime/secret remain experimental. Review later release entries before carrying experiment switches forward.",
+      "because": "An experiment is outside the ordinary stable API contract, even when a later feature shares its name.",
+      "sources": [
+        "RV349",
+        "RV405",
+        "RV406",
+        "RV518",
+        "RV456",
+        "RV457",
+        "RV521",
+        "RV522",
+        "RV543"
+      ],
+      "reference": "references/rules/versions-and-tooling.md#g247"
+    },
+    {
+      "id": "G248",
+      "topic": "code-and-api-design",
+      "when": "introducing generic aliases or newer expression syntax",
+      "then": "Require Go 1.24 language support for stable generic aliases, including cross-package use. Require Go 1.26 for new(expression) and self-referential generic constraints. Go 1.23 aliases are only an intra-package experiment. Keep older baselines using supported forms rather than relying on the installed compiler alone.",
+      "because": "Syntax and type-system capabilities follow effective language versions.",
+      "sources": [
+        "RV286",
+        "RV332",
+        "RV445"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g248"
+    },
+    {
+      "id": "G249",
+      "topic": "collections-and-ownership",
+      "when": "implementing collection comparisons, copies, searches or sorting",
+      "then": "Check stable slices, maps and cmp on Go 1.21+ before writing equivalent loops. Keep equality semantics, nil behavior, shallow-copy ownership and alias effects explicit. Earlier x/exp packages are separately versioned and do not carry the standard-library compatibility promise.",
+      "because": "Standard helpers reduce duplication when their contracts match the needed behavior.",
+      "sources": [
+        "RV2",
+        "RV3",
+        "RV4",
+        "RV189",
+        "RV190",
+        "RV191",
+        "RV279"
+      ],
+      "reference": "references/rules/collections-and-ownership.md#g249"
+    },
+    {
+      "id": "G250",
+      "topic": "iteration-and-control-flow",
+      "when": "using integer or function range and iterator helpers",
+      "then": "Require Go 1.22 language support for integer range and Go 1.23 for stable function range. Match the allowed yield signature, stop producing when yield returns false, and preserve cancellation/resource ownership. iter plus slices/maps iterator helpers are Go 1.23 APIs. Go 1.24 strings/bytes sequence helpers can avoid intermediate collections but retain their underlying data.",
+      "because": "Lazy traversal changes allocation and lifetime behavior, and function range was only experimental in Go 1.22.",
+      "sources": [
+        "RV239",
+        "RV286",
+        "RV297",
+        "RV351",
+        "RV384"
+      ],
+      "reference": "references/rules/iteration-and-control-flow.md#g250"
+    },
+    {
+      "id": "G251",
+      "topic": "shared-state-and-synchronization",
+      "when": "representing independently atomic shared state",
+      "then": "Consider Go 1.19+ typed atomics, including atomic.Pointer[T], and retain sequentially consistent synchronization reasoning. Typed Int64/Uint64 supply needed 64-bit alignment on 32-bit targets. Go 1.23 adds atomic And/Or. Keep compound invariants under a suitable lock or protocol. TryLock availability from Go 1.18 does not justify busy polling.",
+      "because": "Atomic access is not whole-algorithm correctness or a substitute for ownership.",
+      "sources": [
+        "RV58",
+        "RV66",
+        "RV77",
+        "RV320"
+      ],
+      "reference": "references/rules/shared-state-and-synchronization.md#g251"
+    },
+    {
+      "id": "G252",
+      "topic": "concurrency-and-lifecycles",
+      "when": "callers need a cancellation reason beyond canceled or deadline exceeded",
+      "then": "Use context.WithCancelCause and Cause on Go 1.20+, or WithDeadlineCause/WithTimeoutCause on Go 1.21+ for expiry reasons. Keep cancellation cooperative, call the owning cancel function, and separately join work that must finish cleanup. Go 1.26 signal.NotifyContext also records the signal cause.",
+      "because": "A cause carries diagnostic meaning without replacing lifetime and completion protocols.",
+      "sources": [
+        "RV136",
+        "RV195",
+        "RV489"
+      ],
+      "reference": "references/rules/concurrency-and-lifecycles.md#g252"
+    },
+    {
+      "id": "G253",
+      "topic": "errors-and-cleanup",
+      "when": "combining or inspecting multiple failures",
+      "then": "On Go 1.20+, use errors.Join or multiple %w operands when callers should inspect all causes. Use errors.Is/As over the tree, or errors.AsType on Go 1.26+. Do not assume errors.Unwrap exposes every child or that a single-chain traversal is complete. Preserve the API decision about exposing underlying failures.",
+      "because": "Multiple errors form a tree whose children must remain inspectable.",
+      "sources": [
+        "RV130",
+        "RV148",
+        "RV149",
+        "RV474"
+      ],
+      "reference": "references/rules/errors-and-cleanup.md#g253"
+    },
+    {
+      "id": "G254",
+      "topic": "security-and-compatibility",
+      "when": "code needs reproducible noncryptographic randomness, including production simulations, sampling, replay or tests",
+      "then": "Own a local seeded generator instead of relying on package-global state. math/rand autoseeds from Go 1.20 and top-level Seed becomes a no-op by default in Go 1.24. math/rand/v2 is available from Go 1.22 with different sources and names. A fixed seed does not control goroutine scheduling.",
+      "because": "Global defaults and algorithms change across versions and shared state breaks isolation.",
+      "sources": [
+        "RV157",
+        "RV250",
+        "RV375",
+        "RV538"
+      ],
+      "reference": "references/rules/security-and-compatibility.md#g254"
+    },
+    {
+      "id": "G255",
+      "topic": "testing",
+      "when": "testing input parsers or transformations with broad input domains",
+      "then": "Use Go 1.18+ testing.F with a small meaningful seed corpus and properties about valid/invalid inputs. Set fuzz time/minimization budgets, retain reproducing failures, and manage GOCACHE/fuzz disk usage with go clean -fuzzcache when appropriate.",
+      "because": "Fuzzing explores cases beyond examples, but cache growth and execution budgets need ownership.",
+      "sources": [
+        "RV12",
+        "RV21",
+        "RV61"
+      ],
+      "reference": "references/rules/testing.md#g255"
+    },
+    {
+      "id": "G256",
+      "topic": "testing",
+      "when": "integration execution needs coverage evidence",
+      "then": "On Go 1.20+, build with -cover, set GOCOVERDIR for executions, and inspect application coverage alongside unit coverage. For long-running processes use runtime/coverage when normal exit cannot write the needed evidence. Keep coverage separate from assertion quality.",
+      "because": "Integration paths may not run under a unit-test process.",
+      "sources": [
+        "RV122",
+        "RV125"
+      ],
+      "reference": "references/rules/testing.md#g256"
+    },
+    {
+      "id": "G257",
+      "topic": "testing",
+      "when": "testing concurrent time-based behavior on Go 1.25+",
+      "then": "Consider testing/synctest.Test and Wait for a fake-time bubble whose clock advances when goroutines are durably blocked. Keep race detection and external integration tests where needed. Go 1.24 used experimental Run, not this stable API. Go 1.27 adds synctest.Sleep and httptest.NewTestServer with a fake network. Real external I/O is not automatically virtualized.",
+      "because": "Deterministic scheduling boundaries reduce guessed sleeps but do not prove every concurrency property.",
+      "sources": [
+        "RV349",
+        "RV405",
+        "RV541",
+        "RV546"
+      ],
+      "reference": "references/rules/testing.md#g257",
+      "example": {
+        "label": "Fake time and completion",
+        "path": "../../examples/lifecycle_test.go"
+      }
+    },
+    {
+      "id": "G258",
+      "topic": "testing",
+      "when": "a test changes process-wide state or allocates lifecycle resources",
+      "then": "Keep process-wide working-directory/randomness changes out of parallel tests and parallel ancestors. Go 1.24 T.Context/B.Context cancel before cleanup callbacks and T.Chdir/B.Chdir scope directory restoration. Go 1.25 AllocsPerRun rejects parallel execution. Arrange cleanup and join workers explicitly rather than assuming test return proves completion.",
+      "because": "Process-wide mutations can contaminate other tests, while resource cleanup has ordering requirements.",
+      "sources": [
+        "RV386",
+        "RV436",
+        "RV493"
+      ],
+      "reference": "references/rules/testing.md#g258"
+    },
+    {
+      "id": "G259",
+      "topic": "time-and-serialization",
+      "when": "choosing omission rules for JSON fields",
+      "then": "Distinguish omitted values from explicit zero and distinguish omitzero from omitempty. Go 1.24+ encoding/json supports omitzero using IsZero or the type zero value, including zero time.Time. Combined tags omit either condition. Go 1.26 new(expression) can construct optional pointers only with that language baseline.",
+      "because": "Serialization tags and presence representations determine the external contract.",
+      "sources": [
+        "RV366",
+        "RV445"
+      ],
+      "reference": "references/rules/time-and-serialization.md#g259"
+    },
+    {
+      "id": "G260",
+      "topic": "time-and-serialization",
+      "when": "migrating JSON implementations or upgrading to Go 1.27",
+      "then": "Keep encoding/json v1 and encoding/json/v2 contracts separate. In Go 1.27 both use the new engine, but v1 preserves its semantics except possible error wording. v2 defaults reject invalid UTF-8 and duplicate object names. Test nil/empty values, case matching, numbers, custom methods and exact wire requirements. For experimental v2 migrations, review inline-to-embed, removed format/unknown tags, removed options and changed token errors.",
+      "because": "Supported JSON v2 differs from both v1 and earlier experiments.",
+      "sources": [
+        "RV406",
+        "RV518"
+      ],
+      "reference": "references/rules/time-and-serialization.md#g260"
+    },
+    {
+      "id": "G261",
+      "topic": "resource-and-http-lifecycles",
+      "when": "using ReverseProxy hooks",
+      "then": "On Go 1.20+, use Rewrite with deliberate outbound URL/Host and forwarding-header policy. SetXForwarded is explicit. Director is deprecated in Go 1.26 because hostile hop-by-hop headers can remove headers it adds. Test attacker-controlled Connection headers and the trusted proxy boundary.",
+      "because": "Inbound and outbound handling must be separated before security-relevant headers are added.",
+      "sources": [
+        "RV132",
+        "RV485"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g261"
+    },
+    {
+      "id": "G262",
+      "topic": "resource-and-http-lifecycles",
+      "when": "changing ServeMux routes or upgrading routing behavior",
+      "then": "For Go 1.22 routing, review method-qualified patterns, GET matching HEAD, wildcards, PathValue, escaping and conflicting overlaps. httpmuxgo121 restores older routing only where supported. Go 1.26 slash redirects use 307 instead of 301, preserving method/body. Test route selection and redirects with the application's methods and paths.",
+      "because": "Routing syntax and redirects can alter which handler receives a request.",
+      "sources": [
+        "RV252",
+        "RV270",
+        "RV309",
+        "RV483"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g262"
+    },
+    {
+      "id": "G263",
+      "topic": "resource-and-http-lifecycles",
+      "when": "handling untrusted HTTP bodies, headers or browser-origin requests",
+      "then": "Choose request-body limits such as MaxBytesReader/MaxBytesHandler and inspect errors at the limit. Configure header/time limits independently. Go 1.27 Server.MaxHeaderValueCount bounds value counts. Go 1.25 CrossOriginProtection addresses unsafe cross-origin browser requests using Fetch metadata, with deliberate bypasses. It does not provide authentication or general request validation.",
+      "because": "Distinct input dimensions and browser threats require distinct controls.",
+      "sources": [
+        "RV50",
+        "RV101",
+        "RV429",
+        "RV540"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g263"
+    },
+    {
+      "id": "G264",
+      "topic": "resource-and-http-lifecycles",
+      "when": "accessing filesystem paths supplied outside the trusted boundary",
+      "then": "Use lexical checks only for lexical validation. filepath.IsLocal (Go 1.20) and Localize (Go 1.23) do not resolve symlink escape races. Go 1.24 os.Root supports confined operations, with more methods in Go 1.25. Choose an available Root operation and inspect platform limits before relying on confinement.",
+      "because": "A path that looks local can still escape through filesystem resolution.",
+      "sources": [
+        "RV165",
+        "RV313",
+        "RV342",
+        "RV430"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g264"
+    },
+    {
+      "id": "G265",
+      "topic": "resource-and-http-lifecycles",
+      "when": "launching subprocesses",
+      "then": "Use explicit paths when current-directory execution is intended. From Go 1.19, exec.Command/LookPath reject relative PATH resolutions. Derive cancellation from the operation and, on Go 1.20+, consider Cmd.Cancel/WaitDelay for custom termination and inherited pipes. Wait and close owned resources even after cancellation.",
+      "because": "Executable lookup and descendant-held pipes can violate intended trust and lifetime boundaries.",
+      "sources": [
+        "RV78",
+        "RV103",
+        "RV164",
+        "RV274"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g265"
+    },
+    {
+      "id": "G266",
+      "topic": "resource-and-http-lifecycles",
+      "when": "constructing network endpoints or retrying network failures",
+      "then": "Use net.JoinHostPort for host/port construction, especially IPv6. Evaluate retryability for the specific operation rather than deprecated net.Error.Temporary. Go 1.26 URL parsing rejects malformed colon-containing hosts. Use errors.Is/As when documented wrapped cancellation errors are relevant.",
+      "because": "Address formatting and failure categories have protocol-specific contracts.",
+      "sources": [
+        "RV49",
+        "RV100",
+        "RV308",
+        "RV395",
+        "RV487"
+      ],
+      "reference": "references/rules/resource-and-http-lifecycles.md#g266"
+    },
+    {
+      "id": "G267",
+      "topic": "performance-and-diagnostics",
+      "when": "considering GC-triggered cleanup or weak references",
+      "then": "Keep explicit Close and ownership as the primary resource lifetime. Go 1.24+ AddCleanup is preferred over new SetFinalizer usage for supplementary cleanup. Avoid callback/argument references that keep the object alive, preserve required liveness, and account for concurrent callbacks on Go 1.25+. Keep long blocking work off cleanup queues. Use weak pointers only when the data structure deliberately permits collection.",
+      "because": "Reachability-based cleanup is not deterministic ownership and can run concurrently.",
+      "sources": [
+        "RV344",
+        "RV345",
+        "RV433"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g267"
+    },
+    {
+      "id": "G268",
+      "topic": "performance-and-diagnostics",
+      "when": "diagnosing suspected goroutine leaks on Go 1.26+",
+      "then": "Use the goroutineleak profile with goroutine stacks and lifecycle analysis. Go 1.26 offers it experimentally with GOEXPERIMENT=goroutineleakprofile. Go 1.27 supports it and removes that switch. The detector finds unreachable synchronization objects with no possible unblocker but can miss globally or otherwise reachably held deadlocks.",
+      "because": "No profile samples cannot establish absence of leaks.",
+      "sources": [
+        "RV451",
+        "RV515"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g268"
+    },
+    {
+      "id": "G269",
+      "topic": "performance-and-diagnostics",
+      "when": "considering PGO or comparing performance after a Go upgrade",
+      "then": "Use representative CPU profiles and benchmarks on the deployment workload. PGO is generally supported from Go 1.21 and -pgo=auto uses default.pgo per main package. Record whether the profile is present. Reassess allocation, map, collector and inlining assumptions after upgrades. Green Tea was experimental in Go 1.25 and default in Go 1.26. Published percentages are workload observations, not guarantees.",
+      "because": "Compiler/runtime changes alter costs while measured evidence determines useful optimization.",
+      "sources": [
+        "RV181",
+        "RV184",
+        "RV293",
+        "RV338",
+        "RV397",
+        "RV448",
+        "RV514"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g269"
+    },
+    {
+      "id": "G270",
+      "topic": "performance-and-diagnostics",
+      "when": "rare production events need execution-trace evidence",
+      "then": "On Go 1.25+, consider trace.FlightRecorder with deliberate time and memory retention, then snapshot after the event. Bound instrumentation cost and protect diagnostic data. Go 1.27 trace -http=:port binds localhost, and go1.27+ traceback labels can expose pprof labels, controlled by tracebacklabels. Avoid putting secrets in diagnostic labels.",
+      "because": "A bounded recent trace can capture an event without storing every trace indefinitely.",
+      "sources": [
+        "RV398",
+        "RV512",
+        "RV513"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g270"
+    },
+    {
+      "id": "G271",
+      "topic": "performance-and-diagnostics",
+      "when": "using unsafe, assembly, cgo pointers or runtime representation assumptions",
+      "then": "Check documented lifetimes, alignment and ownership, and avoid depending on slice growth, map layout, heap allocation, closure symbol names or function code pointers as closure identity. Go 1.20 unsafe helpers avoid header-layout tricks but remain unsafe. New stack placement can expose existing lifetime bugs. Diagnostic compiler escape hatches do not establish a valid fix.",
+      "because": "Safe source semantics do not promise implementation representation or pointer lifetime extensions.",
+      "sources": [
+        "RV26",
+        "RV115",
+        "RV222",
+        "RV246",
+        "RV403",
+        "RV452",
+        "RV516"
+      ],
+      "reference": "references/rules/performance-and-diagnostics.md#g271"
+    },
+    {
+      "id": "G272",
+      "topic": "code-and-api-design",
+      "when": "adding structured logging or custom log handlers",
+      "then": "Consider Go 1.21+ log/slog, keeping attributes meaningful and sensitive values controlled. Use slogtest for custom handlers and vet for key/value mismatches. Go 1.26 MultiHandler broadcasts according to child Enabled and attribute/group semantics, so test composition. Avoid duplicate handling of one propagated error.",
+      "because": "Structured records help diagnosis only when their shape and handler behavior are correct.",
+      "sources": [
+        "RV187",
+        "RV188",
+        "RV245",
+        "RV281",
+        "RV481"
+      ],
+      "reference": "references/rules/code-and-api-design.md#g272"
+    },
+    {
+      "id": "G273",
+      "topic": "security-and-compatibility",
+      "when": "generating security-sensitive randomness",
+      "then": "Use crypto/rand rather than math/rand or rand/v2. From Go 1.24 crypto/rand.Read returns nil error on success and fatally terminates on reader failure. Go 1.26 several key-generation/signing APIs ignore supplied randomness by default. Use testing/cryptotest.SetGlobalRandom only within its global-state restrictions for deterministic tests. Preserve ECDSA PrivateKey.Sign(nil, ...) deterministic signing and Ed25519's explicit non-nil-reader distinction.",
+      "because": "Reproducible simulation randomness and cryptographic entropy have different guarantees.",
+      "sources": [
+        "RV81",
+        "RV157",
+        "RV250",
+        "RV356",
+        "RV460",
+        "RV461",
+        "RV462",
+        "RV463",
+        "RV467",
+        "RV468",
+        "RV493"
+      ],
+      "reference": "references/rules/security-and-compatibility.md#g273"
+    },
+    {
+      "id": "G274",
+      "topic": "security-and-compatibility",
+      "when": "maintaining cryptographic protocol or primitive choices",
+      "then": "Prefer maintained high-level crypto APIs and authenticated encryption. Use crypto/ecdh for key exchange instead of deprecated elliptic arithmetic, and review OFB/CFB and RSA PKCS1v15 encryption deprecations before extending old designs. Faster hashes do not make MD5 or SHA1 secure. Verify algorithm and compliance requirements against the exact deployed module and version rather than inferring approval from package availability.",
+      "because": "Low-level arithmetic, deprecated encryption modes and historical compliance claims are not safe defaults.",
+      "sources": [
+        "RV129",
+        "RV156",
+        "RV197",
+        "RV353",
+        "RV355",
+        "RV358",
+        "RV348",
+        "RV464",
+        "RV468"
+      ],
+      "reference": "references/rules/security-and-compatibility.md#g274"
+    },
+    {
+      "id": "G275",
+      "topic": "security-and-compatibility",
+      "when": "upgrading TLS or certificate handling",
+      "then": "Review negotiated protocols, cipher/group defaults, trust roots, certificate validation and temporary switches across every crossed release. Go 1.24 removes SHA1 verification escape x509sha1 and draft Kyber. Go 1.27 removes legacy TLS default switches and always populates key-pair Leaf. Explicit supported configuration differs from restoring removed defaults. Test real peers and root-store behavior, including Go 1.27 SSL_CERT_FILE/DIR overrides on Windows/Darwin.",
+      "because": "Defaults and platform verification policy can change interoperability and trust decisions.",
+      "sources": [
+        "RV32",
+        "RV33",
+        "RV82",
+        "RV257",
+        "RV300",
+        "RV362",
+        "RV363",
+        "RV416",
+        "RV471",
+        "RV527",
+        "RV528"
+      ],
+      "reference": "references/rules/security-and-compatibility.md#g275"
+    },
+    {
+      "id": "G276",
+      "topic": "security-and-compatibility",
+      "when": "tests or integrations compare exact standard-library output",
+      "then": "Decide whether bytes, parsed values or documented error identities are the contract. Keep byte assertions only where required. Recheck JSON escapes/errors, JPEG bytes/pixels, DEFLATE-dependent outputs, Unicode tables and wrapping changes after upgrades. For UnixConn EOF on Go 1.27, tolerate the direct io.EOF sentinel.",
+      "because": "Equivalent or corrected output can change without violating a promised semantic contract.",
+      "sources": [
+        "RV112",
+        "RV262",
+        "RV479",
+        "RV518",
+        "RV524",
+        "RV539",
+        "RV547"
+      ],
+      "reference": "references/rules/security-and-compatibility.md#g276"
+    },
+    {
+      "id": "G277",
+      "topic": "versions-and-tooling",
+      "when": "maintaining Go syntax/type/binary inspection tools",
+      "then": "Use version-compatible go/ast, go/types and debug readers. Handle generics and file language versions, replace deprecated AST identifier resolution with type checking, and handle Alias nodes unconditionally on Go 1.27. Recheck executable layouts and JSON event schemas against the target toolchain rather than parsing undocumented text.",
+      "because": "Language and binary representation evolve independently of the application being inspected.",
+      "sources": [
+        "RV43",
+        "RV46",
+        "RV209",
+        "RV263",
+        "RV264",
+        "RV306",
+        "RV419",
+        "RV420",
+        "RV453",
+        "RV476",
+        "RV506",
+        "RV535"
+      ],
+      "reference": "references/rules/versions-and-tooling.md#g277"
+    }
+  ]
+}
