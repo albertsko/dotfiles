@@ -6,10 +6,7 @@ disable-model-invocation: true
 
 # Flow
 
-- For the coordinator only.
-- A task is the main user request.
-- A subtask is delegated work.
-- Scale to uncertainty, dependencies, and consequences.
+For the coordinator only. A task is the main user request. A subtask is delegated work.
 
 ## Workflow
 
@@ -20,17 +17,20 @@ disable-model-invocation: true
 
 **Set up**
 
-- Create one unique, descriptive `.scratch/{task-id}` directory per task. Reuse it across follow-up turns and all phases, including planning, implementation, verification, and review. Keep all task and subtask artifacts there. Exclude them from commits.
-- When working cross repository, reuse the `{original-repo}/.scratch/{task-id}` directory.
-- When working on major changes or if requested explicitly, record specification in the `.scratch/{task-id}/SPEC.md`, and plan in the `.scratch/{task-id}/PLAN.md`.
+- Create one unique, descriptive `.scratch/{task-id}` dir per task. Reuse it across follow-up turns and all phases, including planning, implementation, verification, and review. Keep all task and subtask artifacts there. Exclude them from commits.
+- When working cross repository, reuse the `{original-repo}/.scratch/{task-id}` dir.
 
 **Delegate to subagent**
 
-- Delegate work when the benefits outweigh the cost of coordination. Count avoiding unnecessary context as a benefit. Otherwise, work locally.
-- Delegate a code review to read-only independent subagent in order to reduce bias.
+- Delegate work to subagent in order to avoid unnecessary context in the coordinator session.
+- Parallelize subagents in order to save engineering time.
 - Parallelize only independent subtasks. Give concurrent editors separate files or isolated changes. When access to a shared resource could conflict, schedule one operation at a time.
+- When running subtasks in parallel, instead of working on a task while subtasks are working, wait for the all subtasks to be finished.
+- Delegate a review to read-only independent subagents for two axis: unbiased review, correctnes review.
 
-## SPEC.md
+## PRD.md
+
+Provide Product Requirement Document in the `.scratch/{task-id}` dir when user asked for it explicitly. Otherwise skip.
 
 - Include stable contracts that stakeholders need to operate, integrate, validate, or approve.
 - Exclude source paths, classes, functions, helper algorithms, and source code.
