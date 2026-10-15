@@ -6,7 +6,7 @@ Personal dotfiles managed with GNU Stow.
 bash <(curl -fsSL https://raw.githubusercontent.com/albertsko/dotfiles/main/install.sh)
 ```
 
-The installer clones this repository to `~/.local/state/dotfiles`, prompts for `macos`, `ubuntu26`, or `lima`, runs the profile installer, and symlinks the dotfiles into `$HOME`.
+The installer clones this repository to `~/.local/state/dotfiles`, prompts for `macos`, `ubuntu26`, `lima`, or `msb`, runs the profile installer, and symlinks the dotfiles into `$HOME`.
 
 Set `DOTFILES_DRY_RUN=1` to preview the installer without making changes.
 
@@ -18,4 +18,5 @@ Set `DOTFILES_DRY_RUN=1` to preview the installer without making changes.
 - `macos/` contains the macOS profile.
 - `ubuntu26/` is the placeholder for the upcoming Ubuntu 26 profile.
 - `lima/` contains the Ubuntu 26 Lima development VM profile and provisioning configuration.
+- `msb/` contains the Ubuntu 26 microsandbox development profile and image configuration.
 - `shared/Brewfile` contains the portable command-line tools shared by macOS and the Lima VM, plus macOS-only tools guarded by `OS.mac?`.
