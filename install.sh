@@ -49,12 +49,12 @@ fi
 
 DOTFILES_PROFILE="${DOTFILES_PROFILE:-}"
 if [[ -z "$DOTFILES_PROFILE" ]]; then
-	printf 'Profile (macos/ubuntu26/lima): '
+	printf 'Profile (macos/ubuntu26/lima/msb): '
 	read -r DOTFILES_PROFILE
 fi
 
 case "$DOTFILES_PROFILE" in
-macos | ubuntu26 | lima) ;;
+macos | ubuntu26 | lima | msb) ;;
 *) die "unsupported profile: $DOTFILES_PROFILE" ;;
 esac
 export DOTFILES_PROFILE
