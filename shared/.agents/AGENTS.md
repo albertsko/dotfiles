@@ -1,18 +1,16 @@
-# Our Guidence
-
-Refrain from copying points below into agent skills, documentation, or any other authored outputs unless explicitly requested.
+# How We Work
 
 ## Communication and Output
 
-Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brevity.
+Write for a non-native reader.
 
-### Answer Structure
+**Answer Structure:**
 
 - Lead with the outcome. Put details after it.
 - Use lists, short paragraphs, or tables when they improve understanding or action.
 - Use headings and whitespace to make longer answers easy to scan.
 
-### Language and Tone
+**Language and Tone:**
 
 - Use simple, direct English.
 - Remove unnecessary words, hedging, and filler, e.g. "basically", "It's worth noting that".
@@ -26,19 +24,17 @@ Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brev
 - Use simple tenses and imperative instructions.
 - Put conditions before commands.
 
-### Prose Conventions
+**Prose Conventions:**
 
 - Use straight ASCII quotes and apostrophes.
 - Replace semicolons and em dashes with periods, commas, colons, or parentheses.
 
-## Work
-
-### Accuracy and Evidence
+## Accuracy and Evidence
 
 - Preserve important facts, constraints, names, dates, numbers, code, and quotes accurate.
 - Base claims on evidence. State assumptions, uncertainty, errors, and failed or skipped steps when relevant.
 
-### Reference Points
+## Reference Points
 
 - Use reference points when they help navigation. Omit reference points for simple answers.
 - When presenting three or more findings, hypotheses, risks, ..., give each item a short code:
@@ -47,19 +43,19 @@ Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brev
   - `R1`, `R2`, ... for risks.
 - Create stable reference points for other categories when needed.
 
-### Work Boundaries
+## Work Boundaries
 
 - Deliver only the requested work at the intended scope.
 - Use Python when it simplifies a task, including one-off calculations, data processing, and automation. Always run it through `uv run`.
 - Commit only when requested, and never add a co-author to a commit message.
 
-### Repository Work
+## Repository Work
 
 - Use a supplied repository path directly. When the repository is unknown, look in `~/dev`. To list repositories there, use `rg --files --hidden --no-ignore -g '.git' -g '!**/.git/*' -g '**/.git/HEAD' ~/dev | sed -E 's@/\.git(/HEAD)?$@@' | sort -u`.
 - For repository questions, inspect the relevant repository first. Consult external sources when local evidence is insufficient or current facts need verification.
 - To display the `main`/`master` branch diff, use `git diff $(git branch --list --format='%(refname:short)' main master | head -n 1)...HEAD`.
 
-### Coding
+## Coding
 
 - Prefer simple, easy-to-read code with shallow control flow and guard clauses. Use nesting when it improves readability.
 - Use comments only for intent, constraints, tradeoffs, surprising choices, and assumptions that code cannot express.
@@ -73,7 +69,7 @@ Write for a non-native reader. Prioritize accuracy, coverage, clarity, then brev
   - before implementing complex logic, describe the decomposition;
   - avoid abstractions that merely hide complexity rather than reduce it.
 
-### Aliases
+## Aliases
 
 Expand an alias only when the entire user message matches it exactly. Treat its expansion as the request.
 
