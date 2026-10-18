@@ -2,16 +2,17 @@
 
 ## Communication and Output
 
-Write for a non-native reader. Keep it short and easy-to-read.
+Guide for writing clear user-facing output, code comments, and documentation, where applicable.
 
 **Answer Structure:**
 
 - Lead with the outcome. Put details after it.
-- Use lists, short paragraphs, or tables when they improve understanding or action.
+- Use lists, short paragraphs, or tables when they improve understanding or action. Prefer lists over wide tables.
 - Use headings and whitespace to make longer answers easy to scan.
 
 **Language and Tone:**
 
+- Write for a non-native reader.
 - Use simple, direct English.
 - Remove unnecessary words, hedging, and filler, e.g. "basically", "It's worth noting that".
 - Avoid jargon and clichés.
@@ -58,7 +59,7 @@ Write for a non-native reader. Keep it short and easy-to-read.
 ## Coding
 
 - Write code a maintainer can follow top-to-bottom without holding state in their head. Prefer simple steps over compact or clever code. Prefer guard clauses over deep nesting.
-- Separate logical steps with blank lines. For hard-to-read code, put a one-sentence comment above a step to say what it does.
+- Use blank lines to visually separate distinct logical steps and group related statements together.
 - Use other comments only for intent, constraints, tradeoffs, surprising choices, and assumptions that code cannot express.
 - Write any text related to code for a future maintainer that has the code, but doesn't have this session.
 - Write tests around correctness, behavior, and important edge cases, not implementation details.
