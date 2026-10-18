@@ -51,7 +51,7 @@ if [[ "$recreate" == 1 || -z "$sandbox_status" ]]; then
 		--volume "$MSB_DATA_DIR/cache:/home/dev/.cache/Homebrew:uid=1000,gid=1000"
 		--volume "$MSB_DATA_DIR/config:/home/dev/.config/homebrew:uid=1000,gid=1000"
 	)
-	for path in .codex .claude .agents .local/share/albertsko-skills; do
+	for path in .claude .agents .local/share/albertsko-skills; do
 		[[ ! -d "$HOME/$path" ]] || mounts+=(--volume "$HOME/$path:/home/dev/$path:uid=1000,gid=1000")
 	done
 	replace_args=()
