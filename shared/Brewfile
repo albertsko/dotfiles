@@ -49,6 +49,8 @@ brew "goose"
 cask "claude-code@latest"
 
 if OS.mac?
+  tap "superradcompany/tap", trusted: true
+
   brew "mas"
   brew "mole"
   brew "docker"
@@ -56,6 +58,7 @@ if OS.mac?
   brew "docker-buildx"
   brew "lima"
   brew "podman"
+  brew "superradcompany/tap/microsandbox"
 
   cask "ghostty"
   cask "brave-browser"

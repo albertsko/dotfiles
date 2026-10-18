@@ -1,7 +1,9 @@
 image: msbdev:latest
+pull_policy: never
 cpus: 4
 memory: 8G
-user: dev
 shell: /bin/bash
 workdir: /home/dev/dev
 network: public
+env:
+  OPENCODE_DB: /home/dev/.local/share/opencode-db/opencode.db
