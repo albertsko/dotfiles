@@ -1,7 +1,0 @@
-{
-  "$schema": "https://pi.dev/schemas/settings.schema.json",
-  "defaultThinkingLevel": "medium",
-  "defaultProjectTrust": "ask",
-  "enableInstallTelemetry": false,
-  "quietStartup": "header"
-}
