@@ -2,7 +2,7 @@
 
 ## Communication and Output
 
-Write for a non-native reader.
+Write for a non-native reader. Keep it short and easy-to-read.
 
 **Answer Structure:**
 
@@ -57,17 +57,11 @@ Write for a non-native reader.
 
 ## Coding
 
-- Prefer simple, easy-to-read code with shallow control flow and guard clauses. Use nesting when it improves readability.
-- Use comments only for intent, constraints, tradeoffs, surprising choices, and assumptions that code cannot express.
+- Write code a maintainer can follow top-to-bottom without holding state in their head. Prefer simple steps over compact or clever code. Prefer guard clauses over deep nesting.
+- Separate logical steps with blank lines. For hard-to-read code, put a one-sentence comment above a step to say what it does.
+- Use other comments only for intent, constraints, tradeoffs, surprising choices, and assumptions that code cannot express.
 - Write any text related to code for a future maintainer that has the code, but doesn't have this session.
 - Write tests around correctness, behavior, and important edge cases, not implementation details.
-- Optimize for human-comprehensible decomposition, not compactness. For non-trivial logic:
-  - separate normalization, parsing, validation, transformation, and side effects when they are distinct concerns;
-  - prefer a sequence of simple transformations over one clever expression;
-  - keep regexes narrow and purpose-specific;
-  - make intermediate representations explicit when they improve readability;
-  - before implementing complex logic, describe the decomposition;
-  - avoid abstractions that merely hide complexity rather than reduce it.
 
 ## Aliases
 
