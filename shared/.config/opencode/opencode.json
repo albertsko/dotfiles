@@ -1,4 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugins": ["-opencode.prompt.*", "opencode.prompt.identity"]
+  "plugins": ["-opencode.prompt.*", "opencode.prompt.identity"],
+  "instructions": ["~/.agents/AGENTS.md"]
 }
