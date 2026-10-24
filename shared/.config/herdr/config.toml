@@ -21,4 +21,4 @@ name = "kanagawa"
 
 auto_switch = false
 [ui.toast]
-delivery = "system"
+delivery = "herdr"
