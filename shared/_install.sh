@@ -17,6 +17,4 @@ forwarded) ;;
 *) die "unsupported DOTFILES_SSH_MODE: $SSH_MODE" ;;
 esac
 
-DOTFILES_SSH_MODE="$SSH_MODE" bash "$SCRIPT_DIR/.local/bin/ssh-github.sh"
-
 bash "$SCRIPT_DIR/.local/bin/git.sh"

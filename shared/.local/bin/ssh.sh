@@ -29,6 +29,12 @@ if [ ! -f "$CONFIG_PATH" ]; then
 		echo "    ServerAliveInterval 60"
 		echo "    ServerAliveCountMax 3"
 		echo "    HashKnownHosts yes"
+		echo ""
+		echo "Host github.com"
+		echo "    Hostname github.com"
+		echo "    User git"
+		echo "    IdentityFile $KEY_PATH"
+		echo "    IdentitiesOnly yes"
 	} >"$CONFIG_PATH"
 
 	chmod 600 "$CONFIG_PATH"
