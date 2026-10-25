@@ -19,8 +19,23 @@
       "CronList"
     ]
   },
+  "model": "opus",
   "disableClaudeAiConnectors": true,
   "disableBundledSkills": true,
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "^(startup|resume|clear|compact|fork)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/albertsko/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
   "disableRemoteControl": true,
   "disableWorkflows": true,
   "disableArtifact": true,
@@ -36,19 +51,5 @@
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
   "skipDangerousModePermissionPrompt": true,
-  "theme": "dark",
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "^(startup|resume|clear|compact|fork)$",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash '/Users/albertsko/.claude/hooks/herdr-agent-state.sh' session",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
-  }
+  "theme": "dark"
 }
