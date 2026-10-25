@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly HERDR_BIN="${HOMEBREW_PREFIX:-/opt/homebrew}/bin/herdr"
+
+[[ "${TERM_PROGRAM:-}" == ghostty && -z "${HERDR_ENV:-}" ]] || exec "$HERDR_BIN" "$@"
+
+case "${1:-} ${2:-}" in
+" " | "--session "* | "--remote "* | "session attach") ;;
+*) exec "$HERDR_BIN" "$@" ;;
+esac
+
+terminal_id="$(osascript \
+	-e 'tell application "Ghostty"' \
+	-e 'set target_terminal to focused terminal of selected tab of front window' \
+	-e 'perform action "activate_key_table:herdr" on target_terminal' \
+	-e 'return id of target_terminal' \
+	-e 'end tell')"
+
+deactivate_key_table() {
+	osascript \
+		-e 'on run argv' \
+		-e 'set target_id to item 1 of argv' \
+		-e 'tell application "Ghostty"' \
+		-e 'set matches to every terminal whose id is target_id' \
+		-e 'if (count of matches) > 0 then perform action "deactivate_key_table" on item 1 of matches' \
+		-e 'end tell' \
+		-e 'end run' \
+		"$terminal_id" >/dev/null
+}
+trap deactivate_key_table EXIT
+
+"$HERDR_BIN" "$@"
