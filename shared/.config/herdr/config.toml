@@ -13,6 +13,50 @@ workspace_picker = "prefix+w"
 goto = "prefix+g"
 copy_mode = "prefix+y" # herdr's copy-mode entry key; copy-mode's own internal keys (v/space select, y/Enter copy, q/Esc cancel) aren't configurable
 
+# hunkdiff plugin (plugins/hunkdiff). prefix+shift+h is herdr's swap_pane_left, so review uses v.
+# install-pager/uninstall-pager are one-time setup; run them from the command palette.
+[[keys.command]]
+key = "prefix+shift+v"
+type = "plugin_action"
+command = "local.hunkdiff.review"
+description = "hunk: review changes"
+
+[[keys.command]]
+key = "prefix+shift+s"
+type = "plugin_action"
+command = "local.hunkdiff.send-review"
+description = "hunk: send review to agent"
+
+[[keys.command]]
+key = "prefix+shift+a"
+type = "plugin_action"
+command = "local.hunkdiff.review:staged"
+description = "hunk: review staged changes"
+
+[[keys.command]]
+key = "prefix+shift+b"
+type = "plugin_action"
+command = "local.hunkdiff.review:branch"
+description = "hunk: review this branch against its base"
+
+[[keys.command]]
+key = "prefix+shift+c"
+type = "plugin_action"
+command = "local.hunkdiff.review:commit"
+description = "hunk: review the last commit"
+
+[[keys.command]]
+key = "prefix+shift+u"
+type = "plugin_action"
+command = "local.hunkdiff.reload"
+description = "hunk: reload the open review"
+
+[[keys.command]]
+key = "prefix+shift+q"
+type = "plugin_action"
+command = "local.hunkdiff.close-review"
+description = "hunk: close the review pane"
+
 [ui]
 agent_panel_sort = "spaces"
 status_indicators = "symbols"

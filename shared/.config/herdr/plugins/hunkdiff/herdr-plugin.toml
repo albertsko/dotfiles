@@ -1,0 +1,92 @@
+id = "local.hunkdiff"
+name = "hunk"
+version = "0.1.0"
+# Pane modes travel through `plugin pane open --env`.
+min_herdr_version = "0.9.5"
+description = "Review agent-authored diffs in hunk and send inline comments back to the agent. Bash rewrite of jhochenbaum/herdr-hunk-diff."
+platforms = ["macos", "linux"]
+
+[[events]]
+on = "pane.agent_status_changed"
+command = ["bash", "bin/event.sh"]
+
+[[events]]
+on = "pane.exited"
+command = ["bash", "bin/event.sh"]
+
+[[events]]
+on = "pane.closed"
+command = ["bash", "bin/event.sh"]
+
+[[events]]
+on = "worktree.removed"
+command = ["bash", "bin/event.sh"]
+
+# Panes start in the reviewed worktree, so the script path comes from HERDR_PLUGIN_ROOT.
+# The action passes the review mode and ref through HUNKDIFF_MODE and HUNKDIFF_REF.
+[[panes]]
+id = "review"
+title = "hunk review"
+placement = "split"
+command = ["bash", "-c", "exec bash \"$HERDR_PLUGIN_ROOT/bin/pane.sh\""]
+
+[[actions]]
+id = "review"
+title = "hunk: review changes"
+contexts = ["workspace", "pane"]
+command = ["bash", "bin/action.sh", "review"]
+
+[[actions]]
+id = "review:staged"
+title = "hunk: review staged changes"
+contexts = ["workspace"]
+command = ["bash", "bin/action.sh", "review:staged"]
+
+[[actions]]
+id = "review:branch"
+title = "hunk: review this branch against its base"
+contexts = ["workspace", "pane"]
+command = ["bash", "bin/action.sh", "review:branch"]
+
+[[actions]]
+id = "review:commit"
+title = "hunk: review the last commit (or a clicked GitHub commit link)"
+contexts = ["workspace"]
+command = ["bash", "bin/action.sh", "review:commit"]
+
+[[actions]]
+id = "send-review"
+title = "hunk: send review to agent"
+contexts = ["pane"]
+command = ["bash", "bin/action.sh", "send-review"]
+
+[[actions]]
+id = "reload"
+title = "hunk: reload the open review"
+contexts = ["workspace", "pane"]
+command = ["bash", "bin/action.sh", "reload"]
+
+[[actions]]
+id = "close-review"
+title = "hunk: close the review pane"
+contexts = ["pane", "workspace"]
+command = ["bash", "bin/action.sh", "close-review"]
+
+[[actions]]
+id = "install-pager"
+title = "hunk: set up hunk as your git pager"
+contexts = ["workspace"]
+command = ["bash", "bin/action.sh", "install-pager"]
+
+[[actions]]
+id = "uninstall-pager"
+title = "hunk: stop using hunk as your git pager"
+contexts = ["workspace"]
+command = ["bash", "bin/action.sh", "uninstall-pager"]
+
+# Commit SHAs resolve locally; pull requests would need network access and authentication.
+[[link_handlers]]
+id = "github-commit"
+title = "hunk: review this GitHub commit"
+pattern = "^https://github\\.com/[^/]+/[^/]+/commit/[0-9a-fA-F]{7,40}/?$"
+action = "review:commit"
