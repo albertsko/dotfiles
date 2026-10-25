@@ -14,7 +14,7 @@ resize_pane_down = "cmd+ctrl+down"
 resize_pane_up = "cmd+ctrl+up"
 resize_pane_right = "cmd+ctrl+right"
 zoom = ["prefix+z", "cmd+shift+enter"]
-close_pane = "cmd+w"
+close_pane = ["prefix+x", "cmd+w"]
 new_tab = ["prefix+t", "cmd+t"]
 previous_tab = ["prefix+p", "cmd+shift+["]
 next_tab = ["prefix+n", "cmd+shift+]"]
@@ -27,7 +27,7 @@ switch_workspace = "cmd+ctrl+1..9"
 close_workspace = ["prefix+shift+d", "cmd+shift+w"]
 workspace_picker = "prefix+w"
 goto = "prefix+g"
-copy_mode = "prefix+y" # herdr's copy-mode entry key; copy-mode's own internal keys (v/space select, y/Enter copy, q/Esc cancel) aren't configurable
+copy_mode = "prefix+y"                               # herdr's copy-mode entry key; copy-mode's own internal keys (v/space select, y/Enter copy, q/Esc cancel) aren't configurable
 
 # hunkdiff plugin (plugins/hunkdiff). prefix+shift+h is herdr's swap_pane_left, so review uses v.
 # install-pager/uninstall-pager are one-time setup; run them from the command palette.
