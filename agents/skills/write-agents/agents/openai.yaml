@@ -1,0 +1,5 @@
+interface:
+  display_name: "Write Agents"
+  short_description: "Write agent context, skills, and reference documents"
+policy:
+  allow_implicit_invocation: false

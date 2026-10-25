@@ -46,6 +46,7 @@ brew "go-task"
 brew "sqlc"
 brew "goose"
 
+cask "codex"
 cask "claude-code@latest"
 
 if OS.mac?

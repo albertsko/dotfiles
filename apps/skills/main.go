@@ -18,7 +18,7 @@ var remotes = map[string]string{
 	"superpowers": "https://github.com/obra/superpowers",
 }
 
-var targetPaths = []string{".agents/skills", ".claude/skills"}
+var targetPaths = []string{".agents/skills", ".claude/skills", ".codex/skills"}
 
 type skill struct {
 	linkName  string

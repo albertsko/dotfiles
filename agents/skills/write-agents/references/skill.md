@@ -8,6 +8,7 @@ A skill can provide a procedure, reference rules, or both. Related branches can 
 ```text
 skill-name/
 |-- SKILL.md              Required frontmatter and instructions
+|-- agents/openai.yaml    Optional Codex interface and invocation policy
 |-- references/           Conditional guidance
 |-- scripts/              Executable helpers
 `-- assets/               Files used in generated output
@@ -25,6 +26,14 @@ Keep related branches together when shared guidance and precise pointers make th
 - For automatic discovery, describe the actual task and distinct triggers using the words users use. Include exclusions only for likely misrouting.
 - When explicit-only invocation is requested, use a concise human-facing description and set `disable-model-invocation: true` where supported.
 - Verify optional fields against the target tool's supported schema before adding them. Shared packaging does not guarantee identical behavior across tools.
+
+For Codex metadata in `agents/openai.yaml`:
+
+- Quote string values and leave keys unquoted.
+- Keep `interface.display_name` aligned with the skill and `interface.short_description` between 25 and 64 characters.
+- When explicit-only invocation is requested, set `policy.allow_implicit_invocation: false`. Preserve this policy for existing explicitly invoked skills.
+- Preserve unrelated policy, interface, and dependency fields when editing metadata.
+- Add optional interface fields only when requested. If a `default_prompt` is supplied, include `$skill-name` in its short example prompt.
 
 ## Instructions and resources
 

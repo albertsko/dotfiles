@@ -124,7 +124,7 @@ func TestReplaceLinks(t *testing.T) {
 	a := &app{
 		repoRoot: filepath.Join(root, "repo"),
 		cacheDir: filepath.Join(root, "cache"),
-		targets:  []string{filepath.Join(root, "agents"), filepath.Join(root, "claude")},
+		targets:  []string{filepath.Join(root, "agents"), filepath.Join(root, "claude"), filepath.Join(root, "codex")},
 	}
 	selected := []skill{
 		{linkName: "local-selected", sourceDir: filepath.Join(a.repoRoot, "agents", "skills", "selected")},
@@ -133,7 +133,7 @@ func TestReplaceLinks(t *testing.T) {
 	for _, skill := range selected {
 		writeTestFile(t, filepath.Join(skill.sourceDir, "SKILL.md"))
 	}
-	for _, dir := range a.targets[:1] {
+	for _, dir := range a.targets[:2] {
 		makeTestDir(t, dir)
 		makeTestLink(t, "../repo/agents/skills/old", filepath.Join(dir, "old-local"))
 		makeTestLink(t, "../repo/optional/.agents/skills/custom", filepath.Join(dir, "custom"))
@@ -174,7 +174,7 @@ func TestReplaceLinks(t *testing.T) {
 			}
 		}
 	}
-	for _, dir := range a.targets[:1] {
+	for _, dir := range a.targets[:2] {
 		customTarget, err := os.Readlink(filepath.Join(dir, "custom"))
 		if err != nil || customTarget != "../repo/optional/.agents/skills/custom" {
 			t.Fatalf("custom link changed: target %q, error %v", customTarget, err)

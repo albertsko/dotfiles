@@ -12,7 +12,7 @@ For the coordinator only. A task is the main user request. A subtask is delegate
 
 **Select host reference**
 
-- Read [Claude Code](references/claude.md) for the current host. If unknown, stop and ask.
+- Read [Codex](references/codex.md) or [Claude Code](references/claude.md) for the current host. If unknown, stop and ask.
 - Honor explicit model and effort choices. Available models and tool definitions override reference examples.
 
 **Set up**

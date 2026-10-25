@@ -1,0 +1,5 @@
+[features]
+hooks = false
+
+[skills.bundled]
+enabled = false
