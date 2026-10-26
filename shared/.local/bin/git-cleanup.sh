@@ -1,45 +1,33 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [ "$#" -ne 1 ]; then
-	echo "Usage: $0 <path_to_directory>"
-	exit 1
-fi
+# Usage: git-cleanup.sh [path]
+# Inside a repo: clean that repo. Otherwise: clean each repo directly inside path.
 
-TARGET_DIR="$1"
+TARGET_DIR="${1:-.}"
 
-if [ ! -d "$TARGET_DIR" ]; then
-	echo "Error: Directory '$TARGET_DIR' does not exist."
-	exit 1
+clean_repo() {
+	local repo="$1" branch
+
+	branch="$(git -C "$repo" symbolic-ref --quiet --short refs/remotes/origin/HEAD || echo origin/main)"
+	branch="${branch#origin/}"
+	echo "Cleaning $repo ($branch)"
+
+	# Stash untracked files too, so local work stays recoverable.
+	git -C "$repo" stash push --include-untracked --quiet
+	git -C "$repo" checkout --force "$branch"
+	git -C "$repo" reset --hard
+	git -C "$repo" clean -fd
+	git -C "$repo" submodule foreach --recursive 'git reset --hard && git clean -fd'
+}
+
+if top="$(git -C "$TARGET_DIR" rev-parse --show-toplevel 2>/dev/null)"; then
+	clean_repo "$top"
+	exit 0
 fi
 
 for dir in "$TARGET_DIR"/*/; do
-	dir="${dir%/}"
-
-	if [ ! -d "$dir/.git" ]; then
-		continue
-	fi
-
-	cd "$dir" || continue
-
-	git stash || true
-
-	DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
-	if [ -z "$DEFAULT_BRANCH" ]; then
-		if git show-ref --verify --quiet refs/heads/main; then
-			DEFAULT_BRANCH="main"
-		elif git show-ref --verify --quiet refs/heads/master; then
-			DEFAULT_BRANCH="master"
-		else
-			DEFAULT_BRANCH="main"
-		fi
-	fi
-
-	git checkout -f "$DEFAULT_BRANCH"
-	git reset --hard
-	git clean -fd
-	git submodule foreach --recursive 'git reset --hard && git clean -fd'
-	cd - >/dev/null || exit
+	# .git is a file in worktrees and submodules.
+	[[ -e "${dir}.git" ]] || continue
+	clean_repo "${dir%/}"
 done
-
-echo "Cleanup complete for: $(realpath "$TARGET_DIR")"
