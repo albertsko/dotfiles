@@ -1,9 +1,31 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: git-cleanup.sh [path]
+# Usage: gitcleanup.sh [--pull] [path]
 # Inside a repo: clean that repo. Otherwise: clean each repo directly inside path.
 
+pull=0
+
+while :; do
+	case "${1-}" in
+	--pull) pull=1 ;;
+	--)
+		shift
+		break
+		;;
+	-?*)
+		echo "unknown option: $1" >&2
+		exit 1
+		;;
+	*) break ;;
+	esac
+	shift
+done
+
+[[ "$#" -le 1 ]] || {
+	echo "Usage: gitcleanup.sh [--pull] [path]" >&2
+	exit 1
+}
 TARGET_DIR="${1:-.}"
 
 clean_repo() {
@@ -19,6 +41,7 @@ clean_repo() {
 	git -C "$repo" reset --hard
 	git -C "$repo" clean -fd
 	git -C "$repo" submodule foreach --recursive 'git reset --hard && git clean -fd'
+	[[ "$pull" == "0" ]] || git -C "$repo" pull --ff-only
 }
 
 if top="$(git -C "$TARGET_DIR" rev-parse --show-toplevel 2>/dev/null)"; then
