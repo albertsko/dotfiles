@@ -2,30 +2,11 @@
 set -euo pipefail
 
 # Usage: gitcleanup.sh [--pull] [path]
-# Inside a repo: clean that repo. Otherwise: clean each repo directly inside path.
+# Inside a repo: clean it. Otherwise: clean each repo directly inside path.
 
 pull=0
-
-while :; do
-	case "${1-}" in
-	--pull) pull=1 ;;
-	--)
-		shift
-		break
-		;;
-	-?*)
-		echo "unknown option: $1" >&2
-		exit 1
-		;;
-	*) break ;;
-	esac
-	shift
-done
-
-[[ "$#" -le 1 ]] || {
-	echo "Usage: gitcleanup.sh [--pull] [path]" >&2
-	exit 1
-}
+[[ "${1-}" == "--pull" ]] && pull=1 && shift
+[[ "${1-}" == -* ]] && echo "Usage: gitcleanup.sh [--pull] [path]" >&2 && exit 1
 TARGET_DIR="${1:-.}"
 
 clean_repo() {
