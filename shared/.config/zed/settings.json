@@ -40,6 +40,12 @@
     },
   },
   "lsp": {
+    "phpantom": {
+      "binary": {
+        "path": "~/.local/bin/phpantom_lsp-official-0.11.1",
+        "arguments": [],
+      },
+    },
     "gopls": {
       "initialization_options": {
         "gofumpt": true,
