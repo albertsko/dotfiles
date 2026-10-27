@@ -46,6 +46,9 @@ brew "go-task"
 brew "sqlc"
 brew "goose"
 
+tap "jdx/jactionlint", "https://github.com/jdx/jactionlint"
+cask "jdx/jactionlint/jactionlint", trusted: true
+
 cask "codex"
 cask "claude-code@latest"
 
