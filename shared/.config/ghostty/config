@@ -20,6 +20,7 @@ keybind=global:unconsumed:super+enter=ignore
 keybind=super+shift+h=activate_key_table:herdr
 keybind=herdr/
 keybind=herdr/super+shift+h=deactivate_key_table
+keybind=herdr/performable:super+ctrl+alt+shift+z=csi:122;16u
 keybind=herdr/performable:super+d=csi:100;9u
 keybind=herdr/performable:super+shift+d=csi:100;10u
 keybind=herdr/performable:super+[=csi:91;9u

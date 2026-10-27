@@ -5,21 +5,6 @@ min_herdr_version = "0.9.5"
 description = "Add or select the active pane's project in one Zed window."
 platforms = ["macos", "linux"]
 
-[[startup]]
-command = ["bash", "bin/sync.sh"]
-
-[[events]]
-on = "pane.focused"
-command = ["bash", "bin/sync.sh"]
-
-[[events]]
-on = "tab.focused"
-command = ["bash", "bin/sync.sh"]
-
-[[events]]
-on = "workspace.focused"
-command = ["bash", "bin/sync.sh"]
-
 [[actions]]
 id = "sync"
 title = "Zed: sync active pane"
