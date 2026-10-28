@@ -18,6 +18,7 @@ brew "rclone"
 
 # Shell
 brew "fish"
+brew "mise"
 brew "fzf"
 brew "starship"
 brew "zoxide"

@@ -34,4 +34,8 @@ if status is-interactive
     starship init fish | source
     zoxide init fish --cmd cd | source
     fzf --fish | source
+
+    if type -q mise; and not set -q MISE_SHELL
+        mise activate fish | source
+    end
 end
