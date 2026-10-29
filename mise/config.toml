@@ -11,6 +11,8 @@ python = "latest"
 dotfiles.root = "~/.local/state/dotfiles"
 # Relative links stay valid where Lima mounts home folders into the VM.
 dotfiles.relative_symlinks = true
+# The mise-tool-update service updates global tools once their interval is due.
+tool_update.global_auto = "1d"
 
 # Each group is a directory of files linked into $HOME. Profiles select groups.
 [dotfile_groups.shared]
@@ -35,6 +37,9 @@ manifest = "git"
 
 [bootstrap]
 dotfile_groups = []
+
+[bootstrap.services.mise-tool-update]
+builtin = "tool-update"
 
 [bootstrap.brew]
 homebrew_metadata = true

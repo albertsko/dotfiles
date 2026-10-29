@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#MISE description="Upgrade packages and tools, then apply the config"
+#MISE raw=true
+set -euo pipefail
+
+brew update
+mise bootstrap --upgrade --yes
+brew upgrade
+brew cleanup

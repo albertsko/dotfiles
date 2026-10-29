@@ -69,6 +69,14 @@ git -C ~/.local/state/dotfiles pull
 mise bootstrap
 ```
 
+To upgrade Homebrew packages and mise tools, then apply the configuration:
+
+```sh
+mise run upgrade
+```
+
+The `mise-tool-update` service updates mise tools from the global config once a day in the background.
+
 Run `mise bootstrap status` to compare the machine with the configuration.
 
 ### Layout
