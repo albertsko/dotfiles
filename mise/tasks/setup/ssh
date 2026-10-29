@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#MISE description="Create the SSH key for GitHub and commit signing"
+set -euo pipefail
+
+readonly SSH_DIR="$HOME/.ssh"
+readonly KEY_PATH="$SSH_DIR/id_ed25519"
+
+mkdir -p -- "$SSH_DIR"
+chmod 700 "$SSH_DIR"
+
+[[ -f "$KEY_PATH" ]] && exit 0
+
+ssh-keygen -q -t ed25519 -C "$(whoami)@$(hostname) - $(date '+%Y-%m-%d %H:%M')" -f "$KEY_PATH" -N ""
+printf 'Add this public key to GitHub as an authentication and signing key:\n' >&2
+cat -- "$KEY_PATH.pub"

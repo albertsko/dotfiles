@@ -1,0 +1,28 @@
+[user]
+	name = Albert Skonieczny
+	email = 50720306+albertsko@users.noreply.github.com
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	hdiff = -c core.pager=\"hunk pager\" diff
+	hshow = -c core.pager=\"hunk pager\" show
+[init]
+	defaultBranch = main
+[color]
+	ui = auto
+[push]
+	default = current
+	autoSetupRemote = true
+[fetch]
+	prune = true
+[pull]
+	rebase = true
+[merge]
+	conflictstyle = zdiff3
+[rerere]
+	enabled = true
+# The ssh dotfile group provides this file on machines that own an SSH key.
+[include]
+	path = ~/.config/git/signing

@@ -1,0 +1,127 @@
+[bootstrap]
+dotfile_groups = ["shared", "ssh", "macos"]
+
+[bootstrap.packages]
+"brew:mas" = "latest"
+"brew:mole" = "latest"
+"brew:docker" = "latest"
+"brew:docker-compose" = "latest"
+"brew:docker-buildx" = "latest"
+"brew:lima" = "latest"
+"brew:podman" = "latest"
+"brew:superradcompany/tap/microsandbox" = "latest"
+
+"brew-cask:ghostty" = "latest"
+"brew-cask:brave-browser" = "latest"
+"brew-cask:iina" = "latest"
+"brew-cask:foobar2000" = "latest"
+"brew-cask:zed" = "latest"
+"brew-cask:obsidian" = "latest"
+"brew-cask:screen-studio" = "latest"
+"brew-cask:karabiner-elements" = "latest"
+
+"brew-cask:sf-symbols" = "latest"
+"brew-cask:font-sf-mono" = "latest"
+"brew-cask:font-sf-pro" = "latest"
+"brew-cask:font-inter" = "latest"
+"brew-cask:font-jetbrains-mono-nerd-font" = "latest"
+
+# Xcode
+"mas:497799835" = "latest"
+
+[bootstrap.macos.dock]
+autohide = true
+autohide_delay = 0.0
+autohide_time_modifier = 0.5
+mru_spaces = false
+show_recents = false
+apps = []
+
+[bootstrap.macos.finder]
+show_all_files = true
+show_status_bar = false
+show_extensions_warning = false
+preferred_view_style = "list"
+
+[bootstrap.macos.keyboard]
+key_repeat = 1
+automatic_spelling_correction = false
+
+[bootstrap.macos.defaults."com.apple.dock"]
+workspaces-auto-swoosh = true
+persistent-others = []
+contents-immutable = true
+minimize-to-application = true
+
+[bootstrap.macos.defaults.NSGlobalDomain]
+AppleSpacesSwitchOnActivate = true
+NSAutomaticWindowAnimationsEnabled = false
+AppleShowAllExtensions = true
+AppleAccentColor = 1
+WebKitDeveloperExtras = true
+
+[bootstrap.macos.defaults."com.apple.finder"]
+DisableAllAnimations = true
+ShowExternalHardDrivesOnDesktop = false
+ShowHardDrivesOnDesktop = false
+ShowMountedServersOnDesktop = false
+ShowRemovableMediaOnDesktop = false
+FXDefaultSearchScope = "SCcf"
+_FXShowPosixPathInTitle = true
+
+[bootstrap.macos.defaults."com.apple.NetworkBrowser"]
+BrowseAllInterfaces = "1"
+
+[bootstrap.macos.defaults."com.apple.desktopservices"]
+DSDontWriteNetworkStores = true
+
+[bootstrap.macos.defaults."com.apple.spaces"]
+spans-displays = false
+
+[bootstrap.macos.defaults."com.apple.LaunchServices"]
+LSQuarantine = false
+
+[bootstrap.macos.defaults."com.apple.screencapture"]
+disable-shadow = true
+type = "png"
+
+[bootstrap.macos.defaults."com.apple.TimeMachine"]
+DoNotOfferNewDisksForBackup = true
+
+[bootstrap.macos.defaults."com.apple.mail"]
+AddressesIncludeNameOnPasteboard = false
+
+[[bootstrap.macos.defaults_entries]]
+domain = "com.apple.finder"
+key = "DesktopViewSettings"
+path = ["IconViewSettings", "arrangeBy"]
+value = "name"
+
+[[bootstrap.macos.defaults_entries]]
+domain = "com.apple.finder"
+key = "StandardViewSettings"
+path = ["IconViewSettings", "arrangeBy"]
+value = "name"
+
+[[bootstrap.macos.defaults_entries]]
+domain = "com.apple.finder"
+key = "StandardViewSettings"
+path = ["ListViewSettings", "sortColumn"]
+value = "name"
+
+[[bootstrap.macos.defaults_entries]]
+domain = "com.apple.finder"
+key = "StandardViewSettings"
+path = ["ListViewSettings", "columns", "name", "ascending"]
+value = true
+
+[bootstrap.macos.launchd.agents.gdrive]
+program = "/bin/zsh"
+args = ["-lc", "exec \"$DOTFILES_HOME/apps/run.sh\" gdrive service"]
+run_at_load = true
+start_interval = 300
+process_type = "Background"
+
+[tasks.bootstrap]
+description = "Finish macOS setup that mise cannot declare"
+depends = ["setup:repo", "setup:ssh", "setup:vault", "setup:macos"]

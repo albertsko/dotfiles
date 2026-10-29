@@ -1,0 +1,8 @@
+amends "package://github.com/jdx/hk/releases/download/v2.9.0/hk@2.9.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v2.9.0/hk@2.9.0#/Builtins.pkl"
+
+// This repository is public, so block commits that contain secrets.
+steps {
+  ["betterleaks"] = Builtins.betterleaks
+  ["detect_private_key"] = Builtins.detect_private_key
+}
