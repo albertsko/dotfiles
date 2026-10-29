@@ -1,0 +1,94 @@
+min_version = "2026.10.21"
+
+[tools]
+# Homebrew names Python by minor version, so mise tracks the latest release instead.
+python = "latest"
+# jactionlint ships only as a third-party cask, which mise cannot read on Linux.
+"github:jdx/jactionlint" = "latest"
+
+[settings]
+# README.md and lima/.config/lima/user.sh clone the repository here.
+dotfiles.root = "~/.local/state/dotfiles"
+# Relative links stay valid where Lima mounts home folders into the VM.
+dotfiles.relative_symlinks = true
+
+# Each group is a directory of files linked into $HOME. Profiles select groups.
+[dotfile_groups.shared]
+root = "shared"
+manifest = "git"
+
+[dotfile_groups.ssh]
+root = "ssh"
+manifest = "git"
+
+[dotfile_groups.macos]
+root = "macos"
+manifest = "git"
+
+[dotfile_groups.lima]
+root = "lima"
+manifest = "git"
+
+[dotfile_groups.ubuntu26]
+root = "ubuntu26"
+manifest = "git"
+
+[bootstrap]
+dotfile_groups = []
+
+[bootstrap.brew]
+homebrew_metadata = true
+
+[bootstrap.packages]
+# CLI
+"brew:wget" = "latest"
+"brew:jq" = "latest"
+"brew:ripgrep" = "latest"
+"brew:gh" = "latest"
+"brew:lazygit" = "latest"
+"brew:lazydocker" = "latest"
+"brew:lazysql" = "latest"
+"brew:btop" = "latest"
+"brew:fastfetch" = "latest"
+"brew:tlrc" = "latest"
+"brew:bat" = "latest"
+"brew:xh" = "latest"
+"brew:git" = "latest"
+"brew:hunk" = "latest"
+"brew:rclone" = "latest"
+"brew:hk" = "latest"
+"brew:betterleaks" = "latest"
+
+# Shell
+"brew:fish" = "latest"
+"brew:mise" = "latest"
+"brew:fzf" = "latest"
+"brew:starship" = "latest"
+"brew:zoxide" = "latest"
+"brew:herdr" = "latest"
+
+# Containers and Kubernetes
+"brew:kubernetes-cli" = "latest"
+"brew:minikube" = "latest"
+"brew:k9s" = "latest"
+"brew:helm" = "latest"
+"brew:cri-tools" = "latest"
+
+# Coding
+"brew:go" = "latest"
+"brew:lua" = "latest"
+"brew:node" = "latest"
+"brew:uv" = "latest"
+"brew:pnpm" = "latest"
+"brew:opencode" = "latest"
+"brew:pi-coding-agent" = "latest"
+"brew:shellcheck" = "latest"
+"brew:shfmt" = "latest"
+"brew:golangci-lint" = "latest"
+"brew:go-task" = "latest"
+"brew:sqlc" = "latest"
+"brew:goose" = "latest"
+
+# mise installs casks only on macOS; the setup:linux-casks task installs them with Homebrew on Linux.
+"brew-cask:codex" = "latest"
+"brew-cask:claude-code@latest" = "latest"

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#MISE description="Use SSH for the dotfiles remote and install its Git hooks"
+set -euo pipefail
+
+SCRIPT_DIR="$(dirname -- "$(realpath -- "${BASH_SOURCE[0]}")")"
+DOTFILES_HOME="$(realpath -- "$SCRIPT_DIR/../../..")"
+readonly DOTFILES_HOME
+
+origin="$(git -C "$DOTFILES_HOME" remote get-url origin)"
+[[ "$origin" != https://github.com/* ]] ||
+	git -C "$DOTFILES_HOME" remote set-url origin "git@github.com:${origin#https://github.com/}"
+
+cd -- "$DOTFILES_HOME"
+hk install

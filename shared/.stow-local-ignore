@@ -1,9 +1,0 @@
-_install\.sh
-^/Brewfile$
-^/\.git($|/)
-^/\.gitignore$
-^/\.gitmodules$
-\.DS_Store
-^/README.*
-^/LICENSE.*
-^/COPYING

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#MISE description="Install with Homebrew the casks that mise skips on Linux"
+set -euo pipefail
+
+[[ "$(uname -s)" == Linux ]] || exit 0
+
+# mise installs only font casks on Linux, but Homebrew can install the others.
+skipped="$(mise bootstrap packages status --json | jq -r '.["brew-cask"].packages[]? | select(.state == "skipped") | .package')"
+[[ -n "$skipped" ]] || exit 0
+
+readarray -t casks <<<"$skipped"
+brew install --cask "${casks[@]}"

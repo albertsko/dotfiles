@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#MISE description="Clone the vault as a bare repository"
+#MISE depends=["setup:ssh"]
+set -euo pipefail
+
+readonly VAULT_REPO_URL="git@github.com:albertsko/vault.git"
+VAULT_GIT_DIR="${VAULT_GIT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/.vault.git}"
+readonly VAULT_GIT_DIR
+
+[[ -d "$VAULT_GIT_DIR" ]] && exit 0
+
+export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=accept-new"
+
+# A new machine's SSH key is not on GitHub yet, so let the rest of the bootstrap finish.
+if ! git ls-remote "$VAULT_REPO_URL" >/dev/null 2>&1; then
+	printf 'Skipping the vault: add the SSH key to GitHub, then run mise bootstrap again.\n' >&2
+	exit 0
+fi
+
+git clone --bare "$VAULT_REPO_URL" "$VAULT_GIT_DIR"
+git --git-dir="$VAULT_GIT_DIR" read-tree HEAD

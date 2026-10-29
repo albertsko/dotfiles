@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#MISE description="Apply macOS system settings that need sudo"
+#MISE raw=true
+set -euo pipefail
+
+readonly TIME_MACHINE_PLIST="/Library/Preferences/com.apple.TimeMachine"
+readonly AIRPORT_PLIST="/Library/Preferences/com.apple.airport.bt.plist"
+readonly XCODE_DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
+
+# Time Machine reindexes the disk frequently while it is enabled.
+auto_backup="$(defaults read "$TIME_MACHINE_PLIST" AutoBackup 2>/dev/null || true)"
+[[ "$auto_backup" == 0 ]] || sudo tmutil disable
+
+coex_mode="$(defaults read "$AIRPORT_PLIST" bluetoothCoexMgmt 2>/dev/null || true)"
+[[ "$coex_mode" == Hybrid ]] || sudo defaults write "$AIRPORT_PLIST" bluetoothCoexMgmt Hybrid
+
+[[ -d "$XCODE_DEVELOPER_DIR" ]] || exit 0
+[[ "$(xcode-select -p)" == "$XCODE_DEVELOPER_DIR" ]] || sudo xcode-select -s "$XCODE_DEVELOPER_DIR"
