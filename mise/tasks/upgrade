@@ -4,6 +4,6 @@
 set -euo pipefail
 
 brew update
-mise bootstrap --upgrade --yes
+mise bootstrap --upgrade --yes --prune-dotfiles
 brew upgrade
 brew cleanup

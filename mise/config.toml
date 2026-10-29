@@ -7,9 +7,9 @@ python = "latest"
 "github:jdx/jactionlint" = "latest"
 
 [settings]
-# README.md and lima/.config/lima/user.sh clone the repository here.
+# The bootstrap command in README.md clones the repository here.
 dotfiles.root = "~/.local/state/dotfiles"
-# Relative links stay valid where Lima mounts home folders into the VM.
+# Relative links keep the checkout and linked files portable within a home directory.
 dotfiles.relative_symlinks = true
 # The mise-tool-update service updates global tools once their interval is due.
 tool_update.global_auto = "1d"
@@ -25,14 +25,6 @@ manifest = "git"
 
 [dotfile_groups.macos]
 root = "macos"
-manifest = "git"
-
-[dotfile_groups.lima]
-root = "lima"
-manifest = "git"
-
-[dotfile_groups.ubuntu26]
-root = "ubuntu26"
 manifest = "git"
 
 [bootstrap]
@@ -94,6 +86,6 @@ homebrew_metadata = true
 "brew:sqlc" = "latest"
 "brew:goose" = "latest"
 
-# mise installs casks only on macOS; the setup:linux-casks task installs them with Homebrew on Linux.
+# These casks are shared by the macOS configuration.
 "brew-cask:codex" = "latest"
 "brew-cask:claude-code@latest" = "latest"

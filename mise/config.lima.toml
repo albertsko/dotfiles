@@ -1,6 +1,0 @@
-[bootstrap]
-dotfile_groups = ["shared", "lima"]
-
-[tasks.bootstrap]
-description = "Finish Lima VM setup that mise cannot declare"
-depends = ["setup:repo", "setup:linux-casks"]

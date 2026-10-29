@@ -7,7 +7,6 @@ dotfile_groups = ["shared", "ssh", "macos"]
 "brew:docker" = "latest"
 "brew:docker-compose" = "latest"
 "brew:docker-buildx" = "latest"
-"brew:lima" = "latest"
 "brew:podman" = "latest"
 "brew:superradcompany/tap/microsandbox" = "latest"
 

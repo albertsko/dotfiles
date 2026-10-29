@@ -1,5 +1,4 @@
 format = """
-${custom.lima}\
 $directory\
 $git_branch\
 $git_status\
@@ -10,8 +9,3 @@ $character
 [directory]
 truncation_length = 999
 truncate_to_repo = false
-
-[custom.lima]
-when = 'test "$DOTFILES_PROFILE" = lima'
-shell = ["sh"]
-format = "[lima](bold yellow) "
