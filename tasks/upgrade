@@ -4,4 +4,6 @@
 set -euo pipefail
 
 mise bootstrap --update --upgrade --yes --prune-dotfiles
+# mise leaves casks that Homebrew installed unchanged.
+brew upgrade --cask
 brew cleanup
