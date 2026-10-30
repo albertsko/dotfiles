@@ -3,7 +3,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(dirname -- "$(realpath -- "${BASH_SOURCE[0]}")")"
-DOTFILES_HOME="$(realpath -- "$SCRIPT_DIR/../../..")"
+DOTFILES_HOME="$(realpath -- "$SCRIPT_DIR/../..")"
 readonly DOTFILES_HOME
 
 origin="$(git -C "$DOTFILES_HOME" remote get-url origin)"

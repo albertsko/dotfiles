@@ -45,7 +45,7 @@ func TestFindSkillsMissingRoot(t *testing.T) {
 
 func TestLoadSkills(t *testing.T) {
 	a := &app{repoRoot: filepath.Join(t.TempDir(), "repo"), cacheDir: t.TempDir()}
-	localRoot := filepath.Join(a.repoRoot, "agents", "skills")
+	localRoot := filepath.Join(a.repoRoot, "skills")
 	writeTestFile(t, filepath.Join(localRoot, "zeta", "SKILL.md"))
 	writeTestFile(t, filepath.Join(localRoot, "alpha", "SKILL.md"))
 	remoteDir := filepath.Join(a.cacheDir, "superpowers", "skills", "alpha")
@@ -67,7 +67,7 @@ func TestLoadSkills(t *testing.T) {
 
 func TestLoadSkillsRejectsDuplicateNames(t *testing.T) {
 	a := &app{repoRoot: t.TempDir(), cacheDir: t.TempDir()}
-	root := filepath.Join(a.repoRoot, "agents", "skills")
+	root := filepath.Join(a.repoRoot, "skills")
 	writeTestFile(t, filepath.Join(root, "one", "duplicate", "SKILL.md"))
 	writeTestFile(t, filepath.Join(root, "two", "duplicate", "SKILL.md"))
 
@@ -127,7 +127,7 @@ func TestReplaceLinks(t *testing.T) {
 		targets:  []string{filepath.Join(root, "agents"), filepath.Join(root, "claude"), filepath.Join(root, "codex")},
 	}
 	selected := []skill{
-		{linkName: "local-selected", sourceDir: filepath.Join(a.repoRoot, "agents", "skills", "selected")},
+		{linkName: "local-selected", sourceDir: filepath.Join(a.repoRoot, "skills", "selected")},
 		{linkName: "remote-selected", sourceDir: filepath.Join(a.cacheDir, "remote", "skills", "selected")},
 	}
 	for _, skill := range selected {
@@ -135,7 +135,7 @@ func TestReplaceLinks(t *testing.T) {
 	}
 	for _, dir := range a.targets[:2] {
 		makeTestDir(t, dir)
-		makeTestLink(t, "../repo/agents/skills/old", filepath.Join(dir, "old-local"))
+		makeTestLink(t, "../repo/skills/old", filepath.Join(dir, "old-local"))
 		makeTestLink(t, "../repo/optional/.agents/skills/custom", filepath.Join(dir, "custom"))
 		makeTestLink(t, filepath.Join(a.cacheDir, "old"), filepath.Join(dir, "old-remote"))
 		makeTestLink(t, "../repo-other/skill", filepath.Join(dir, "unrelated"))
@@ -202,7 +202,7 @@ func TestReplaceLinksRemovesAcrossTargetsBeforeCreating(t *testing.T) {
 		targets:  []string{filepath.Join(root, "first"), filepath.Join(root, "not-a-directory")},
 	}
 	makeTestDir(t, a.targets[0])
-	makeTestLink(t, "../repo/agents/skills/old", filepath.Join(a.targets[0], "old"))
+	makeTestLink(t, "../repo/skills/old", filepath.Join(a.targets[0], "old"))
 	writeTestFile(t, a.targets[1])
 	selected := []skill{{linkName: "local-new", sourceDir: filepath.Join(a.repoRoot, "new")}}
 

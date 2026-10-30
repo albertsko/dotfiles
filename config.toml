@@ -1,18 +1,10 @@
 min_version = "2026.10.21"
 
-[tools]
-# Homebrew names Python by minor version, so mise tracks the latest release instead.
-python = "latest"
-# jactionlint ships only as a third-party cask, which mise cannot read on Linux.
-"github:jdx/jactionlint" = "latest"
-
 [settings]
 # The bootstrap command in README.md clones the repository here.
 dotfiles.root = "~/.local/state/dotfiles"
 # Relative links keep the checkout and linked files portable within a home directory.
 dotfiles.relative_symlinks = true
-# The mise-tool-update service updates global tools once their interval is due.
-tool_update.global_auto = "1d"
 
 # Each group is a directory of files linked into $HOME. Profiles select groups.
 [dotfile_groups.shared]
@@ -30,11 +22,11 @@ manifest = "git"
 [bootstrap]
 dotfile_groups = []
 
-[bootstrap.services.mise-tool-update]
-builtin = "tool-update"
-
 [bootstrap.brew]
 homebrew_metadata = true
+
+[bootstrap.brew.taps]
+"jdx/jactionlint" = "https://github.com/jdx/jactionlint.git"
 
 [bootstrap.packages]
 # CLI
@@ -75,6 +67,7 @@ homebrew_metadata = true
 "brew:go" = "latest"
 "brew:lua" = "latest"
 "brew:node" = "latest"
+"brew:python" = "latest"
 "brew:uv" = "latest"
 "brew:pnpm" = "latest"
 "brew:opencode" = "latest"
@@ -89,3 +82,4 @@ homebrew_metadata = true
 # These casks are shared by the macOS configuration.
 "brew-cask:codex" = "latest"
 "brew-cask:claude-code@latest" = "latest"
+"brew-cask:jdx/jactionlint/jactionlint" = "latest"

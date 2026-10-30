@@ -3,7 +3,5 @@
 #MISE raw=true
 set -euo pipefail
 
-brew update
-mise bootstrap --upgrade --yes --prune-dotfiles
-brew upgrade
+mise bootstrap --update --upgrade --yes --prune-dotfiles
 brew cleanup

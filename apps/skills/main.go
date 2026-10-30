@@ -143,7 +143,7 @@ func runGit(args ...string) error {
 }
 
 func (a *app) loadSkills() ([]skill, error) {
-	skills, err := findSkills(filepath.Join(a.repoRoot, "agents", "skills"), "local")
+	skills, err := findSkills(filepath.Join(a.repoRoot, "skills"), "local")
 	if err != nil {
 		return nil, err
 	}
@@ -240,7 +240,7 @@ func (a *app) removeManagedLinks(dir string) error {
 		return err
 	}
 	for name, target := range links {
-		if !withinRoot(filepath.Join(a.repoRoot, "agents", "skills"), target) && !withinRoot(a.cacheDir, target) {
+		if !withinRoot(filepath.Join(a.repoRoot, "skills"), target) && !withinRoot(a.cacheDir, target) {
 			continue
 		}
 		if err := os.Remove(filepath.Join(dir, name)); err != nil {

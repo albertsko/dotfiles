@@ -1,8 +1,16 @@
 amends "package://github.com/jdx/hk/releases/download/v2.9.0/hk@2.9.0#/Config.pkl"
 import "package://github.com/jdx/hk/releases/download/v2.9.0/hk@2.9.0#/Builtins.pkl"
 
-// This repository is public, so block commits that contain secrets.
+local shellcheckArgs = List("shellcheck", "--shell=bash", "--external-sources", "--exclude=SC1090,SC1091")
+
 steps {
+  // This repository is public, so block commits that contain secrets.
   ["betterleaks"] = Builtins.betterleaks
   ["detect_private_key"] = Builtins.detect_private_key
+
+  ["shellcheck"] = (Builtins.shellcheck) {
+    check { command { argv = shellcheckArgs + List("{{files}}") } }
+    check_diff { command { argv = shellcheckArgs + List("--format=diff", "{{files}}") } }
+  }
+  ["shfmt"] = Builtins.shfmt
 }

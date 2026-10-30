@@ -123,4 +123,4 @@ process_type = "Background"
 
 [tasks.bootstrap]
 description = "Finish macOS setup that mise cannot declare"
-depends = ["setup:repo", "setup:ssh", "setup:vault", "setup:macos"]
+depends = ["setup:repo", "setup:ssh", "setup:macos"]
