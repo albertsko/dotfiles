@@ -1,4 +1,4 @@
 .DS_Store
 .scratch/
 apps/.bin/
-/*.local.toml
+/mise/*.local.toml

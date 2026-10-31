@@ -4,7 +4,7 @@ set -euo pipefail
 script_dir="$(dirname -- "$(realpath -- "${BASH_SOURCE[0]}")")"
 DOTFILES_HOME="${DOTFILES_HOME:-$(realpath -- "$script_dir/../../..")}"
 readonly DOTFILES_HOME
-readonly MSB_DIR="$DOTFILES_HOME/macos/.config/msb"
+readonly MSB_DIR="$DOTFILES_HOME/profile-macos/.config/msb"
 readonly MSB_IMAGE="msbdev:latest"
 readonly DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/microsandbox"
 readonly BREW_DIR="$DATA_DIR/brew"

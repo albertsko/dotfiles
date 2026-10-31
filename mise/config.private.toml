@@ -1,0 +1,6 @@
+[bootstrap.repos]
+"~/.local/state/dotfiles-private" = { url = "git@github.com:albertsko/dotfiles-private.git" }
+
+[dotfile_groups.private]
+root = "~/.local/state/dotfiles-private/profile-private"
+manifest = "git"

@@ -1,35 +1,22 @@
-min_version = "2026.10.21"
+[tools]
+"github:jdx/jactionlint" = "latest"
 
 [settings]
-# The bootstrap command in README.md clones the repository here.
 dotfiles.root = "~/.local/state/dotfiles"
-# Relative links keep the checkout and linked files portable within a home directory.
 dotfiles.relative_symlinks = true
 
-# Each group is a directory of files linked into $HOME. Profiles select groups.
 [dotfile_groups.shared]
-root = "shared"
+root = "profile-shared"
 manifest = "git"
 
 [dotfile_groups.ssh]
-root = "ssh"
+root = "profile-ssh"
 manifest = "git"
-
-[dotfile_groups.macos]
-root = "macos"
-manifest = "git"
-
-[bootstrap]
-dotfile_groups = []
 
 [bootstrap.brew]
 homebrew_metadata = true
 
-[bootstrap.brew.taps]
-"jdx/jactionlint" = "https://github.com/jdx/jactionlint.git"
-
 [bootstrap.packages]
-# CLI
 "brew:wget" = "latest"
 "brew:jq" = "latest"
 "brew:ripgrep" = "latest"
@@ -48,7 +35,6 @@ homebrew_metadata = true
 "brew:hk" = "latest"
 "brew:betterleaks" = "latest"
 
-# Shell
 "brew:fish" = "latest"
 "brew:mise" = "latest"
 "brew:fzf" = "latest"
@@ -56,14 +42,12 @@ homebrew_metadata = true
 "brew:zoxide" = "latest"
 "brew:herdr" = "latest"
 
-# Containers and Kubernetes
 "brew:kubernetes-cli" = "latest"
 "brew:minikube" = "latest"
 "brew:k9s" = "latest"
 "brew:helm" = "latest"
 "brew:cri-tools" = "latest"
 
-# Coding
 "brew:go" = "latest"
 "brew:lua" = "latest"
 "brew:node" = "latest"
@@ -79,7 +63,5 @@ homebrew_metadata = true
 "brew:sqlc" = "latest"
 "brew:goose" = "latest"
 
-# These casks are shared by the macOS configuration.
 "brew-cask:codex" = "latest"
 "brew-cask:claude-code@latest" = "latest"
-"brew-cask:jdx/jactionlint/jactionlint" = "latest"

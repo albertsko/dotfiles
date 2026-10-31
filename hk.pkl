@@ -2,6 +2,7 @@ amends "package://github.com/jdx/hk/releases/download/v2.10.0/hk@2.10.0#/Config.
 import "package://github.com/jdx/hk/releases/download/v2.10.0/hk@2.10.0#/Builtins.pkl"
 
 local shellcheckArgs = List("shellcheck", "--shell=bash", "--external-sources", "--exclude=SC1090,SC1091")
+local commonProfile = new FileSelector { glob = "profile-shared/.profile.common" }
 
 steps {
   // This repository is public, so block commits that contain secrets.
@@ -9,8 +10,11 @@ steps {
   ["detect_private_key"] = Builtins.detect_private_key
 
   ["shellcheck"] = (Builtins.shellcheck) {
+    match_any = super.match_any + List(commonProfile)
     check { command { argv = shellcheckArgs + List("{{files}}") } }
     check_diff { command { argv = shellcheckArgs + List("--format=diff", "{{files}}") } }
   }
-  ["shfmt"] = Builtins.shfmt
+  ["shfmt"] = (Builtins.shfmt) {
+    match_any = super.match_any + List(commonProfile)
+  }
 }

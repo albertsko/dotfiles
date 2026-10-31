@@ -1,8 +1,8 @@
-[bootstrap]
-dotfile_groups = ["shared", "ssh", "macos"]
+[dotfile_groups.macos]
+root = "profile-macos"
+manifest = "git"
 
 [bootstrap.packages]
-"brew:mas" = "latest"
 "brew:mole" = "latest"
 "brew:docker" = "latest"
 "brew:docker-compose" = "latest"
@@ -24,9 +24,6 @@ dotfile_groups = ["shared", "ssh", "macos"]
 "brew-cask:font-sf-pro" = "latest"
 "brew-cask:font-inter" = "latest"
 "brew-cask:font-jetbrains-mono-nerd-font" = "latest"
-
-# Xcode
-"mas:497799835" = "latest"
 
 [bootstrap.macos.dock]
 autohide = true
