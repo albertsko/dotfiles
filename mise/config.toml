@@ -55,6 +55,10 @@ homebrew_metadata = true
 "brew:sqlc" = "latest"
 "brew:goose" = "latest"
 
-[tasks.bootstrap]
+# mise bootstrap runs only a task named `bootstrap`, so a final hook runs the namespaced task.
+[bootstrap.hooks.final]
+run = "mise run zz-dotfiles:bootstrap"
+
+[tasks."zz-dotfiles:bootstrap"]
 description = "Finish setup that mise cannot declare"
 depends = ["zz-dotfiles:setup:repo", "zz-dotfiles:setup:ssh"]

@@ -118,7 +118,7 @@ run_at_load = true
 start_interval = 300
 process_type = "Background"
 
-[tasks.bootstrap]
+[tasks."zz-dotfiles:bootstrap"]
 description = "Finish macOS setup that mise cannot declare"
 depends = [
   "zz-dotfiles:setup:repo",
