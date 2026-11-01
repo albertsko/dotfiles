@@ -14,12 +14,12 @@ for brew_bin in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
 done
 unset brew_bin
 
+export PNPM_HOME="$XDG_DATA_HOME/pnpm"
+
 export PATH="$PNPM_HOME/bin:$PATH"
 export PATH="$XDG_DATA_HOME/mise/shims:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$HOME/go/bin"
-
-export PNPM_HOME="$XDG_DATA_HOME/pnpm"
 
 export EDITOR="vim"
 export VISUAL="vim"
