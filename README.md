@@ -1,9 +1,9 @@
-<div align="center"><h3>Personal dotfiles powered by <a href="https://mise.jdx.dev/bootstrap.html">mise</a>. ✨</h3></div>
+<div align="center"><h4>Personal dotfiles powered by <a href="https://mise.jdx.dev/bootstrap.html">mise</a>. ✨</h4></div>
 
-**Install:**
+---
 
 ```sh
-# macos:
+# Install macos:
 (
   set -e
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -18,7 +18,7 @@
   fi
 )
 
-# ubuntu:
+# Install ubuntu:
 (
   set -e
   sudo apt-get update
