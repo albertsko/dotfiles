@@ -3,12 +3,10 @@
 codex = "latest"
 claude = "latest"
 
-# sshd runs ~/.bashrc for `ssh host cmd`, and Ubuntu's stock file returns early for non-interactive shells.
-[dotfiles]
-"~/.bashrc/profile-common" = { line = '[[ -f "$HOME/.profile.common" ]] && . "$HOME/.profile.common"', position = "prepend" }
-# Terminals start non-login bash, so start fish from ~/.bashrc. Skip commands, and bash started from fish.
-"~/.bashrc/fish" = { block = '''
-[[ -f "$HOME/.profile.local" ]] && . "$HOME/.profile.local"
-[[ $- == *i* && -z "$BASH_EXECUTION_STRING" && "$(ps -o comm= -p "$PPID")" != fish ]] || return
-command -v fish >/dev/null && exec fish
-''' }
+[dotfile_groups.ubuntu]
+root = "profile-ubuntu"
+manifest = "git"
+
+# Ubuntu ships real ~/.profile and ~/.bashrc files, and a group refuses to replace a real file with a link.
+[bootstrap.hooks.pre-dotfiles]
+run = 'for f in .profile .bashrc; do [ -f ~/"$f" ] && [ ! -L ~/"$f" ] && mv ~/"$f" ~/"$f.bak"; done; true'

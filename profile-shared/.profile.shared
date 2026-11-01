@@ -1,3 +1,4 @@
+# shellcheck shell=sh
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -7,16 +8,18 @@ export DOTFILES_HOME="$XDG_STATE_HOME/dotfiles"
 export DEV_HOME="$HOME/dev"
 
 for brew_bin in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
-	[[ -x "$brew_bin" ]] || continue
-	eval "$("$brew_bin" shellenv)"
+	[ -x "$brew_bin" ] || continue
+	eval "$("$brew_bin" shellenv sh)"
 	break
 done
 unset brew_bin
 
-# mise tools win over Homebrew. A shim with no configured version runs the next match on PATH.
+export PATH="$PNPM_HOME/bin:$PATH"
 export PATH="$XDG_DATA_HOME/mise/shims:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$HOME/go/bin"
+
+export PNPM_HOME="$XDG_DATA_HOME/pnpm"
 
 export EDITOR="vim"
 export VISUAL="vim"

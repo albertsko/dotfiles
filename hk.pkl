@@ -1,20 +1,21 @@
 amends "package://github.com/jdx/hk/releases/download/v2.10.0/hk@2.10.0#/Config.pkl"
 import "package://github.com/jdx/hk/releases/download/v2.10.0/hk@2.10.0#/Builtins.pkl"
 
-local shellcheckArgs = List("shellcheck", "--shell=bash", "--external-sources", "--exclude=SC1090,SC1091")
-local commonProfile = new FileSelector { glob = "profile-shared/.profile.common" }
+local shellcheckArgs = List("shellcheck", "--external-sources", "--exclude=SC1090,SC1091")
+local startupFiles = new FileSelector {
+  glob = List("profile-shared/.profile.shared", "profile-ubuntu/.profile", "profile-ubuntu/.bashrc")
+}
 
 steps {
-  // This repository is public, so block commits that contain secrets.
   ["betterleaks"] = Builtins.betterleaks
   ["detect_private_key"] = Builtins.detect_private_key
 
   ["shellcheck"] = (Builtins.shellcheck) {
-    match_any = super.match_any + List(commonProfile)
+    match_any = super.match_any + List(startupFiles)
     check { command { argv = shellcheckArgs + List("{{files}}") } }
     check_diff { command { argv = shellcheckArgs + List("--format=diff", "{{files}}") } }
   }
   ["shfmt"] = (Builtins.shfmt) {
-    match_any = super.match_any + List(commonProfile)
+    match_any = super.match_any + List(startupFiles)
   }
 }
