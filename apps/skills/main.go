@@ -27,9 +27,10 @@ type skill struct {
 }
 
 type app struct {
-	repoRoot string
-	cacheDir string
-	targets  []string
+	repoRoot    string
+	cacheDir    string
+	privateRoot string
+	targets     []string
 }
 
 func main() {
@@ -76,7 +77,7 @@ func newApp() (*app, error) {
 	for _, path := range targetPaths {
 		targets = append(targets, filepath.Join(homeDir, path))
 	}
-	return &app{repoRoot: repoRoot, cacheDir: cacheDir, targets: targets}, nil
+	return &app{repoRoot: repoRoot, cacheDir: cacheDir, privateRoot: filepath.Join(homeDir, ".local", "state", "dotfiles-private", "skills"), targets: targets}, nil
 }
 
 func (a *app) run() error {
@@ -91,7 +92,7 @@ func (a *app) run() error {
 	if err != nil {
 		return err
 	}
-	selected, err := chooseSkills(skills, links)
+	selected, err := chooseSkills(skills, links, filepath.Join(a.repoRoot, "skills"), a.privateRoot)
 	if errors.Is(err, huh.ErrUserAborted) {
 		fmt.Fprintln(os.Stderr, "Skill links unchanged.")
 		return nil
@@ -147,6 +148,11 @@ func (a *app) loadSkills() ([]skill, error) {
 	if err != nil {
 		return nil, err
 	}
+	private, err := findSkills(a.privateRoot, "local")
+	if err != nil {
+		return nil, err
+	}
+	skills = append(skills, private...)
 	for name := range remotes {
 		remote, err := findSkills(filepath.Join(a.cacheDir, name, "skills"), name)
 		if err != nil {
@@ -201,11 +207,30 @@ func findSkills(root, source string) ([]skill, error) {
 	return skills, err
 }
 
-func chooseSkills(skills []skill, links map[string]string) ([]skill, error) {
+func selectedSkills(skills []skill, links map[string]string, localRoot, privateRoot string) map[string]bool {
 	enabled := make(map[string]bool, len(links))
+	available := make(map[string]bool, len(skills))
 	for _, target := range links {
 		enabled[target] = true
 	}
+	for _, skill := range skills {
+		available[skill.sourceDir] = true
+	}
+	for _, skill := range skills {
+		if privateRoot == "" || !withinRoot(privateRoot, skill.sourceDir) {
+			continue
+		}
+		relative, err := filepath.Rel(privateRoot, skill.sourceDir)
+		oldTarget := filepath.Join(localRoot, relative)
+		if err == nil && !available[oldTarget] && links["local-"+filepath.Base(skill.sourceDir)] == oldTarget {
+			enabled[skill.sourceDir] = true
+		}
+	}
+	return enabled
+}
+
+func chooseSkills(skills []skill, links map[string]string, localRoot, privateRoot string) ([]skill, error) {
+	enabled := selectedSkills(skills, links, localRoot, privateRoot)
 	options := make([]huh.Option[skill], 0, len(skills))
 	for _, skill := range skills {
 		options = append(options, huh.NewOption(skill.label, skill).Selected(enabled[skill.sourceDir]))
@@ -239,8 +264,16 @@ func (a *app) removeManagedLinks(dir string) error {
 	if err != nil {
 		return err
 	}
+	privateAvailable := false
+	if a.privateRoot != "" {
+		_, err := os.Stat(a.privateRoot)
+		if err != nil && !errors.Is(err, fs.ErrNotExist) {
+			return err
+		}
+		privateAvailable = err == nil
+	}
 	for name, target := range links {
-		if !withinRoot(filepath.Join(a.repoRoot, "skills"), target) && !withinRoot(a.cacheDir, target) {
+		if !withinRoot(filepath.Join(a.repoRoot, "skills"), target) && !withinRoot(a.cacheDir, target) && !(privateAvailable && withinRoot(a.privateRoot, target)) {
 			continue
 		}
 		if err := os.Remove(filepath.Join(dir, name)); err != nil {

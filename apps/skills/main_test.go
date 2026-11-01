@@ -77,6 +77,68 @@ func TestLoadSkillsRejectsDuplicateNames(t *testing.T) {
 	}
 }
 
+func TestPrivateSkillsAndMigration(t *testing.T) {
+	root := t.TempDir()
+	a := &app{repoRoot: filepath.Join(root, "repo"), cacheDir: filepath.Join(root, "cache"), privateRoot: filepath.Join(root, "private", "skills"), targets: []string{filepath.Join(root, "target")}}
+	privateDir := filepath.Join(a.privateRoot, "group", "example")
+	writeTestFile(t, filepath.Join(privateDir, "SKILL.md"))
+	makeTestDir(t, a.targets[0])
+	oldTarget := filepath.Join(a.repoRoot, "skills", "group", "example")
+	makeTestLink(t, oldTarget, filepath.Join(a.targets[0], "local-example"))
+	makeTestLink(t, filepath.Join(root, "other"), filepath.Join(a.targets[0], "unmanaged"))
+
+	skills, err := a.loadSkills()
+	if err != nil || len(skills) != 1 || skills[0].linkName != "local-example" {
+		t.Fatalf("loadSkills() = %v, %v", skills, err)
+	}
+	links, err := readLinks(a.targets[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !selectedSkills(skills, links, filepath.Join(a.repoRoot, "skills"), a.privateRoot)[privateDir] {
+		t.Fatal("old local link did not select the migrated private skill")
+	}
+	if err := a.replaceLinks(skills); err != nil {
+		t.Fatal(err)
+	}
+	links, err = readLinks(a.targets[0])
+	if err != nil || links["local-example"] != privateDir || links["unmanaged"] != filepath.Join(root, "other") {
+		t.Fatalf("migrated links = %v, %v", links, err)
+	}
+	if !selectedSkills(skills, links, filepath.Join(a.repoRoot, "skills"), a.privateRoot)[privateDir] {
+		t.Fatal("private link did not retain its selection")
+	}
+}
+
+func TestLoadSkillsRejectsPublicPrivateDuplicateNames(t *testing.T) {
+	root := t.TempDir()
+	a := &app{repoRoot: filepath.Join(root, "repo"), cacheDir: filepath.Join(root, "cache"), privateRoot: filepath.Join(root, "private", "skills")}
+	writeTestFile(t, filepath.Join(a.repoRoot, "skills", "group", "example", "SKILL.md"))
+	writeTestFile(t, filepath.Join(a.privateRoot, "other", "example", "SKILL.md"))
+	_, err := a.loadSkills()
+	if err == nil || !strings.Contains(err.Error(), "local-example") {
+		t.Fatalf("loadSkills() error = %v, want duplicate skill error", err)
+	}
+}
+
+func TestMissingPrivateSourcePreservesLinks(t *testing.T) {
+	root := t.TempDir()
+	a := &app{repoRoot: filepath.Join(root, "repo"), cacheDir: filepath.Join(root, "cache"), privateRoot: filepath.Join(root, "private", "skills"), targets: []string{filepath.Join(root, "target")}}
+	makeTestDir(t, a.targets[0])
+	privateDir := filepath.Join(a.privateRoot, "example")
+	makeTestLink(t, privateDir, filepath.Join(a.targets[0], "local-example"))
+	if _, err := a.loadSkills(); err != nil {
+		t.Fatal(err)
+	}
+	if err := a.replaceLinks(nil); err != nil {
+		t.Fatal(err)
+	}
+	links, err := readLinks(a.targets[0])
+	if err != nil || links["local-example"] != privateDir {
+		t.Fatalf("private link changed: %v, %v", links, err)
+	}
+}
+
 func TestReadLinks(t *testing.T) {
 	root := t.TempDir()
 	dir := filepath.Join(root, "links")
