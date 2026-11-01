@@ -1,10 +1,9 @@
-Personal dotfiles powered by [mise](https://mise.jdx.dev/bootstrap.html). ✨
+<div align="center"><h3>Personal dotfiles powered by <a href="https://mise.jdx.dev/bootstrap.html">mise</a>. ✨</h3></div>
 
-### Install (macOS)
-
-Run in Bash or Zsh:
+**Install:**
 
 ```sh
+# macos:
 (
   set -e
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -18,13 +17,8 @@ Run in Bash or Zsh:
     printf 'env = ["macos", "desktop"]\n' >~/.config/mise/miserc.local.toml
   fi
 )
-```
 
-### Install (Ubuntu)
-
-Run in Bash:
-
-```sh
+# ubuntu:
 (
   set -e
   sudo apt-get update
@@ -41,5 +35,3 @@ Run in Bash:
   fi
 )
 ```
-
-If fish fails to start, open a plain shell with `ssh -t <host> bash --norc`.
