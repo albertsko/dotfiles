@@ -22,8 +22,6 @@ homebrew_metadata = true
 "brew:ripgrep" = "latest"
 "brew:gh" = "latest"
 "brew:lazygit" = "latest"
-"brew:lazydocker" = "latest"
-"brew:lazysql" = "latest"
 "brew:btop" = "latest"
 "brew:fastfetch" = "latest"
 "brew:tlrc" = "latest"
@@ -42,12 +40,6 @@ homebrew_metadata = true
 "brew:zoxide" = "latest"
 "brew:herdr" = "latest"
 
-"brew:kubernetes-cli" = "latest"
-"brew:minikube" = "latest"
-"brew:k9s" = "latest"
-"brew:helm" = "latest"
-"brew:cri-tools" = "latest"
-
 "brew:go" = "latest"
 "brew:lua" = "latest"
 "brew:node" = "latest"
@@ -63,5 +55,6 @@ homebrew_metadata = true
 "brew:sqlc" = "latest"
 "brew:goose" = "latest"
 
-"brew-cask:codex" = "latest"
-"brew-cask:claude-code@latest" = "latest"
+[tasks.bootstrap]
+description = "Finish setup that mise cannot declare"
+depends = ["setup:repo", "setup:ssh"]

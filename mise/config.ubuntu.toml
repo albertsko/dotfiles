@@ -1,0 +1,8 @@
+# mise installs only font casks on Linux, so the agent CLIs come from the mise registry.
+[tools]
+codex = "latest"
+claude = "latest"
+
+[dotfile_groups.ubuntu]
+root = "profile-ubuntu"
+manifest = "git"
