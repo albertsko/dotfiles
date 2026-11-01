@@ -57,4 +57,4 @@ homebrew_metadata = true
 
 [tasks.bootstrap]
 description = "Finish setup that mise cannot declare"
-depends = ["setup:repo", "setup:ssh"]
+depends = ["zz-dotfiles:setup:repo", "zz-dotfiles:setup:ssh"]

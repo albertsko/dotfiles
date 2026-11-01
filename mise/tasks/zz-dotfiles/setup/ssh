@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#MISE description="Create the SSH key for GitHub and commit signing, and trust GitHub's host keys"
+set -euo pipefail
+
+readonly SSH_DIR="$HOME/.ssh"
+readonly KEY_PATH="$SSH_DIR/id_ed25519"
+readonly KNOWN_HOSTS="$SSH_DIR/known_hosts"
+
+mkdir -p -- "$SSH_DIR"
+chmod 700 "$SSH_DIR"
+
+# HTTPS proves the keys come from GitHub, unlike trusting the first `ssh-keyscan` answer.
+if ! ssh-keygen -F github.com -f "$KNOWN_HOSTS" >/dev/null 2>&1; then
+	curl -fsSL https://api.github.com/meta | jq -r '.ssh_keys[] | "github.com " + .' >>"$KNOWN_HOSTS"
+	chmod 600 "$KNOWN_HOSTS"
+fi
+
+[[ -f "$KEY_PATH" ]] && exit 0
+
+ssh-keygen -q -t ed25519 -C "$(whoami)@$(hostname) - $(date '+%Y-%m-%d %H:%M')" -f "$KEY_PATH" -N ""
+printf 'Add this public key to GitHub as an authentication and signing key:\n' >&2
+cat -- "$KEY_PATH.pub"
