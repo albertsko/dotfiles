@@ -6,17 +6,33 @@ export XDG_STATE_HOME="$HOME/.local/state"
 export DOTFILES_HOME="$XDG_STATE_HOME/dotfiles"
 export DEV_HOME="$HOME/dev"
 
+# Shells load this file more than once (`.zshenv`, then `.zprofile` after macOS path_helper reorders PATH).
+# Move each entry to the front instead of adding a duplicate.
+path_prepend() {
+	local new_path=":$PATH:"
+	while [[ "$new_path" == *":$1:"* ]]; do
+		new_path="${new_path/":$1:"/:}"
+	done
+	new_path="${new_path#:}"
+	new_path="${new_path%:}"
+	PATH="$1${new_path:+:$new_path}"
+}
+
 for brew_bin in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
 	[[ -x "$brew_bin" ]] || continue
 	eval "$("$brew_bin" shellenv)"
+	path_prepend "$HOMEBREW_PREFIX/sbin"
+	path_prepend "$HOMEBREW_PREFIX/bin"
 	break
 done
 unset brew_bin
 
 # mise tools win over Homebrew. A shim with no configured version runs the next match on PATH.
-export PATH="$XDG_DATA_HOME/mise/shims:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$PATH:$HOME/go/bin"
+path_prepend "$XDG_DATA_HOME/mise/shims"
+path_prepend "$HOME/.local/bin"
+[[ ":$PATH:" == *":$HOME/go/bin:"* ]] || PATH="$PATH:$HOME/go/bin"
+export PATH
+unset -f path_prepend
 
 export EDITOR="vim"
 export VISUAL="vim"

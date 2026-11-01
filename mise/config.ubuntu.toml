@@ -3,6 +3,10 @@
 codex = "latest"
 claude = "latest"
 
+# sshd runs ~/.bashrc for `ssh host cmd`, and Ubuntu's stock file returns early for non-interactive shells.
+[dotfiles]
+"~/.bashrc/profile-common" = { line = '[[ -f "$HOME/.profile.common" ]] && . "$HOME/.profile.common"', position = "prepend" }
+
 [dotfile_groups.ubuntu]
 root = "profile-ubuntu"
 manifest = "git"
