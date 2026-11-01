@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#MISE description="Apply Ubuntu system settings that mise cannot declare"
+#MISE raw=true
+set -euo pipefail
+
+# mise cannot template user names, so the current user joins the docker group here.
+user="$(id -un)"
+[[ " $(id -nG "$user") " == *" docker "* ]] || sudo usermod -aG docker "$user"

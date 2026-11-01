@@ -10,3 +10,92 @@ manifest = "git"
 # Ubuntu ships real ~/.profile and ~/.bashrc files, and a group refuses to replace a real file with a link.
 [bootstrap.hooks.pre-dotfiles]
 run = 'for f in .profile .bashrc; do [ -f ~/"$f" ] && [ ! -L ~/"$f" ] && mv ~/"$f" ~/"$f.bak"; done; true'
+
+[tasks."zz-dotfiles:bootstrap"]
+description = "Finish Ubuntu setup that mise cannot declare"
+depends = [
+  "zz-dotfiles:setup:repo",
+  "zz-dotfiles:setup:ssh",
+  "zz-dotfiles:setup:ubuntu",
+]
+
+[bootstrap.apt.sources.docker]
+uris = "https://download.docker.com/linux/ubuntu"
+components = "stable"
+key = "https://download.docker.com/linux/ubuntu/gpg"
+fingerprint = "9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88"
+
+[bootstrap.files."/etc/apt/sources.list.d/docker.sources"]
+state = "absent"
+phase = "pre-packages"
+
+[bootstrap.files."/etc/apt/sources.list.d/docker.list"]
+state = "absent"
+phase = "pre-packages"
+
+[bootstrap.packages]
+"apt:docker-ce" = "latest"
+"apt:docker-ce-cli" = "latest"
+"apt:containerd.io" = "latest"
+"apt:docker-buildx-plugin" = "latest"
+"apt:docker-compose-plugin" = "latest"
+"apt:unattended-upgrades" = "latest"
+
+[bootstrap.directories."/etc/docker"]
+
+[bootstrap.files."/etc/docker/daemon.json"]
+content = """
+{
+  "log-driver": "local",
+  "live-restore": true
+}
+"""
+notify = ["docker"]
+
+[bootstrap.files."/etc/apt/apt.conf.d/20auto-upgrades"]
+content = """
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+"""
+
+[bootstrap.files."/etc/apt/apt.conf.d/52unattended-upgrades-local"]
+content = """
+Unattended-Upgrade::Allowed-Origins {
+        "${distro_id}:${distro_codename}-updates";
+};
+Unattended-Upgrade::Automatic-Reboot "true";
+Unattended-Upgrade::Automatic-Reboot-Time "04:00";
+"""
+
+# The upgrade must finish before the 04:00 reboot, or unattended-upgrades waits until 04:00 the next day.
+[bootstrap.directories."/etc/systemd/system/apt-daily.timer.d"]
+
+[bootstrap.files."/etc/systemd/system/apt-daily.timer.d/override.conf"]
+content = """
+[Timer]
+OnCalendar=
+OnCalendar=*-*-* 02:00
+RandomizedDelaySec=30m
+"""
+notify = ["apt-daily.timer"]
+
+[bootstrap.directories."/etc/systemd/system/apt-daily-upgrade.timer.d"]
+
+[bootstrap.files."/etc/systemd/system/apt-daily-upgrade.timer.d/override.conf"]
+content = """
+[Timer]
+OnCalendar=
+OnCalendar=*-*-* 03:00
+RandomizedDelaySec=30m
+"""
+notify = ["apt-daily-upgrade.timer"]
+
+# A reload does not apply every daemon.json option, such as the log driver.
+[bootstrap.services.docker]
+on_change = "restart"
+
+[bootstrap.services."apt-daily.timer"]
+on_change = "restart"
+
+[bootstrap.services."apt-daily-upgrade.timer"]
+on_change = "restart"
