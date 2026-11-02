@@ -7,17 +7,18 @@ brew "docker-buildx"
 brew "podman"
 brew "superradcompany/tap/microsandbox"
 
+# Casks that update themselves are greedy, so brew bundle upgrades them too.
 cask "ghostty", greedy: true
 cask "brave-browser", greedy: true
 cask "iina", greedy: true
-cask "foobar2000", greedy: true
+cask "foobar2000"
 cask "zed", greedy: true
 cask "obsidian", greedy: true
 cask "screen-studio", greedy: true
 cask "karabiner-elements", greedy: true
 
 cask "sf-symbols", greedy: true
-cask "font-sf-mono", greedy: true
-cask "font-sf-pro", greedy: true
-cask "font-inter", greedy: true
-cask "font-jetbrains-mono-nerd-font", greedy: true
+cask "font-sf-mono"
+cask "font-sf-pro"
+cask "font-inter"
+cask "font-jetbrains-mono-nerd-font"

@@ -7,5 +7,5 @@ brew "k9s"
 brew "helm"
 brew "cri-tools"
 
-cask "codex", greedy: true
-cask "claude-code@latest", greedy: true
+cask "codex"
+cask "claude-code@latest"
