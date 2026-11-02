@@ -1,0 +1,11 @@
+brew "lazydocker"
+brew "lazysql"
+
+brew "kubernetes-cli"
+brew "minikube"
+brew "k9s"
+brew "helm"
+brew "cri-tools"
+
+cask "codex", greedy: true
+cask "claude-code@latest", greedy: true

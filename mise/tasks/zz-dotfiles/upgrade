@@ -3,8 +3,6 @@
 #MISE raw=true
 set -euo pipefail
 
+# The post-packages hooks upgrade the Brewfile packages.
 mise bootstrap --update --upgrade --yes --prune-dotfiles
-
-# mise leaves casks that Homebrew installed unchanged.
-[[ "$OSTYPE" != darwin* ]] || brew upgrade --cask
 brew cleanup

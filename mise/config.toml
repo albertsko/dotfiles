@@ -13,47 +13,10 @@ manifest = "git"
 root = "profile-ssh"
 manifest = "git"
 
-[bootstrap.brew]
-homebrew_metadata = true
-
-[bootstrap.packages]
-"brew:wget" = "latest"
-"brew:jq" = "latest"
-"brew:ripgrep" = "latest"
-"brew:gh" = "latest"
-"brew:lazygit" = "latest"
-"brew:btop" = "latest"
-"brew:fastfetch" = "latest"
-"brew:tlrc" = "latest"
-"brew:bat" = "latest"
-"brew:xh" = "latest"
-"brew:git" = "latest"
-"brew:hunk" = "latest"
-"brew:rclone" = "latest"
-"brew:hk" = "latest"
-"brew:betterleaks" = "latest"
-
-"brew:fish" = "latest"
-"brew:mise" = "latest"
-"brew:fzf" = "latest"
-"brew:starship" = "latest"
-"brew:zoxide" = "latest"
-"brew:herdr" = "latest"
-
-"brew:go" = "latest"
-"brew:lua" = "latest"
-"brew:node" = "latest"
-"brew:python@3.15" = "latest"
-"brew:uv" = "latest"
-"brew:pnpm" = "latest"
-"brew:opencode" = "latest"
-"brew:pi-coding-agent" = "latest"
-"brew:shellcheck" = "latest"
-"brew:shfmt" = "latest"
-"brew:golangci-lint" = "latest"
-"brew:go-task" = "latest"
-"brew:sqlc" = "latest"
-"brew:goose" = "latest"
+# Each env config installs its own Brewfile, so the selected envs pick the Homebrew packages.
+[bootstrap.hooks.post-packages]
+description = "Install and upgrade the shared Brewfile"
+run = 'brew bundle install --file="{{ xdg_config_home }}/mise/Brewfile"'
 
 # mise bootstrap runs only a task named `bootstrap`, so a final hook runs the namespaced task.
 [bootstrap.hooks.final]

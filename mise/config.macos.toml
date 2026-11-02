@@ -2,28 +2,9 @@
 root = "profile-macos"
 manifest = "git"
 
-[bootstrap.packages]
-"brew:mole" = "latest"
-"brew:docker" = "latest"
-"brew:docker-compose" = "latest"
-"brew:docker-buildx" = "latest"
-"brew:podman" = "latest"
-"brew:superradcompany/tap/microsandbox" = "latest"
-
-"brew-cask:ghostty" = "latest"
-"brew-cask:brave-browser" = "latest"
-"brew-cask:iina" = "latest"
-"brew-cask:foobar2000" = "latest"
-"brew-cask:zed" = "latest"
-"brew-cask:obsidian" = "latest"
-"brew-cask:screen-studio" = "latest"
-"brew-cask:karabiner-elements" = "latest"
-
-"brew-cask:sf-symbols" = "latest"
-"brew-cask:font-sf-mono" = "latest"
-"brew-cask:font-sf-pro" = "latest"
-"brew-cask:font-inter" = "latest"
-"brew-cask:font-jetbrains-mono-nerd-font" = "latest"
+[bootstrap.hooks.post-packages]
+description = "Install and upgrade the macOS Brewfile"
+run = 'brew bundle install --file="{{ xdg_config_home }}/mise/Brewfile.macos"'
 
 [bootstrap.macos.dock]
 autohide = true

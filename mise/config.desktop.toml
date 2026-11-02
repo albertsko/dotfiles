@@ -1,12 +1,3 @@
-[bootstrap.packages]
-"brew:lazydocker" = "latest"
-"brew:lazysql" = "latest"
-
-"brew:kubernetes-cli" = "latest"
-"brew:minikube" = "latest"
-"brew:k9s" = "latest"
-"brew:helm" = "latest"
-"brew:cri-tools" = "latest"
-
-"brew-cask:codex" = "latest"
-"brew-cask:claude-code@latest" = "latest"
+[bootstrap.hooks.post-packages]
+description = "Install and upgrade the desktop Brewfile"
+run = 'brew bundle install --file="{{ xdg_config_home }}/mise/Brewfile.desktop"'
