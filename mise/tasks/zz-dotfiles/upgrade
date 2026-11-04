@@ -3,6 +3,5 @@
 #MISE raw=true
 set -euo pipefail
 
-# The post-packages hooks upgrade the Brewfile packages.
-mise bootstrap --update --upgrade --yes --prune-dotfiles
-brew cleanup
+HOMEBREW_BUNDLE_NO_UPGRADE=1 mise bootstrap --update --upgrade --yes --prune-dotfiles
+brew-upgrade.sh
