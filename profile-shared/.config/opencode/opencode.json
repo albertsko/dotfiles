@@ -10,5 +10,22 @@
     "-opencode.prompt.claude",
     "-opencode.prompt.grok"
   ],
-  "instructions": ["~/.agents/AGENTS.md"]
+  "instructions": ["~/.agents/AGENTS.md"],
+  "mcp": {
+    "servers": {
+      "atlassian": {
+        "type": "remote",
+        "url": "https://mcp.atlassian.com/v2/mcp"
+      },
+      "chrome-devtools": {
+        "type": "local",
+        "command": [
+          "npx",
+          "-y",
+          "chrome-devtools-mcp@latest",
+          "--browser-url=http://127.0.0.1:9222"
+        ]
+      }
+    }
+  }
 }
