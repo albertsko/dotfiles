@@ -4,7 +4,7 @@ manifest = "git"
 
 [bootstrap.hooks.post-packages]
 description = "Install and upgrade the macOS Brewfile"
-run = 'brew bundle install --file="{{ xdg_config_home }}/mise/Brewfile.macos"'
+run = 'brew bundle install --verbose --file="{{ xdg_config_home }}/mise/Brewfile.macos"'
 
 [bootstrap.macos.dock]
 autohide = true

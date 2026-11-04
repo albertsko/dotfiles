@@ -16,7 +16,7 @@ manifest = "git"
 # Each env config installs its own Brewfile, so the selected envs pick the Homebrew packages.
 [bootstrap.hooks.post-packages]
 description = "Install and upgrade the shared Brewfile"
-run = 'brew bundle install --file="{{ xdg_config_home }}/mise/Brewfile"'
+run = 'brew bundle install --verbose --file="{{ xdg_config_home }}/mise/Brewfile"'
 
 # mise bootstrap runs only a task named `bootstrap`, so a final hook runs the namespaced task.
 [bootstrap.hooks.final]

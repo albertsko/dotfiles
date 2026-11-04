@@ -10,7 +10,7 @@ for config_path in "${config_paths[@]}"; do
 	brewfile="${config_path%/*}/Brewfile${filename#config}"
 	brewfile="${brewfile%.toml}"
 	[[ -f "$brewfile" ]] || continue
-	brew bundle install --file="$brewfile"
+	brew bundle install --verbose --file="$brewfile"
 done
 
 brew cleanup
