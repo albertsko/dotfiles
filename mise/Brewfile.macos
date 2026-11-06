@@ -6,9 +6,11 @@ brew "docker-compose"
 brew "docker-buildx"
 brew "podman"
 brew "superradcompany/tap/microsandbox"
+brew "defaultbrowser"
 
 # Casks that update themselves are greedy, so brew bundle upgrades them too.
 cask "ghostty", greedy: true
+cask "helium-browser", greedy: true
 cask "brave-browser", greedy: true
 cask "iina", greedy: true
 cask "foobar2000"
