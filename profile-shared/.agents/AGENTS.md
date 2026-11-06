@@ -39,6 +39,7 @@ Guide for writing chat replies and documents. Choose rules by reader: chat repli
 
 - Preserve important facts, constraints, names, dates, numbers, code, and quotes accurate.
 - Base claims on evidence. In chat replies, state assumptions, uncertainty, errors, and failed or skipped steps when relevant.
+- Deliver only the requested work at the intended scope.
 
 ## Reference Points
 
@@ -49,35 +50,8 @@ Guide for writing chat replies and documents. Choose rules by reader: chat repli
   - `R1`, `R2`, ... for risks.
 - Create stable reference points for other categories when needed.
 
-## Work Boundaries
+## Skills
 
-- Deliver only the requested work at the intended scope.
-- Use Python when it simplifies a task, including one-off calculations, data processing, and automation. Always run it through `uv run`.
-- Commit only when requested, and never add a co-author to a commit message.
-
-## Repository Work
-
-- Use a supplied repository path directly. When the repository is unknown, look in `~/dev`. To list repositories there, use `rg --files --hidden --no-ignore -g '.git' -g '!**/.git/*' -g '**/.git/HEAD' ~/dev | sed -E 's@/\.git(/HEAD)?$@@' | sort -u`.
-- For repository questions, inspect the relevant repository first. Consult external sources when local evidence is insufficient or current facts need verification.
-- To display the `main`/`master` branch diff, use `git diff $(git branch --list --format='%(refname:short)' main master | head -n 1)...HEAD`.
-
-## Coding
-
-- Write simple step-by-step code that reads top to bottom. Avoid nesting: use guard clauses and early returns.
-- Use blank lines to visually separate distinct logical steps and group related statements together.
-- Comment only when a maintainer would otherwise misread or wrongly change the code. Prefer clearer code over comments. Keep each comment sentence on one line.
-- Write tests around correctness, behavior, and important edge cases, not implementation details.
-
-## Aliases
-
-Expand an alias only when the entire user message matches it exactly. Treat its expansion as the request.
-
-- `+scr`: Simplify, compress, and repeat your response.
-- `+eli`: Explain this like I'm 18. Simplify your language. Shorten your response.
-- `+foc`: Focus on what matters most. Reduce your response to the single most important point.
-- `+once`: Load the skill only once in this session.
-- `+twice`: Load the skill only once in this session and only once in each subagent's session.
-- `+hypo`: Develop several solution hypotheses and provide them with confidence levels.
-- `+find`: Instead of skiping any findings, list all findings with confidence levels.
-- `+nolog`: Instead of using `git log` or any git history, focus on current state of the repository.
-- `+respo`: Take responsbility for the task, and do it thoroughly.
+- Before working with git, repositories, or code, or doing calculations, data processing, or automation, load the `code` skill (ID `local-code`) once per session and follow it.
+- When the entire user message is `++<name>`, such as `++hypo`, load the `aliases` skill (ID `local-aliases`) once per session and follow it.
+`
