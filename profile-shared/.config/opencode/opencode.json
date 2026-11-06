@@ -8,7 +8,8 @@
     "-opencode.prompt.meta",
     "-opencode.prompt.anthropic",
     "-opencode.prompt.claude",
-    "-opencode.prompt.grok"
+    "-opencode.prompt.grok",
+    "context-mode"
   ],
   "instructions": ["~/.agents/AGENTS.md"],
   "mcp": {

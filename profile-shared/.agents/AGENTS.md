@@ -54,4 +54,3 @@ Guide for writing chat replies and documents. Choose rules by reader: chat repli
 
 - Before working with git, repositories, or code, or doing calculations, data processing, or automation, load the `code` skill (ID `local-code`) once per session and follow it.
 - When the entire user message is `++<name>`, such as `++hypo`, load the `aliases` skill (ID `local-aliases`) once per session and follow it.
-`
