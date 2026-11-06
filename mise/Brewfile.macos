@@ -10,7 +10,6 @@ brew "superradcompany/tap/microsandbox"
 # Casks that update themselves are greedy, so brew bundle upgrades them too.
 cask "ghostty", greedy: true
 cask "brave-browser", greedy: true
-cask "zen", greedy: true
 cask "iina", greedy: true
 cask "foobar2000"
 cask "zed", greedy: true
