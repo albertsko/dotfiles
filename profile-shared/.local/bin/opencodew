@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+brew_prefix="${HOMEBREW_PREFIX:-}"
+[[ -n "$brew_prefix" ]] || brew_prefix="$(brew --prefix)"
+readonly opencode_bin="$brew_prefix/bin/opencode"
+
+export OPENCODE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/opencode/opencode.work.json"
+export OPENCODE_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/opencode-work"
+export OPENCODE_DB="${XDG_DATA_HOME:-$HOME/.local/share}/opencode-work/opencode.db"
+unset OPENCODE_CLI_CONFIG_CONTENT OPENCODE_CONFIG_CONTENT
+
+mkdir -p -- "$OPENCODE_CONFIG_DIR" "${OPENCODE_DB%/*}"
+
+exec "$opencode_bin" "$@" --standalone

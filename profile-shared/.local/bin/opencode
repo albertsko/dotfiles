@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+brew_prefix="${HOMEBREW_PREFIX:-}"
+[[ -n "$brew_prefix" ]] || brew_prefix="$(brew --prefix)"
+readonly opencode_bin="$brew_prefix/bin/opencode"
+
+unset OPENCODE_CLI_CONFIG_CONTENT OPENCODE_CONFIG OPENCODE_CONFIG_CONTENT OPENCODE_CONFIG_DIR OPENCODE_DB
+
+exec "$opencode_bin" "$@" --standalone

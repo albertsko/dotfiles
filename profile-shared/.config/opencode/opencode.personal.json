@@ -1,0 +1,36 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  // Run `opencode plugin list --builtin` to check those.
+  "plugins": [
+    "-opencode.prompt.openai",
+    "-opencode.prompt.kimi",
+    "-opencode.prompt.arcee",
+    "-opencode.prompt.meta",
+    "-opencode.prompt.anthropic",
+    "-opencode.prompt.claude",
+    "-opencode.prompt.grok",
+    "context-mode"
+  ],
+  "instructions": ["~/.agents/AGENTS.md"],
+  "mcp": {
+    "servers": {
+      "blender": {
+        "type": "local",
+        "command": ["blender-mcp"]
+      },
+      "sweethome3d": {
+        "type": "remote",
+        "url": "http://127.0.0.1:9877/mcp"
+      },
+      "chrome-devtools": {
+        "type": "local",
+        "command": [
+          "npx",
+          "-y",
+          "chrome-devtools-mcp@latest",
+          "--browser-url=http://127.0.0.1:9222"
+        ]
+      }
+    }
+  }
+}
