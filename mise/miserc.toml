@@ -1,1 +1,4 @@
 auto_env = false
+# zedssh.sh mounts remote homes under ~/mnt, and their mise configs must not apply here.
+# This must live in miserc: settings in config files apply only after configs are found.
+ignored_config_paths = ["~/mnt"]
