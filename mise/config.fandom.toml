@@ -1,0 +1,4 @@
+# The fandom env needs the private env, which clones the repository that holds this profile.
+[dotfile_groups.fandom]
+root = "~/.local/state/dotfiles-private/profile-fandom"
+manifest = "git"
